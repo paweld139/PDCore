@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDCore", "PDCore\PDCore.csproj", "{5AC8CB92-D1B0-4F43-A444-E8D5E747DB4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDCoreTest", "PDCoreTest\PDCoreTest.csproj", "{EB066A92-F858-4681-A275-4340C22388E1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5AC8CB92-D1B0-4F43-A444-E8D5E747DB4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AC8CB92-D1B0-4F43-A444-E8D5E747DB4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AC8CB92-D1B0-4F43-A444-E8D5E747DB4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AC8CB92-D1B0-4F43-A444-E8D5E747DB4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB066A92-F858-4681-A275-4340C22388E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB066A92-F858-4681-A275-4340C22388E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB066A92-F858-4681-A275-4340C22388E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB066A92-F858-4681-A275-4340C22388E1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {811413D6-7183-4CFF-84AB-597438F2EAE9}
+	EndGlobalSection
+EndGlobal

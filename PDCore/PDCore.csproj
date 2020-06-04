@@ -1,0 +1,284 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5AC8CB92-D1B0-4F43-A444-E8D5E747DB4D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PDCore</RootNamespace>
+    <AssemblyName>PDCore</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Test\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test2|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Test2\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FTCore, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Common\DLL\FTCore.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.4.369, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Common\DLL\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Clients\Soap\SoapWebServiceClient.cs" />
+    <Compile Include="Clients\Soap\SoapWebServiceTwoCertificatesClient.cs" />
+    <Compile Include="Extensions\CompresExtension.cs" />
+    <Compile Include="Extensions\DataTableExtension.cs" />
+    <Compile Include="Extensions\DateTimeExtension.cs" />
+    <Compile Include="Extensions\IEnumerableExtension.cs" />
+    <Compile Include="Extensions\IOExtension.cs" />
+    <Compile Include="Extensions\ListExtension.cs" />
+    <Compile Include="Extensions\ObjectExtension.cs" />
+    <Compile Include="Extensions\SecurityExtension.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\XMLExtension.cs" />
+    <Compile Include="Helpers\Digit.cs" />
+    <Compile Include="Helpers\DisposableWrapper.cs" />
+    <Compile Include="Helpers\InMemoryCache.cs" />
+    <Compile Include="Helpers\Soap\Credenials\TwoCertificatesClientCredentials.cs" />
+    <Compile Include="Helpers\Soap\ExceptionHandling\ClientWrapper.cs" />
+    <Compile Include="Helpers\Soap\ExceptionHandling\IOperationErrors.cs" />
+    <Compile Include="Helpers\Soap\ExceptionHandling\OperationErrors.cs" />
+    <Compile Include="Helpers\Soap\ExceptionHandling\UseService.cs" />
+    <Compile Include="Helpers\Soap\SoapMessageSigning\SecurityTokenReference.cs" />
+    <Compile Include="Helpers\Soap\SoapMessageSigning\SignedXmlWithId.cs" />
+    <Compile Include="Helpers\Soap\SoapMessageSigning\SoapMessage.cs" />
+    <Compile Include="Helpers\Soap\SoapMessageSigning\SoapSigner.cs" />
+    <Compile Include="Helpers\WPF\Converters\ColorPlToColorEnConverter.cs" />
+    <Compile Include="Helpers\WPF\Converters\PriorityToForegroundConverter.cs" />
+    <Compile Include="Helpers\WPF\DataValidation\NumberValidator.cs" />
+    <Compile Include="Helpers\XML\Signing\SignVerifyEnvelope.cs" />
+    <Compile Include="Helpers\XML\Signing\XAdESVerifier.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\AllDataObjectsTimeStampCollection.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\Cert.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\CertCollection.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\CertificateValues.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\CertifiedRole.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\CertifiedRoleCollection.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\CertifiedRoles.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\CertRefs.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\ClaimedRole.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\ClaimedRoleCollection.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\ClaimedRoles.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\Clients\OcspClient.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\Clients\TimeStampClient.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\CommitmentTypeIndication.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\CommitmentTypeIndicationCollection.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\CommitmentTypeQualifier.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\CommitmentTypeQualifierCollection.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\CommitmentTypeQualifiers.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\CompleteCertificateRefs.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\CompleteRevocationRefs.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\CounterSignatureCollection.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\CRLIdentifier.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\CRLRef.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\CRLRefCollection.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\CRLRefs.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\CRLValue.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\CRLValueCollection.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\CRLValues.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\Crypto\CryptoConst.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\Crypto\DigestMethod.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\Crypto\SignatureMethod.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\Crypto\Signer.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\DataObjectFormat.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\DataObjectFormatCollection.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\DigestAlgAndValueType.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\DigestMethod.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\DocumentationReference.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\DocumentationReferenceCollection.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\DocumentationReferences.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\EncapsulatedPKIData.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\EncapsulatedX509Certificate.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\EncapsulatedX509CertificateCollection.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\HashDataInfo.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\HashDataInfoCollection.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\Identifier.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\IndividualDataObjectsTimeStampCollection.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\IssuerSerial.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\NoticeNumberCollection.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\NoticeNumbers.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\NoticeRef.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\ObjectIdentifier.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\ObjectReference.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\ObjectReferenceCollection.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\OCSPIdentifier.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\OCSPRef.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\OCSPRefCollection.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\OCSPRefs.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\OCSPValue.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\OCSPValueCollection.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\OCSPValues.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\OtherCertificate.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\OtherCertificateCollection.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\OtherRef.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\OtherRefCollection.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\OtherRefs.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\OtherValue.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\OtherValueCollection.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\OtherValues.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\QualifyingProperties.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\RevocationValues.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\RSAPKCS1SHA256SignatureDescription.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\RSAPKCS1SHA512SignatureDescription.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\SignaturePolicyId.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\SignaturePolicyIdentifier.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\SignatureProductionPlace.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\SignatureTimeStampCollection.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\Signature\Parameters\SignatureParameters.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\Signature\Parameters\SignaturePolicyInfo.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\Signature\Parameters\SignatureXPathExpression.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\Signature\Parameters\SignerRole.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\Signature\SignatureDocument.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\SignedDataObjectProperties.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\SignedProperties.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\SignedSignatureProperties.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\SignerRole.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\SigningCertificate.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\SigPolicyQualifier.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\SigPolicyQualifierCollection.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\SigPolicyQualifiers.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\SPUri.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\SPUserNotice.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\TimeStamp.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\Transform.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\TransformCollection.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\Transforms.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\UnsignedDataObjectProperties.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\UnsignedDataObjectProperty.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\UnsignedDataObjectPropertyCollection.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\UnsignedProperties.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\UnsignedSignatureProperties.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\Upgraders\IXadesUpgrader.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\Upgraders\Parameters\UpgradeParameters.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\Upgraders\XadesTUpgrader.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\Upgraders\XadesUpgraderService.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\Upgraders\XadesXLUpgrader.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\Utils\CertUtil.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\Utils\DigestUtil.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\Utils\StreamExtensions.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\Utils\X509Certificate2Extensions.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\Utils\XMLUtil.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\Validation\ValidationResult.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\Validation\XadesValidator.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\XadesObject.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\XadesService.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\XadesSignedXml.cs" />
+    <Compile Include="Helpers\XML\Signing\Xades\XMLTimeStamp.cs" />
+    <Compile Include="Interfaces\IImportManagement.cs" />
+    <Compile Include="Utils\DateTimeUtils.cs" />
+    <Compile Include="Utils\IOUtils.cs" />
+    <Compile Include="Utils\ObjectUtils.cs" />
+    <Compile Include="Utils\SecurityUtils.cs" />
+    <Compile Include="Utils\SqlUtils.cs" />
+    <Compile Include="Utils\StringUtils.cs" />
+    <Compile Include="Utils\WebUtils.cs" />
+    <Compile Include="Helpers\WebSqlHelper.cs" />
+    <Compile Include="Repositories\Repo\Repository.cs" />
+    <Compile Include="Context\IContext\IAttributableDbContext.cs" />
+    <Compile Include="Context\IContext\IDbContext.cs" />
+    <Compile Include="Helpers\ImportHelper.cs" />
+    <Compile Include="Attributes\OrderAttribute.cs" />
+    <Compile Include="Factories\IFac\IMessageCreator.cs" />
+    <Compile Include="Helpers\MailHelper.cs" />
+    <Compile Include="Interfaces\IByDateFindable.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\IRepo\IRepo.cs" />
+    <Compile Include="Repositories\Repo\RepositoryAttributable.cs" />
+    <Compile Include="Repositories\Repo\RepositoryBase.cs" />
+    <Compile Include="Services\Service.cs" />
+    <Compile Include="Utils\XMLUtils.cs" />
+    <Compile Include="Writers\Utf8StringWriter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Helpers\XML\Signing\Xades\XAdES.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Helpers\XML\Signing\Xades\xmldsig-core-schema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Helpers\XML\Signing\Xades\doc\XAdES.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="BouncyCastle">
+      <Version>1.8.5</Version>
+    </PackageReference>
+    <PackageReference Include="Security.Cryptography">
+      <Version>1.7.2</Version>
+    </PackageReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
