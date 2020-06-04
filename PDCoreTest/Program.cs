@@ -1,4 +1,5 @@
 ﻿using PDCore.Extensions;
+using PDCore.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +14,15 @@ namespace PDCoreTest
     {
         static void Main(string[] args)
         {
-            string text = "PawełDywanYoJa";
+            //string text = "PawełDywanYoJa";
 
-            text = text.AddSpaces();
+            //text = text.AddSpaces();
 
-            Write(text);
+            //Write(text);
+
+            string filePath = @"D:\Users\User\OneDrive\Magisterka\Semestr 2\Business Intelligence w przedsięborstwie\Laboratoria\Zadanie 3\Zadanie\Dane\KLIENT_DATA_TABLE.csv";
+
+           var customers = IOUtils.ParseCSV<Customer>(filePath);
         }
 
         private static void Write(string value)

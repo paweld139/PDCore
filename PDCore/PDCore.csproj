@@ -69,6 +69,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Common\DLL\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -233,6 +234,7 @@
     <Compile Include="Helpers\XML\Signing\Xades\XadesService.cs" />
     <Compile Include="Helpers\XML\Signing\Xades\XadesSignedXml.cs" />
     <Compile Include="Helpers\XML\Signing\Xades\XMLTimeStamp.cs" />
+    <Compile Include="Interfaces\IFromCSVParseable.cs" />
     <Compile Include="Interfaces\IImportManagement.cs" />
     <Compile Include="Utils\DateTimeUtils.cs" />
     <Compile Include="Utils\IOUtils.cs" />
