@@ -92,12 +92,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\PDCore\PDCore\PDCore.csproj">
-      <Project>{5ac8cb92-d1b0-4f43-a444-e8d5e747db4d}</Project>
-      <Name>PDCore</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="EntityFramework">
       <Version>6.2.0</Version>
     </PackageReference>
@@ -119,6 +113,12 @@
     <PackageReference Include="System.Reactive">
       <Version>4.3.2</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PDCore\PDCore.csproj">
+      <Project>{5ac8cb92-d1b0-4f43-a444-e8d5e747db4d}</Project>
+      <Name>PDCore</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -54,6 +54,10 @@
       <Project>{5ac8cb92-d1b0-4f43-a444-e8d5e747db4d}</Project>
       <Name>PDCore</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PDWebCore\PDWebCore.csproj">
+      <Project>{62a21e22-54e7-40f9-9efc-472efa7bf66d}</Project>
+      <Name>PDWebCore</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
