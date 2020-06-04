@@ -72,5 +72,10 @@ namespace PDCore.Extensions
                 yield return new KeyValuePair<TKey, TValue>(keySelector(element), valueSelector(element));
             }
         }
+
+        public static TResult[] ToArray<TResult>(this IEnumerable<object> source)
+        {
+            return source.Cast<TResult>().ToArray();
+        }
     }
 }

@@ -236,6 +236,7 @@
     <Compile Include="Helpers\XML\Signing\Xades\XMLTimeStamp.cs" />
     <Compile Include="Interfaces\IFromCSVParseable.cs" />
     <Compile Include="Interfaces\IImportManagement.cs" />
+    <Compile Include="Utils\ConsoleUtils.cs" />
     <Compile Include="Utils\DateTimeUtils.cs" />
     <Compile Include="Utils\IOUtils.cs" />
     <Compile Include="Utils\ObjectUtils.cs" />

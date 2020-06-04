@@ -96,9 +96,9 @@ namespace PDCore.Utils
 
         public static List<T> ParseCSV<T>(string filePath, Func<string[], T> fieldsParser, bool skipFirstLine = true, string delimiter = ",", Func<string, bool> lineCondition = null)
         {
-            var lines = ParseCSV(filePath, skipFirstLine, lineCondition);
+            var linesFields = ParseCSVLines(filePath, skipFirstLine, delimiter, lineCondition);
 
-            return lines.Select(x => fieldsParser(ParseCSVLine(x, delimiter))).ToList();
+            return linesFields.Select(x => fieldsParser(x)).ToList();
         }
 
         public static List<T> ParseCSV<T>(string filePath, bool skipFirstLine = true, string delimiter = ",", Func<string, bool> lineCondition = null) where T : IFromCSVParseable, new()
@@ -124,6 +124,15 @@ namespace PDCore.Utils
                     return textFieldParser.ReadFields();
                 }
             }
+        }
+
+        public static IEnumerable<string[]> ParseCSVLines(string filePath,  bool skipFirstLine = false, string delimiter = ",", Func<string, bool> lineCondition = null)
+        {
+            var lines = ParseCSV(filePath, skipFirstLine, lineCondition);
+
+            IEnumerable<string[]> linesFields = lines.Select(x => ParseCSVLine(x, delimiter));
+
+            return linesFields;
         }
     }
 }

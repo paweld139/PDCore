@@ -20,16 +20,17 @@ namespace PDCoreTest
 
             //Write(text);
 
-            string filePath = @"D:\Users\User\OneDrive\Magisterka\Semestr 2\Business Intelligence w przedsięborstwie\Laboratoria\Zadanie 3\Zadanie\Dane\KLIENT_DATA_TABLE.csv";
+            const string filePathFormat = @"D:\Users\User\OneDrive\Magisterka\Semestr 2\Business Intelligence w przedsięborstwie\Laboratoria\Zadanie 3\Zadanie\Dane\{0}_DATA_TABLE.csv";
 
-           var customers = IOUtils.ParseCSV<Customer>(filePath);
-        }
+            string tableName = "PRODUKT";
 
-        private static void Write(string value)
-        {
-            Console.WriteLine(value);
+            string filePath = string.Format(filePathFormat, tableName);
 
-            Console.ReadKey();
+            //var customers = IOUtils.ParseCSV<Customer>(filePath);
+
+            //ConsoleUtils.WriteTable(customers, false);
+
+            ConsoleUtils.WriteTableFromCSV(filePath);
         }
     }
 }
