@@ -7,6 +7,6 @@ namespace PDCore.Interfaces
 {
     public interface IFromCSVParseable
     {
-        void ParseFromCSV(string[] line);
+        void ParseFromCSV(string[] lineFields);
     }
 }
