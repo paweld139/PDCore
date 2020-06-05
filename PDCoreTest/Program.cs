@@ -32,12 +32,12 @@ namespace PDCoreTest
 
             //ConsoleUtils.WriteTable(customers, false);
 
-            //filePath = @"D:\Users\User\OneDrive\Magisterka\Semestr 2\Business Intelligence w przedsięborstwie\Laboratoria\Zadanie 3\Przykład\Dane\covid19_cases.csv";
+            filePath = @"D:\Users\User\OneDrive\Magisterka\Semestr 2\Big Data\Laboratoria\Koronawirus - Zadanie\CSVs\Podzielone pliki\20.csv";
 
 
             //Stopwatch stopwatch = Stopwatch.StartNew();
 
-            ConsoleUtils.WriteTableFromCSV(filePath);
+            ConsoleUtils.WriteTableFromCSV(filePath, horizontalTextAlignment: HorizontalTextAlignment.Left);
 
             //stopwatch.Stop();
 
