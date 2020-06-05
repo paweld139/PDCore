@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PDCore.Utils;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -147,6 +148,136 @@ namespace PDCore.Extensions
             }
 
             return result;
+        }
+
+        public static void AddColumns(this DataTable dt, string[] columns)
+        {
+            columns.ForEach(x => dt.Columns.Add(x));
+        }
+
+        public static void AddColumns(this DataTable dt, int columnsCount)
+        {
+            string[] columns = Enumerable.Repeat(string.Empty, columnsCount).ToArray();
+
+            dt.AddColumns(columns);
+        }
+
+        public static void AddRows(this DataTable dt, IEnumerable<string[]> rows)
+        {
+            rows.ForEach(x => dt.Rows.Add(x));
+        }
+
+        public static void WriteCsv(this DataTable dt, string filePath, bool csvHasHeader = true, bool skipFirstLine = false, string delimiter = ",", Func<string[], bool> shouldSkipRecord = null)
+        {
+            IEnumerable<string[]> linesFields = CSVUtils.ParseCSVLines(filePath, skipFirstLine, delimiter, shouldSkipRecord);
+
+            if (!dt.HasColumns())
+            {
+                string[] columns = linesFields.First();
+
+                if (csvHasHeader)
+                {
+                    dt.AddColumns(columns);
+
+                    linesFields = linesFields.Skip(1); //Kolumny zostały dodane, wiec nie są potrzebne w danych
+                }
+                else
+                {
+                    dt.AddColumns(columns.Length);
+                }
+            }
+
+            dt.AddRows(linesFields);
+        }
+
+        public static bool ContainsColumn(this DataTable dt, string columnName)
+        {
+            if (!dt.HasColumns())
+                return false;
+
+            DataColumnCollection columns = dt.Columns;
+
+            bool result = columns.Contains(columnName);
+
+            return result;
+        }
+
+        public static bool ContainsColumns(this DataTable dt, IEnumerable<string> columnNames)
+        {
+            if (!dt.HasColumns())
+                return false;
+
+            bool result = columnNames.All(x => dt.ContainsColumn(x));
+
+            return result;
+        }
+
+        public static bool HasColumns(this DataTable dt)
+        {
+            return dt.Columns.Count > 0;
+        }
+
+        public static void PrintValues(this DataTable dt)
+        {
+            foreach (DataRow dr in dt.Rows)
+            {
+                foreach (DataColumn column in dt.Columns)
+                {
+                    Console.WriteLine(dr[column]);
+                }
+            }
+        }
+
+        public static IEnumerable<DataColumn> AsEnumerable(this DataColumnCollection source)
+        {
+            return source.Cast<DataColumn>();
+        }
+
+        public static IEnumerable<DataColumn> GetColumns(this DataTable source)
+        {
+            return source.Columns.AsEnumerable();
+        }
+
+        public static string[] GetColumnNames(this DataTable dt)
+        {
+            string[] columnNames = (from dc in dt.GetColumns()
+                                    select dc.ColumnName).ToArray();
+
+            return columnNames;
+        }
+
+        public static IEnumerable<DataRow> AsEnumerable(this DataRowCollection source)
+        {
+            return source.Cast<DataRow>();
+        }
+
+        public static IEnumerable<DataRow> GetRows(this DataTable source)
+        {
+            return source.Rows.AsEnumerable();
+        }
+
+        public static IEnumerable<object[]> GetRowItemArrays(this DataTable source)
+        {
+            return source.GetRows().Select(x => x.ItemArray);
+        }
+
+        public static IEnumerable<string[]> GetRowStringItemArrays(this DataTable source)
+        {
+            return source.GetRowItemArrays().Select(x => x.ToArrayString());
+        }
+
+        public static IEnumerable<object[]> GetColumnsAndRows(this DataTable source)
+        {
+            string[] columnNames = source.GetColumnNames();
+
+            IEnumerable<object[]> rowNames = source.GetRowItemArrays();
+
+            return rowNames.Add(columnNames, true);
+        }
+
+        public static IEnumerable<string[]> GetColumnsAndRowsStringArray(this DataTable source)
+        {
+            return source.GetColumnsAndRows().Select(x => x.ToArrayString());
         }
     }
 }

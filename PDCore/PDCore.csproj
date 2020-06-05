@@ -265,6 +265,7 @@
     <Compile Include="Writers\Utf8StringWriter.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Helpers\CSV\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

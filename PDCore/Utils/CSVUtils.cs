@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using CsvHelper;
 using CsvHelper.Configuration;
+using System.Data;
+using PDCore.Extensions;
 
 namespace PDCore.Utils
 {
@@ -41,32 +43,27 @@ namespace PDCore.Utils
         /// <param name="filePath">Ścieżka do pliku CSV</param>
         /// <param name="skipFirstLine">Czy pominąć pierwszą linię pliku CSV, zazwyczaj jest to nagłówek, a nie zawsze jest potrzebny</param>
         /// <param name="delimiter">Znak oddzielający dane w liniach pliku CSV</param>
-        /// <param name="lineCondition">Warunek. który musi spełnić dana linia, by została wzięta pod uwagę</param>
+        /// <param name="shouldSkipRecord">Warunek. który musi spełnić dana linia, by została wzięta pod uwagę</param>
         /// <returns>Kolekcja pól dla wybranych linii pliku CSV</returns>
-        public static IEnumerable<string[]> ParseCSVLines2(string filePath, bool skipFirstLine = false, string delimiter = ",", Func<string, bool> lineCondition = null)
+        public static IEnumerable<string[]> ParseCSVLines2(string filePath, bool skipFirstLine = false, string delimiter = ",", Func<string[], bool> shouldSkipRecord = null)
         {
             IEnumerable<string> lines = File.ReadLines(filePath).Where(x => x.Length > 1); //Odroczone odczytanie linii z pliku CSV, których ilość znaków jest większa od 1
 
             if (skipFirstLine) //Czy pominąć pierwszą linię
                 lines = lines.Skip(1); //Następuje pominięcie pierwszej linii
 
-            if (lineCondition != null) //Czy przekazano warunek wyboru linii
-                lines = lines.Where(lineCondition); //Ograniczenie linii wg przekazanego warunku
-
-
             IEnumerable<string[]> linesFields = lines.Select(x => ParseCSVLine(x, delimiter)); //Dla każdej wybranej linii otrzymana zostaje tabica pól i powstaje kolekcja
 
             return linesFields; //Zwrócenie kolekcji pól dla linii
         }
 
-        public static IEnumerable<string[]> ParseCSVLines(string filePath, bool skipFirstLine = false, string delimiter = ",", Func<string, bool> lineCondition = null)
+        public static IEnumerable<string[]> ParseCSVLines(string filePath, bool skipFirstLine = false, string delimiter = ",", Func<string[], bool> shouldSkipRecord = null)
         {
-            using (CsvReader csvHelper = new CsvReader(File.OpenText(filePath), new CsvConfiguration { Delimiter = delimiter, HasHeaderRecord = skipFirstLine }))
+            using (var csvReader = GetCsvReader(filePath, skipFirstLine, delimiter, shouldSkipRecord))
             {
-                while (csvHelper.Read())
+                while (csvReader.Read())
                 {
-                    if (!csvHelper.IsRecordEmpty() && (lineCondition == null || lineCondition(csvHelper.Parser.RawRecord)))
-                        yield return csvHelper.CurrentRecord;
+                    yield return csvReader.CurrentRecord;
                 }
             }
         }
@@ -84,11 +81,11 @@ namespace PDCore.Utils
         /// <param name="fieldsParser">Metoda do przetworzenia tablicy pól w danej linii pliku CSV na obiekt, którego kolekcja zostanie zwrócona</param>
         /// <param name="skipFirstLine">Czy pominąć pierwszą linię pliku CSV, zazwyczaj jest to nagłówek, a nie zawsze jest potrzebny</param>
         /// <param name="delimiter">Znak oddzielający dane w liniach pliku CSV</param>
-        /// <param name="lineCondition">Warunek. który musi spełnić dana linia, by została wzięta pod uwagę</param>
+        /// <param name="shouldSkipRecord">Warunek. który musi spełnić dana linia, by została wzięta pod uwagę</param>
         /// <returns>Lista obiektów z przetworzonego pliku CSV</returns>
-        public static List<T> ParseCSV<T>(string filePath, Func<string[], T> fieldsParser, bool skipFirstLine = true, string delimiter = ",", Func<string, bool> lineCondition = null)
+        public static List<T> ParseCSV<T>(string filePath, Func<string[], T> fieldsParser, bool skipFirstLine = true, string delimiter = ",", Func<string[], bool> shouldSkipRecord = null)
         {
-            IEnumerable<string[]> linesFields = ParseCSVLines(filePath, skipFirstLine, delimiter, lineCondition); //Utworzenie kolekcji pól dla każdej linii pliku CSV, wybór linii następuje wg wskazanych warunków.
+            IEnumerable<string[]> linesFields = ParseCSVLines(filePath, skipFirstLine, delimiter, shouldSkipRecord); //Utworzenie kolekcji pól dla każdej linii pliku CSV, wybór linii następuje wg wskazanych warunków.
 
             return linesFields.Select(x => fieldsParser(x)).ToList(); //Przetworzenie pól z każdej linii i zwrócenie otrzymanej kolekcji obiektów
         }
@@ -100,9 +97,9 @@ namespace PDCore.Utils
         /// <param name="filePath">Ścieżka do pliku CSV</param>
         /// <param name="skipFirstLine">Czy pominąć pierwszą linię pliku CSV, zazwyczaj jest to nagłówek, a nie zawsze jest potrzebny</param>
         /// <param name="delimiter">Znak oddzielający dane w liniach pliku CSV</param>
-        /// <param name="lineCondition">Warunek. który musi spełnić dana linia, by została wzięta pod uwagę</param>
+        /// <param name="shouldSkipRecord">Warunek. który musi spełnić dana linia, by została wzięta pod uwagę</param>
         /// <returns>Lista obiektów z przetworzonego pliku CSV</returns>
-        public static List<T> ParseCSV<T>(string filePath, bool skipFirstLine = true, string delimiter = ",", Func<string, bool> lineCondition = null) where T : IFromCSVParseable, new() //Typ musi posiadać konstruktor
+        public static List<T> ParseCSV<T>(string filePath, bool skipFirstLine = true, string delimiter = ",", Func<string[], bool> shouldSkipRecord = null) where T : IFromCSVParseable, new() //Typ musi posiadać konstruktor
         {
             return ParseCSV(
                 filePath,
@@ -111,7 +108,45 @@ namespace PDCore.Utils
                     var t = new T();
                     t.ParseFromCSV(x);
                     return t;
-                }, skipFirstLine, delimiter, lineCondition); //Przetworzenie pliku na kolekcję obiektów. Przekazano metodę do przetwarzania pól z danej linii na obiekt. Wybór linii następuje wg wskazanych warunków.
+                }, skipFirstLine, delimiter, shouldSkipRecord); //Przetworzenie pliku na kolekcję obiektów. Przekazano metodę do przetwarzania pól z danej linii na obiekt. Wybór linii następuje wg wskazanych warunków.
+        }
+
+        public static List<T> ParseCSV<T, TMap>(string filePath, bool skipFirstLine = true, string delimiter = ",", Func<string[], bool> shouldSkipRecord = null) where TMap : CsvClassMap<T>, new()
+        {
+            using (var csvReader = GetCsvReader(filePath, skipFirstLine, delimiter, shouldSkipRecord, new TMap()))
+            {
+                return csvReader.GetRecords<T>().ToList();
+            }
+        }
+
+        public static DataTable ParseCSVToDataTable(string filePath, bool hasHeader = true, bool skipFirstLine = false, string delimiter = ",", Func<string[], bool> shouldSkipRecord = null)
+        {
+            var dt = new DataTable();
+
+            dt.WriteCsv(filePath, hasHeader, skipFirstLine, delimiter, shouldSkipRecord);
+
+            return dt;
+        }
+
+        public static CsvReader GetCsvReader(string filePath, bool skipFirstLine = true, string delimiter = ",", Func<string[], bool> shouldSkipRecord = null, CsvClassMap csvClassMap = null)
+        {
+            CsvReader csvReader = new CsvReader(
+                File.OpenText(filePath),
+                new CsvConfiguration
+                {
+                    Delimiter = delimiter,
+                    HasHeaderRecord = skipFirstLine,
+                    SkipEmptyRecords = true,
+                    ShouldSkipRecord = shouldSkipRecord,
+                    IgnoreBlankLines = true,
+                    DetectColumnCountChanges = true,
+                    WillThrowOnMissingField = true
+                });
+
+            if (csvClassMap != null)
+                csvReader.Configuration.RegisterClassMap(csvClassMap);
+
+            return csvReader;
         }
 
         #endregion

@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PDCore.Enums;
 using System.Diagnostics;
+using System.Data;
 
 namespace PDCoreTest
 {
@@ -28,21 +29,35 @@ namespace PDCoreTest
 
             string filePath = string.Format(filePathFormat, tableName.ToUpper());
 
+
             //var customers = CSVUtils.ParseCSV<Customer>(filePath);
 
-            //ConsoleUtils.WriteTable(customers, false);
+            //var customers = CSVUtils.ParseCSV<Customer, CustomerMap>(filePath, false);
 
-            filePath = @"D:\Users\User\OneDrive\Magisterka\Semestr 2\Big Data\Laboratoria\Koronawirus - Zadanie\CSVs\Podzielone pliki\20.csv";
+            //ConsoleUtils.WriteTableFromObjects(customers, false);
+
+
+            //filePath = @"D:\Users\User\OneDrive\Magisterka\Semestr 2\Big Data\Laboratoria\Koronawirus - Zadanie\CSVs\Podzielone pliki\20.csv";
+
+            //filePath = @"D:\Users\User\OneDrive\Magisterka\Semestr 1\Python\Notebooki\Dane\orders\orders.csv";
 
 
             //Stopwatch stopwatch = Stopwatch.StartNew();
 
-            ConsoleUtils.WriteTableFromCSV(filePath, horizontalTextAlignment: HorizontalTextAlignment.Left);
+            //ConsoleUtils.WriteTableFromCSV(filePath);
+
+            //ConsoleUtils.WriteResult("Ilość lat", 23);
+
+            //ConsoleUtils.WriteByte(37);
 
             //stopwatch.Stop();
 
 
             //ConsoleUtils.WriteLine(stopwatch.Elapsed.TotalSeconds.ToString());
+
+            DataTable dataTable = CSVUtils.ParseCSVToDataTable(filePath);
+
+            ConsoleUtils.WriteDataTable(dataTable);
         }
     }
 }

@@ -2,6 +2,7 @@
 using PDCore.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 
@@ -9,7 +10,54 @@ namespace PDCore.Utils
 {
     public static class ConsoleUtils
     {
-        #region Write line
+        #region Write and read
+
+        public static void Write(string value, bool readKey = true)
+        {
+            Console.Write(value); //Wyświetlenie tekstu
+
+            if (readKey) //Czy czekać na wciśnięcie klawisza
+                ReadKey(); //Oczekiwanie na wciśnięcie klawisza
+        }
+
+        public static void WriteResult<T>(string info, T result)
+        {
+            WriteLine("{0}: {1}", false, info, result);
+        }
+
+        public static void ReadKey()
+        {
+            Console.ReadKey();
+        }
+
+        public static IEnumerable<string> ReadLines()
+        {
+            string s;
+
+            do
+            {
+                s = Console.ReadLine();
+
+                yield return s;
+
+            } while (!string.IsNullOrEmpty(s));
+        }
+
+        public static void Write(string value, bool readKey = true, params object[] args)
+        {
+            Console.Write(value, args); //Wyświetlenie tekstu
+
+            if (readKey) //Czy czekać na wciśnięcie klawisza
+                ReadKey(); //Oczekiwanie na wciśnięcie klawisza
+        }
+
+        public static void WriteLine(string value, bool readKey = true, params object[] args)
+        {
+            Console.WriteLine(value, args); //Wyświetlenie linii tekstu
+
+            if (readKey) //Czy czekać na wciśnięcie klawisza
+                ReadKey(); //Oczekiwanie na wciśnięcie klawisza
+        }
 
         /// <summary>
         /// Wyświetlenia łańcucha znaków w nowej linii
@@ -21,7 +69,7 @@ namespace PDCore.Utils
             Console.WriteLine(value); //Wyświetlenie tekstu w nowej linii
 
             if (readKey) //Czy czekać na wciśnięcie klawisza
-                Console.ReadKey(); //Oczekiwanie na wciśnięcie klawisza
+                ReadKey(); //Oczekiwanie na wciśnięcie klawisza
         }
 
         /// <summary>
@@ -63,10 +111,26 @@ namespace PDCore.Utils
             WriteLine(value.AsEnumerable()); //Wyświetlenie stringów w nowych liniach i oczekiwanie na wciśnięcie klawisza
         }
 
+        public static void WriteByte(int value)
+        {
+            byte[] bytes = BitConverter.GetBytes(value);
+
+            bytes.ForEach(x => Write("0x:{0:x2} ", false, x));
+
+            ReadKey();
+        }
+
         #endregion
 
 
         #region Write table
+
+        public static void WriteDataTable(DataTable dt, HorizontalTextAlignment horizontalTextAlignment = HorizontalTextAlignment.Left)
+        {
+            IEnumerable<string[]> rowsFields = dt.GetColumnsAndRowsStringArray();
+
+            WriteTableFromFields(rowsFields, true, horizontalTextAlignment);
+        }
 
         /// <summary>
         /// Wyświetlenie kolekcji pól wierszy w formie tabeli z nagłówkiem lub bez
@@ -127,11 +191,11 @@ namespace PDCore.Utils
         /// <param name="hasHeader">Czy ma nagłówek. Jeśli tak, to zostanie wyróżniony ramką</param>
         /// <param name="skipFirstLine">Czy pominąć pierwszą linię pliku CSV, zazwyczaj jest to nagłówek, a nie zawsze jest potrzebny</param>
         /// <param name="delimiter">Znak oddzielający dane w liniach pliku CSV</param>
-        /// <param name="lineCondition">Warunek. który musi spełnić dana linia, by została wzięta pod uwagę</param>
+        /// <param name="shouldSkipRecord">Warunek. który musi spełnić dana linia, by została wzięta pod uwagę</param>
         /// <param name="horizontalTextAlignment">Sposób wyrównania tekstu w poziomie, domyślnie jest do lewej</param>
-        public static void WriteTableFromCSV(string filePath, bool hasHeader = true, bool skipFirstLine = false, string delimiter = ",", Func<string, bool> lineCondition = null, HorizontalTextAlignment horizontalTextAlignment = HorizontalTextAlignment.Left)
+        public static void WriteTableFromCSV(string filePath, bool hasHeader = true, bool skipFirstLine = false, string delimiter = ",", Func<string[], bool> shouldSkipRecord = null, HorizontalTextAlignment horizontalTextAlignment = HorizontalTextAlignment.Left)
         {
-            IEnumerable<string[]> rowsFields = CSVUtils.ParseCSVLines(filePath, skipFirstLine, delimiter, lineCondition); //Zwrócenie kolekcji pól dla wybranych linii pliku CSV
+            IEnumerable<string[]> rowsFields = CSVUtils.ParseCSVLines(filePath, skipFirstLine, delimiter, shouldSkipRecord); //Zwrócenie kolekcji pól dla wybranych linii pliku CSV
 
             WriteTableFromFields(rowsFields, hasHeader, horizontalTextAlignment); //Wyświetlenie kolekcji pól w formie tabeli z nagłówkiem lub bez
         }
@@ -234,7 +298,7 @@ namespace PDCore.Utils
         {
             int columnsContentWidth = columnsWidths.Sum();
             int additionalColumnsWidth = columnsWidths.Length * 3 + 1; //Ilość kolumn razy trzy + 1
-            int delimiterCharCount =  columnsContentWidth + additionalColumnsWidth;
+            int delimiterCharCount = columnsContentWidth + additionalColumnsWidth;
 
             IEnumerable<char> delimiterChars = Enumerable.Repeat('-', delimiterCharCount); //Utworzenie kolekcji znaków oddzielających wiersze. Jest to określona ilość minusów.
 

@@ -73,14 +73,36 @@ namespace PDCore.Extensions
             }
         }
 
-        public static TResult[] ToArray<TResult>(this IEnumerable<object> source)
+        public static TResult[] ToArray<TSource, TResult>(this IEnumerable<TSource> source)
         {
             return source.Cast<TResult>().ToArray();
         }
 
+        public static TResult[] ToArray<TResult>(this IEnumerable<object> source)
+        {
+            return ToArray<object, TResult>(source);
+        }
+
+        public static TResult[] ToArray<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> valueSelector)
+        {
+            return source.Select(valueSelector).ToArray();
+        }
+
         public static string[] ToArrayString<T>(this IEnumerable<T> source)
         {
-            return source.Select(x => (x == null ? string.Empty : x.ToString())).ToArray();
+            return source.ToArray(x => (x == null ? string.Empty : x.ToString()));
+        }
+
+        public static IEnumerable<T> Add<T>(this IEnumerable<T> source, T element, bool addAsFirst = false)
+        {
+            IEnumerable<T> toAdd = new[] { element };
+
+            if (addAsFirst)
+            {
+                return toAdd.Concat(source);
+            }
+
+            return source.Concat(toAdd);
         }
     }
 }
