@@ -7,6 +7,8 @@ using System.Net.NetworkInformation;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
+using PDCore.Enums;
+using System.Diagnostics;
 
 namespace PDCoreTest
 {
@@ -22,15 +24,25 @@ namespace PDCoreTest
 
             const string filePathFormat = @"D:\Users\User\OneDrive\Magisterka\Semestr 2\Business Intelligence w przedsięborstwie\Laboratoria\Zadanie 3\Zadanie\Dane\{0}_DATA_TABLE.csv";
 
-            string tableName = "PRODUKT";
+            string tableName = "klient";
 
-            string filePath = string.Format(filePathFormat, tableName);
+            string filePath = string.Format(filePathFormat, tableName.ToUpper());
 
-            //var customers = IOUtils.ParseCSV<Customer>(filePath);
+            //var customers = CSVUtils.ParseCSV<Customer>(filePath);
 
             //ConsoleUtils.WriteTable(customers, false);
 
+            //filePath = @"D:\Users\User\OneDrive\Magisterka\Semestr 2\Business Intelligence w przedsięborstwie\Laboratoria\Zadanie 3\Przykład\Dane\covid19_cases.csv";
+
+
+            //Stopwatch stopwatch = Stopwatch.StartNew();
+
             ConsoleUtils.WriteTableFromCSV(filePath);
+
+            //stopwatch.Stop();
+
+
+            //ConsoleUtils.WriteLine(stopwatch.Elapsed.TotalSeconds.ToString());
         }
     }
 }

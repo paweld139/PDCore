@@ -82,5 +82,21 @@ namespace PDCore.Extensions
 
             return result; //Zwrócenie przetworzonego stringa
         }
+
+        /// <summary>
+        /// Dodanie białych znaków po lewej i prawej stronie łańcucha znaków, gdy jego ilość znaków jest mniejsza od przekazanej
+        /// </summary>
+        /// <param name="text">Łańcuch znaków</param>
+        /// <param name="totalWidth">Całkowita szerokość, ilość znaków</param>
+        /// <returns></returns>
+        public static string PadBoth(this string text, int totalWidth)
+        {
+            int spaces = totalWidth - text.Length; //Ilość białych znaków, czyli całkowita długość minus długość tekstu
+            int padLeft = spaces / 2 + text.Length; 
+            //Ilość znaków jaką musi zajmować tekst, jeżeli tak nie jest, to zostają dodane z lewej strony. Ilość tych znaków to połowa ilość białych znaków powiększona o długość tekstu
+
+            return text.PadLeft(padLeft).PadRight(totalWidth); 
+            //Przesunięcie w lewo i w prawu tekstu, by był na najbardziej na środku, najpierw ilość znaków to połowa ilość znaków powiększona o długość tekstu, a później z prawej strony całkowita ilość znaków
+        }
     }
 }
