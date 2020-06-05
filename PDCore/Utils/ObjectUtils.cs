@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
@@ -210,6 +211,13 @@ namespace PDCore.Utils
             }
 
             return values.ToArray();
+        }
+
+        public static long Time(Action action, int iterations = 1)
+        {
+            Stopwatch stopwatch = new Stopwatch();
+
+            return stopwatch.Time(action, iterations);
         }
     }
 }

@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 using PDCore.Enums;
 using System.Diagnostics;
 using System.Data;
+using PDCore.Helpers;
+using PDWebCore.Repositories.Repo;
+using PDWebCore;
 
 namespace PDCoreTest
 {
@@ -37,9 +40,9 @@ namespace PDCoreTest
             //ConsoleUtils.WriteTableFromObjects(customers, false);
 
 
-            //filePath = @"D:\Users\User\OneDrive\Magisterka\Semestr 2\Big Data\Laboratoria\Koronawirus - Zadanie\CSVs\Podzielone pliki\20.csv";
+            filePath = @"D:\Users\User\OneDrive\Magisterka\Semestr 2\Big Data\Laboratoria\Koronawirus - Zadanie\CSVs\Podzielone pliki\20.csv";
 
-            //filePath = @"D:\Users\User\OneDrive\Magisterka\Semestr 1\Python\Notebooki\Dane\orders\orders.csv";
+            filePath = @"D:\Users\User\OneDrive\Magisterka\Semestr 1\Python\Notebooki\Dane\orders\orders.csv";
 
 
             //Stopwatch stopwatch = Stopwatch.StartNew();
@@ -55,9 +58,50 @@ namespace PDCoreTest
 
             //ConsoleUtils.WriteLine(stopwatch.Elapsed.TotalSeconds.ToString());
 
-            DataTable dataTable = CSVUtils.ParseCSVToDataTable(filePath);
+            //Stopwatch stopwatch = Stopwatch.StartNew();
 
-            ConsoleUtils.WriteDataTable(dataTable);
+            //DataTable dataTable = CSVUtils.ParseCSVToDataTable(filePath, delimiter: "\t");
+
+            //var lineFields = CSVUtils.ParseCSVLines(filePath, delimiter: "\t").ToList();
+
+            //long time = ObjectUtils.Time(() => CSVUtils.ParseCSVLines(filePath, delimiter: "\t").ToList());
+
+            //using (new DisposableStopwatch(t => Console.WriteLine("{0} elapsed", t)))
+            //{
+            //    // do stuff that I want to measure
+            //    CSVUtils.ParseCSVLines(filePath, delimiter: "\t").ToList();
+            //}
+
+            //using (new DisposableStopwatch())
+            //{
+            //    CSVUtils.ParseCSVLines(filePath, delimiter: "\t").ToList();
+            //}
+
+            //Stopwatch stopwatch = new Stopwatch();
+
+            //long time = stopwatch.Time(() =>
+            //{
+            //    CSVUtils.ParseCSVLines(filePath, delimiter: "\t").ToList();
+            //    CSVUtils.ParseCSVLines(filePath, delimiter: "\t").ToList();
+            //    CSVUtils.ParseCSVLines(filePath, delimiter: "\t").ToList();
+            //});
+
+            Console.WriteLine(time);
+
+            //using (new FileRepository(null).WrapRepo())
+            //{
+
+            //}
+
+            //stopwatch.Stop();
+
+            //Console.WriteLine(stopwatch.Elapsed.TotalSeconds);
+
+            //Console.WriteLine(time);
+
+            Console.ReadKey();
+
+            //ConsoleUtils.WriteDataTable(dataTable);
         }
     }
 }

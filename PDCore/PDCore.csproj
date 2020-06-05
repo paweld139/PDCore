@@ -104,6 +104,7 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\XMLExtension.cs" />
     <Compile Include="Helpers\Digit.cs" />
+    <Compile Include="Helpers\DisposableStopwatch.cs" />
     <Compile Include="Helpers\DisposableWrapper.cs" />
     <Compile Include="Helpers\InMemoryCache.cs" />
     <Compile Include="Helpers\Soap\Credenials\TwoCertificatesClientCredentials.cs" />
@@ -115,6 +116,8 @@
     <Compile Include="Helpers\Soap\SoapMessageSigning\SignedXmlWithId.cs" />
     <Compile Include="Helpers\Soap\SoapMessageSigning\SoapMessage.cs" />
     <Compile Include="Helpers\Soap\SoapMessageSigning\SoapSigner.cs" />
+    <Compile Include="Helpers\StopWatchTraceWrapper.cs" />
+    <Compile Include="Helpers\StopWatchWrapper.cs" />
     <Compile Include="Helpers\WPF\Converters\ColorPlToColorEnConverter.cs" />
     <Compile Include="Helpers\WPF\Converters\PriorityToForegroundConverter.cs" />
     <Compile Include="Helpers\WPF\DataValidation\NumberValidator.cs" />

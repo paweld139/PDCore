@@ -9,6 +9,7 @@ namespace PDCore.Helpers
     {
         T BaseObject { get; }
     }
+
     public class DisposableWrapper<T> : IDisposableWrapper<T> where T : class, IDisposable
     {
         public T BaseObject { get; private set; }

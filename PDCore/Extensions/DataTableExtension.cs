@@ -150,7 +150,7 @@ namespace PDCore.Extensions
             return result;
         }
 
-        public static void AddColumns(this DataTable dt, string[] columns)
+        public static void AddColumns(this DataTable dt, params string[] columns)
         {
             columns.ForEach(x => dt.Columns.Add(x));
         }

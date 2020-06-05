@@ -150,7 +150,7 @@ namespace PDWebCore
 
         public static string GetErrors(this DbEntityValidationException e) => string.Join(Environment.NewLine, e.EntityValidationErrors.SelectMany(x => x.ValidationErrors).Select(x => x.ErrorMessage));
 
-        public static IDisposableWrapper<IEFRepo<TModel>> Wrap<TModel>(this IEFRepo<TModel> repo) where TModel : class
+        public static IDisposableWrapper<IEFRepo<TModel>> WrapRepo<TModel>(this IEFRepo<TModel> repo) where TModel : class
         {
             return new SaveChangesWrapper<TModel>(repo);
         }

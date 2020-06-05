@@ -3,6 +3,7 @@ using PDCore.Helpers.Soap.ExceptionHandling;
 using PDCore.Utils;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.InteropServices;
@@ -139,6 +140,27 @@ namespace PDCore.Extensions
             Buffer.BlockCopy(array, row * cols * size, result, 0, cols * size);
 
             return result;
+        }
+
+        public static long Time(this Stopwatch sw, Action action, int iterations = 1)
+        {
+            sw.Reset();
+
+            sw.Start();
+
+            for (int i = 0; i < iterations; i++)
+            {
+                action();
+            }
+
+            sw.Stop();
+
+            return sw.ElapsedMilliseconds;
+        }
+
+        public static IDisposableWrapper<DisposableStopwatch> WrapStopwatch(this DisposableStopwatch disposableStopwatch)
+        {
+            return new StopWatchWrapper(disposableStopwatch);
         }
     }
 }
