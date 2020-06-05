@@ -77,5 +77,10 @@ namespace PDCore.Extensions
         {
             return source.Cast<TResult>().ToArray();
         }
+
+        public static string[] ToArrayString<T>(this IEnumerable<T> source)
+        {
+            return source.Select(x => (x == null ? string.Empty : x.ToString())).ToArray();
+        }
     }
 }

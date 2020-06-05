@@ -114,7 +114,7 @@ namespace PDCore.Utils
         /// <param name="horizontalTextAlignment">Sposób wyrównania tekstu w poziomie, domyślnie jest do lewej</param>
         public static void WriteTableFromObjects<T>(IEnumerable<T> collection, bool hasHeader = true, HorizontalTextAlignment horizontalTextAlignment = HorizontalTextAlignment.Left) where T : class
         {
-            IEnumerable<string[]> rowsFields = collection.Select(x => ObjectUtils.GetObjectValues(x).ToArray<string>()); //Zwrócenie kolekcji pól dla obiektów
+            IEnumerable<string[]> rowsFields = collection.Select(x => ObjectUtils.GetObjectValues(x).ToArrayString()); //Zwrócenie kolekcji pól dla obiektów
             //Z każdego obiektu zostają pobrane wartości właściwości i zostają przekonwertowane na tablicę łańcuchów znaków - tablicę pól dla danego wiersza
 
             WriteTableFromFields(rowsFields, hasHeader, horizontalTextAlignment); //Wyświetlenie kolekcji pól w formie tabeli z nagłówkiem lub bez
