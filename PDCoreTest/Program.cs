@@ -13,6 +13,7 @@ using System.Data;
 using PDCore.Helpers;
 using PDWebCore.Repositories.Repo;
 using PDWebCore;
+using PDCoreNew;
 
 namespace PDCoreTest
 {
@@ -86,7 +87,7 @@ namespace PDCoreTest
             //    CSVUtils.ParseCSVLines(filePath, delimiter: "\t").ToList();
             //});
 
-            Console.WriteLine(time);
+            //Console.WriteLine(time);
 
             //using (new FileRepository(null).WrapRepo())
             //{
@@ -98,6 +99,21 @@ namespace PDCoreTest
             //Console.WriteLine(stopwatch.Elapsed.TotalSeconds);
 
             //Console.WriteLine(time);
+
+            //ICacheService inMemoryCache = new InMemoryCache();
+
+            //IEnumerable<string> lines = ConsoleUtils.ReadLines();
+
+            //string text = inMemoryCache.GetOrSet("text", () => Console.ReadLine());
+            //Console.WriteLine(text);
+
+            //text = inMemoryCache.GetOrSet("text", () => Console.ReadLine());
+            //Console.WriteLine(text);
+
+            //text = inMemoryCache.GetOrSet("text", () => Console.ReadLine());
+            //Console.WriteLine(text);
+
+            //lines.Where(x => x.Length > 1).Skip(3).ForEach(x => Console.WriteLine(x));
 
             Console.ReadKey();
 
