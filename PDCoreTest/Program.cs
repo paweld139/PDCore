@@ -14,6 +14,7 @@ using PDCore.Helpers;
 using PDWebCore.Repositories.Repo;
 using PDWebCore;
 using PDCoreNew;
+using System.IO;
 
 namespace PDCoreTest
 {
@@ -45,6 +46,9 @@ namespace PDCoreTest
 
             filePath = @"D:\Users\User\OneDrive\Magisterka\Semestr 1\Python\Notebooki\Dane\orders\orders.csv";
 
+            filePath = @"D:\Users\User\OneDrive\Magisterka\Semestr 2\Data Mining\Ćwiczenia\Dane\datasets_12603_17232_Life Expectancy Data.csv";
+
+            DataTable dataTable = CSVUtils.ParseCSVToDataTable(filePath);
 
             //Stopwatch stopwatch = Stopwatch.StartNew();
 
