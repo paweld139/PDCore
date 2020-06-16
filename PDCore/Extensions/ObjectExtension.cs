@@ -9,6 +9,7 @@ using System.Linq.Expressions;
 using System.Runtime.InteropServices;
 using System.ServiceModel;
 using System.Text;
+using System.Windows.Forms;
 
 namespace PDCore.Extensions
 {
@@ -162,5 +163,7 @@ namespace PDCore.Extensions
         {
             return new StopWatchWrapper(disposableStopwatch);
         }
+
+        public static int GetValueInt(this NumericUpDown numericUpDown) => Convert.ToInt32(Math.Round(numericUpDown.Value, 0));
     }
 }

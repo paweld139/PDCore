@@ -107,6 +107,7 @@
     <Compile Include="Helpers\DisposableStopwatch.cs" />
     <Compile Include="Helpers\DisposableWrapper.cs" />
     <Compile Include="Helpers\InMemoryCache.cs" />
+    <Compile Include="Helpers\RandomNumberGenerator.cs" />
     <Compile Include="Helpers\Soap\Credenials\TwoCertificatesClientCredentials.cs" />
     <Compile Include="Helpers\Soap\ExceptionHandling\ClientWrapper.cs" />
     <Compile Include="Helpers\Soap\ExceptionHandling\IOperationErrors.cs" />
