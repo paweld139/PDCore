@@ -5,6 +5,7 @@ using System.Linq;
 using System.Management.Instrumentation;
 using System.Security.Cryptography;
 using System.Text;
+using PDCore.Extensions;
 
 namespace PDCore.Helpers
 {
@@ -37,7 +38,7 @@ namespace PDCore.Helpers
 
             return result;
 
-            //return Enumerable.Range(0, instances).Select(x => random.Next(from, to + 1)).ToArray();
+            //return Enumerable.Range(0, instances).ToArray(x => random.Next(from, to + 1));
         }
     }
 }
