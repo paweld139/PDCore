@@ -5,6 +5,7 @@ using System.Linq;
 using System.Management.Instrumentation;
 using System.Security.Cryptography;
 using System.Text;
+using PDCore.Extensions;
 
 namespace PDCore.Helpers
 {
@@ -23,10 +24,10 @@ namespace PDCore.Helpers
         public static int[] Next(int from, int to, int instances)
         {
             if (instances <= 0)
-                throw new ArgumentOutOfRangeException(ObjectUtils.GetNameOf(() => instances), instances, "Wartość argumentu musi być większa od zera");
+                throw new ArgumentOutOfRangeException(ObjectUtils.GetNameOf(() => instances), instances, "Wartość \"od\" musi być większa od zera");
 
             if (from > to)
-                throw new ArgumentOutOfRangeException(ObjectUtils.GetNameOf(() => from), from, "Wartość argumentu nie może być większa od wartości \"do\"");
+                throw new ArgumentOutOfRangeException(ObjectUtils.GetNameOf(() => from), from, "Wartość \"od\" nie może być większa od wartości \"do\"");
 
             int[] result = new int[instances];
 
@@ -37,7 +38,7 @@ namespace PDCore.Helpers
 
             return result;
 
-            //return Enumerable.Range(0, instances).Select(x => random.Next(from, to + 1)).ToArray();
+            //return Enumerable.Range(0, instances).ToArray(x => random.Next(from, to + 1));
         }
     }
 }
