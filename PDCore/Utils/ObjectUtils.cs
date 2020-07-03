@@ -142,7 +142,7 @@ namespace PDCore.Utils
 
         public static IEnumerable<U> GetEnumValues<T, U>()
         {
-            return GetEnumValues<T>().ConvertTo<T, U>();
+            return Enum.GetValues(typeof(T)).Cast<U>();
         }
 
         public static string GetNameOf<T, TT>(Expression<Func<T, TT>> accessor)
