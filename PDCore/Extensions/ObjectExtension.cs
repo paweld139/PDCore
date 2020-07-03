@@ -1,8 +1,10 @@
-﻿using PDCore.Helpers;
+﻿using ICSharpCode.SharpZipLib.Tar;
+using PDCore.Helpers;
 using PDCore.Helpers.Soap.ExceptionHandling;
 using PDCore.Utils;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
@@ -165,5 +167,15 @@ namespace PDCore.Extensions
         }
 
         public static int GetValueInt(this NumericUpDown numericUpDown) => Convert.ToInt32(Math.Round(numericUpDown.Value, 0));
+
+        public static TOutput ConvertTo<TInput, TOutput>(this TInput input)
+        {
+            if (input is TOutput output)
+                return output;
+
+            var converter = TypeDescriptor.GetConverter(typeof(TInput));
+
+            return (TOutput)converter.ConvertTo(input, typeof(TOutput));
+        }
     }
 }
