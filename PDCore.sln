@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDWebCore", "PDWebCore\PDWe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDCoreNew", "PDCoreNew\PDCoreNew.csproj", "{81F5C1D9-664B-4300-98E6-99AEDA748C2A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDCore.Tests", "PDCore.Tests\PDCore.Tests.csproj", "{8F2C2671-4A04-4D56-8EE5-52DF19718D7E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{81F5C1D9-664B-4300-98E6-99AEDA748C2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81F5C1D9-664B-4300-98E6-99AEDA748C2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81F5C1D9-664B-4300-98E6-99AEDA748C2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F2C2671-4A04-4D56-8EE5-52DF19718D7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F2C2671-4A04-4D56-8EE5-52DF19718D7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F2C2671-4A04-4D56-8EE5-52DF19718D7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F2C2671-4A04-4D56-8EE5-52DF19718D7E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

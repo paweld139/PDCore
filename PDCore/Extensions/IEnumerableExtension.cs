@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Org.BouncyCastle.Asn1.X509.Qualified;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
@@ -75,7 +78,7 @@ namespace PDCore.Extensions
 
         public static TResult[] ToArray<TSource, TResult>(this IEnumerable<TSource> source)
         {
-            return source.Cast<TResult>().ToArray();
+            return source.ConvertTo<TSource, TResult>().ToArray();
         }
 
         public static TResult[] ToArray<TResult>(this IEnumerable<object> source)
@@ -103,6 +106,21 @@ namespace PDCore.Extensions
             }
 
             return source.Concat(toAdd);
+        }
+
+        public static IEnumerable<TOutput> ConvertTo<TInput, TOutput>(this IEnumerable<TInput> input)
+        {
+            if (input.GetItemType() is TOutput)
+                return input.Cast<TOutput>();
+
+            var converter = TypeDescriptor.GetConverter(typeof(TInput));
+
+            return input.Select(x => (TOutput)converter.ConvertTo(x, typeof(TOutput)));
+        }
+
+        public static Type GetItemType<T>(this IEnumerable<T> enumerable)
+        {
+            return typeof(T);
         }
     }
 }

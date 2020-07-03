@@ -3,6 +3,7 @@ using PDCore.Helpers.Soap.ExceptionHandling;
 using PDCore.Utils;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
@@ -193,6 +194,16 @@ namespace PDCore.Extensions
                 return string.Join(", ", listBox.AsEnumerable());
 
             return string.Empty;
+        }
+
+        public static TOutput ConvertTo<TInput, TOutput>(this TInput input)
+        {
+            if (input is TOutput output)
+                return output;
+
+            var converter = TypeDescriptor.GetConverter(typeof(TInput));
+
+            return (TOutput)converter.ConvertTo(input, typeof(TOutput));
         }
     }
 }
