@@ -196,14 +196,17 @@ namespace PDCore.Extensions
             return string.Empty;
         }
 
-        public static TOutput ConvertTo<TInput, TOutput>(this TInput input)
+        public static TOutput ConvertTo<TInput, TOutput>(this TInput input, Converter<TInput, TOutput> converter = null)
         {
             if (input is TOutput output)
                 return output;
 
-            var converter = TypeDescriptor.GetConverter(typeof(TInput));
+            if (converter != null)
+                return converter(input);
 
-            return (TOutput)converter.ConvertTo(input, typeof(TOutput));
+            var simpleConverter = TypeDescriptor.GetConverter(typeof(TInput));
+
+            return (TOutput)simpleConverter.ConvertTo(input, typeof(TOutput));
         }
     }
 }

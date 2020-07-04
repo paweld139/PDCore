@@ -76,19 +76,14 @@ namespace PDCore.Extensions
             }
         }
 
-        public static TResult[] ToArray<TSource, TResult>(this IEnumerable<TSource> source)
-        {
-            return source.ConvertTo<TSource, TResult>().ToArray();
-        }
-
         public static TResult[] ToArray<TResult>(this IEnumerable<object> source)
         {
             return ToArray<object, TResult>(source);
         }
 
-        public static TResult[] ToArray<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> valueSelector)
+        public static TResult[] ToArray<TSource, TResult>(this IEnumerable<TSource> source, Converter<TSource, TResult> converter = null)
         {
-            return source.Select(valueSelector).ToArray();
+            return source.ConvertTo(converter).ToArray();
         }
 
         public static string[] ToArrayString<T>(this IEnumerable<T> source)
@@ -108,14 +103,17 @@ namespace PDCore.Extensions
             return source.Concat(toAdd);
         }
 
-        public static IEnumerable<TOutput> ConvertTo<TInput, TOutput>(this IEnumerable<TInput> input)
+        public static IEnumerable<TOutput> ConvertTo<TInput, TOutput>(this IEnumerable<TInput> input, Converter<TInput, TOutput> converter = null)
         {
             if (input.GetItemType() is TOutput)
                 return input.Cast<TOutput>();
 
-            var converter = TypeDescriptor.GetConverter(typeof(TInput));
+            if (converter != null)
+                return input.Select(x => converter(x));
+            
+            var simpleConverter = TypeDescriptor.GetConverter(typeof(TInput));
 
-            return input.Select(x => (TOutput)converter.ConvertTo(x, typeof(TOutput)));
+            return input.Select(x => (TOutput)simpleConverter.ConvertTo(x, typeof(TOutput)));
         }
 
         public static Type GetItemType<T>(this IEnumerable<T> enumerable)
