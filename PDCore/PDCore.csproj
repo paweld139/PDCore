@@ -107,6 +107,7 @@
     <Compile Include="Helpers\DisposableStopwatch.cs" />
     <Compile Include="Helpers\DisposableWrapper.cs" />
     <Compile Include="Helpers\InMemoryCache.cs" />
+    <Compile Include="Helpers\MathProvider.cs" />
     <Compile Include="Helpers\RandomNumberGenerator.cs" />
     <Compile Include="Helpers\Soap\Credenials\TwoCertificatesClientCredentials.cs" />
     <Compile Include="Helpers\Soap\ExceptionHandling\ClientWrapper.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="Helpers\Soap\SoapMessageSigning\SoapSigner.cs" />
     <Compile Include="Helpers\StopWatchTraceWrapper.cs" />
     <Compile Include="Helpers\StopWatchWrapper.cs" />
+    <Compile Include="Helpers\Vector.cs" />
     <Compile Include="Helpers\WPF\Converters\ColorPlToColorEnConverter.cs" />
     <Compile Include="Helpers\WPF\Converters\PriorityToForegroundConverter.cs" />
     <Compile Include="Helpers\WPF\DataValidation\NumberValidator.cs" />

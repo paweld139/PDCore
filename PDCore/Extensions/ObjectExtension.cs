@@ -1,4 +1,5 @@
-﻿using PDCore.Helpers;
+﻿using Microsoft.CSharp.RuntimeBinder;
+using PDCore.Helpers;
 using PDCore.Helpers.Soap.ExceptionHandling;
 using PDCore.Utils;
 using System;
@@ -207,6 +208,55 @@ namespace PDCore.Extensions
             var simpleConverter = TypeDescriptor.GetConverter(typeof(TInput));
 
             return (TOutput)simpleConverter.ConvertTo(input, typeof(TOutput));
+        }
+
+        //public static double SampledAverage(double[] numbers)
+        //{
+        //    var count = 0;
+        //    var sum = 0.0;
+
+        //    for (int i = 0; i < numbers.Length; i += 2)
+        //    {
+        //        sum += numbers[i];
+        //        count++;
+        //    }
+
+        //    return sum / count;
+        //}
+
+        public static T SampledAverage<T>(this T[] numbers) where T : struct, IComparable
+        {
+            int count = 0;
+            dynamic sum = default(T);
+
+            try
+            {
+                for (int i = 0; i < numbers.Length; i += 2)
+                {
+                    sum += numbers[i];
+                    count++;
+                }
+
+                return sum / count;
+            }
+            catch (RuntimeBinderException)
+            {
+                return sum;
+            }
+        }
+
+        public static T Multiply<T>(this T multiplicand, int multiplier) where T : struct, IComparable // Mnożna i mnożnik
+        {
+            T val = default;
+
+            try
+            {
+                val = (dynamic)multiplicand * multiplier;
+            }
+            catch (RuntimeBinderException)
+            { }
+
+            return val;
         }
     }
 }

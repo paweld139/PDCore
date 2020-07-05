@@ -37,12 +37,36 @@ namespace PDCoreTest
 
             //TestCacheService();
 
-            TestObjectConvertTo();
+            //TestObjectConvertTo();
 
-            TestIEnumerableConvertTo();
+            //TestIEnumerableConvertTo();
+
+            //TestSampledAverage();
+
+            TestMultiply();
 
 
             Console.ReadKey();
+        }
+
+        private static void TestMultiply()
+        {
+            var item = true;
+
+            int multiplier = 3;
+
+            var result = item.Multiply(multiplier);
+
+            Console.WriteLine(result);
+        }
+
+        private static void TestSampledAverage()
+        {
+            var items = new[] { true };
+
+            var result = items.SampledAverage();
+
+            Console.WriteLine(result);
         }
 
         private static void TestObjectConvertTo()
