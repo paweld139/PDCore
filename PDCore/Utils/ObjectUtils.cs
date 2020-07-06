@@ -9,11 +9,14 @@ using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Windows.Forms;
 
 namespace PDCore.Utils
 {
     public static class ObjectUtils
     {
+        private static object resultListBox;
+
         public static bool CheckIsOnePropertyTrue(object o)
         {
             return o.GetType().GetProperties().Where(p => p.PropertyType == typeof(bool)).Any(x => x.GetValue(o, null) as bool? == true);

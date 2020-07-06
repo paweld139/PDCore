@@ -163,36 +163,5 @@ namespace PDCore.Extensions
         {
             return new StopWatchWrapper(disposableStopwatch);
         }
-
-        public static int GetValueInt(this NumericUpDown numericUpDown) => Convert.ToInt32(Math.Round(numericUpDown.Value, 0));
-
-        public static bool HasItems(this ListBox listBox)
-        {
-            return listBox.Items.Count > 0;
-        }
-
-        public static void ClearItemsIfExist(this ListBox listBox)
-        {
-            if (listBox.HasItems())
-                listBox.Items.Clear();
-        }
-
-        public static IEnumerable<object> AsEnumerable(this ListBox.ObjectCollection objectCollection)
-        {
-            return objectCollection.Cast<object>();
-        }
-
-        public static IEnumerable<object> AsEnumerable(this ListBox listBox)
-        {
-            return listBox.Items.AsEnumerable();
-        }
-
-        public static string GetItemsText(this ListBox listBox)
-        {
-            if (listBox.HasItems())
-                return string.Join(", ", listBox.AsEnumerable());
-
-            return string.Empty;
-        }
     }
 }
