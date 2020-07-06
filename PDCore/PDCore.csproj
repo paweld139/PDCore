@@ -106,9 +106,15 @@
     <Compile Include="Extensions\XMLExtension.cs" />
     <Compile Include="Helpers\Calculation\Book.cs" />
     <Compile Include="Helpers\Calculation\Digit.cs" />
+    <Compile Include="Helpers\DataStructures\Buffer\Buffer.cs" />
+    <Compile Include="Helpers\DataStructures\Buffer\BufferExtensions.cs" />
+    <Compile Include="Helpers\DataStructures\Buffer\CircularBuffer.cs" />
+    <Compile Include="Helpers\DataStructures\Buffer\CircularBuffer2.cs" />
+    <Compile Include="Helpers\DataStructures\Buffer\IBuffer.cs" />
+    <Compile Include="Helpers\DataStructures\Buffer\ItemDiscardedEventArgs.cs" />
     <Compile Include="Helpers\DisposableStopwatch.cs" />
     <Compile Include="Helpers\Calculation\Statistics.cs" />
-    <Compile Include="Helpers\Wrapper\DisposableWrapper\DisposableWrapper.cs" />
+    <Compile Include="Helpers\Wrappers\DisposableWrapper\DisposableWrapper.cs" />
     <Compile Include="Helpers\InMemoryCache.cs" />
     <Compile Include="Helpers\Calculation\MathProvider.cs" />
     <Compile Include="Helpers\Calculation\RandomNumberGenerator.cs" />
@@ -121,8 +127,8 @@
     <Compile Include="Helpers\Soap\SoapMessageSigning\SignedXmlWithId.cs" />
     <Compile Include="Helpers\Soap\SoapMessageSigning\SoapMessage.cs" />
     <Compile Include="Helpers\Soap\SoapMessageSigning\SoapSigner.cs" />
-    <Compile Include="Helpers\Wrapper\StopWatchTraceWrapper.cs" />
-    <Compile Include="Helpers\Wrapper\DisposableWrapper\StopWatchWrapper.cs" />
+    <Compile Include="Helpers\Wrappers\StopWatchTraceWrapper.cs" />
+    <Compile Include="Helpers\Wrappers\DisposableWrapper\StopWatchWrapper.cs" />
     <Compile Include="Helpers\Calculation\Vector.cs" />
     <Compile Include="Helpers\WPF\Converters\ColorPlToColorEnConverter.cs" />
     <Compile Include="Helpers\WPF\Converters\PriorityToForegroundConverter.cs" />

@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace PDCore.Helpers
+namespace PDCore.Helpers.Wrappers.DisposableWrapper
 {
     public class StopWatchWrapper : DisposableWrapper<DisposableStopwatch>
     {
