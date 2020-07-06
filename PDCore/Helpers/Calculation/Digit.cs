@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using PDCore.Utils;
 
-namespace PDCore.Helpers
+namespace PDCore.Helpers.Calculation
 {
     /// <summary>
     /// Liczba

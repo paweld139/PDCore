@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 
-namespace PDCore.Helpers
+namespace PDCore.Helpers.Calculation
 {
     public class Vector
     {

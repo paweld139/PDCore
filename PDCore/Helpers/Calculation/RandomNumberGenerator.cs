@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using PDCore.Extensions;
 
-namespace PDCore.Helpers
+namespace PDCore.Helpers.Calculation
 {
     public static class RandomNumberGenerator
     {

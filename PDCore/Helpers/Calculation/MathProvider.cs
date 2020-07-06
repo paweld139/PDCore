@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PDCore.Helpers
+namespace PDCore.Helpers.Calculation
 {
     abstract class MathProvider<T>
     {
