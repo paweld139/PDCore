@@ -15,8 +15,6 @@ namespace PDCore.Utils
 {
     public static class ObjectUtils
     {
-        private static object resultListBox;
-
         public static bool CheckIsOnePropertyTrue(object o)
         {
             return o.GetType().GetProperties().Where(p => p.PropertyType == typeof(bool)).Any(x => x.GetValue(o, null) as bool? == true);
@@ -40,25 +38,22 @@ namespace PDCore.Utils
             }
             else
             {
-                if (param is string)
+                switch (param)
                 {
-                    return string.Format("\"{0}\"", (string)param);
-                }
-                else if (param is decimal)
-                {
-                    return ((decimal)param).ToString(CultureInfo.InvariantCulture);
-                }
-                else if (param is bool)
-                {
-                    return Convert.ToByte(param).ToString();
-                }
-                else if (param is DateTime)
-                {
-                    return ((DateTime)param).GetLong().ToString();
-                }
-                else if (param is Enum)
-                {
-                    return ((Enum)param).ToString("D");
+                    case var p when p is string:
+                        return string.Format("\"{0}\"", (string)param);
+
+                    case var p when p is decimal:
+                        return ((decimal)param).ToString(CultureInfo.InvariantCulture);
+
+                    case var p when p is bool:
+                        return Convert.ToByte(param).ToString();
+
+                    case var p when p is DateTime:
+                        return ((DateTime)param).GetLong().ToString();
+
+                    case var p when p is Enum:
+                        return ((Enum)param).ToString("D");
                 }
 
                 return param.ToString();
@@ -162,9 +157,7 @@ namespace PDCore.Utils
         {
             if (expression.NodeType == ExpressionType.MemberAccess)
             {
-                var memberExpression = expression as MemberExpression;
-
-                if (memberExpression == null)
+                if (!(expression is MemberExpression memberExpression))
                     return null;
 
                 return memberExpression.Member.Name;

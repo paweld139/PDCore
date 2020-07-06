@@ -1,6 +1,7 @@
 ﻿using Microsoft.CSharp.RuntimeBinder;
 using PDCore.Helpers;
 using PDCore.Helpers.Soap.ExceptionHandling;
+using PDCore.Helpers.Wrappers.DisposableWrapper;
 using PDCore.Utils;
 using System;
 using System.Collections.Generic;
@@ -20,9 +21,9 @@ namespace PDCore.Extensions
         // core "just dispose it without barfing"
         public static IDisposableWrapper<T> Wrap<T>(this T baseObject) where T : class, IDisposable
         {
-            if (baseObject is IDisposableWrapper<T>)
+            if (baseObject is IDisposableWrapper<T> wrapper)
             {
-                return (IDisposableWrapper<T>)baseObject;
+                return wrapper;
             }
 
             return new DisposableWrapper<T>(baseObject);
@@ -117,6 +118,8 @@ namespace PDCore.Extensions
 
         public static string GetNameOf<T, TT>(this T obj, Expression<Func<T, TT>> propertyAccessor)
         {
+            _ = obj;
+
             return ObjectUtils.GetNameOf(propertyAccessor.Body);
         }
 
@@ -223,7 +226,9 @@ namespace PDCore.Extensions
                 val = (dynamic)multiplicand * multiplier;
             }
             catch (RuntimeBinderException)
-            { }
+            { 
+            
+            }
 
             return val;
         }

@@ -19,6 +19,7 @@ using PDWebCore.Helpers.ExceptionHandling;
 using PDWebCore.Repositories.IRepo;
 using PDWebCore.Helpers;
 using System.Net.Http;
+using PDCore.Helpers.Wrappers.DisposableWrapper;
 
 namespace System.ComponentModel.DataAnnotations
 {
@@ -164,8 +165,7 @@ namespace PDWebCore
 
         public static Guid GetLogId(this HttpRequestMessage request)
         {
-            object value;
-            if (request.Properties.TryGetValue(LogId, out value))
+            if (request.Properties.TryGetValue(LogId, out object value))
             {
                 return (Guid)value;
             }

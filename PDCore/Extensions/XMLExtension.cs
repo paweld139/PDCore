@@ -62,9 +62,7 @@ namespace PDCore.Extensions
 
         public static T DeserializeFromXML<T>(this string xmlDocument) where T : class, new()
         {
-            T o = null;
-
-            xmlDocument.DeserializeFromXML(out o);
+            xmlDocument.DeserializeFromXML(out T o);
 
             return o;
         }
