@@ -118,6 +118,8 @@ namespace PDCore.Extensions
 
         public static Type GetItemType<T>(this IEnumerable<T> enumerable)
         {
+            _ = enumerable;
+
             return typeof(T);
         }
     }

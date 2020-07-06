@@ -20,6 +20,11 @@ namespace PDCore.Utils
                 ReadKey(); //Oczekiwanie na wciśnięcie klawisza
         }
 
+        public static void WriteSeparator()
+        {
+            Console.WriteLine("---");
+        }
+
         public static void WriteResult<T>(string info, T result)
         {
             WriteLine("{0}: {1}", false, info, result);
@@ -92,14 +97,14 @@ namespace PDCore.Utils
         }
 
         /// <summary>
-        /// Wyświetlenie na konsoli kolekcji łańcuchów znaków (każdy string w osobnej linii) i na końcu oczekiwanie na wciśnięcie klawisza
+        /// Wyświetlenie na konsoli kolekcji łańcuchów znaków (każdy string w osobnej linii) i na końcu opcjonalnie oczekiwanie na wciśnięcie klawisza
         /// </summary>
         /// <param name="value">Kolekcja łańcuchów znaków do wyświetlenia w nowych liniach</param>
-        public static void WriteLine(IEnumerable<string> value)
+        public static void WriteLine(IEnumerable<string> value, bool readKey = true)
         {
             value.Take(value.Count() - 1).ForEach(x => WriteLine(x, false)); //Wzięcie wszystkich stringów opórcz ostatniego i wyświetlenie każdego w nowej linii
 
-            WriteLine(value.Last()); //Wyśwetlenie ostatniego stringa i oczekiwanie na wciśnięcie klawisza
+            WriteLine(value.Last(), readKey); //Wyśwetlenie ostatniego stringa i oczekiwanie na wciśnięcie klawisza
         }
 
         /// <summary>
@@ -108,7 +113,7 @@ namespace PDCore.Utils
         /// <param name="value">Tablica łańcuchów znaków do wyświetlenia w nowych liniach. Możliwość podawania tekstów po przecinku</param>
         public static void WriteLine(params string[] value)
         {
-            WriteLine(value.AsEnumerable()); //Wyświetlenie stringów w nowych liniach i oczekiwanie na wciśnięcie klawisza
+            WriteLine(value); //Wyświetlenie stringów w nowych liniach i oczekiwanie na wciśnięcie klawisza
         }
 
         public static void WriteByte(int value)
@@ -116,8 +121,6 @@ namespace PDCore.Utils
             byte[] bytes = BitConverter.GetBytes(value);
 
             bytes.ForEach(x => Write("0x:{0:x2} ", false, x));
-
-            ReadKey();
         }
 
         #endregion
@@ -142,7 +145,7 @@ namespace PDCore.Utils
         {
             if (!rowsFields.Any()) //Czy kolekcja pól wierszy zawiera jakiekolwiek elementy
             {
-                WriteLine(); //Wyświetlenie pustej linii
+                WriteLine(false); //Wyświetlenie pustej linii
 
                 return; //Wyjście z metody
             }
@@ -325,7 +328,7 @@ namespace PDCore.Utils
 
             WriteRowDelimiter(columnsWidths); //Wyświetlenie dolnej krawędzi tabeli
 
-            WriteLine(); //Wyświetlenie pustej linii i oczekiwanie na wciśnięcie klawisza
+            WriteLine(false); //Wyświetlenie pustej linii
         }
 
         #endregion

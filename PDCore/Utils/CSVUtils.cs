@@ -54,7 +54,10 @@ namespace PDCore.Utils
 
             IEnumerable<string[]> linesFields = lines.Select(x => ParseCSVLine(x, delimiter)); //Dla każdej wybranej linii otrzymana zostaje tabica pól i powstaje kolekcja
 
-            return linesFields.Where(x => !shouldSkipRecord(x)); //Zwrócenie kolekcji pól dla linii
+            if (shouldSkipRecord != null)
+                return linesFields.Where(x => !shouldSkipRecord(x)); //Zwrócenie kolekcji pól dla linii
+
+            return linesFields;
         }
 
         public static IEnumerable<string[]> ParseCSVLines(string filePath, bool skipFirstLine = false, string delimiter = ",", Func<string[], bool> shouldSkipRecord = null)

@@ -55,12 +55,13 @@ namespace PDWebCore.Repositories.Repo
         {
             string targetFolder = HostingEnvironment.MapPath("~/Uploads");
 
-            FileModel filee = new FileModel();
-
-            filee.Name = name;
-            filee.Extension = Path.GetExtension(name).Replace(".", "");
-            filee.RefId = objId;
-            filee.RefGid = objType;
+            FileModel filee = new FileModel
+            {
+                Name = name,
+                Extension = Path.GetExtension(name).Replace(".", ""),
+                RefId = objId,
+                RefGid = objType
+            };
 
             Save(filee);
 
@@ -117,13 +118,14 @@ namespace PDWebCore.Repositories.Repo
 
             foreach (var item in File)
             {
-                FileModel filee = new FileModel();
+                FileModel filee = new FileModel
+                {
+                    Name = item.Item1,
 
-                filee.Name = item.Item1;
-
-                filee.Extension = Path.GetExtension(item.Item1).Replace(".", "");
-                filee.RefId = item.Item2;
-                filee.RefGid = item.Item3;
+                    Extension = Path.GetExtension(item.Item1).Replace(".", ""),
+                    RefId = item.Item2,
+                    RefGid = item.Item3
+                };
 
                 files.Add(filee);
 
