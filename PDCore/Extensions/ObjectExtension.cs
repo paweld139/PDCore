@@ -179,19 +179,19 @@ namespace PDCore.Extensions
             return (TOutput)simpleConverter.ConvertTo(input, typeof(TOutput));
         }
 
-        //public static double SampledAverage(double[] numbers)
-        //{
-        //    var count = 0;
-        //    var sum = 0.0;
+        public static double SampledAverageDouble(double[] numbers)
+        {
+            var count = 0;
+            var sum = 0.0;
 
-        //    for (int i = 0; i < numbers.Length; i += 2)
-        //    {
-        //        sum += numbers[i];
-        //        count++;
-        //    }
+            for (int i = 0; i < numbers.Length; i += 2)
+            {
+                sum += numbers[i];
+                count++;
+            }
 
-        //    return sum / count;
-        //}
+            return sum / count;
+        }
 
         public static T SampledAverage<T>(this T[] numbers) where T : struct, IComparable
         {
