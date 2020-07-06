@@ -17,9 +17,11 @@ namespace PDWebCore.Repositories.Repo
     public class RepositoryEntityFramework<T> : Repository<T> where T : class
     {
         private readonly IEntityFrameworkDbContext _db;
+        private readonly DbSet<T> _set;
         public RepositoryEntityFramework(IEntityFrameworkDbContext db) : base(db)
         {
             _db = db;
+            _set = _db.Set<T>();
         }
 
         public void SaveChanges()
@@ -41,12 +43,12 @@ namespace PDWebCore.Repositories.Repo
 
         public override T Load(int id)
         {
-            return _db.Set<T>().Find(id);
+            return _set.Find(id);
         }
 
         public Task<T> LoadAsync(int id)
         {
-            return _db.Set<T>().FindAsync(id);
+            return _set.FindAsync(id);
         }
 
         private string GetQuery(string where)
@@ -62,25 +64,25 @@ namespace PDWebCore.Repositories.Repo
         {
             string query = GetQuery(where);
 
-            return _db.Set<T>().SqlQuery(query).ToList();
+            return _set.SqlQuery(query).ToList();
         }
 
         public override void Save(List<T> list)
         {
-            _db.Set<T>().AddRange(list);
+            _set.AddRange(list);
         }
 
         public override void Save(T obj)
         {
-            _db.Set<T>().Add(obj);
+            _set.Add(obj);
         }
 
         public IQueryable<T> Get(bool asNoTracking = true)
         {
             if (asNoTracking)
-                return _db.Set<T>().AsNoTracking();
+                return _set.AsNoTracking();
 
-            return _db.Set<T>();
+            return _set;
         }
 
         public Task<List<T>> GetAllAsync(bool asNoTracking = true)
@@ -90,17 +92,17 @@ namespace PDWebCore.Repositories.Repo
 
         public void Attach(T obj)
         {
-            _db.Set<T>().Attach(obj);
+            _set.Attach(obj);
         }
 
         public override void Delete(T obj)
         {
-            _db.Set<T>().Remove(obj);
+            _set.Remove(obj);
         }
 
         public override void Delete(List<T> list)
         {
-            _db.Set<T>().RemoveRange(list);
+            _set.RemoveRange(list);
         }
     }
 }

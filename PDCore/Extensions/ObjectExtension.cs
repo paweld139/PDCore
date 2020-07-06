@@ -1,8 +1,10 @@
-﻿using PDCore.Helpers;
+﻿using Microsoft.CSharp.RuntimeBinder;
+using PDCore.Helpers;
 using PDCore.Helpers.Soap.ExceptionHandling;
 using PDCore.Utils;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
@@ -162,6 +164,99 @@ namespace PDCore.Extensions
         public static IDisposableWrapper<DisposableStopwatch> WrapStopwatch(this DisposableStopwatch disposableStopwatch)
         {
             return new StopWatchWrapper(disposableStopwatch);
+        }
+
+        public static int GetValueInt(this NumericUpDown numericUpDown) => Convert.ToInt32(Math.Round(numericUpDown.Value, 0));
+
+        public static bool HasItems(this ListBox listBox)
+        {
+            return listBox.Items.Count > 0;
+        }
+
+        public static void ClearItemsIfExist(this ListBox listBox)
+        {
+            if (listBox.HasItems())
+                listBox.Items.Clear();
+        }
+
+        public static IEnumerable<object> AsEnumerable(this ListBox.ObjectCollection objectCollection)
+        {
+            return objectCollection.Cast<object>();
+        }
+
+        public static IEnumerable<object> AsEnumerable(this ListBox listBox)
+        {
+            return listBox.Items.AsEnumerable();
+        }
+
+        public static string GetItemsText(this ListBox listBox)
+        {
+            if (listBox.HasItems())
+                return string.Join(", ", listBox.AsEnumerable());
+
+            return string.Empty;
+        }
+
+        public static TOutput ConvertTo<TInput, TOutput>(this TInput input, Converter<TInput, TOutput> converter = null)
+        {
+            if (input is TOutput output)
+                return output;
+
+            if (converter != null)
+                return converter(input);
+
+            var simpleConverter = TypeDescriptor.GetConverter(typeof(TInput));
+
+            return (TOutput)simpleConverter.ConvertTo(input, typeof(TOutput));
+        }
+
+        //public static double SampledAverage(double[] numbers)
+        //{
+        //    var count = 0;
+        //    var sum = 0.0;
+
+        //    for (int i = 0; i < numbers.Length; i += 2)
+        //    {
+        //        sum += numbers[i];
+        //        count++;
+        //    }
+
+        //    return sum / count;
+        //}
+
+        public static T SampledAverage<T>(this T[] numbers) where T : struct, IComparable
+        {
+            int count = 0;
+            dynamic sum = default(T);
+
+            try
+            {
+                for (int i = 0; i < numbers.Length; i += 2)
+                {
+                    sum += numbers[i];
+                    count++;
+                }
+
+                return sum / count;
+            }
+            catch (RuntimeBinderException)
+            {
+                return sum;
+            }
+        }
+
+        public static T Multiply<T>(this T multiplicand, int multiplier) where T : struct, IComparable // Mnożna i mnożnik
+        {
+            T val = default;
+
+            try
+            {
+                val = (dynamic)multiplicand * multiplier;
+            }
+            catch (RuntimeBinderException)
+            { }
+
+            return val;
         }
     }
 }

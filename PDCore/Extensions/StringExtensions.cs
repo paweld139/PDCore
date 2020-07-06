@@ -36,12 +36,12 @@ namespace PDCore.Extensions
         /// <summary>
         /// Konwersja stringa do enuma
         /// </summary>
-        /// <typeparam name="T">Typ enuma</typeparam>
-        /// <param name="enumString"></param>
+        /// <typeparam name="TEnum">Typ enuma</typeparam>
+        /// <param name="value"></param>
         /// <returns>Enum</returns>
-        public static T ToEnum<T>(this string enumString)
+        public static TEnum ParseEnum<TEnum>(this string value) where TEnum : struct
         {
-            return (T)Enum.Parse(typeof(T), enumString);
+            return (TEnum)Enum.Parse(typeof(TEnum), value);
         }
 
         public static string[] Split(this string text, StringSplitOptions stringSplitOptions, params string[] delimiters)
@@ -63,11 +63,11 @@ namespace PDCore.Extensions
         {
             string result = string.Empty; //Jest ustawiony pusty łańcuch znaków, żeby zwrócona wartość nie była nullem, w przypadku gdy parametr jest pusty lub jest nullem
 
-            if(!string.IsNullOrWhiteSpace(text)) //Przekazany łańcuch znaków nie może być pusty, ani posiadać wartość null (pustą referencję)
+            if (!string.IsNullOrWhiteSpace(text)) //Przekazany łańcuch znaków nie może być pusty, ani posiadać wartość null (pustą referencję)
             {
                 foreach (char item in text) //Przechodzimy po każdym znaku łańcucha znaków
                 {
-                    if(char.IsUpper(item)) //Znak jest dużą literą
+                    if (char.IsUpper(item)) //Znak jest dużą literą
                     {
                         result = result.Trim(); //Zostają usunięte wszystkie białe znaki znajdujące się na początku i na końcu łańcucha znaków do zwrócenia
 
@@ -92,10 +92,10 @@ namespace PDCore.Extensions
         public static string PadBoth(this string text, int totalWidth)
         {
             int spaces = totalWidth - text.Length; //Ilość białych znaków, czyli całkowita długość minus długość tekstu
-            int padLeft = spaces / 2 + text.Length; 
+            int padLeft = spaces / 2 + text.Length;
             //Ilość znaków jaką musi zajmować tekst, jeżeli tak nie jest, to zostają dodane z lewej strony. Ilość tych znaków to połowa ilość białych znaków powiększona o długość tekstu
 
-            return text.PadLeft(padLeft).PadRight(totalWidth); 
+            return text.PadLeft(padLeft).PadRight(totalWidth);
             //Przesunięcie w lewo i w prawu tekstu, by był na najbardziej na środku, najpierw ilość znaków to połowa ilość znaków powiększona o długość tekstu, a później z prawej strony całkowita ilość znaków
         }
     }
