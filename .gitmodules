@@ -1,3 +1,6 @@
 [submodule "Common"]
 	path = Common
 	url = https://github.com/paweld139/Common
+[submodule "DataStructures"]
+	path = DataStructures
+	url = https://github.com/paweld139/DataStructures
