@@ -12,6 +12,6 @@ namespace PDCore.Helpers
             Name = name;
         }
 
-        public string Name { get; protected set; }
+        public string Name { get; set; }
     }
 }

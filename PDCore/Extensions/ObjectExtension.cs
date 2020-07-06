@@ -182,7 +182,7 @@ namespace PDCore.Extensions
             return (TOutput)simpleConverter.ConvertTo(input, typeof(TOutput));
         }
 
-        public static double SampledAverageDouble(double[] numbers)
+        public static double SampledAverageDouble(this double[] numbers)
         {
             var count = 0;
             var sum = 0.0;

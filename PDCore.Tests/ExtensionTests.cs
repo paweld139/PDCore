@@ -7,10 +7,12 @@ using PDCore.Utils;
 namespace PDCore.Tests
 {
     [TestClass]
-    public class PDCoreTests
+    public class ExtensionTests
     {
+        #region StringExtension
+
         [TestMethod]
-        public void CanAddSpacesToStrring()
+        public void CanAddSpacesToString()
         {
             string text = "PawełDywanYoJa";
 
@@ -32,6 +34,11 @@ namespace PDCore.Tests
 
             Assert.AreEqual(expected, actual);
         }
+
+        #endregion
+
+
+        #region ObjectExtension
 
         [TestMethod]
         public void CanCalculateSampledAverage()
@@ -58,5 +65,7 @@ namespace PDCore.Tests
 
             Assert.AreEqual(expected, actual);
         }
+
+        #endregion
     }
 }
