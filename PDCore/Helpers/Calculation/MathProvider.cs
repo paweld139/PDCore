@@ -65,7 +65,7 @@ namespace PDCore.Helpers.Calculation
 
     class Fraction<T>
     {
-        static MathProvider<T> _math;
+        static readonly MathProvider<T> _math;
         // Notice this is a type constructor.  It gets run the first time a
         // variable of a specific type is declared for use.
         // Having _math static reduces overhead.

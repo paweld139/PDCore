@@ -13,7 +13,7 @@ namespace PDCore.Helpers.Calculation
     {
         //private static readonly Lazy<Random> random = new Lazy<Random>();
         //public static Random Random => random.Value;
-        private static Random random;
+        private static readonly Random random;
 
         /// <summary>
         /// Modyfikator dostępu jest niedozwolony dla statycznych konstruktorów
