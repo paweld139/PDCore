@@ -52,6 +52,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\DataStructures\DataStructures\DataStructures.csproj">
+      <Project>{52b2731b-0a9c-4572-83a5-e70e0972442d}</Project>
+      <Name>DataStructures</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PDCoreNew\PDCoreNew.csproj">
       <Project>{81f5c1d9-664b-4300-98e6-99aeda748c2a}</Project>
       <Name>PDCoreNew</Name>
