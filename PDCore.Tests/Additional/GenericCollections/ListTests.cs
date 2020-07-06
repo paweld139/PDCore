@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 namespace PDCore.Tests.Additional.GenericCollections
 {
     [TestClass]
-    public class ListTests
+    public class ListTests //Lista to obudowana tablica
     {
         [TestMethod]
         public void A_List_Can_Insert()
         {
-            List<int> integers = new List<int> { 1, 2, 3 };
+            List<int> integers = new List<int> { 1, 2, 3 }; //Elementy przesuwają się w prawo
             integers.Insert(1, 6);
 
             Assert.AreEqual(6, integers[1]);

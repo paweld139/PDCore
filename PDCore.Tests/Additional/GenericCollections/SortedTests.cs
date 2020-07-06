@@ -18,7 +18,7 @@ namespace PDCore.Tests.Additional.GenericCollections
                 { 3, "three" },
                 { 1, "one" },
                 { 2, "two" }
-            }; //Szybka iteracja w przeciwieństwie do SortedDictionary, klucze także muszą być unikalne
+            }; //Szybka iteracja w przeciwieństwie do SortedDictionary, klucze także muszą być unikalne. Mało wydajne wstawianie i usuwanie, dość wydajne szukanie.
 
             Assert.AreEqual(0, list.IndexOfKey(1));
             Assert.AreEqual(1, list.IndexOfValue("two"));

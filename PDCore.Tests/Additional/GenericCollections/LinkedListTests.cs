@@ -10,6 +10,13 @@ namespace PDCore.Tests.Additional.GenericCollections
     [TestClass]
     public class LinkedListTests
     {
+         /*
+         * Lepiej użyć LinkedList a nie List, gdy jest wiele modyfikacji położenia elementów, wiele wstawiania i usuwania wewnątrz.
+         * Lista jest wydajna tylko jak dodaje się lub usuwa elementy na końcu. LinkedList operuje na węzłach.
+         * Dodawanie przed i po węźle lub przeszukiwanie sekwencyjne jest wydajne w przypadku LinkedList.
+         * W przypadku LinkedList stały czas mają operacje: Append, Prepend, Insertion after and before node, removal of node.
+         */
+
         [TestMethod]
         public void Can_Add_After()
         {

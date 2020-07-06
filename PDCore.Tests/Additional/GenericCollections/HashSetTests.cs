@@ -16,7 +16,7 @@ namespace PDCore.Tests.Additional.GenericCollections
             var set1 = new HashSet<int> { 1, 2, 3 };
             var set2 = new HashSet<int> { 2, 3, 4 };
 
-            set1.IntersectWith(set2);
+            set1.IntersectWith(set2); //Modyfikacja set1
 
             Assert.IsTrue(set1.SetEquals(new[] { 2, 3 }));
         }

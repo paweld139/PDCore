@@ -40,7 +40,7 @@ namespace PDCore.Tests.Additional.GenericCollections
             queue.Enqueue(2);
             queue.Enqueue(3);
 
-            var asArray = queue.ToArray();
+            var asArray = queue.ToArray(); //Kopia kolejki w formie tablicy
             queue.Dequeue();
 
             Assert.AreEqual(1, asArray[0]);

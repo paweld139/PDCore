@@ -17,7 +17,7 @@ namespace PDCore.Tests.Additional.GenericCollections
             {
                 { 1, "one" },
                 { 2, "two" }
-            }; //Zoptymalizowany pod kątem wydajnego wstawiania, usuwania i wyszukiwania pod indeksie
+            }; //Zoptymalizowany pod kątem wydajnego wstawiania, usuwania i wyszukiwania pod indeksie, natomiast SortedList pod kątem iteracji.
 
             Assert.AreEqual("one", map[1]);
         }
