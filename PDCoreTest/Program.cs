@@ -94,6 +94,7 @@ namespace PDCoreTest
         private static void WriteSeparator()
         {
             ConsoleUtils.WriteSeparator();
+            Console.Read();
         }
 
         private static void TestParseCSVToObjectAndDisplayObject()
