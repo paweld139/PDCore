@@ -13,10 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDCoreNew", "PDCoreNew\PDCo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDCore.Tests", "PDCore.Tests\PDCore.Tests.csproj", "{8F2C2671-4A04-4D56-8EE5-52DF19718D7E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "submodules", "submodules", "{BAE7991E-B93D-4043-B92E-BD1D85789E67}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructures", "DataStructures\DataStructures\DataStructures.csproj", "{52B2731B-0A9C-4572-83A5-E70E0972442D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,16 +39,9 @@ Global
 		{8F2C2671-4A04-4D56-8EE5-52DF19718D7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F2C2671-4A04-4D56-8EE5-52DF19718D7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F2C2671-4A04-4D56-8EE5-52DF19718D7E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{52B2731B-0A9C-4572-83A5-E70E0972442D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{52B2731B-0A9C-4572-83A5-E70E0972442D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{52B2731B-0A9C-4572-83A5-E70E0972442D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{52B2731B-0A9C-4572-83A5-E70E0972442D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{52B2731B-0A9C-4572-83A5-E70E0972442D} = {BAE7991E-B93D-4043-B92E-BD1D85789E67}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {811413D6-7183-4CFF-84AB-597438F2EAE9}
