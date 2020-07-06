@@ -113,7 +113,7 @@ namespace PDCore.Utils
         /// <param name="value">Tablica łańcuchów znaków do wyświetlenia w nowych liniach. Możliwość podawania tekstów po przecinku</param>
         public static void WriteLine(params string[] value)
         {
-            WriteLine(value); //Wyświetlenie stringów w nowych liniach i oczekiwanie na wciśnięcie klawisza
+            WriteLine(value.AsEnumerable(), false); //Wyświetlenie stringów w nowych liniach
         }
 
         public static void WriteByte(int value)
