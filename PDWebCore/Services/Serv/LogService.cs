@@ -71,7 +71,7 @@ namespace PDWebCore.Services.Serv
             {
                 using (var dbContext = (IMainDbContext)Activator.CreateInstance(DbContext))
                 {
-                    using (var logRepository = new SqlRepositoryEntityFramework<LogModel>(dbContext, null))
+                    using (var logRepository = new LogRepo(dbContext, null))
                     {
                         using (var sqlServerLogger = new SqlServerLogger(logRepository))
                         {
