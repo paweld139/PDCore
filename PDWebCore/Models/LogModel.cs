@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using PDWebCore.Services.Serv;
 using System.Web;
+using PDCore.Enums;
 
 namespace PDWebCore.Models
 {

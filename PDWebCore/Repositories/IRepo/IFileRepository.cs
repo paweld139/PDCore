@@ -1,4 +1,5 @@
-﻿using PDWebCore.Models;
+﻿using PDCore.Repositories.IRepo;
+using PDWebCore.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PDWebCore.Repositories.IRepo
 {
-    public interface IFileRepository : IEFRepo<FileModel>
+    public interface IFileRepository : ISqlRepositoryEntityFramework<FileModel>
     {
         Task AddFile(string name, int objId, ObjType objType, byte[] file);
 

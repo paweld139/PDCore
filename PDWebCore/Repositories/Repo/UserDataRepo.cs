@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PDWebCore.Repositories.Repo
 {
-    public class UserDataRepo : RepositoryEntityFramework<UserDataModel>, IUserDataRepo
+    public class UserDataRepo : SqlRepositoryEntityFramework<UserDataModel>
     {
         public UserDataRepo(IMainDbContext db) : base(db)
         {

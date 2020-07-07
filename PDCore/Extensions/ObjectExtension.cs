@@ -123,6 +123,13 @@ namespace PDCore.Extensions
             return ObjectUtils.GetNameOf(propertyAccessor.Body);
         }
 
+        public static string GetName<T>(this T obj, Expression<Func<T>> accessor)
+        {
+            _ = obj;
+
+            return ObjectUtils.GetNameOf(accessor.Body);
+        }
+
         public static T[] GetRow<T>(this T[,] array, int row)
         {
             if (!typeof(T).IsPrimitive)
@@ -226,8 +233,8 @@ namespace PDCore.Extensions
                 val = (dynamic)multiplicand * multiplier;
             }
             catch (RuntimeBinderException)
-            { 
-            
+            {
+
             }
 
             return val;

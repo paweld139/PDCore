@@ -14,7 +14,7 @@ using System.Web.Hosting;
 
 namespace PDWebCore.Repositories.Repo
 {
-    public class FileRepository : RepositoryEntityFramework<FileModel>, IFileRepository
+    public class FileRepository : SqlRepositoryEntityFramework<FileModel>, IFileRepository
     {
         public readonly IMainDbContext _db;
         public FileRepository(IMainDbContext db) : base(db)
@@ -63,9 +63,9 @@ namespace PDWebCore.Repositories.Repo
                 RefGid = objType
             };
 
-            Save(filee);
+            Add(filee);
 
-            await SaveChangesAsync();
+            await CommitAsync();
 
             await WriteAllBytesAsync(Path.Combine(targetFolder, filee.ALLFId.ToString()), file);
         }
@@ -81,9 +81,9 @@ namespace PDWebCore.Repositories.Repo
         {
             string targetFolder = HostingEnvironment.MapPath("~/Uploads");
 
-            Save(file);
+            Add(file);
 
-            await SaveChangesAsync();
+            await CommitAsync();
 
             await WriteAllBytesAsync(Path.Combine(targetFolder, file.ALLFId.ToString()), file.Data);
         }
@@ -92,9 +92,9 @@ namespace PDWebCore.Repositories.Repo
         {
             string targetFolder = HostingEnvironment.MapPath("~/Uploads");
 
-            Save(File);
+            AddRange(File);
 
-            await SaveChangesAsync();
+            await CommitAsync();
 
             int index = 0;
 
@@ -129,10 +129,10 @@ namespace PDWebCore.Repositories.Repo
 
                 files.Add(filee);
 
-                Save(filee);              
+                Add(filee);              
             }
 
-            await SaveChangesAsync();
+            await CommitAsync();
 
             int index = 0;
 
@@ -151,7 +151,7 @@ namespace PDWebCore.Repositories.Repo
         public async Task<string> GetFilePath(int objId, ObjType objType)
         {
             string targetFolder = HostingEnvironment.MapPath("~/Uploads");
-            FileModel file = await Get().Where(f => f.RefId == objId && f.RefGid == objType).OrderByDescending(f => f.ALLFId).FirstOrDefaultAsync();
+            FileModel file = await FindAll().Where(f => f.RefId == objId && f.RefGid == objType).OrderByDescending(f => f.ALLFId).FirstOrDefaultAsync();
             string targetPath = Path.Combine(targetFolder, file.ALLFId.ToString());
 
             return targetPath;
@@ -167,7 +167,7 @@ namespace PDWebCore.Repositories.Repo
 
         public async Task<string> GetFileName(int imgId)
         {
-            FileModel file = await Get().FirstOrDefaultAsync(f => f.ALLFId == imgId);
+            FileModel file = await FindAll().FirstOrDefaultAsync(f => f.ALLFId == imgId);
 
             string fileName = file.Name;
 
@@ -176,7 +176,7 @@ namespace PDWebCore.Repositories.Repo
 
         public async Task<string> GetFileName(int objId, ObjType objType)
         {
-            FileModel file = await Get().Where(f => f.RefId == objId && f.RefGid == objType).OrderByDescending(f => f.ALLFId).FirstOrDefaultAsync();
+            FileModel file = await FindAll().Where(f => f.RefId == objId && f.RefGid == objType).OrderByDescending(f => f.ALLFId).FirstOrDefaultAsync();
 
             string fileName = file.Name;
 
@@ -185,7 +185,7 @@ namespace PDWebCore.Repositories.Repo
 
         public async Task Download(int imgId, string path)
         {
-            var file = await Get().FirstOrDefaultAsync(f => f.ALLFId == imgId);
+            var file = await FindAll().FirstOrDefaultAsync(f => f.ALLFId == imgId);
 
             byte[] data = await GetFile(file.RefId, file.RefGid, false);
 
@@ -381,7 +381,7 @@ namespace PDWebCore.Repositories.Repo
 
             Delete(file);
 
-            await SaveChangesAsync();
+            await CommitAsync();
 
             await RemoveFileAsync(GetFilePath(imgId));
         }
@@ -409,7 +409,7 @@ namespace PDWebCore.Repositories.Repo
                 Delete(al);
             }
 
-            await SaveChangesAsync();
+            await CommitAsync();
 
             await Task.WhenAll(tasks);
         }
@@ -418,7 +418,7 @@ namespace PDWebCore.Repositories.Repo
         {
             string targetFolder = HostingEnvironment.MapPath("~/Uploads");
 
-            List<FileModel> File = await Get().Where(f => f.RefId == objId && f.RefGid == objType).ToListAsync();
+            List<FileModel> File = await FindAll().Where(f => f.RefId == objId && f.RefGid == objType).ToListAsync();
 
             List<string> targetPaths = new List<string>();
 
@@ -433,7 +433,7 @@ namespace PDWebCore.Repositories.Repo
         public async Task<Dictionary<int, string>> GetFileNames(ObjType objType)
         {
             string targetFolder = HostingEnvironment.MapPath("~/Uploads");
-            List<FileModel> File = await Get().Where(f => f.RefGid == objType).GroupBy(x => x.RefId).Select(x => x.OrderByDescending(a => a.ALLFId).FirstOrDefault()).ToListAsync();
+            List<FileModel> File = await FindAll().Where(f => f.RefGid == objType).GroupBy(x => x.RefId).Select(x => x.OrderByDescending(a => a.ALLFId).FirstOrDefault()).ToListAsync();
 
             Dictionary<int, string> targetPaths = new Dictionary<int, string>();
 
@@ -449,7 +449,7 @@ namespace PDWebCore.Repositories.Repo
         {
             string targetFolder = HostingEnvironment.MapPath("~/Uploads");
 
-            List<FileModel> File = await Get().Where(f => f.RefGid == objType).GroupBy(x => x.RefId).Select(x => x.OrderByDescending(a => a.ALLFId).FirstOrDefault()).ToListAsync();
+            List<FileModel> File = await FindAll().Where(f => f.RefGid == objType).GroupBy(x => x.RefId).Select(x => x.OrderByDescending(a => a.ALLFId).FirstOrDefault()).ToListAsync();
 
             List<Tuple<int, int, string>> targetPaths = new List<Tuple<int, int, string>>();
 
@@ -465,7 +465,7 @@ namespace PDWebCore.Repositories.Repo
         {
             string targetFolder = HostingEnvironment.MapPath("~/Uploads");
 
-            List<FileModel> File = await Get().Where(f => f.RefGid == objType && ids.Contains(f.RefId)).GroupBy(x => x.RefId).Select(x => x.OrderByDescending(a => a.ALLFId).FirstOrDefault()).ToListAsync();
+            List<FileModel> File = await FindAll().Where(f => f.RefGid == objType && ids.Contains(f.RefId)).GroupBy(x => x.RefId).Select(x => x.OrderByDescending(a => a.ALLFId).FirstOrDefault()).ToListAsync();
 
             Dictionary<int, string> targetPaths = new Dictionary<int, string>();
 
@@ -481,7 +481,7 @@ namespace PDWebCore.Repositories.Repo
         {
             string targetFolder = HostingEnvironment.MapPath("~/Uploads");
 
-            List<FileModel> File = await Get().OrderByDescending(x => x.ALLFId).Where(f => f.RefGid == objType && f.RefId == refId).ToListAsync();
+            List<FileModel> File = await FindAll().OrderByDescending(x => x.ALLFId).Where(f => f.RefGid == objType && f.RefId == refId).ToListAsync();
 
             foreach (var item in File)
             {
@@ -495,7 +495,7 @@ namespace PDWebCore.Repositories.Repo
         {
             string targetFolder = HostingEnvironment.MapPath("~/Uploads");
 
-            FileModel file = await Get().OrderByDescending(x => x.ALLFId).FirstOrDefaultAsync(f => f.RefGid == objType && f.RefId == refId);
+            FileModel file = await FindAll().OrderByDescending(x => x.ALLFId).FirstOrDefaultAsync(f => f.RefGid == objType && f.RefId == refId);
 
             file.Data = await ReadAllBytesAsync(Path.Combine(targetFolder, file.ALLFId.ToString()));
 
@@ -506,7 +506,7 @@ namespace PDWebCore.Repositories.Repo
         {
             string targetFolder = HostingEnvironment.MapPath("~/Uploads");
 
-            List<FileModel> File = await Get().Where(f => f.RefGid == objType && ids.Contains(f.RefId)).GroupBy(x => x.RefId).Select(x => x.OrderByDescending(a => a.ALLFId).FirstOrDefault()).ToListAsync();
+            List<FileModel> File = await FindAll().Where(f => f.RefGid == objType && ids.Contains(f.RefId)).GroupBy(x => x.RefId).Select(x => x.OrderByDescending(a => a.ALLFId).FirstOrDefault()).ToListAsync();
 
             List<Tuple<int, string, string>> targetPaths = new List<Tuple<int, string, string>>();
 

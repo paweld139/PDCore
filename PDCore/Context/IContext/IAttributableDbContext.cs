@@ -18,7 +18,7 @@ namespace PDCore.Context.IContext
         /// </summary>
         /// <typeparam name="T">Typ zapisywanego obiektu. Musi dziedziczyć po Attributable, czyli musi być atrybutowalny i posiadać bezparametrowy konstruktor</typeparam>
         /// <param name="list">Lista obiektów do zapisania</param>
-        void SaveChanges<T>(List<T> list) where T : Attributable, new();
+        void SaveChanges<T>(IEnumerable<T> list) where T : Attributable, new();
 
         /// <summary>
         /// Zapisanie danych w obiektu do bazy danych (utworzenie lub edycja w zależności od przekazywanego id).
@@ -78,6 +78,6 @@ namespace PDCore.Context.IContext
         /// </summary>
         /// <typeparam name="T">Typ obiektów do usunięcia. Muszą dziedziczyć po Attributable, czyli musi być atrybutowalny i posiadać bezparametrowy konstruktor</typeparam>
         /// <param name="list">Obiekty do usunięcia</param>
-        void Delete<T>(List<T> list) where T : Attributable, new();
+        void Delete<T>(IEnumerable<T> list) where T : Attributable, new();
     }
 }

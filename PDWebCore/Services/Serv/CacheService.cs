@@ -9,7 +9,7 @@ using System.Web.Caching;
 
 namespace PDWebCore.Services.Serv
 {
-    public class CacheService : Service, ICacheService
+    public class CacheService : ICacheService
     {
         public T GetOrSet<T>(string cacheKey, Func<T> getItemCallback) where T : class
         {

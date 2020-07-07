@@ -45,13 +45,24 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\Log.cs" />
     <Compile Include="InMemoryCache.cs" />
+    <Compile Include="Loggers\FileLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="log4net">
+      <Version>2.0.8</Version>
+    </PackageReference>
     <PackageReference Include="System.Reactive">
       <Version>4.4.1</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PDCore\PDCore.csproj">
+      <Project>{5AC8CB92-D1B0-4F43-A444-E8D5E747DB4D}</Project>
+      <Name>PDCore</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

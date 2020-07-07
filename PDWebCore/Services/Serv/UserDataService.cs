@@ -10,17 +10,18 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using PDCore.Repositories.IRepo;
 
 namespace PDWebCore.Services.Serv
 {
-    public class UserDataService : Service, IUserDataService
+    public class UserDataService : IUserDataService
     {
         private const string API_URL_FORMAT = "http://api.ipstack.com/{0}?access_key=33787ab45622e1c767d6857e593df627";
 
         private readonly WebClient webClient;
         private readonly IUserDataFactory userDataFactory;
-        private readonly IUserDataRepo userDataRepo;
-        public UserDataService(WebClient webClient, IUserDataFactory userDataFactory, IUserDataRepo userDataRepo)
+        private readonly ISqlRepositoryEntityFramework<UserDataModel> userDataRepo;
+        public UserDataService(WebClient webClient, IUserDataFactory userDataFactory, ISqlRepositoryEntityFramework<UserDataModel> userDataRepo)
         {
             this.webClient = webClient;
             this.userDataFactory = userDataFactory;
@@ -31,9 +32,9 @@ namespace PDWebCore.Services.Serv
         {
             var userData = await GetAsync();
 
-            userDataRepo.Save(userData);
+            userDataRepo.Add(userData);
 
-            await userDataRepo.SaveChangesAsync();
+            await userDataRepo.CommitAsync();
         }
 
         public async Task<UserDataModel> GetAsync()

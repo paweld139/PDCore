@@ -7,6 +7,7 @@ using System.Text;
 using System.Web.Mvc;
 using System.Threading.Tasks;
 using PDWebCore.Helpers.ExceptionHandling;
+using PDCore.Enums;
 
 namespace PDWebCore.Filters
 {

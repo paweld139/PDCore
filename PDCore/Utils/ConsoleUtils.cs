@@ -20,9 +20,9 @@ namespace PDCore.Utils
                 ReadKey(); //Oczekiwanie na wciśnięcie klawisza
         }
 
-        public static void WriteSeparator()
+        public static void WriteSeparator(bool readKey = false)
         {
-            Console.WriteLine("---");
+            WriteLine("---", readKey);
         }
 
         public static void WriteResult<T>(string info, T result)

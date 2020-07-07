@@ -10,22 +10,24 @@ using PDWebCore.Helpers;
 using System.Threading.Tasks;
 using PDWebCore.Helpers.ExceptionHandling;
 using System.Web;
+using PDCore.Enums;
+using log4net.Core;
+using System.IO;
+using PDCoreNew.Loggers;
+using PDWebCore.Loggers;
 
 namespace PDWebCore.Services.Serv
 {
-    public enum LogType
-    {
-        Debug,
-        Error,
-        Fatal,
-        Info,
-        Warn
-    }
-
     public static class LogService
     {
         private static Type DbContext;
-        
+        private static readonly FileLogger fileLogger;
+
+        static LogService()
+        {
+            fileLogger = new FileLogger();
+        }
+
         public static void EnableLogInDb<T>() where T : IMainDbContext, new()
         {
             DbContext = typeof(T);
@@ -64,48 +66,25 @@ namespace PDWebCore.Services.Serv
         }
 
         private async static Task DoLogAsync(string message, Exception exception, LogType logType, bool sync)
-        {         
+        {
             if (IsEnabledLogInDb)
             {
-                string result = string.Empty;
-
                 using (var dbContext = (IMainDbContext)Activator.CreateInstance(DbContext))
                 {
-                    using (var errorLogRepo = new LogRepo(dbContext))
+                    using (var logRepository = new LogRepo(dbContext))
                     {
-                        result = DbActionWrapper.Execute(() => errorLogRepo.Save(new LogModel(message, logType, HttpContext.Current.Request.Url.AbsoluteUri, exception)));
-
-                        if (WebUtils.WithoutErrors(result))
+                        using (var sqlServerLogger = new SqlServerLogger(logRepository))
                         {
-                            result = sync ? DbActionWrapper.Execute(errorLogRepo.SaveChanges) : await DbActionWrapper.ExecuteAsync(errorLogRepo.SaveChangesAsync);
+                            if (sync)
+                                sqlServerLogger.Log(message, exception, logType);
+                            else
+                                await sqlServerLogger.LogAsync(message, exception, logType);
                         }
                     }
                 }
-
-                if (!WebUtils.WithoutErrors(result))
-                {
-                    message = $"{message}; {result}";
-                }
             }
 
-            switch (logType)
-            {
-                case LogType.Debug:
-                    Helpers.Log.Debug(message, exception);
-                    break;
-                case LogType.Error:
-                    Helpers.Log.Error(message, exception);
-                    break;
-                case LogType.Fatal:
-                    Helpers.Log.Fatal(message, exception);
-                    break;
-                case LogType.Info:
-                    Helpers.Log.Info(message, exception);
-                    break;
-                case LogType.Warn:
-                    Helpers.Log.Warn(message, exception);
-                    break;
-            }
+            fileLogger.Log(message, exception, logType);
         }
     }
 }

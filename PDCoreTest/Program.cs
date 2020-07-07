@@ -28,6 +28,10 @@ namespace PDCoreTest
             _ = args;
 
 
+            TestNameOf();
+
+            WriteSeparator();
+
             TestCategoryCollection();
 
             WriteSeparator();
@@ -72,6 +76,17 @@ namespace PDCoreTest
 
 
             Console.ReadKey();
+        }
+
+        private static void TestNameOf()
+        {
+            NamedObject namedObject = new NamedObject("Nazwa");
+
+            string propertyName = namedObject.GetNameOf(x => x.Name);
+            string propertyName2 = namedObject.Name.GetName(() => namedObject.Name);
+
+            ConsoleUtils.WriteResult("Nazwa zmiennej Name z poziomu obiektu", propertyName);
+            ConsoleUtils.WriteResult("Nazwa zmiennej Name bezpośrednio", propertyName2);
         }
 
         private static void TestCategoryCollection()
@@ -124,8 +139,7 @@ namespace PDCoreTest
 
         private static void WriteSeparator()
         {
-            ConsoleUtils.WriteSeparator();
-            Console.Read();
+            ConsoleUtils.WriteSeparator(true);
         }
 
         private static void TestParseCSVToObjectAndDisplayObject()

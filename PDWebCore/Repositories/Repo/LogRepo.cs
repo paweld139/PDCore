@@ -10,8 +10,11 @@ using System.Text;
 
 namespace PDWebCore.Repositories.Repo
 {
-    public class LogRepo : RepositoryEntityFramework<LogModel>, ILogRepo
+    public class LogRepo : SqlRepositoryEntityFramework<LogModel>
     {
-        public LogRepo(IMainDbContext db) : base(db) { }
+        public LogRepo(IMainDbContext db) : base(db) 
+        { 
+
+        }
     }
 }
