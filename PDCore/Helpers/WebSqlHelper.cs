@@ -1,6 +1,7 @@
 ﻿using FTCore.CoreLibrary.AttributeApi;
 using FTCore.CoreLibrary.SQLLibrary;
 using Microsoft.VisualBasic.Logging;
+using PDCore.Extensions;
 using PDCore.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,9 @@ namespace PDCore.Helpers
 
         private ILogger Logger;
 
-        public void SaveChanges<T>(List<T> list) where T : Attributable, new()
+        public void SaveChanges<T>(IEnumerable<T> list) where T : Attributable, new()
         {
-            Savator.SaveObjectList(list, this);
+            Savator.SaveObjectList(list.ToList(), this);
         }
 
         public void SaveChanges<T>(T obj) where T : Attributable, new()
@@ -116,7 +117,7 @@ namespace PDCore.Helpers
             Savator.DeleteObject(obj, this);
         }
 
-        public void Delete<T>(List<T> list) where T : Attributable, new()
+        public void Delete<T>(IEnumerable<T> list) where T : Attributable, new()
         {
             list.ForEach(Delete);
         }
