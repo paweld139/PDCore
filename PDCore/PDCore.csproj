@@ -261,6 +261,7 @@
     <Compile Include="Interfaces\IEntity.cs" />
     <Compile Include="Interfaces\IFromCSVParseable.cs" />
     <Compile Include="Interfaces\IImportManagement.cs" />
+    <Compile Include="Interfaces\IInMemoryLogger.cs" />
     <Compile Include="Interfaces\ILogger.cs" />
     <Compile Include="Interfaces\IAsyncLogger.cs" />
     <Compile Include="Repositories\IRepo\IReadOnlyRepository.cs" />

@@ -45,11 +45,17 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Factories\ILogMessageFactory.cs" />
+    <Compile Include="Factories\LogMessageFactory.cs" />
     <Compile Include="Helpers\Log.cs" />
     <Compile Include="InMemoryCache.cs" />
     <Compile Include="Loggers\AsyncLogger.cs" />
+    <Compile Include="Loggers\ConsoleLogger.cs" />
     <Compile Include="Loggers\FileLogger.cs" />
+    <Compile Include="Loggers\InMemoryLogger.cs" />
     <Compile Include="Loggers\Logger.cs" />
+    <Compile Include="Loggers\StringLogger.cs" />
+    <Compile Include="Loggers\TraceLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
