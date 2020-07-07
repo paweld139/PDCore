@@ -19,7 +19,7 @@ namespace PDCore.Repositories.Repo
     {
         private readonly IAttributableDbContext db;
 
-        public RepositoryAttributable(IAttributableDbContext db, IAsyncLogger logger) : base(db, logger)
+        public RepositoryAttributable(IAttributableDbContext db, ILogger logger) : base(db, logger)
         {
             this.db = db;
         }

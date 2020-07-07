@@ -18,7 +18,7 @@ namespace PDWebCore.Repositories.Repo
         private readonly IEntityFrameworkDbContext ctx;
         private readonly DbSet<T> set;
 
-        public SqlRepositoryEntityFramework(IEntityFrameworkDbContext ctx, IAsyncLogger logger) : base(ctx, logger)
+        public SqlRepositoryEntityFramework(IEntityFrameworkDbContext ctx, ILogger logger) : base(ctx, logger)
         {
             this.ctx = ctx;
             set = this.ctx.Set<T>();

@@ -37,7 +37,6 @@ namespace PDCore.Repositories.Repo
             //
 
             db.Dispose();
-            logger.Dispose();
 
             disposed = true;
         }
@@ -48,9 +47,9 @@ namespace PDCore.Repositories.Repo
         }
 
         private readonly IDbContext db;
-        private readonly IAsyncLogger logger;
+        private readonly ILogger logger;
 
-        public SqlRepository(IDbContext db, IAsyncLogger logger)
+        public SqlRepository(IDbContext db, ILogger logger)
         {
             this.db = db;
             this.logger = logger;
