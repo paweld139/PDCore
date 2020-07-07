@@ -39,7 +39,7 @@ namespace PDWebCore.Repositories.Repo
             set.Attach(obj);
         }
 
-        public int Commit()
+        public override int Commit()
         {
             return ctx.SaveChanges(); //Zwraca ilość wierszy wziętych po uwagę
         }
@@ -59,12 +59,17 @@ namespace PDWebCore.Repositories.Repo
             set.RemoveRange(entities); ;
         }
 
-        public IQueryable<T> FindAll(bool asNoTracking = true)
+        public IQueryable<T> FindAll(bool asNoTracking)
         {
             if (asNoTracking)
                 return set.AsNoTracking();
 
             return set;
+        }
+
+        public override IQueryable<T> FindAll()
+        {
+            return FindAll(true);
         }
 
         public override T FindById(int id)

@@ -58,5 +58,21 @@ namespace PDCore.Repositories.Repo
         {
             db.Delete(list);
         }
+
+        public override IQueryable<T> FindAll()
+        {
+            List<T> entities = new List<T>();
+
+            var result = from entity in entities.AsQueryable() select entity;
+
+            string sql = result.ToString();
+
+            return null;
+        }
+
+        public override int Commit()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

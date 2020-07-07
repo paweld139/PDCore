@@ -10,9 +10,7 @@ namespace PDCore.Repositories.IRepo
     {
         Task<List<T>> GetAllAsync(bool asNoTracking = true);
 
-        IQueryable<T> FindAll(bool asNoTracking = true);
-
-        int Commit();
+        IQueryable<T> FindAll(bool asNoTracking);
 
         Task<int> CommitAsync();
 

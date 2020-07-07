@@ -69,5 +69,7 @@ namespace PDCore.Repositories.Repo
         public abstract void AddRange(IEnumerable<T> newEntities);
         public abstract void Delete(T entity);
         public abstract void DeleteRange(IEnumerable<T> entities);
+        public abstract IQueryable<T> FindAll();
+        public abstract int Commit();
     }
 }
