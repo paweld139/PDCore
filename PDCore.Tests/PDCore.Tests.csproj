@@ -57,6 +57,7 @@
     <Compile Include="Additional\GenericCollections\SortedTests.cs" />
     <Compile Include="Additional\GenericCollections\StackTests.cs" />
     <Compile Include="BookTests.cs" />
+    <Compile Include="CategoryCollectionTests.cs" />
     <Compile Include="CircularBufferTests.cs" />
     <Compile Include="ExtensionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

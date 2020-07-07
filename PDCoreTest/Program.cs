@@ -16,6 +16,8 @@ using PDWebCore;
 using PDCoreNew;
 using System.IO;
 using System.Runtime.InteropServices;
+using PDCore.Helpers.Wrappers;
+using PDCore.Helpers.DataStructures;
 
 namespace PDCoreTest
 {
@@ -24,6 +26,11 @@ namespace PDCoreTest
         static void Main(string[] args)
         {
             _ = args;
+
+
+            TestCategoryCollection();
+
+            WriteSeparator();
 
             TestConvertCSVToDataTableAndWriteDataTable();
 
@@ -65,6 +72,30 @@ namespace PDCoreTest
 
 
             Console.ReadKey();
+        }
+
+        private static void TestCategoryCollection()
+        {
+            Stopwatch stopwatch = new Stopwatch();
+
+            long time1 = stopwatch.Time(() =>
+            {
+                CategoryCollection categoryCollection = new CategoryCollection();
+
+                Enumerable.Range(0, 1000000).ForEach(x => categoryCollection.Add("Kategoria", new NamedObject("Nazwa")));
+            });
+
+            long time2 = stopwatch.Time(() =>
+            {
+                CategoryCollection categoryCollection = new CategoryCollection();
+
+                var itemsToAdd = Enumerable.Range(0, 1000000).Select(x => new NamedObject("Nazwa"));
+
+                categoryCollection.AddRange("Kategoria", itemsToAdd);
+            });
+
+            ConsoleUtils.WriteResult("Elementy dodane pojedynczo", time1);
+            ConsoleUtils.WriteResult("Elementy dodane wszystkie naraz", time2);
         }
 
         private static void TestConvertCSVToDataTableAndWriteDataTable()

@@ -104,10 +104,12 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\WinFormsExtensions.cs" />
     <Compile Include="Extensions\XMLExtension.cs" />
+    <Compile Include="Helpers\Comparers\NamedObjectComparer.cs" />
     <Compile Include="Helpers\DataStructures\Book\Book.cs" />
     <Compile Include="Helpers\DataStructures\Book\DiskBook.cs" />
     <Compile Include="Helpers\DataStructures\Book\IBook.cs" />
     <Compile Include="Helpers\DataStructures\Book\InMemoryBook.cs" />
+    <Compile Include="Helpers\DataStructures\CategoryCollection.cs" />
     <Compile Include="Helpers\NamedObject.cs" />
     <Compile Include="Helpers\Calculation\Digit.cs" />
     <Compile Include="Helpers\DataStructures\Buffer\Buffer.cs" />

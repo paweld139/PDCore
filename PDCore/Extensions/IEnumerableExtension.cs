@@ -99,7 +99,7 @@ namespace PDCore.Extensions
             {
                 return toAdd.Concat(source);
             }
-
+            
             return source.Concat(toAdd);
         }
 
@@ -121,6 +121,24 @@ namespace PDCore.Extensions
             _ = enumerable;
 
             return typeof(T);
+        }
+
+        public static SortedDictionary<K, V> ToSortedDictionary<K, V>(this Dictionary<K, V> existing)
+        {
+            return new SortedDictionary<K, V>(existing);
+        }
+
+        public static void Dump<T>(this IEnumerable<T> source, Action<T> print)
+        {
+            foreach (var item in source)
+            {
+                print(item);
+            }
+        }
+
+        public static IEnumerable<TOutput> Map<T, TOutput>(this IEnumerable<T> source, Converter<T, TOutput> converter)
+        {
+            return source.Select(i => converter(i)); //Mapowanie
         }
     }
 }

@@ -54,7 +54,7 @@ namespace PDCore.Extensions
             if (items == null)
             {
                 if (throwIfNull)
-                    throw new ArgumentException("Nie przekazano elementów do dodania.", ObjectUtils.GetNameOf(() => items));
+                    throw new ArgumentNullException(ObjectUtils.GetNameOf(() => items), "Nie przekazano elementów do dodania.");
                 else
                     return;
             }

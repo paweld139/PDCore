@@ -19,18 +19,19 @@ namespace PDCore.Helpers.WPF.Converters
 
             string kolorPL = value.ToString(); //Kolor w języku polskim jako string
 
-            Dictionary<string, Brush> kolory = new Dictionary<string, Brush>();
-            kolory.Add("Czarny", Brushes.Black);
-            kolory.Add("Czerwony", Brushes.Red);
-            kolory.Add("Żółty", Brushes.Yellow);
-            kolory.Add("Zielony", Brushes.Green);
-            kolory.Add("Niebieski", Brushes.Blue);
+            Dictionary<string, Brush> kolory = new Dictionary<string, Brush>
+            {
+                { "Czarny", Brushes.Black },
+                { "Czerwony", Brushes.Red },
+                { "Żółty", Brushes.Yellow },
+                { "Zielony", Brushes.Green },
+                { "Niebieski", Brushes.Blue }
+            };
 
-            Brush result = Brushes.LightGray;
 
-            kolory.TryGetValue(kolorPL, out result);
+            kolory.TryGetValue(kolorPL, out Brush result);
 
-            return result;
+            return result ?? Brushes.LightGray;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

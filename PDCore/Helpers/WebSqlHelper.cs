@@ -89,9 +89,10 @@ namespace PDCore.Helpers
 
         public T Load<T>(int id) where T : Attributable, new()
         {
-            T o = new T();
-
-            o.ObjectID = id;
+            T o = new T
+            {
+                ObjectID = id
+            };
 
             Savator.FillObject(o, this);
 

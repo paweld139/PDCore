@@ -135,7 +135,7 @@ namespace PDCore.Tests.Additional
             var book2 = book1;
 
             Assert.AreSame(book1, book2);
-            Assert.IsTrue(Object.ReferenceEquals(book1, book2));
+            Assert.IsTrue(ReferenceEquals(book1, book2));
         }
 
         InMemoryBook GetBook(string name)
