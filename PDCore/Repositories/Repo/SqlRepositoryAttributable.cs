@@ -15,11 +15,11 @@ namespace PDCore.Repositories.Repo
     // A base class that implements IDisposable.
     // By implementing IDisposable, you are announcing that
     // instances of this type allocate scarce resources.
-    public class RepositoryAttributable<T> : SqlRepository<T> where T : Attributable, new()
+    public class SqlRepositoryAttributable<T> : SqlRepository<T> where T : Attributable, new()
     {
         private readonly IAttributableDbContext db;
 
-        public RepositoryAttributable(IAttributableDbContext db, ILogger logger) : base(db, logger)
+        public SqlRepositoryAttributable(IAttributableDbContext db, ILogger logger) : base(db, logger)
         {
             this.db = db;
         }
