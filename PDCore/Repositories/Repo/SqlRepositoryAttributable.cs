@@ -61,13 +61,7 @@ namespace PDCore.Repositories.Repo
 
         public override IQueryable<T> FindAll()
         {
-            List<T> entities = new List<T>();
-
-            var result = from entity in entities.AsQueryable() select entity;
-
-            string sql = result.ToString();
-
-            return null;
+            throw new NotImplementedException();
         }
 
         public override int Commit()
