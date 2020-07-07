@@ -12,7 +12,7 @@ namespace PDWebCore.Repositories.Repo
 {
     public sealed class UserDataRepo : SqlRepositoryEntityFramework<UserDataModel>, IUserDataRepo
     {
-        public UserDataRepo(IMainDbContext db, IAsyncLogger logger) : base(db, logger)
+        public UserDataRepo(IMainDbContext db, ILogger logger) : base(db, logger)
         {
 
         }
