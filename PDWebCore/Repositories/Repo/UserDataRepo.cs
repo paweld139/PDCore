@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace PDWebCore.Repositories.Repo
 {
-    public sealed class UserDataRepo : SqlRepositoryEntityFramework<UserDataModel>
+    public sealed class UserDataRepo : SqlRepositoryEntityFramework<UserDataModel>, IUserDataRepo
     {
         public UserDataRepo(IMainDbContext db, IAsyncLogger logger) : base(db, logger)
         {

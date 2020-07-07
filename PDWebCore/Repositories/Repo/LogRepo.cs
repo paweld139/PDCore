@@ -11,7 +11,7 @@ using System.Text;
 
 namespace PDWebCore.Repositories.Repo
 {
-    public sealed class LogRepo : SqlRepositoryEntityFramework<LogModel>
+    public sealed class LogRepo : SqlRepositoryEntityFramework<LogModel>, ILogRepo
     {
         public LogRepo(IMainDbContext db, IAsyncLogger logger) : base(db, logger) 
         { 
