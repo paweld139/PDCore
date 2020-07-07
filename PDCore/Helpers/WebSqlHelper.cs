@@ -1,5 +1,7 @@
 ﻿using FTCore.CoreLibrary.AttributeApi;
 using FTCore.CoreLibrary.SQLLibrary;
+using Microsoft.VisualBasic.Logging;
+using PDCore.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,6 +14,8 @@ namespace PDCore.Helpers
     public class WebSqlHelper : LocalSqlHelper
     {
         public WebSqlHelper(string connectionString) : base(connectionString) { }
+
+        private ILogger Logger;
 
         public void SaveChanges<T>(List<T> list) where T : Attributable, new()
         {
@@ -51,9 +55,11 @@ namespace PDCore.Helpers
             {
                 StopWatch.Stop();
 
-                Trace.WriteLine(string.Format("{5}GetDataTable [{0}][{1}]{2} {3} [{4} ms]{5}",
+                string message = string.Format("{5}GetDataTable [{0}][{1}]{2} {3} [{4} ms]{5}",
                     DateTime.Now, base.ConnectionString, string.Empty/*Environment.NewLine + Environment.StackTrace*/,
-                    (Environment.NewLine + query), StopWatch.ElapsedMilliseconds, Environment.NewLine));
+                    (Environment.NewLine + query), StopWatch.ElapsedMilliseconds, Environment.NewLine);
+
+                Logger.Log(message);
 
                 StopWatch.Reset();
             }
@@ -117,7 +123,7 @@ namespace PDCore.Helpers
 
         public bool IsLoggingEnabled { get; private set; }
 
-        public void SetLogging(bool res)
+        public void SetLogging(bool res, ILogger logger)
         {
             if (res == IsLoggingEnabled)
             {
@@ -125,6 +131,15 @@ namespace PDCore.Helpers
             }
 
             IsLoggingEnabled = res;
+
+            if (res)
+            {
+                Logger = logger;
+            }
+            else
+            {
+                Logger = null;
+            }
         }
     }
 }

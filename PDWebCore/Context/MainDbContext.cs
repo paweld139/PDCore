@@ -50,6 +50,8 @@ namespace PDWebCore.Context
                 return;
             }
 
+            IsLoggingEnabled = res;
+
             if (res)
             {
                 Database.Log = logger.Log;
