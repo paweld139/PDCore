@@ -9,19 +9,9 @@ using PDCoreNew.Helpers;
 
 namespace PDCoreNew.Loggers
 {
-    public class FileLogger : ILogger
+    public class FileLogger : Logger
     {
-        public void Log(Exception exception, LogType logType)
-        {
-            Log(string.Empty, exception, logType);
-        }
-
-        public void Log(string message, LogType logType)
-        {
-            Log(message, null, logType);
-        }
-
-        public void Log(string message, Exception exception, LogType logType)
+        public override void Log(string message, Exception exception, LogType logType)
         {
             switch (logType)
             {

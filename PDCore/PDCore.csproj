@@ -262,7 +262,7 @@
     <Compile Include="Interfaces\IFromCSVParseable.cs" />
     <Compile Include="Interfaces\IImportManagement.cs" />
     <Compile Include="Interfaces\ILogger.cs" />
-    <Compile Include="Interfaces\ISqlServerLogger.cs" />
+    <Compile Include="Interfaces\IAsyncLogger.cs" />
     <Compile Include="Repositories\IRepo\IReadOnlyRepository.cs" />
     <Compile Include="Repositories\IRepo\IRepository.cs" />
     <Compile Include="Repositories\IRepo\ISqlRepository.cs" />
@@ -280,7 +280,6 @@
     <Compile Include="Utils\StringUtils.cs" />
     <Compile Include="Utils\WebUtils.cs" />
     <Compile Include="Helpers\WebSqlHelper.cs" />
-    <Compile Include="Repositories\Repo\Repository.cs" />
     <Compile Include="Context\IContext\IAttributableDbContext.cs" />
     <Compile Include="Context\IContext\IDbContext.cs" />
     <Compile Include="Helpers\ImportHelper.cs" />
@@ -291,7 +290,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IRepo\IRepo.cs" />
     <Compile Include="Repositories\Repo\RepositoryAttributable.cs" />
-    <Compile Include="Repositories\Repo\RepositoryBase.cs" />
     <Compile Include="Services\Service.cs" />
     <Compile Include="Utils\WinFormsUtils.cs" />
     <Compile Include="Utils\XMLUtils.cs" />

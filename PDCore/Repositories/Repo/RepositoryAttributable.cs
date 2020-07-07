@@ -2,6 +2,7 @@
 using FTCore.CoreLibrary.SQLLibrary;
 using PDCore.Context.IContext;
 using PDCore.Helpers;
+using PDCore.Interfaces;
 using PDCore.Utils;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,8 @@ namespace PDCore.Repositories.Repo
     public class RepositoryAttributable<T> : SqlRepository<T> where T : Attributable, new()
     {
         private readonly IAttributableDbContext db;
-        public RepositoryAttributable(IAttributableDbContext db) : base(db)
+
+        public RepositoryAttributable(IAttributableDbContext db, IAsyncLogger logger) : base(db, logger)
         {
             this.db = db;
         }

@@ -14,5 +14,7 @@ namespace PDCore.Interfaces
         void Log(string message, LogType logType);
 
         void Log(Exception exception, LogType logType);
+
+        void Log(string message);
     }
 }

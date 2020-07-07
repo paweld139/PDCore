@@ -1,4 +1,5 @@
-﻿using PDCore.Repositories.Repo;
+﻿using PDCore.Interfaces;
+using PDCore.Repositories.Repo;
 using PDWebCore.Context.IContext;
 using PDWebCore.Models;
 using PDWebCore.Repositories.IRepo;
@@ -10,9 +11,9 @@ using System.Text;
 
 namespace PDWebCore.Repositories.Repo
 {
-    public class LogRepo : SqlRepositoryEntityFramework<LogModel>
+    public sealed class LogRepo : SqlRepositoryEntityFramework<LogModel>
     {
-        public LogRepo(IMainDbContext db) : base(db) 
+        public LogRepo(IMainDbContext db, IAsyncLogger logger) : base(db, logger) 
         { 
 
         }

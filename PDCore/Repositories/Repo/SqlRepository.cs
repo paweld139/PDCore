@@ -1,4 +1,5 @@
 ﻿using PDCore.Context.IContext;
+using PDCore.Interfaces;
 using PDCore.Repositories.IRepo;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,8 @@ namespace PDCore.Repositories.Repo
             // Free any unmanaged objects here.
             //
 
-            _db.Dispose();
+            db.Dispose();
+            logger.Dispose();
 
             disposed = true;
         }
@@ -45,17 +47,20 @@ namespace PDCore.Repositories.Repo
             Dispose(false);
         }
 
-        private readonly IDbContext _db;
-        public SqlRepository(IDbContext db)
+        private readonly IDbContext db;
+        private readonly IAsyncLogger logger;
+
+        public SqlRepository(IDbContext db, IAsyncLogger logger)
         {
-            _db = db;
+            this.db = db;
+            this.logger = logger;
         }
 
-        public bool IsLoggingEnabled => _db.IsLoggingEnabled;
+        public bool IsLoggingEnabled => db.IsLoggingEnabled;
 
         public virtual void SetLogging(bool res)
         {
-            _db.SetLogging(res);
+            db.SetLogging(res, logger);
         }
 
         public abstract List<T> GetByWhere(string where);

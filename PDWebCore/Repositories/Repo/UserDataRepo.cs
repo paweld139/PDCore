@@ -1,4 +1,5 @@
-﻿using PDWebCore.Context.IContext;
+﻿using PDCore.Interfaces;
+using PDWebCore.Context.IContext;
 using PDWebCore.Models;
 using PDWebCore.Repositories.IRepo;
 using System;
@@ -9,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace PDWebCore.Repositories.Repo
 {
-    public class UserDataRepo : SqlRepositoryEntityFramework<UserDataModel>
+    public sealed class UserDataRepo : SqlRepositoryEntityFramework<UserDataModel>
     {
-        public UserDataRepo(IMainDbContext db) : base(db)
+        public UserDataRepo(IMainDbContext db, IAsyncLogger logger) : base(db, logger)
         {
 
         }

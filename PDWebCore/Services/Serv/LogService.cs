@@ -35,16 +35,6 @@ namespace PDWebCore.Services.Serv
 
         public static bool IsEnabledLogInDb => DbContext != null;
 
-        public static void Log(Exception exception, LogType logType)
-        {
-            Log(string.Empty, exception, logType);
-        }
-
-        public static Task LogAsync(Exception exception, LogType logType)
-        {
-            return LogAsync(string.Empty, exception, logType);
-        }
-
         public static void Log(string message, Exception exception, LogType logType)
         {
             DoLogAsync(message, exception, logType, true).Wait();
@@ -55,14 +45,24 @@ namespace PDWebCore.Services.Serv
             return DoLogAsync(message, exception, logType, false);
         }
 
+        public static void Log(Exception exception, LogType logType)
+        {
+            Log(string.Empty, exception, logType);
+        }
+
+        public static Task LogAsync(Exception exception, LogType logType)
+        {
+            return LogAsync(string.Empty, exception, logType);
+        }
+
         public static void Log(string message, LogType logType)
         {
-            DoLogAsync(message, null, logType, true).Wait();
+            Log(message, null, logType);
         }
 
         public static Task LogAsync(string message, LogType logType)
         {
-            return DoLogAsync(message, null, logType, false);
+            return LogAsync(message, null, logType);
         }
 
         private async static Task DoLogAsync(string message, Exception exception, LogType logType, bool sync)
@@ -71,7 +71,7 @@ namespace PDWebCore.Services.Serv
             {
                 using (var dbContext = (IMainDbContext)Activator.CreateInstance(DbContext))
                 {
-                    using (var logRepository = new LogRepo(dbContext))
+                    using (var logRepository = new LogRepo(dbContext, null))
                     {
                         using (var sqlServerLogger = new SqlServerLogger(logRepository))
                         {

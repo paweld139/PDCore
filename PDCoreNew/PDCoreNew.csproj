@@ -47,7 +47,9 @@
   <ItemGroup>
     <Compile Include="Helpers\Log.cs" />
     <Compile Include="InMemoryCache.cs" />
+    <Compile Include="Loggers\AsyncLogger.cs" />
     <Compile Include="Loggers\FileLogger.cs" />
+    <Compile Include="Loggers\Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

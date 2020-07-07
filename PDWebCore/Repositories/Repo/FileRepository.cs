@@ -1,4 +1,5 @@
-﻿using PDCore.Repositories.Repo;
+﻿using PDCore.Interfaces;
+using PDCore.Repositories.Repo;
 using PDWebCore.Context.IContext;
 using PDWebCore.Models;
 using PDWebCore.Repositories.IRepo;
@@ -14,10 +15,10 @@ using System.Web.Hosting;
 
 namespace PDWebCore.Repositories.Repo
 {
-    public class FileRepository : SqlRepositoryEntityFramework<FileModel>, IFileRepository
+    public sealed class FileRepository : SqlRepositoryEntityFramework<FileModel>, IFileRepository
     {
         public readonly IMainDbContext _db;
-        public FileRepository(IMainDbContext db) : base(db)
+        public FileRepository(IMainDbContext db, IAsyncLogger logger) : base(db, logger)
         {
             _db = db;
         }

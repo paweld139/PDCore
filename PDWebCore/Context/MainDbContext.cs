@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
+using PDCore.Interfaces;
 using PDWebCore.Context.IContext;
 using PDWebCore.Models;
 using System;
@@ -42,7 +43,7 @@ namespace PDWebCore.Context
 
         public bool IsLoggingEnabled { get; private set; }
 
-        public void SetLogging(bool res)
+        public void SetLogging(bool res, ILogger logger)
         {
             if (res == IsLoggingEnabled)
             {
@@ -51,7 +52,7 @@ namespace PDWebCore.Context
 
             if (res)
             {
-                Database.Log = message => Trace.WriteLine(message);
+                Database.Log = logger.Log;
             }
             else
             {

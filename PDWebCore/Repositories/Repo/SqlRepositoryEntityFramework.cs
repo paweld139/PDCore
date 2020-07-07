@@ -1,4 +1,5 @@
-﻿using PDCore.Repositories.IRepo;
+﻿using PDCore.Interfaces;
+using PDCore.Repositories.IRepo;
 using PDCore.Repositories.Repo;
 using PDCore.Utils;
 using PDWebCore.Context.IContext;
@@ -14,66 +15,66 @@ namespace PDWebCore.Repositories.Repo
 {
     public class SqlRepositoryEntityFramework<T> : SqlRepository<T>, ISqlRepositoryEntityFramework<T> where T : class
     {
-        private readonly IEntityFrameworkDbContext _ctx;
-        private readonly DbSet<T> _set;
+        private readonly IEntityFrameworkDbContext ctx;
+        private readonly DbSet<T> set;
 
-        public SqlRepositoryEntityFramework(IEntityFrameworkDbContext ctx) : base(ctx)
+        public SqlRepositoryEntityFramework(IEntityFrameworkDbContext ctx, IAsyncLogger logger) : base(ctx, logger)
         {
-            _ctx = ctx;
-            _set = _ctx.Set<T>();
+            this.ctx = ctx;
+            set = this.ctx.Set<T>();
         }
 
         public override void Add(T newEntity)
         {
-            _set.Add(newEntity);
+            set.Add(newEntity);
         }
 
         public override void AddRange(IEnumerable<T> newEntities)
         {
-            _set.AddRange(newEntities);
+            set.AddRange(newEntities);
         }
 
         public void Attach(T obj)
         {
-            _set.Attach(obj);
+            set.Attach(obj);
         }
 
         public int Commit()
         {
-            return _ctx.SaveChanges(); //Zwraca ilość wierszy wziętych po uwagę
+            return ctx.SaveChanges(); //Zwraca ilość wierszy wziętych po uwagę
         }
 
         public Task<int> CommitAsync()
         {
-            return _ctx.SaveChangesAsync();
+            return ctx.SaveChangesAsync();
         }
 
         public override void Delete(T entity)
         {
-            _set.Remove(entity);
+            set.Remove(entity);
         }
 
         public override void DeleteRange(IEnumerable<T> entities)
         {
-            _set.RemoveRange(entities); ;
+            set.RemoveRange(entities); ;
         }
 
         public IQueryable<T> FindAll(bool asNoTracking = true)
         {
             if (asNoTracking)
-                return _set.AsNoTracking();
+                return set.AsNoTracking();
 
-            return _set;
+            return set;
         }
 
         public override T FindById(int id)
         {
-            return _set.Find(id);
+            return set.Find(id);
         }
 
         public Task<T> FindByIdAsync(int id)
         {
-            return _set.FindAsync(id);
+            return set.FindAsync(id);
         }
 
         public Task<List<T>> GetAllAsync(bool asNoTracking = true)
@@ -83,7 +84,7 @@ namespace PDWebCore.Repositories.Repo
 
         private string GetQuery(string where)
         {
-            string tableName = _ctx.GetTableName<T>();
+            string tableName = ctx.GetTableName<T>();
 
             string query = SqlUtils.SQLQuery(tableName, selection: where);
 
@@ -94,7 +95,7 @@ namespace PDWebCore.Repositories.Repo
         {
             string query = GetQuery(where);
 
-            return _set.SqlQuery(query).ToList();
+            return set.SqlQuery(query).ToList();
         }
 
         public override DataTable GetDataTableByWhere(string where)

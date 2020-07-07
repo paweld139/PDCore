@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PDCore.Interfaces
 {
-    public interface ISqlServerLogger : ILogger, IDisposable
+    public interface IAsyncLogger : ILogger, IDisposable
     {
         Task LogAsync(string message, Exception exception, LogType logType);
 

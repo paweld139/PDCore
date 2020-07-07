@@ -14,7 +14,7 @@ using System.Web;
 
 namespace PDWebCore.Loggers
 {
-    public class SqlServerLogger : ISqlServerLogger
+    public class SqlServerLogger : AsyncLogger
     {
         private readonly ISqlRepositoryEntityFramework<LogModel> logRepository;
         private static readonly Lazy<FileLogger> fileLogger = new Lazy<FileLogger>();
@@ -24,37 +24,7 @@ namespace PDWebCore.Loggers
             this.logRepository = logRepository;
         }
 
-        public void Log(Exception exception, LogType logType)
-        {
-            Log(string.Empty, exception, logType);
-        }
-
-        public Task LogAsync(Exception exception, LogType logType)
-        {
-            return LogAsync(string.Empty, exception, logType);
-        }
-
-        public void Log(string message, Exception exception, LogType logType)
-        {
-            DoLogAsync(message, exception, logType, true).Wait();
-        }
-
-        public Task LogAsync(string message, Exception exception, LogType logType)
-        {
-            return DoLogAsync(message, exception, logType, false);
-        }
-
-        public void Log(string message, LogType logType)
-        {
-            DoLogAsync(message, null, logType, true).Wait();
-        }
-
-        public Task LogAsync(string message, LogType logType)
-        {
-            return DoLogAsync(message, null, logType, false);
-        }
-
-        private async Task DoLogAsync(string message, Exception exception, LogType logType, bool sync)
+        protected override async Task DoLogAsync(string message, Exception exception, LogType logType, bool sync)
         {
             string result = string.Empty;
 
@@ -70,10 +40,10 @@ namespace PDWebCore.Loggers
                 message = $"{message}; {result}";
 
                 fileLogger.Value.Log(message, exception, logType);
-            }           
+            }
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             logRepository.Dispose();
         }
