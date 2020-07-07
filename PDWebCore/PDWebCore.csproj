@@ -76,10 +76,8 @@
     <Compile Include="Repositories\IRepo\IErrorLogRepo.cs" />
     <Compile Include="Repositories\IRepo\IFileRepository.cs" />
     <Compile Include="Repositories\IRepo\IUserDataRepo.cs" />
-    <Compile Include="Repositories\Repo\LogRepo.cs" />
     <Compile Include="Repositories\Repo\FileRepository.cs" />
     <Compile Include="Repositories\Repo\SqlRepositoryEntityFramework.cs" />
-    <Compile Include="Repositories\Repo\UserDataRepo.cs" />
     <Compile Include="Services\IServ\ICacheService.cs" />
     <Compile Include="Services\IServ\IErrorLogService.cs" />
     <Compile Include="Services\IServ\IUserDataService.cs" />
