@@ -45,7 +45,7 @@ namespace PDWebCore.Context
 
         public void SetLogging(bool res, ILogger logger)
         {
-            if (res == IsLoggingEnabled)
+            if (res == IsLoggingEnabled || logger == null)
             {
                 return;
             }

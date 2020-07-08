@@ -126,7 +126,7 @@ namespace PDCore.Helpers
 
         public void SetLogging(bool res, ILogger logger)
         {
-            if (res == IsLoggingEnabled)
+            if (res == IsLoggingEnabled || logger == null)
             {
                 return;
             }

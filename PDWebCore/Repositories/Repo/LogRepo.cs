@@ -13,7 +13,7 @@ namespace PDWebCore.Repositories.Repo
 {
     public sealed class LogRepo : SqlRepositoryEntityFramework<LogModel>, ILogRepo
     {
-        public LogRepo(IMainDbContext db, ILogger logger) : base(db, logger) 
+        public LogRepo(IMainDbContext db) : base(db, null) 
         { 
 
         }
