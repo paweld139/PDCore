@@ -5,6 +5,7 @@ using PDCore.Utils;
 using PDCoreNew.Loggers;
 using PDWebCore.Helpers.ExceptionHandling;
 using PDWebCore.Models;
+using PDWebCore.Repositories.IRepo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +17,10 @@ namespace PDWebCore.Loggers
 {
     public class SqlServerLogger : AsyncLogger
     {
-        private readonly ISqlRepositoryEntityFramework<LogModel> logRepository;
+        private readonly ILogRepo logRepository;
         private static readonly Lazy<FileLogger> fileLogger = new Lazy<FileLogger>();
 
-        public SqlServerLogger(ISqlRepositoryEntityFramework<LogModel> logRepository)
+        public SqlServerLogger(ILogRepo logRepository)
         {
             this.logRepository = logRepository;
         }
