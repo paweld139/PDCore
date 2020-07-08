@@ -87,18 +87,9 @@ namespace PDWebCore.Repositories.Repo
             return FindAll(asNoTracking).ToListAsync();
         }
 
-        private string GetQuery(string where)
-        {
-            string tableName = ctx.GetTableName<T>();
-
-            string query = SqlUtils.SQLQuery(tableName, selection: where);
-
-            return query;
-        }
-
         public override List<T> GetByWhere(string where)
         {
-            string query = GetQuery(where);
+            string query = ctx.GetQuery<T>(where);
 
             return set.SqlQuery(query).ToList();
         }
@@ -108,6 +99,11 @@ namespace PDWebCore.Repositories.Repo
             var list = GetByWhere(where);
 
             return ObjectUtils.CreateDataTable(list);
+        }
+
+        public Task<int> GetCountAsync()
+        {
+            return FindAll().CountAsync();
         }
     }
 }

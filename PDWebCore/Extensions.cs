@@ -20,6 +20,7 @@ using PDWebCore.Repositories.IRepo;
 using PDWebCore.Helpers;
 using System.Net.Http;
 using PDCore.Helpers.Wrappers.DisposableWrapper;
+using PDCore.Utils;
 
 namespace System.ComponentModel.DataAnnotations
 {
@@ -134,9 +135,7 @@ namespace PDWebCore
 
         public static string GetTableName<T>(this IEntityFrameworkDbContext context) where T : class
         {
-            ObjectContext objectContext = ((IObjectContextAdapter)context).ObjectContext;
-
-            return objectContext.GetTableName<T>();
+            return (context as DbContext).GetTableName<T>();
         }
 
         public static string GetTableName<T>(this ObjectContext context) where T : class
@@ -171,6 +170,15 @@ namespace PDWebCore
             }
 
             return Guid.Empty;
+        }
+
+        public static string GetQuery<T>(this IEntityFrameworkDbContext context, string where) where T : class
+        {
+            string tableName = context.GetTableName<T>();
+
+            string query = SqlUtils.SQLQuery(tableName, selection: where);
+
+            return query;
         }
     }
 }

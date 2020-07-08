@@ -17,5 +17,7 @@ namespace PDCore.Repositories.IRepo
         Task<T> FindByIdAsync(int id);
 
         void Attach(T obj);
+
+        Task<int> GetCountAsync();
     }
 }
