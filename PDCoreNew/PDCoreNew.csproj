@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Factories\ILogMessageFactory.cs" />
     <Compile Include="Factories\LogMessageFactory.cs" />
+    <Compile Include="Helpers\Container.cs" />
     <Compile Include="Helpers\Log.cs" />
     <Compile Include="InMemoryCache.cs" />
     <Compile Include="Loggers\AsyncLogger.cs" />

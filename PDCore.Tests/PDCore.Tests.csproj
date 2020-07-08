@@ -59,6 +59,9 @@
     <Compile Include="BookTests.cs" />
     <Compile Include="CategoryCollectionTests.cs" />
     <Compile Include="CircularBufferTests.cs" />
+    <Compile Include="Data\Model.cs" />
+    <Compile Include="Data\Service.cs" />
+    <Compile Include="IoCTests.cs" />
     <Compile Include="ExtensionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Additional\TypeTests.cs" />
@@ -67,6 +70,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PDCoreNew\PDCoreNew.csproj">
+      <Project>{81F5C1D9-664B-4300-98E6-99AEDA748C2A}</Project>
+      <Name>PDCoreNew</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PDCore\PDCore.csproj">
       <Project>{5ac8cb92-d1b0-4f43-a444-e8d5e747db4d}</Project>
       <Name>PDCore</Name>
