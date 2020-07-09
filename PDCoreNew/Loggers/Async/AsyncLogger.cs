@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PDCoreNew.Loggers
+namespace PDCoreNew.Loggers.Async
 {
     public abstract class AsyncLogger : Logger, IAsyncLogger
     {

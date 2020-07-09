@@ -1,6 +1,7 @@
 ﻿using PDCore.Enums;
 using PDCore.Repositories.IRepo;
 using PDCoreNew.Loggers;
+using PDCoreNew.Loggers.Async;
 using PDCoreNew.Models;
 using PDCoreNew.Repositories.IRepo;
 using System;
@@ -10,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace PDWebCore.Services.Serv
+namespace PDWebCore.Loggers
 {
     public class SqlServerWebLogger : SqlServerLogger
     {

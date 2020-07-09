@@ -23,6 +23,7 @@ using PDCoreTest.Factory;
 using PDCoreNew.Factories.Fac;
 using PDCoreNew.Services.IServ;
 using PDCoreNew.Services.Serv;
+using PDCoreNew.Loggers.Factory;
 
 namespace PDCoreTest
 {
@@ -32,6 +33,10 @@ namespace PDCoreTest
         {
             _ = args;
 
+
+            TestLoggerFactory();
+
+            WriteSeparator();
 
             TestFactory();
 
@@ -89,6 +94,11 @@ namespace PDCoreTest
 
 
             Console.ReadKey();
+        }
+
+        private static void TestLoggerFactory()
+        {
+            LoggerFactory.InitializeLoggers().ExecuteCreation(Loggers.Console).Log("Wiadomość", LogType.Fatal);
         }
 
         private static void TestFactory()

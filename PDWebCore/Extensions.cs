@@ -1,28 +1,13 @@
-﻿using System;
+﻿using PDWebCore.Models;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
 using System.IO;
-using PDWebCore.Models;
-using System.Web;
-using System.Text.RegularExpressions;
-using System.Data.Entity;
-using System.Data.Entity.Core.Objects;
-using System.Data.Entity.Infrastructure;
-using PDCore.Context.IContext;
-using PDWebCore.Context.IContext;
-using System.Data.Entity.Validation;
-using PDCore.Helpers;
-using PDWebCore.Helpers.ExceptionHandling;
-using PDWebCore.Helpers;
+using System.Linq;
 using System.Net.Http;
-using PDCore.Helpers.Wrappers.DisposableWrapper;
-using PDCore.Utils;
-using PDCoreNew.Context.IContext;
-using PDCoreNew.Repositories.IRepo;
-using PDCoreNew.Helpers;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Web;
+using System.Web.Mvc;
 
 namespace System.ComponentModel.DataAnnotations
 {

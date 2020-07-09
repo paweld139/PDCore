@@ -50,6 +50,7 @@
     <Compile Include="Context\IContext\IHasLogDbSet.cs" />
     <Compile Include="Context\IContext\IHasFileDbSet.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Factories\IFac\IFactory.cs" />
     <Compile Include="Factories\IFac\ILogMessageFactory.cs" />
     <Compile Include="Helpers\AsyncHelpers.cs" />
     <Compile Include="Helpers\ExceptionHandling\DbActionWrapper.cs" />
@@ -63,12 +64,12 @@
     <Compile Include="Repositories\IRepo\ILogRepo.cs" />
     <Compile Include="Repositories\Repo\LogRepo.cs" />
     <Compile Include="Services\Serv\CacheService.cs" />
-    <Compile Include="Loggers\AsyncLogger.cs" />
+    <Compile Include="Loggers\Async\AsyncLogger.cs" />
     <Compile Include="Loggers\ConsoleLogger.cs" />
     <Compile Include="Loggers\FileLogger.cs" />
     <Compile Include="Loggers\InMemoryLogger.cs" />
     <Compile Include="Loggers\Logger.cs" />
-    <Compile Include="Loggers\SqlServerLogger.cs" />
+    <Compile Include="Loggers\Async\SqlServerLogger.cs" />
     <Compile Include="Loggers\StringLogger.cs" />
     <Compile Include="Loggers\TraceLogger.cs" />
     <Compile Include="Models\LogModel.cs" />
