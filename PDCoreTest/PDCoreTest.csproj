@@ -45,6 +45,14 @@
   <ItemGroup>
     <Compile Include="Customer.cs" />
     <Compile Include="CustomerMap.cs" />
+    <Compile Include="Factory\Actions.cs" />
+    <Compile Include="Factory\AirConditioner.cs" />
+    <Compile Include="Factory\Factories\AirConditionerFactory.cs" />
+    <Compile Include="Factory\Factories\CoolingFactory.cs" />
+    <Compile Include="Factory\Factories\WarmingFactory.cs" />
+    <Compile Include="Factory\Managers\IAirConditioner.cs" />
+    <Compile Include="Factory\Managers\CoolingManager.cs" />
+    <Compile Include="Factory\Managers\WarmingManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

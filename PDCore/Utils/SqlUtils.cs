@@ -71,12 +71,9 @@ namespace PDCore.Utils
 
             if (!StringUtils.AreNullOrWhiteSpace(dateF, dateT))
             {
-                DateTime dateFrom;
-                DateTime dateTo;
+                DateTime.TryParse(dateF, out DateTime dateFrom);
 
-                DateTime.TryParse(dateF, out dateFrom);
-
-                DateTime.TryParse(dateT, out dateTo);
+                DateTime.TryParse(dateT, out DateTime dateTo);
 
                 if (dateTo != DateTime.MinValue)
                 {

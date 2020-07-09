@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using PDCore.Interfaces;
+using PDCoreNew.Models;
 using PDWebCore.Context.IContext;
 using PDWebCore.Models;
 using System;

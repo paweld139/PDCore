@@ -93,6 +93,7 @@
     <Compile Include="Clients\Soap\SoapWebServiceTwoCertificatesClient.cs" />
     <Compile Include="Enums\CertificateType.cs" />
     <Compile Include="Enums\HorizontalTextAlignment.cs" />
+    <Compile Include="Enums\Loggers.cs" />
     <Compile Include="Enums\LogType.cs" />
     <Compile Include="Extensions\CompresExtension.cs" />
     <Compile Include="Extensions\DataTableExtension.cs" />

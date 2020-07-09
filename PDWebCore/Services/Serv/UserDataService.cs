@@ -2,7 +2,6 @@
 using PDCore.Utils;
 using PDWebCore.Factories.IFac;
 using PDWebCore.Models;
-using PDWebCore.Repositories.IRepo;
 using PDWebCore.Services.IServ;
 using System;
 using System.Collections.Generic;
@@ -20,8 +19,8 @@ namespace PDWebCore.Services.Serv
 
         private readonly WebClient webClient;
         private readonly IUserDataFactory userDataFactory;
-        private readonly IUserDataRepo userDataRepo;
-        public UserDataService(WebClient webClient, IUserDataFactory userDataFactory, IUserDataRepo userDataRepo)
+        private readonly ISqlRepositoryEntityFramework<UserDataModel> userDataRepo;
+        public UserDataService(WebClient webClient, IUserDataFactory userDataFactory, ISqlRepositoryEntityFramework<UserDataModel> userDataRepo)
         {
             this.webClient = webClient;
             this.userDataFactory = userDataFactory;

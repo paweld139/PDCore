@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PDCore.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 namespace PDWebCore.Models
 {
     [Table("UserData")]
-    public class UserDataModel
+    public class UserDataModel : IByDateFindable
     {
         [Key]
         public int ULId { get; set; }

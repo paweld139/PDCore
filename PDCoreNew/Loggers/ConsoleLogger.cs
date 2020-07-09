@@ -1,5 +1,6 @@
 ﻿using PDCore.Enums;
 using PDCoreNew.Factories;
+using PDCoreNew.Factories.IFac;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,6 @@ namespace PDCoreNew.Loggers
 
         }
 
-        protected override Action<string> Print => m => Console.WriteLine(m);
+        protected override Action<string> Print => Console.WriteLine;
     }
 }

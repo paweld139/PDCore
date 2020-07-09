@@ -133,12 +133,12 @@ namespace PDCore.Utils
             objects.ForEach(x => x.Value.ThrowIfNull(x.Key));
         }
 
-        public static IEnumerable<T> GetEnumValues<T>()
+        public static IEnumerable<T> GetEnumValues<T>() where T : struct
         {
             return Enum.GetValues(typeof(T)).Cast<T>();
         }
 
-        public static IEnumerable<U> GetEnumValues<T, U>()
+        public static IEnumerable<U> GetEnumValues<T, U>() where T : struct
         {
             return GetEnumValues<T>().ConvertTo<T, U>();
         }
@@ -214,6 +214,10 @@ namespace PDCore.Utils
             Stopwatch stopwatch = new Stopwatch();
 
             return stopwatch.Time(action, iterations);
+        }
+        public static string GetEnumName<TEnum>(object value) where TEnum : struct
+        {
+            return Enum.GetName(typeof(TEnum), value);
         }
     }
 }

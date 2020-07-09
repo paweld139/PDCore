@@ -1,8 +1,9 @@
 ﻿using PDCore.Interfaces;
 using PDCore.Repositories.Repo;
+using PDCoreNew.Models;
+using PDCoreNew.Repositories.Repo;
 using PDWebCore.Context.IContext;
 using PDWebCore.Models;
-using PDWebCore.Repositories.IRepo;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -15,7 +16,7 @@ using System.Web.Hosting;
 
 namespace PDWebCore.Repositories.Repo
 {
-    public sealed class FileRepository : SqlRepositoryEntityFramework<FileModel>, IFileRepository
+    public sealed class FileRepository : SqlRepositoryEntityFramework<FileModel>
     {
         public readonly IMainDbContext _db;
         public FileRepository(IMainDbContext db, ILogger logger) : base(db, logger)

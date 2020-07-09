@@ -18,6 +18,11 @@ using System.IO;
 using System.Runtime.InteropServices;
 using PDCore.Helpers.Wrappers;
 using PDCore.Helpers.DataStructures;
+using PDCoreNew.Factories;
+using PDCoreTest.Factory;
+using PDCoreNew.Factories.Fac;
+using PDCoreNew.Services.IServ;
+using PDCoreNew.Services.Serv;
 
 namespace PDCoreTest
 {
@@ -27,6 +32,14 @@ namespace PDCoreTest
         {
             _ = args;
 
+
+            TestFactory();
+
+            WriteSeparator();
+
+            TestLogMessageFactory();
+
+            WriteSeparator();
 
             TestNameOf();
 
@@ -76,6 +89,26 @@ namespace PDCoreTest
 
 
             Console.ReadKey();
+        }
+
+        private static void TestFactory()
+        {
+            AirConditioner.InitializeFactories().ExecuteCreation(Actions.Cooling, 22.5).Operate();
+        }
+
+        private static void TestLogMessageFactory()
+        {
+            LogMessageFactory logMessageFactory = new LogMessageFactory();
+
+            string message = logMessageFactory.Create("Wiadomość", new ArgumentException("Nieprawidłowa wartość argumentu"), LogType.Info);
+
+            string message2 = logMessageFactory.Create(null, new ArgumentException("Nieprawidłowa wartość argumentu"), LogType.Info);
+
+            string message3 = logMessageFactory.Create(null, null, LogType.Info);
+
+            string message4 = logMessageFactory.Create("Wiadomość", null, LogType.Info);
+
+            ConsoleUtils.WriteLine(message, message2, message3, message4);
         }
 
         private static void TestNameOf()
@@ -212,7 +245,7 @@ namespace PDCoreTest
 
         private static void TestCacheService()
         {
-            ICacheService inMemoryCache = new InMemoryCache();
+            ICacheService inMemoryCache = new CacheService();
 
             IEnumerable<string> lines = ConsoleUtils.ReadLines();
 
