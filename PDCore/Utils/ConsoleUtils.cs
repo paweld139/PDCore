@@ -22,7 +22,7 @@ namespace PDCore.Utils
 
         public static void WriteSeparator(bool readKey = false)
         {
-            WriteLine("---", readKey);
+            WriteLine("***", readKey);
         }
 
         public static void WriteResult<T>(string info, T result)
