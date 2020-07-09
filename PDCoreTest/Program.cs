@@ -24,6 +24,8 @@ using PDCoreNew.Factories.Fac;
 using PDCoreNew.Services.IServ;
 using PDCoreNew.Services.Serv;
 using PDCoreNew.Loggers.Factory;
+using PDCoreNew.Loggers;
+using PDCore.Interfaces;
 
 namespace PDCoreTest
 {
@@ -98,7 +100,20 @@ namespace PDCoreTest
 
         private static void TestLoggerFactory()
         {
-            LoggerFactory.InitializeLoggers().ExecuteCreation(Loggers.Console).Log("Wiadomość", LogType.Fatal);
+            var loggerFactory = new LoggerFactory();
+
+
+            loggerFactory.ExecuteCreation(Loggers.Console).Log("Wiadomość", LogType.Fatal);
+
+            loggerFactory.ExecuteCreation(Loggers.Trace).Log("Wiadomość2", LogType.Debug);
+
+
+            ILogger inMemoryLogger = loggerFactory.ExecuteCreation(Loggers.InMemory);
+
+            inMemoryLogger.Log("Wiadomość3", LogType.Info);
+            inMemoryLogger.Log("Wiadomość3", LogType.Error);
+
+            ConsoleUtils.WriteLine(InMemoryLogger.Logs, false);
         }
 
         private static void TestFactory()

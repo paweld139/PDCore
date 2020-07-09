@@ -50,6 +50,7 @@
     <Compile Include="Context\IContext\IHasLogDbSet.cs" />
     <Compile Include="Context\IContext\IHasFileDbSet.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Factories\Fac\Factory.cs" />
     <Compile Include="Factories\IFac\IFactory.cs" />
     <Compile Include="Factories\IFac\ILogMessageFactory.cs" />
     <Compile Include="Helpers\AsyncHelpers.cs" />

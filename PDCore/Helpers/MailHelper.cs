@@ -33,12 +33,14 @@ namespace PDCore.Helpers
 
         public static void InitialiseSMTPClient(string login, string password)
         {
-            _smtpServer = new SmtpClient();
-            _smtpServer.Host = "ssl0.ovh.net";
-            _smtpServer.UseDefaultCredentials = false;
-            _smtpServer.Credentials = new NetworkCredential(login, password);
-            _smtpServer.EnableSsl = true;
-            _smtpServer.Port = 25;
+            _smtpServer = new SmtpClient
+            {
+                Host = "ssl0.ovh.net",
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(login, password),
+                EnableSsl = true,
+                Port = 25
+            };
         }
 
         public static bool SendEmail(string receiverEmail, string title, string body)
@@ -55,9 +57,11 @@ namespace PDCore.Helpers
                     InitialiseSMTPClient(login, password);
                 }
 
-                MailMessage mail = new MailMessage();
+                MailMessage mail = new MailMessage
+                {
+                    From = new MailAddress(login)
+                };
 
-                mail.From = new MailAddress(login);
                 mail.To.Add(receiverEmail);
                 mail.Subject = title;
                 mail.Body = body;
