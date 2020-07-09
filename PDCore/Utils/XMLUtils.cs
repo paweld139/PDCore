@@ -97,11 +97,12 @@ namespace PDCore.Utils
         {
             XadesService xadesService = new XadesService();
 
-            SignatureParameters parametros = new SignatureParameters();
-
-            parametros.SignaturePolicyInfo = new SignaturePolicyInfo();
-            parametros.SignaturePackaging = SignaturePackaging.ENVELOPED;
-            parametros.InputMimeType = "text/xml";
+            SignatureParameters parametros = new SignatureParameters
+            {
+                SignaturePolicyInfo = new SignaturePolicyInfo(),
+                SignaturePackaging = SignaturePackaging.ENVELOPED,
+                InputMimeType = "text/xml"
+            };
 
 
             using (parametros.Signer = new Signer(x509Certificate))
@@ -150,10 +151,12 @@ namespace PDCore.Utils
                 throw new ArgumentException("Key");
 
             // Create a SignedXml object.
-            SignedXml signedXml = new SignedXml(xmlDoc);
+            SignedXml signedXml = new SignedXml(xmlDoc)
+            {
 
-            // Add the key to the SignedXml document.
-            signedXml.SigningKey = Key;
+                // Add the key to the SignedXml document.
+                SigningKey = Key
+            };
 
             KeyInfo keyInfo = new KeyInfo();
 
@@ -164,9 +167,10 @@ namespace PDCore.Utils
             signedXml.KeyInfo = keyInfo;
 
             // Create a reference to be signed.
-            Reference reference = new Reference();
-
-            reference.Uri = "";
+            Reference reference = new Reference
+            {
+                Uri = ""
+            };
 
             // Add an enveloped transformation to the reference.
             XmlDsigEnvelopedSignatureTransform env = new XmlDsigEnvelopedSignatureTransform();
@@ -191,8 +195,10 @@ namespace PDCore.Utils
         public static string Sign(string xml, X509Certificate2 x509)
         {
             // Wczytaj.
-            XmlDocument doc = new XmlDocument();
-            doc.PreserveWhitespace = true;
+            XmlDocument doc = new XmlDocument
+            {
+                PreserveWhitespace = true
+            };
             doc.LoadXml(xml);
 
             // SignedXml object
@@ -233,11 +239,13 @@ namespace PDCore.Utils
 
                 xo.QualifyingProperties.SignedProperties.SignedSignatureProperties.SigningCertificate.CertCollection.Add(cert);
 
-                DataObjectFormat dof = new DataObjectFormat();
-                dof.ObjectReferenceAttribute = "#Dokument";
-                dof.Description = "Dokument w formacie xml [XML]";
-                dof.Encoding = SignedXml.XmlDsigBase64TransformUrl; // ...xmldsig/#base64
-                dof.MimeType = "text/plain";
+                DataObjectFormat dof = new DataObjectFormat
+                {
+                    ObjectReferenceAttribute = "#Dokument",
+                    Description = "Dokument w formacie xml [XML]",
+                    Encoding = SignedXml.XmlDsigBase64TransformUrl, // ...xmldsig/#base64
+                    MimeType = "text/plain"
+                };
                 xo.QualifyingProperties.SignedProperties.SignedDataObjectProperties.DataObjectFormatCollection.Add(dof);
             }
             signedXml.AddXadesObject(xo);
