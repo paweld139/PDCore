@@ -60,6 +60,7 @@
     <Compile Include="Helpers\Log.cs" />
     <Compile Include="Models\FileModel.cs" />
     <Compile Include="Repositories\IRepo\IFileRepository.cs" />
+    <Compile Include="Repositories\IRepo\ILogRepo.cs" />
     <Compile Include="Repositories\Repo\LogRepo.cs" />
     <Compile Include="Services\Serv\CacheService.cs" />
     <Compile Include="Loggers\AsyncLogger.cs" />
