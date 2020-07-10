@@ -113,7 +113,7 @@ namespace PDCoreTest
             inMemoryLogger.Log("Wiadomość3", LogType.Info);
             inMemoryLogger.Log("Wiadomość3", LogType.Error);
 
-            ConsoleUtils.WriteLine(InMemoryLogger.Logs, false);
+            ConsoleUtils.WriteLines(InMemoryLogger.Logs, false);
         }
 
         private static void TestFactory()
@@ -133,7 +133,7 @@ namespace PDCoreTest
 
             string message4 = logMessageFactory.Create("Wiadomość", null, LogType.Info);
 
-            ConsoleUtils.WriteLine(message, message2, message3, message4);
+            ConsoleUtils.WriteLines(message, message2, message3, message4);
         }
 
         private static void TestNameOf()

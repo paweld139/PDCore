@@ -98,5 +98,12 @@ namespace PDCore.Extensions
             return text.PadLeft(padLeft).PadRight(totalWidth);
             //Przesunięcie w lewo i w prawu tekstu, by był na najbardziej na środku, najpierw ilość znaków to połowa ilość znaków powiększona o długość tekstu, a później z prawej strony całkowita ilość znaków
         }
+
+        public static double ToDouble(this string data)
+        {
+            double result = double.Parse(data);
+
+            return result;
+        }
     }
 }

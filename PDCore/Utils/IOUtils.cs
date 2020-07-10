@@ -1,5 +1,7 @@
 ﻿using ICSharpCode.SharpZipLib.Zip;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace PDCore.Utils
 {
@@ -72,6 +74,15 @@ namespace PDCore.Utils
             }
 
             return fileName;
+        }
+
+        public static IEnumerable<FileInfo> GetLargeFiles(string path, int maxFilesCount)
+        {
+            var query = from file in new DirectoryInfo(path).GetFiles()
+                        orderby file.Length descending
+                        select file;
+
+            return query.Take(maxFilesCount);
         }
     }
 }

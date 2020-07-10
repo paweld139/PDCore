@@ -3,6 +3,7 @@ using PDCore.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -12,7 +13,7 @@ namespace PDCore.Utils
     {
         #region Write and read
 
-        public static void Write(string value, bool readKey = true)
+        public static void Write<T>(T value, bool readKey = true)
         {
             Console.Write(value); //Wyświetlenie tekstu
 
@@ -20,12 +21,17 @@ namespace PDCore.Utils
                 ReadKey(); //Oczekiwanie na wciśnięcie klawisza
         }
 
+        public static void Write(string value, bool readKey = true)
+        {
+            Write<string>(value, readKey);
+        }
+
         public static void WriteSeparator(bool readKey = false)
         {
             WriteLine("***", readKey);
         }
 
-        public static void WriteResult<T>(string info, T result)
+        public static void WriteResult<TInfo, TResult>(TInfo info, TResult result)
         {
             WriteLine("{0}: {1}", false, info, result);
         }
@@ -69,12 +75,17 @@ namespace PDCore.Utils
         /// </summary>
         /// <param name="value">Tekst do wyświetlenia</param>
         /// <param name="readKey">Czy po wyświetleniu tekstu nowej linii, oczekiwać na wciśnięcie klawisza</param>
-        public static void WriteLine(string value, bool readKey = true)
+        public static void WriteLine<T>(T value, bool readKey = true)
         {
             Console.WriteLine(value); //Wyświetlenie tekstu w nowej linii
 
             if (readKey) //Czy czekać na wciśnięcie klawisza
                 ReadKey(); //Oczekiwanie na wciśnięcie klawisza
+        }
+
+        public static void WriteLine(string value, bool readKey = true)
+        {
+            WriteLine<string>(value, readKey);
         }
 
         /// <summary>
@@ -100,7 +111,7 @@ namespace PDCore.Utils
         /// Wyświetlenie na konsoli kolekcji łańcuchów znaków (każdy string w osobnej linii) i na końcu opcjonalnie oczekiwanie na wciśnięcie klawisza
         /// </summary>
         /// <param name="value">Kolekcja łańcuchów znaków do wyświetlenia w nowych liniach</param>
-        public static void WriteLine(IEnumerable<string> value, bool readKey = true)
+        public static void WriteLines(IEnumerable<object> value, bool readKey = true)
         {
             value.Take(value.Count() - 1).ForEach(x => WriteLine(x, false)); //Wzięcie wszystkich stringów opórcz ostatniego i wyświetlenie każdego w nowej linii
 
@@ -111,9 +122,9 @@ namespace PDCore.Utils
         /// Wyświetlenie na konsoli tablicy łańcuchów znaków (każdy string w osobnej linii) i na końcu oczekiwanie na wciśnięcie klawisza
         /// </summary>
         /// <param name="value">Tablica łańcuchów znaków do wyświetlenia w nowych liniach. Możliwość podawania tekstów po przecinku</param>
-        public static void WriteLine(params string[] value)
+        public static void WriteLines(params object[] value)
         {
-            WriteLine(value.AsEnumerable(), false); //Wyświetlenie stringów w nowych liniach
+            WriteLines(value.AsEnumerable(), false); //Wyświetlenie stringów w nowych liniach
         }
 
         public static void WriteByte(int value)
@@ -121,6 +132,13 @@ namespace PDCore.Utils
             byte[] bytes = BitConverter.GetBytes(value);
 
             bytes.ForEach(x => Write("0x:{0:x2} ", false, x));
+        }
+
+        public static void ShowLargeFiles(string path, int maxFilesCount)
+        {
+            var files = IOUtils.GetLargeFiles(path, maxFilesCount);
+
+            files.Dump(f => WriteLine($"{f.Name,-20} : {f.Length,10:N0}", false));
         }
 
         #endregion
