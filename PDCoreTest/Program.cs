@@ -25,6 +25,14 @@ namespace PDCoreTest
             _ = args;
 
 
+            TestCsvParsing();
+
+            WriteSeparator();
+
+            TestGetEnumValues();
+
+            WriteSeparator();
+
             TestLoggerFactory();
 
             WriteSeparator();
@@ -87,6 +95,55 @@ namespace PDCoreTest
             Console.ReadKey();
         }
 
+        private static void TestCsvParsing()
+        {
+            string path = @"D:\Downloads\1253a5fc75280025995fa7f3cb61000e-6b4989b6cf20ddc619c28a2e51eb9e27eb185709\fuel.csv";
+
+            ConsoleUtils.WriteTableFromCSV(path);
+
+
+            var dt = CSVUtils.ParseCSVToDataTable(path);
+
+            ConsoleUtils.WriteDataTable(dt);
+        }
+
+        private static void TestGetEnumValues()
+        {
+            var enumValues = ObjectUtils.GetEnumValues(typeof(CertificateType));
+
+            var result = enumValues.ConvertTo<object, string>();
+
+
+            string enumName = ObjectUtils.GetEnumName<CertificateType>(2);
+
+            result = result.Append(enumName);
+
+
+            ConsoleUtils.WriteLines(result);
+
+
+
+            ConsoleUtils.WriteSeparator();
+
+
+
+            var enumValues2 = ObjectUtils.GetEnumValues<CertificateType, decimal>();
+
+            ConsoleUtils.WriteLines(enumValues2);
+
+
+            var certificateType = CertificateType.WSS;
+            
+            object enumNumber = Convert.ChangeType(certificateType, typeof(string));
+
+            ConsoleUtils.WriteLine(enumNumber);
+
+
+            var enumNumbers = ObjectUtils.GetEnumNumbers<HorizontalTextAlignment>();
+
+            ConsoleUtils.WriteLines(enumNumbers);
+        }
+
         private static void TestLoggerFactory()
         {
             var loggerFactory = new LoggerFactory();
@@ -102,7 +159,7 @@ namespace PDCoreTest
             inMemoryLogger.Log("Wiadomość3", LogType.Info);
             inMemoryLogger.Log("Wiadomość3", LogType.Error);
 
-            ConsoleUtils.WriteLines(InMemoryLogger.Logs, false);
+            ConsoleUtils.WriteLines(InMemoryLogger.Logs);
         }
 
         private static void TestFactory()

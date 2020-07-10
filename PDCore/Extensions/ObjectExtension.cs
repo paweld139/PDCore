@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.ServiceModel;
 using System.Text;
@@ -184,9 +185,9 @@ namespace PDCore.Extensions
             if (converter != null)
                 return converter(input);
 
-            var simpleConverter = TypeDescriptor.GetConverter(typeof(TInput));
+            //var simpleConverter = TypeDescriptor.GetConverter(typeof(TInput));
 
-            return (TOutput)simpleConverter.ConvertTo(input, typeof(TOutput));
+            return (TOutput)Convert.ChangeType(input, typeof(TOutput));
         }
 
         public static double SampledAverageDouble(this double[] numbers)
@@ -238,6 +239,64 @@ namespace PDCore.Extensions
             }
 
             return val;
+        }
+
+        /// <summary>
+        /// Pobierz opis dla danej wartości enuma
+        /// </summary>
+        /// <typeparam name="T">Typ enuma</typeparam>
+        /// <param name="enumerationValue">Wartość enuma</param>
+        /// <returns>Opis dla danej wartości enuma z atrybutu Description</returns>
+        public static string GetDescription<T>(this T enumerationValue) where T : struct //Typ musi być typem wartościowym, enumem
+        {
+            Type type = enumerationValue.GetType(); //Pobranie typu przekazanej wartości enuma
+
+            if (!type.IsEnum) //Jeśli nie jest to enum
+            {
+                throw new ArgumentException("EnumerationValue must be of Enum type", "enumerationValue"); //Problem z argumentem, więc odpowiedni wyjątek
+            }
+
+            //Tries to find a DescriptionAttribute for a potential friendly name
+            //for the enum
+            MemberInfo[] memberInfo = type.GetMember(enumerationValue.ToString()); //Pobranie wartości enuma jako członka po nazwie jego typu
+
+            if (memberInfo != null && memberInfo.Length > 0) //Jeśli członek istnieje
+            {
+                object[] attrs = memberInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false); //Pobranie atrybutu dla cżłonka
+
+                if (attrs != null && attrs.Length > 0) //Jeżeli znaleziono atrybut
+                {
+                    //Pull out the description value
+                    return ((DescriptionAttribute)attrs[0]).Description; //Pobranie wartości z atrybutu
+                }
+            }
+
+            //If we have no description attribute, just return the ToString of the enum
+            return enumerationValue.ToString();
+        }
+
+        public static T ToEnumValue<T>(this string enumerationDescription) where T : struct
+        {
+            var type = typeof(T);
+
+            if (!type.IsEnum)
+                throw new ArgumentException("ToEnumValue<T>(): Must be of enum type", "T");
+
+            foreach (T val in ObjectUtils.GetEnumValues<T>())
+                if (val.GetDescription() == enumerationDescription)
+                    return val;
+
+            throw new ArgumentException("ToEnumValue<T>(): Invalid description for enum " + type.Name, "enumerationDescription");
+        }
+
+        public static T CastObject<T>(this object input)
+        {
+            return (T)input;
+        }
+
+        public static T ConvertObject<T>(this object input)
+        {
+            return (T)Convert.ChangeType(input, typeof(T));
         }
     }
 }

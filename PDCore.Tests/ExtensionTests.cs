@@ -66,6 +66,30 @@ namespace PDCore.Tests
             Assert.AreEqual(expected, actual);
         }
 
+        [TestMethod]
+        public void CanExtractDescriptionFromEnumValue()
+        {
+            CertificateType enumValue = CertificateType.WSS;
+
+            string actual = enumValue.GetDescription();
+
+            string expected = "Certyfikat WSS służący do podpisywania wiadomości";
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CanExtractEnumValueFromDescription()
+        {
+            string description = "Certyfikat służący do zabezpieczenia komunikacji";
+
+            CertificateType actual = description.ToEnumValue<CertificateType>();
+
+            CertificateType expected = CertificateType.TLS;
+
+            Assert.AreEqual(expected, actual);
+        }
+
         #endregion
     }
 }

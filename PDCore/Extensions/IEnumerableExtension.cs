@@ -54,6 +54,18 @@ namespace PDCore.Extensions
             }
         }
 
+        public static void ForEach<T>(this IEnumerable<T> source, Action<T, int> action)
+        {
+            int index = 0;
+
+            foreach (T element in source)
+            {
+                action(element, index);
+
+                index++;
+            }
+        }
+
         /// <summary>
         /// Tworzy listę typu klucz-wartość dla zadanego obiektu IEnumerable
         /// </summary>
@@ -99,21 +111,13 @@ namespace PDCore.Extensions
             {
                 return toAdd.Concat(source);
             }
-            
+
             return source.Concat(toAdd);
         }
 
         public static IEnumerable<TOutput> ConvertTo<TInput, TOutput>(this IEnumerable<TInput> input, Converter<TInput, TOutput> converter = null)
         {
-            if (input.GetItemType() is TOutput)
-                return input.Cast<TOutput>();
-
-            if (converter != null)
-                return input.Select(x => converter(x));
-            
-            var simpleConverter = TypeDescriptor.GetConverter(typeof(TInput));
-
-            return input.Select(x => (TOutput)simpleConverter.ConvertTo(x, typeof(TOutput)));
+            return input.Select(x => x.ConvertTo(converter));
         }
 
         public static Type GetItemType<T>(this IEnumerable<T> enumerable)

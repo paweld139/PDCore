@@ -133,14 +133,27 @@ namespace PDCore.Utils
             objects.ForEach(x => x.Value.ThrowIfNull(x.Key));
         }
 
-        public static IEnumerable<T> GetEnumValues<T>() where T : struct
+        public static IEnumerable<object> GetEnumValues(Type enumType)
         {
-            return Enum.GetValues(typeof(T)).Cast<T>();
+            if (!enumType.IsEnum)
+                throw new ArgumentException("EnumType must be of Enum type", "enumType");
+
+            return Enum.GetValues(enumType).Cast<object>();
         }
 
-        public static IEnumerable<U> GetEnumValues<T, U>() where T : struct
+        public static IEnumerable<TEnum> GetEnumValues<TEnum>() where TEnum : struct
         {
-            return GetEnumValues<T>().ConvertTo<T, U>();
+            return GetEnumValues(typeof(TEnum)).Cast<TEnum>();
+        }
+
+        public static IEnumerable<TResult> GetEnumValues<TEnum, TResult>() where TEnum : struct
+        {
+            return GetEnumValues<TEnum>().ConvertTo<TEnum, TResult>();
+        }
+
+        public static IEnumerable<int> GetEnumNumbers<TEnum>() where TEnum : struct
+        {
+            return GetEnumValues<TEnum, int>();
         }
 
         public static string GetNameOf<T, TT>(Expression<Func<T, TT>> accessor)

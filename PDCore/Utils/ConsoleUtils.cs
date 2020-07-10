@@ -13,7 +13,7 @@ namespace PDCore.Utils
     {
         #region Write and read
 
-        public static void Write<T>(T value, bool readKey = true)
+        public static void Write<T>(T value, bool readKey = false)
         {
             Console.Write(value); //Wyświetlenie tekstu
 
@@ -21,7 +21,7 @@ namespace PDCore.Utils
                 ReadKey(); //Oczekiwanie na wciśnięcie klawisza
         }
 
-        public static void Write(string value, bool readKey = true)
+        public static void Write(string value, bool readKey = false)
         {
             Write<string>(value, readKey);
         }
@@ -54,7 +54,7 @@ namespace PDCore.Utils
             } while (!string.IsNullOrEmpty(s));
         }
 
-        public static void Write(string value, bool readKey = true, params object[] args)
+        public static void Write(string value, bool readKey = false, params object[] args)
         {
             Console.Write(value, args); //Wyświetlenie tekstu
 
@@ -62,7 +62,7 @@ namespace PDCore.Utils
                 ReadKey(); //Oczekiwanie na wciśnięcie klawisza
         }
 
-        public static void WriteLine(string value, bool readKey = true, params object[] args)
+        public static void WriteLine(string value, bool readKey = false, params object[] args)
         {
             Console.WriteLine(value, args); //Wyświetlenie linii tekstu
 
@@ -75,7 +75,7 @@ namespace PDCore.Utils
         /// </summary>
         /// <param name="value">Tekst do wyświetlenia</param>
         /// <param name="readKey">Czy po wyświetleniu tekstu nowej linii, oczekiwać na wciśnięcie klawisza</param>
-        public static void WriteLine<T>(T value, bool readKey = true)
+        public static void WriteLine<T>(T value, bool readKey = false)
         {
             Console.WriteLine(value); //Wyświetlenie tekstu w nowej linii
 
@@ -83,7 +83,7 @@ namespace PDCore.Utils
                 ReadKey(); //Oczekiwanie na wciśnięcie klawisza
         }
 
-        public static void WriteLine(string value, bool readKey = true)
+        public static void WriteLine(string value, bool readKey = false)
         {
             WriteLine<string>(value, readKey);
         }
@@ -93,7 +93,7 @@ namespace PDCore.Utils
         /// </summary>
         /// <param name="value">StringBuilder z którego zostanie pozyskany łańcuch znaków do wyświetlenia w nowej linii</param>
         /// <param name="readKey">Czy po wyświetleniu tekstu nowej linii, oczekiwać na wciśnięcie klawisza</param>
-        public static void WriteLine(StringBuilder value, bool readKey = true)
+        public static void WriteLine(StringBuilder value, bool readKey = false)
         {
             WriteLine(value.ToString(), readKey); //Wyświetlenie tekstu w nowej linii z możliwym oczekiwaniem na wciśnięcie klawisza
         }
@@ -102,7 +102,7 @@ namespace PDCore.Utils
         /// Wyświetlenie nowej linii
         /// </summary>
         /// <param name="readKey">Czy po wyświetleniu nowej linii, oczekiwać na wciśnięcie klawisza</param>
-        public static void WriteLine(bool readKey = true)
+        public static void WriteLine(bool readKey = false)
         {
             WriteLine(string.Empty, readKey); //Wyświetlenie nowej, pustej linii i oczekiwanie na wciśnięcie klawisza
         }
@@ -111,11 +111,16 @@ namespace PDCore.Utils
         /// Wyświetlenie na konsoli kolekcji łańcuchów znaków (każdy string w osobnej linii) i na końcu opcjonalnie oczekiwanie na wciśnięcie klawisza
         /// </summary>
         /// <param name="value">Kolekcja łańcuchów znaków do wyświetlenia w nowych liniach</param>
-        public static void WriteLines(IEnumerable<object> value, bool readKey = true)
+        public static void WriteLines<T>(IEnumerable<T> value, bool readKey = false)
         {
             value.Take(value.Count() - 1).ForEach(x => WriteLine(x, false)); //Wzięcie wszystkich stringów opórcz ostatniego i wyświetlenie każdego w nowej linii
 
             WriteLine(value.Last(), readKey); //Wyśwetlenie ostatniego stringa i oczekiwanie na wciśnięcie klawisza
+        }
+
+        public static void WriteLines(IEnumerable<object> value, bool readKey = false)
+        {
+            WriteLines<object>(value, readKey);
         }
 
         /// <summary>
@@ -124,7 +129,7 @@ namespace PDCore.Utils
         /// <param name="value">Tablica łańcuchów znaków do wyświetlenia w nowych liniach. Możliwość podawania tekstów po przecinku</param>
         public static void WriteLines(params object[] value)
         {
-            WriteLines(value.AsEnumerable(), false); //Wyświetlenie stringów w nowych liniach
+            WriteLines(value.AsEnumerable()); //Wyświetlenie stringów w nowych liniach
         }
 
         public static void WriteByte(int value)
@@ -138,7 +143,7 @@ namespace PDCore.Utils
         {
             var files = IOUtils.GetLargeFiles(path, maxFilesCount);
 
-            files.Dump(f => WriteLine($"{f.Name,-20} : {f.Length,10:N0}", false));
+            files.Dump(f => WriteLine($"{f.Name,-20} : {f.Length,10:N0}"));
         }
 
         #endregion
@@ -163,7 +168,7 @@ namespace PDCore.Utils
         {
             if (!rowsFields.Any()) //Czy kolekcja pól wierszy zawiera jakiekolwiek elementy
             {
-                WriteLine(false); //Wyświetlenie pustej linii
+                WriteLine(); //Wyświetlenie pustej linii
 
                 return; //Wyjście z metody
             }
@@ -233,18 +238,12 @@ namespace PDCore.Utils
             int[] columnsWidths = new int[firstRowFields.Length]; //Tablica zawierająca szerokości kolumn w tabeli, która zostanie wyświetlona. Każde pole jest wyświetlone w określonej kolumnie
             //Szerokości kolumn jest tyle co kolumm. Ilość kolumn została pobrana na podstawie ilości pól z pierwszym elemencie kolekcji. Każdy element powinien mieć taką samą ilość pól.
 
-            int index; //Tutaj będzie przetrzymywany tymczasowy indeks pola danego wiersza
-
             foreach (var fields in rowsFields) //Przechodzenie po wszystkich kolekcjach pól wierszy
             {
-                index = 0; //Na początku sprawdzone zostanie pierwsze pole
-
-                fields.ForEach(x => //Przejćie po wszystkich polach celem pobrania i ustalenia najdłuższego pola z danej kolumny
+                fields.ForEach((x, i) => //Przejćie po wszystkich polach celem pobrania i ustalenia najdłuższego pola z danej kolumny
                 {
-                    if (columnsWidths[index] < x.Length) //Czy aktualnie ustawiona długość kolumny jest mniejsza od długości pola
-                        columnsWidths[index] = x.Length; //Ustawienie nowej długości kolumny
-
-                    index++; //Inkrementacja celem przejścia w nastęonym kroku do następnego pola, które będzie się znajdowało w następnej kolumnie
+                    if (columnsWidths[i] < x.Length) //Czy aktualnie ustawiona długość kolumny jest mniejsza od długości pola
+                        columnsWidths[i] = x.Length; //Ustawienie nowej długości kolumny
                 });
             }
 
@@ -296,7 +295,7 @@ namespace PDCore.Utils
         /// <param name="content">Zawartość wiersza</param>
         private static void WriteRow(string content)
         {
-            WriteLine(content, false); //Wyświetlenie na konsoli zawartości wiersza bez oczkiwania na wciśnięcie klawisza
+            WriteLine(content); //Wyświetlenie na konsoli zawartości wiersza bez oczkiwania na wciśnięcie klawisza
         }
 
         /// <summary>
@@ -306,7 +305,7 @@ namespace PDCore.Utils
         /// <param name="columnsWidths">Szerokości kolumn nagłówka</param>
         private static void WriteHeader(string content, int[] columnsWidths)
         {
-            WriteLine(content, false); //Wyświetlenie na konsoli zawartości nagłówka bez oczkiwania na wciśnięcie klawisza
+            WriteLine(content); //Wyświetlenie na konsoli zawartości nagłówka bez oczkiwania na wciśnięcie klawisza
 
             WriteRowDelimiter(columnsWidths); //Wyświetlenie dolnej krawędzi nagłówka biorąc pod uwagę szerokość zawartości kolumn
         }
@@ -325,7 +324,7 @@ namespace PDCore.Utils
 
             string rowDelimiter = string.Concat(delimiterChars); //Zawartość oddzielająca wiersz. Połączenie znaków.
 
-            WriteLine(rowDelimiter, false); //Wyświetlenie krawędzi wiersza oddzielającej go od następnego wiersza bez oczekiwania na wciśnięcie klawisza.
+            WriteLine(rowDelimiter); //Wyświetlenie krawędzi wiersza oddzielającej go od następnego wiersza bez oczekiwania na wciśnięcie klawisza.
         }
         /// <summary>
         /// Wyświetlenie kolekcji pól wierszy w formie tabeli
@@ -346,7 +345,7 @@ namespace PDCore.Utils
 
             WriteRowDelimiter(columnsWidths); //Wyświetlenie dolnej krawędzi tabeli
 
-            WriteLine(false); //Wyświetlenie pustej linii
+            //WriteLine(); //Wyświetlenie pustej linii
         }
 
         #endregion
