@@ -219,5 +219,15 @@ namespace PDCore.Utils
         {
             return Enum.GetName(typeof(TEnum), value);
         }
+
+        public static IEnumerable<double> Random()
+        {
+            var random = new Random();
+
+            while (true)
+            {
+                yield return random.NextDouble(); //Między 0 a 1
+            }
+        }
     }
 }

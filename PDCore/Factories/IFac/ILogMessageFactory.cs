@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PDCoreNew.Factories.IFac
+namespace PDCore.Factories.IFac
 {
     public interface ILogMessageFactory
     {

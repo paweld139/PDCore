@@ -51,14 +51,11 @@
     <Compile Include="Context\IContext\IHasFileDbSet.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Factories\Fac\Factory.cs" />
-    <Compile Include="Factories\IFac\IFactory.cs" />
-    <Compile Include="Factories\IFac\ILogMessageFactory.cs" />
     <Compile Include="Helpers\AsyncHelpers.cs" />
+    <Compile Include="Helpers\Container.cs" />
     <Compile Include="Helpers\ExceptionHandling\DbActionWrapper.cs" />
     <Compile Include="Helpers\SaveChangesWrapper.cs" />
     <Compile Include="Loggers\Factory\LoggerFactory.cs" />
-    <Compile Include="Factories\Fac\LogMessageFactory.cs" />
-    <Compile Include="Helpers\Container.cs" />
     <Compile Include="Helpers\Log.cs" />
     <Compile Include="Models\FileModel.cs" />
     <Compile Include="Repositories\IRepo\IFileRepository.cs" />
@@ -77,8 +74,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IRepo\IEFRepo.cs" />
     <Compile Include="Repositories\Repo\SqlRepositoryEntityFramework.cs" />
-    <Compile Include="Services\IServ\ICacheService.cs" />
-    <Compile Include="Services\IServ\IErrorLogService.cs" />
     <Compile Include="Services\Serv\LogService.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
@@ -99,6 +94,9 @@
       <Name>PDCore</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Factories\IFac\" />
+    <Folder Include="Services\IServ\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

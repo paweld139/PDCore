@@ -106,6 +106,9 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\WinFormsExtensions.cs" />
     <Compile Include="Extensions\XMLExtension.cs" />
+    <Compile Include="Factories\Fac\LogMessageFactory.cs" />
+    <Compile Include="Factories\IFac\IFactory.cs" />
+    <Compile Include="Factories\IFac\ILogMessageFactory.cs" />
     <Compile Include="Helpers\Comparers\FileInfoLengthComparer.cs" />
     <Compile Include="Helpers\Comparers\NamedObjectComparer.cs" />
     <Compile Include="Helpers\DataStructures\Book\Book.cs" />
@@ -272,6 +275,8 @@
     <Compile Include="Repositories\IRepo\ISqlRepositoryEntityFramework.cs" />
     <Compile Include="Repositories\IRepo\IWriteOnlyRepository.cs" />
     <Compile Include="Repositories\Repo\SqlRepository.cs" />
+    <Compile Include="Services\IServ\ICacheService.cs" />
+    <Compile Include="Services\IServ\IErrorLogService.cs" />
     <Compile Include="Utils\ConsoleUtils.cs" />
     <Compile Include="Utils\CSVUtils.cs" />
     <Compile Include="Utils\DateTimeUtils.cs" />
@@ -301,6 +306,7 @@
   <ItemGroup>
     <Folder Include="Helpers\CSV\" />
     <Folder Include="Models\" />
+    <Folder Include="Services\Serv\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Helpers\XML\Signing\Xades\XAdES.xsd">

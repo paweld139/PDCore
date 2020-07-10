@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PDCoreNew.Services.IServ
+namespace PDCore.Services.IServ
 {
     public interface ICacheService
     {

@@ -4,15 +4,12 @@ using PDCoreNew.Context.IContext;
 using PDCoreNew.Helpers;
 using PDCoreNew.Repositories.IRepo;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace PDCoreNew
 {
