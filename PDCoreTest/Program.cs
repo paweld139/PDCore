@@ -105,6 +105,16 @@ namespace PDCoreTest
             var dt = CSVUtils.ParseCSVToDataTable(path);
 
             ConsoleUtils.WriteDataTable(dt);
+
+
+            var customers = CSVUtils.ParseCSV<Customer, CustomerMap>(path);
+
+            ConsoleUtils.WriteLine(customers.Last().Name);
+
+
+            var customers2 = CSVUtils.ParseCSV<Customer>(path);
+
+            ConsoleUtils.WriteLine(customers2.First().Name);
         }
 
         private static void TestGetEnumValues()

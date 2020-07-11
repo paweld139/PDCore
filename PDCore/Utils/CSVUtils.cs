@@ -86,11 +86,11 @@ namespace PDCore.Utils
         /// <param name="delimiter">Znak oddzielający dane w liniach pliku CSV</param>
         /// <param name="shouldSkipRecord">Warunek. który musi spełnić dana linia, by została wzięta pod uwagę</param>
         /// <returns>Lista obiektów z przetworzonego pliku CSV</returns>
-        public static List<T> ParseCSV<T>(string filePath, Func<string[], T> fieldsParser, bool skipFirstLine = true, string delimiter = ",", Func<string[], bool> shouldSkipRecord = null)
+        public static IEnumerable<T> ParseCSV<T>(string filePath, Func<string[], T> fieldsParser, bool skipFirstLine = true, string delimiter = ",", Func<string[], bool> shouldSkipRecord = null)
         {
-            IEnumerable<string[]> linesFields = ParseCSVLines(filePath, skipFirstLine, delimiter, shouldSkipRecord); //Utworzenie kolekcji pól dla każdej linii pliku CSV, wybór linii następuje wg wskazanych warunków.
+            List<string[]> linesFields = ParseCSVLines(filePath, skipFirstLine, delimiter, shouldSkipRecord).ToList(); //Utworzenie kolekcji pól dla każdej linii pliku CSV, wybór linii następuje wg wskazanych warunków.
 
-            return linesFields.Select(x => fieldsParser(x)).ToList(); //Przetworzenie pól z każdej linii i zwrócenie otrzymanej kolekcji obiektów
+            return linesFields.Select(x => fieldsParser(x)); //Przetworzenie pól z każdej linii i zwrócenie otrzymanej kolekcji obiektów
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace PDCore.Utils
         /// <param name="delimiter">Znak oddzielający dane w liniach pliku CSV</param>
         /// <param name="shouldSkipRecord">Warunek. który musi spełnić dana linia, by została wzięta pod uwagę</param>
         /// <returns>Lista obiektów z przetworzonego pliku CSV</returns>
-        public static List<T> ParseCSV<T>(string filePath, bool skipFirstLine = true, string delimiter = ",", Func<string[], bool> shouldSkipRecord = null) where T : IFromCSVParseable, new() //Typ musi posiadać konstruktor
+        public static IEnumerable<T> ParseCSV<T>(string filePath, bool skipFirstLine = true, string delimiter = ",", Func<string[], bool> shouldSkipRecord = null) where T : IFromCSVParseable, new() //Typ musi posiadać konstruktor
         {
             return ParseCSV(
                 filePath,

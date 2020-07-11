@@ -88,5 +88,17 @@ namespace PDCore.Extensions
 
             return result;
         }
+
+        public static T Last<T>(this IList<T> list)
+        {
+            return list[list.LastIndex()];
+        }
+
+        public static int LastIndex<T>(this IList<T> list)
+        {
+            int lastIndex = list.Count - 1;
+
+            return lastIndex;
+        }
     }
 }

@@ -2,6 +2,7 @@
 using PDCore.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -153,7 +154,7 @@ namespace PDCore.Utils
 
         public static void WriteDataTable(DataTable dt, HorizontalTextAlignment horizontalTextAlignment = HorizontalTextAlignment.Left)
         {
-            IEnumerable<string[]> rowsFields = dt.GetColumnsAndRowsStringArray();
+            List<string[]> rowsFields = dt.GetColumnsAndRowsStringArray().ToList();
 
             WriteTableFromFields(rowsFields, true, horizontalTextAlignment);
         }
@@ -164,16 +165,16 @@ namespace PDCore.Utils
         /// <param name="rowsFields">Kolekcja pól wierszów</param>
         /// <param name="hasHeader">Czy ma nagłówek. Jeśli tak, to zostanie wyróżniony ramką</param>
         /// <param name="horizontalTextAlignment">Sposób wyrównania tekstu w poziomie, domyślnie jest do lewej</param>
-        public static void WriteTableFromFields(IEnumerable<string[]> rowsFields, bool hasHeader = true, HorizontalTextAlignment horizontalTextAlignment = HorizontalTextAlignment.Left)
+        public static void WriteTableFromFields(IList<string[]> rowsFields, bool hasHeader = true, HorizontalTextAlignment horizontalTextAlignment = HorizontalTextAlignment.Left)
         {
-            if (!rowsFields.Any()) //Czy kolekcja pól wierszy zawiera jakiekolwiek elementy
+            if (rowsFields.IsEmpty()) //Czy kolekcja pól wierszy zawiera jakiekolwiek elementy
             {
                 WriteLine(); //Wyświetlenie pustej linii
 
                 return; //Wyjście z metody
             }
 
-            string[] firstRowFields = rowsFields.First(); //Pobranie pól pierwszego elementu kolekcji
+            string[] firstRowFields = rowsFields[0]; //Pobranie pól pierwszego elementu kolekcji
 
             int[] columnsWidths = GetColumnsWidths(rowsFields); //Pobranie szerokości zawartości kolumn na podstawie kolekcji pól wierszy
 
@@ -204,7 +205,7 @@ namespace PDCore.Utils
         /// <param name="horizontalTextAlignment">Sposób wyrównania tekstu w poziomie, domyślnie jest do lewej</param>
         public static void WriteTableFromObjects<T>(IEnumerable<T> collection, bool hasHeader = true, HorizontalTextAlignment horizontalTextAlignment = HorizontalTextAlignment.Left) where T : class
         {
-            IEnumerable<string[]> rowsFields = collection.Select(x => ObjectUtils.GetObjectValues(x).ToArrayString()); //Zwrócenie kolekcji pól dla obiektów
+            List<string[]> rowsFields = collection.Select(x => ObjectUtils.GetObjectValues(x).ToArrayString()).ToList(); //Zwrócenie kolekcji pól dla obiektów
             //Z każdego obiektu zostają pobrane wartości właściwości i zostają przekonwertowane na tablicę łańcuchów znaków - tablicę pól dla danego wiersza
 
             WriteTableFromFields(rowsFields, hasHeader, horizontalTextAlignment); //Wyświetlenie kolekcji pól w formie tabeli z nagłówkiem lub bez
@@ -221,7 +222,7 @@ namespace PDCore.Utils
         /// <param name="horizontalTextAlignment">Sposób wyrównania tekstu w poziomie, domyślnie jest do lewej</param>
         public static void WriteTableFromCSV(string filePath, bool hasHeader = true, bool skipFirstLine = false, string delimiter = ",", Func<string[], bool> shouldSkipRecord = null, HorizontalTextAlignment horizontalTextAlignment = HorizontalTextAlignment.Left)
         {
-            IEnumerable<string[]> rowsFields = CSVUtils.ParseCSVLines(filePath, skipFirstLine, delimiter, shouldSkipRecord); //Zwrócenie kolekcji pól dla wybranych linii pliku CSV
+            List<string[]> rowsFields = CSVUtils.ParseCSVLines(filePath, skipFirstLine, delimiter, shouldSkipRecord).ToList(); //Zwrócenie kolekcji pól dla wybranych linii pliku CSV
 
             WriteTableFromFields(rowsFields, hasHeader, horizontalTextAlignment); //Wyświetlenie kolekcji pól w formie tabeli z nagłówkiem lub bez
         }
@@ -231,7 +232,7 @@ namespace PDCore.Utils
         /// </summary>
         /// <param name="rowsFields">Kolekcja pól wierszy</param>
         /// <returns>Szerokość zawartości kolumn</returns>
-        public static int[] GetColumnsWidths(IEnumerable<string[]> rowsFields)
+        public static int[] GetColumnsWidths(ICollection<string[]> rowsFields)
         {
             string[] firstRowFields = rowsFields.First(); //Pobranie pól pierwszego elementu kolekcji
 
@@ -264,12 +265,11 @@ namespace PDCore.Utils
         /// <returns>Zawartość wiersza</returns>
         public static string GetRow(string[] values, int[] columnsWidths, HorizontalTextAlignment horizontalTextAlignment = HorizontalTextAlignment.Left)
         {
-            int index = 0; //Będę tu przechowywane tymczasowe indeksy pól dla danego wiersza
             string fieldContent; //Tutaj będzie tymczasowo porzechowywana zawartość danego pola wiersza
             int fieldContentWidth; //Tutaj będzie tymaczasowo przechowywana szerokość zawartości kolumny w której będzie pole
             StringBuilder rowContent = new StringBuilder("|"); //Utworzenie wstępnej zawartości wiersza, lewa krawędź wiersza.
 
-            values.ForEach(x => //Przejście po wszystkich polach
+            values.ForEach((x, index) => //Przejście po wszystkich polach
             {
                 fieldContentWidth = columnsWidths[index]; //Ustawienie szerokości zawartości danego pola
 
@@ -282,8 +282,6 @@ namespace PDCore.Utils
                  * Zostaje pobrana szerokość zawartości kolumny do której powędruje pole. Jeśli pole ma mniejszą długość od zawartości kolumny, to z prawej strony zostaną dodane spacje, by
                  * każda kolumna i wiersz miały takie same szerokości
                  */
-
-                index++; //Inkrementacja celem dodania do wiersza zawartości kolejnego pola
             });
 
             return rowContent.ToString(); //Zwrócenie zawartości wiersza
@@ -332,12 +330,14 @@ namespace PDCore.Utils
         /// <param name="rowsFields">Kolekcja pól wierszy</param>
         /// <param name="columnsWidths">Szerokość zawartości kolumn</param>
         /// <param name="horizontalTextAlignment">Sposób wyrównania tekstu w poziomie, domyślnie jest do lewej</param>
-        public static void WriteRows(IEnumerable<string[]> rowsFields, int[] columnsWidths, HorizontalTextAlignment horizontalTextAlignment = HorizontalTextAlignment.Left)
+        public static void WriteRows(ICollection<string[]> rowsFields, int[] columnsWidths, HorizontalTextAlignment horizontalTextAlignment = HorizontalTextAlignment.Left)
         {
             string row; //Tu będzie przechowywana tymaczasowo zawartość danego wiersza
 
-            foreach (var item in rowsFields.Skip(1)) //Przejście po wszystkich kolekcjach pól wierszy pomijając pierwszy wiersz, pierwszy element kolekcji
+            foreach (var item in rowsFields) //Przejście po wszystkich kolekcjach pól wierszy pomijając pierwszy wiersz, pierwszy element kolekcji
             {
+                
+
                 row = GetRow(item, columnsWidths, horizontalTextAlignment); //Utworzenie zawartości wiersza na podstawie pól wiersza biorąc pod uwagę szerokość zawartości kolumn
 
                 WriteRow(row); //Wyświetlenie zawartości wiersza bez oczkiwania na wciśnięcie klawisza
