@@ -55,5 +55,16 @@ namespace PDCore.Tests
             Assert.AreEqual(2, firstElement.Value.Count);
             Assert.AreEqual(1, secondElement.Value.Count);
         }
+
+        [TestMethod]
+        public void ThrowsArgumentExceptionWhenElementsToAddAreNotSpecified()
+        {
+            CategoryCollection categoryCollection = new CategoryCollection();
+
+            void addRange(IEnumerable<NamedObject> range) => categoryCollection.AddRange("Kursy", range);
+
+            Assert.ThrowsException<ArgumentNullException>(() => addRange(null));
+            Assert.ThrowsException<ArgumentException>(() => addRange(Enumerable.Empty<NamedObject>()));
+        }
     }
 }

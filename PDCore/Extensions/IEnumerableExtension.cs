@@ -95,7 +95,7 @@ namespace PDCore.Extensions
 
         public static TResult[] ToArray<TSource, TResult>(this IEnumerable<TSource> source, Converter<TSource, TResult> converter = null)
         {
-            return source.ConvertTo(converter).ToArray();
+            return source.ConvertOrCastTo(converter).ToArray();
         }
 
         public static string[] ToArrayString<T>(this IEnumerable<T> source)
@@ -115,9 +115,9 @@ namespace PDCore.Extensions
             return source.Concat(toAdd);
         }
 
-        public static IEnumerable<TOutput> ConvertTo<TInput, TOutput>(this IEnumerable<TInput> input, Converter<TInput, TOutput> converter = null)
+        public static IEnumerable<TOutput> ConvertOrCastTo<TInput, TOutput>(this IEnumerable<TInput> input, Converter<TInput, TOutput> converter = null)
         {
-            return input.Select(x => x.ConvertTo(converter));
+            return input.Select(x => x.ConvertOrCastTo(converter));
         }
 
         public static Type GetItemType<T>(this IEnumerable<T> enumerable)

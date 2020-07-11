@@ -26,10 +26,14 @@ namespace PDCore.Helpers.DataStructures
 
         public CategoryCollection AddRange(string categoryName, IEnumerable<NamedObject> namedObject)
         {
-            if (!namedObject.Any())
+            namedObject.ThrowIfNull(nameof(namedObject));
+
+            NamedObject firstNamedObject = namedObject.FirstOrDefault();
+
+            if (firstNamedObject == null) //W sekwencji nie ma żadnych elementów
                 throw new ArgumentException("Nie podano nazwanych obiektów do dodania", nameof(namedObject));
 
-            Add(categoryName, namedObject.First()); //Istnienie klucza będzie sprawdzane tylko raz
+            Add(categoryName, firstNamedObject); //Istnienie klucza będzie sprawdzane tylko raz
 
             namedObject.Skip(1).ForEach(x => this[categoryName].Add(x));
 

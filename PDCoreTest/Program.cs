@@ -111,7 +111,7 @@ namespace PDCoreTest
         {
             var enumValues = ObjectUtils.GetEnumValues(typeof(CertificateType));
 
-            var result = enumValues.ConvertTo<object, string>();
+            var result = enumValues.ConvertOrCastTo<object, string>();
 
 
             string enumName = ObjectUtils.GetEnumName<CertificateType>(2);
@@ -336,7 +336,7 @@ namespace PDCoreTest
         {
             double x = 1.5;
 
-            x = x.ConvertTo<double, int>();
+            x = x.ConvertOrCastTo<double, int>();
 
             Console.WriteLine(x);
         }
@@ -345,7 +345,7 @@ namespace PDCoreTest
         {
             IEnumerable<double> x = new[] { 1.5, 6.3, 7.9, 5.6 };
 
-            var y = x.ConvertTo<double, int>();
+            var y = x.ConvertOrCastTo<double, int>();
 
             string result = string.Join(", ", y);
 

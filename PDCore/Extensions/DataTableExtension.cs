@@ -36,7 +36,7 @@ namespace PDCore.Extensions
                 return default; //Zwrócona zostaje wartość domyślna dla typu wartości
             }
 
-            return dt.Rows[0][0].ConvertTo<object, T>(); //Zostaje zwrócona wartość pierwszej kolumny z pierwszego wiersza tabeli, która jest jawnie rzutowana na typ wartości
+            return dt.Rows[0][0].ConvertOrCastTo<object, T>(); //Zostaje zwrócona wartość pierwszej kolumny z pierwszego wiersza tabeli, która jest jawnie rzutowana na typ wartości
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace PDCore.Extensions
                 return default; //Zwrócona zostaje wartość domyślna dla typu wartości
             }
 
-            return dt.Rows[0][columnName].ConvertTo<object, T>(); //Zostaje zwrócona wartość zadanej kolumny z pierwszego wiersza tabeli, która jest jawnie rzutowana na typ wartości
+            return dt.Rows[0][columnName].ConvertOrCastTo<object, T>(); //Zostaje zwrócona wartość zadanej kolumny z pierwszego wiersza tabeli, która jest jawnie rzutowana na typ wartości
         }
 
         /// <summary>

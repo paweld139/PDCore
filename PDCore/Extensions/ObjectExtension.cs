@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.ServiceModel;
 using System.Text;
@@ -48,13 +49,13 @@ namespace PDCore.Extensions
         public static void ThrowIfNull(this object obj, string objName)
         {
             if (obj == null)
-                throw new Exception(string.Format("{0} is null.", objName));
+                throw new ArgumentNullException(string.Format("{0} is null.", objName));
         }
 
         public static void ThrowIfNull(this object obj)
         {
             if (obj == null)
-                throw new Exception(string.Format("obj is null."));
+                throw new ArgumentNullException(string.Format("obj is null."));
         }
 
         public static void SwapValues<T>(this T[] source, long index1, long index2)
@@ -70,14 +71,31 @@ namespace PDCore.Extensions
             source.SwapValues(0, 1);
         }
 
-        public static bool IsEnum<T>(this object obj)
+        public static TypeCode GetTypeCode(this object obj)
         {
-            return obj.IsNumericDatatype() && Enum.IsDefined(typeof(T), obj);
+            return obj.GetType().GetTypeCode();
+        }
+
+        public static TypeCode GetTypeCode(this Type type)
+        {
+            return Type.GetTypeCode(type);
+        }
+
+        public static bool IsEnum<TEnum>(this object obj)
+        {
+            Type enumType = typeof(TEnum);
+
+            TypeCode enumTypeCode = enumType.GetTypeCode(); //Typ numeru enuma
+
+            if (enumTypeCode != obj.GetTypeCode())
+                obj = obj.ConvertObject(enumTypeCode);
+
+            return Enum.IsDefined(enumType, obj);
         }
 
         public static bool IsNumericDatatype(this object obj)
         {
-            switch (Type.GetTypeCode(obj.GetType()))
+            switch (obj.GetTypeCode())
             {
                 case TypeCode.Byte:
                 case TypeCode.SByte:
@@ -177,7 +195,12 @@ namespace PDCore.Extensions
             return new StopWatchWrapper(disposableStopwatch);
         }
 
-        public static TOutput ConvertTo<TInput, TOutput>(this TInput input, Converter<TInput, TOutput> converter = null)
+        public static Type GetType(this TypeCode code)
+        {
+            return Type.GetType("System." + ObjectUtils.GetEnumName<TypeCode>(code));
+        }
+
+        public static TOutput ConvertOrCastTo<TInput, TOutput>(this TInput input, Converter<TInput, TOutput> converter = null)
         {
             if (input is TOutput output)
                 return output;
@@ -187,7 +210,7 @@ namespace PDCore.Extensions
 
             //var simpleConverter = TypeDescriptor.GetConverter(typeof(TInput));
 
-            return (TOutput)Convert.ChangeType(input, typeof(TOutput));
+            return input.ConvertObject<TOutput>();
         }
 
         public static double SampledAverageDouble(this double[] numbers)
@@ -296,7 +319,17 @@ namespace PDCore.Extensions
 
         public static T ConvertObject<T>(this object input)
         {
-            return (T)Convert.ChangeType(input, typeof(T));
+            return (T)input.ConvertObject(typeof(T));
+        }
+
+        public static object ConvertObject(this object input, Type outputType)
+        {
+            return input.ConvertObject(outputType.GetTypeCode());
+        }
+
+        public static object ConvertObject(this object input, TypeCode outputTypeCode)
+        {
+            return Convert.ChangeType(input, outputTypeCode);
         }
     }
 }

@@ -90,6 +90,25 @@ namespace PDCore.Tests
             Assert.AreEqual(expected, actual);
         }
 
+        [TestMethod]
+        public void CanCheckWhetherNumberIsDefinedInEnumType()
+        {
+            double number = 1;
+            int number2 = 5;
+            string number3 = "2";
+            string number4 = "20";
+
+            bool actual = number.IsEnum<CertificateType>(), expected = true;
+            bool actual2 = number2.IsEnum<CertificateType>(), expected2 = false;
+            bool actual3 = number3.IsEnum<CertificateType>(), expected3 = true;
+            bool actual4 = number4.IsEnum<CertificateType>(), expected4 = false;
+
+            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected2, actual2);
+            Assert.AreEqual(expected3, actual3);
+            Assert.AreEqual(expected4, actual4);
+        }
+
         #endregion
     }
 }

@@ -148,7 +148,7 @@ namespace PDCore.Utils
 
         public static IEnumerable<TResult> GetEnumValues<TEnum, TResult>() where TEnum : struct
         {
-            return GetEnumValues<TEnum>().ConvertTo<TEnum, TResult>();
+            return GetEnumValues<TEnum>().ConvertOrCastTo<TEnum, TResult>();
         }
 
         public static IEnumerable<int> GetEnumNumbers<TEnum>() where TEnum : struct
