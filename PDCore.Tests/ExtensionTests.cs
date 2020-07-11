@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PDCore.Enums;
 using PDCore.Extensions;
@@ -107,6 +110,45 @@ namespace PDCore.Tests
             Assert.AreEqual(expected2, actual2);
             Assert.AreEqual(expected3, actual3);
             Assert.AreEqual(expected4, actual4);
+        }
+
+        [TestMethod]
+        public void CanGetCharactersFromStringSequence()
+        {
+            IEnumerable<string> stringSequence = new[] { "gerge", "jtweqf", "r5gw" };
+
+            IEnumerable<char> actual = ObjectUtils.GetCharacters(stringSequence);
+
+            IEnumerable<char> expected = new[] { 'g', 'e', 'r', 'g', 'e', 'j', 't', 'w', 'e', 'q', 'f', 'r', '5', 'g', 'w' };
+
+
+            Assert.IsTrue(expected.SequenceEqual(actual));
+        }
+
+        [TestMethod]
+        public void CanGetOrderedCharactersFromStringSequence()
+        {
+            IEnumerable<string> stringSequence = new[] { "gerge", "jtweqf", "r5gw" };
+
+            IEnumerable<char> actual = ObjectUtils.GetOrderedCharacters(stringSequence);
+
+            IEnumerable<char> expected = new[] { '5', 'e', 'e', 'e', 'f', 'g', 'g', 'g', 'j', 'q', 'r', 'r', 't', 'w', 'w' };
+
+
+            Assert.IsTrue(expected.SequenceEqual(actual));
+        }
+
+        [TestMethod]
+        public void CanGetStringSequenceWithOrderedCharactersFromStringSequence()
+        {
+            IEnumerable<string> stringSequence = new string[] { "abc", "bacd", "pacds" };
+
+            IEnumerable<string> actual = ObjectUtils.GetWithOrderedCharacters(stringSequence);
+
+            IEnumerable<string> expected = new[] { "abc", "abcd", "acdps" };
+
+
+            Assert.IsTrue(expected.SequenceEqual(actual));
         }
 
         #endregion

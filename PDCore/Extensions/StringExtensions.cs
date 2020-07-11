@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PDCore.Utils;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -104,6 +105,13 @@ namespace PDCore.Extensions
             double result = double.Parse(data);
 
             return result;
+        }
+
+        public static string Order(this string text)
+        {
+            var orderedCharacters = ObjectUtils.GetOrderedCharacters(text);
+
+            return string.Concat(orderedCharacters);
         }
     }
 }

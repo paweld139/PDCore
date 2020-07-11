@@ -25,6 +25,10 @@ namespace PDCoreTest
             _ = args;
 
 
+            TestOrderBy();
+
+            WriteSeparator();
+
             TestCsvParsing();
 
             WriteSeparator();
@@ -95,6 +99,36 @@ namespace PDCoreTest
             Console.ReadKey();
         }
 
+        private static void TestOrderBy()
+        {
+            string[] a = new string[] { "Indonesian", "Korean", "Japanese", "English", "German" };
+
+            var sort = from s in a orderby s select s;
+
+            ConsoleUtils.WriteLines(sort);
+
+
+            string[] str = new string[] { "abc", "bacd", "pacds" };
+
+            var result = str.Select(c => string.Concat(c.OrderBy(d => d)));
+
+            ConsoleUtils.WriteLines(result);
+
+
+            var i = new object[] { "efwef", 1, 2.0, true };
+
+            ConsoleUtils.WriteLines(i);
+
+
+            IEnumerable<object> i2 = new object[] { "efwef", 1, 2.0, true };
+
+            ConsoleUtils.WriteLines(i2);
+
+            ConsoleUtils.WriteLines(1, 2, 3);
+
+            ConsoleUtils.WriteLines(1, false, "ergerg", 2.1, 3m, 6L);
+        }
+
         private static void TestCsvParsing()
         {
             string path = @"D:\Downloads\1253a5fc75280025995fa7f3cb61000e-6b4989b6cf20ddc619c28a2e51eb9e27eb185709\fuel.csv";
@@ -143,7 +177,7 @@ namespace PDCoreTest
 
 
             var certificateType = CertificateType.WSS;
-            
+
             object enumNumber = Convert.ChangeType(certificateType, typeof(string));
 
             ConsoleUtils.WriteLine(enumNumber);

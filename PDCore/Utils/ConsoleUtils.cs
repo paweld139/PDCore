@@ -119,18 +119,23 @@ namespace PDCore.Utils
             WriteLine(value.Last(), readKey); //Wyśwetlenie ostatniego stringa i oczekiwanie na wciśnięcie klawisza
         }
 
-        public static void WriteLines(IEnumerable<object> value, bool readKey = false)
-        {
-            WriteLines<object>(value, readKey);
-        }
+        //public static void WriteLines(IEnumerable<object> value, bool readKey = false)
+        //{
+        //    WriteLines<object>(value, readKey);
+        //}
+
+        //public static void WriteLines<T>(params T[] value) //Takiego samego typu
+        //{
+        //    WriteLines(value.AsEnumerable());
+        //}
 
         /// <summary>
         /// Wyświetlenie na konsoli tablicy łańcuchów znaków (każdy string w osobnej linii) i na końcu oczekiwanie na wciśnięcie klawisza
         /// </summary>
         /// <param name="value">Tablica łańcuchów znaków do wyświetlenia w nowych liniach. Możliwość podawania tekstów po przecinku</param>
-        public static void WriteLines(params object[] value)
+        public static void WriteLines(params object[] value) //Mogą być różne typy
         {
-            WriteLines(value.AsEnumerable()); //Wyświetlenie stringów w nowych liniach
+            WriteLines<object>(value); //Wyświetlenie stringów w nowych liniach
         }
 
         public static void WriteByte(int value)

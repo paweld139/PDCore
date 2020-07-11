@@ -242,5 +242,38 @@ namespace PDCore.Utils
                 yield return random.NextDouble(); //Między 0 a 1
             }
         }
+
+        public static IEnumerable<char> GetOrderedCharacters(IEnumerable<char> source)
+        {
+            return source.OrderBy(c => c);
+        }
+
+        public static IEnumerable<char> GetCharacters(IEnumerable<string> source)
+        {
+            return source.SelectMany(s => s);
+        }
+
+        public static IEnumerable<char> GetOrderedCharacters(IEnumerable<string> source)
+        {
+            var characters = GetCharacters(source);
+
+            return GetOrderedCharacters(characters);
+        }
+
+        public static IEnumerable<string> GetWithOrderedCharacters(IEnumerable<string> source)
+        {
+            //return source.Select(s => string.Concat(s.OrderBy(c => c)));
+            //return source.Select(s => string.Concat(GetOrderedCharacters(s)));
+            //return source.Map(s => s.Order());
+            //return from text in source
+            //       select string.Concat
+            //       (
+            //           from character in text
+            //           orderby character
+            //           select character
+            //       );
+
+            return source.Select(s => s.Order());
+        }
     }
 }
