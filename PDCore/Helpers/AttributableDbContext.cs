@@ -17,7 +17,7 @@ namespace PDCore.Helpers
 {
     public class AttributableDbContext : LocalSqlHelper, IAttributableDbContext
     {
-        public AttributableDbContext(string nameOrConnectionString) : base(SqlUtils.GetNameOrConnectionString(nameOrConnectionString)) { }
+        public AttributableDbContext(string nameOrConnectionString) : base(SqlUtils.GetConnectionString(nameOrConnectionString)) { }
 
         private ILogger Logger;
 

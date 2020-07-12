@@ -177,7 +177,7 @@ namespace PDCore.Utils
             return isConnectionString;
         }
 
-        public static string GetNameOrConnectionString(string nameOrConnectionString)
+        public static string GetConnectionString(string nameOrConnectionString)
         {
             string result = !nameOrConnectionString.IsConnectionString() ? ConfigurationManager.ConnectionStrings[nameOrConnectionString]?.ConnectionString
                             : nameOrConnectionString;

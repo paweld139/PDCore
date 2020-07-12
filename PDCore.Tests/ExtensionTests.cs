@@ -96,20 +96,14 @@ namespace PDCore.Tests
         [TestMethod]
         public void CanCheckWhetherNumberIsDefinedInEnumType()
         {
-            double number = 1;
-            int number2 = 5;
-            string number3 = "2";
-            string number4 = "20";
+            var numbers = new object[] { 1, 5, "2", "20" };
 
-            bool actual = number.IsEnum<CertificateType>(), expected = true;
-            bool actual2 = number2.IsEnum<CertificateType>(), expected2 = false;
-            bool actual3 = number3.IsEnum<CertificateType>(), expected3 = true;
-            bool actual4 = number4.IsEnum<CertificateType>(), expected4 = false;
+            var actual = numbers.Select(n => n.IsEnum<CertificateType>());
 
-            Assert.AreEqual(expected, actual);
-            Assert.AreEqual(expected2, actual2);
-            Assert.AreEqual(expected3, actual3);
-            Assert.AreEqual(expected4, actual4);
+            var expected = new[] { true, false, true, false };
+
+
+            Assert.IsTrue(expected.SequenceEqual(actual));
         }
 
         [TestMethod]
