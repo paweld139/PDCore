@@ -287,7 +287,7 @@
     <Compile Include="Utils\SqlUtils.cs" />
     <Compile Include="Utils\StringUtils.cs" />
     <Compile Include="Utils\WebUtils.cs" />
-    <Compile Include="Helpers\WebSqlHelper.cs" />
+    <Compile Include="Helpers\AttributableDbContext.cs" />
     <Compile Include="Context\IContext\IAttributableDbContext.cs" />
     <Compile Include="Context\IContext\IDbContext.cs" />
     <Compile Include="Helpers\ImportHelper.cs" />
