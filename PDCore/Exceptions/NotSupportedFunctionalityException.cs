@@ -5,7 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace PDCore.Models
+namespace PDCore.Exceptions
 {
     public class NotSupportedFunctionalityException : NotSupportedException
     {
@@ -30,7 +30,7 @@ namespace PDCore.Models
         {
             get
             {
-                string message = $"{base.Message} Nazwa funkcjonalności: {TargetSite.Name}";
+                string message = $"{base.Message} Nazwa funkcjonalności: {TargetSite.Name}.";
 
                 return message.TrimStart();
             }

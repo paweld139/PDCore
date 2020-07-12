@@ -1,17 +1,10 @@
 ﻿using FTCore.CoreLibrary.AttributeApi;
-using FTCore.CoreLibrary.SQLLibrary;
 using PDCore.Context.IContext;
-using PDCore.Helpers;
+using PDCore.Exceptions;
 using PDCore.Interfaces;
-using PDCore.Models;
-using PDCore.Utils;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Security.Cryptography.Xml;
-using System.ServiceModel;
-using System.Text;
 
 namespace PDCore.Repositories.Repo
 {
