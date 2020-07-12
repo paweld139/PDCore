@@ -55,6 +55,7 @@
     <Compile Include="Helpers\Container.cs" />
     <Compile Include="Helpers\ExceptionHandling\DbActionWrapper.cs" />
     <Compile Include="Helpers\SaveChangesWrapper.cs" />
+    <Compile Include="Helpers\UnityServiceLocator.cs" />
     <Compile Include="Loggers\Factory\LoggerFactory.cs" />
     <Compile Include="Helpers\Log.cs" />
     <Compile Include="Models\FileModel.cs" />
@@ -75,9 +76,13 @@
     <Compile Include="Repositories\IRepo\IEFRepo.cs" />
     <Compile Include="Repositories\Repo\SqlRepositoryEntityFramework.cs" />
     <Compile Include="Services\Serv\LogService.cs" />
+    <Compile Include="Services\Serv\SomeClass.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="CommonServiceLocator">
+      <Version>2.0.5</Version>
+    </PackageReference>
     <PackageReference Include="EntityFramework">
       <Version>6.4.4</Version>
     </PackageReference>

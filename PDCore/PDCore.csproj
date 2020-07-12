@@ -333,6 +333,9 @@
     <PackageReference Include="Security.Cryptography">
       <Version>1.7.2</Version>
     </PackageReference>
+    <PackageReference Include="Unity">
+      <Version>5.11.7</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

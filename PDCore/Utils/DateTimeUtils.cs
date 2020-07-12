@@ -45,5 +45,10 @@ namespace PDCore.Utils
         {
             return (long)(DateTime.UtcNow - Jan1st1970).TotalMilliseconds;
         }
+
+        public static TimeSpan GetTimeSpan(double milliseconds)
+        {
+            return TimeSpan.FromMilliseconds(milliseconds);
+        }
     }
 }

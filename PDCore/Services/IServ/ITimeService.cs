@@ -9,6 +9,8 @@ namespace PDCore.Services.IServ
     {
         DateTime Now { get; }
 
-        void Sleep(TimeSpan delay);
+        void Sleep(TimeSpan timeout);
+
+        void Sleep(int millisecondsTimeout);
     }
 }

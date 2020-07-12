@@ -7,6 +7,6 @@ namespace PDCore.Services.IServ
 {
     public interface ISleepService
     {
-        void Sleep(int interval);
+        void Sleep(int millisecondsTimeout);
     }
 }

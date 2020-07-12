@@ -1,4 +1,5 @@
 ﻿using PDCore.Services.IServ;
+using PDCore.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,18 +7,18 @@ using System.Text;
 
 namespace PDCore.Services.Serv.Time
 {
-    public class TimeServiceStub : ITimeService
+    public class TimeServiceStub : TimeService
     {
         public TimeServiceStub()
         {
-            Now = DateTime.UtcNow;
+            Now = base.Now;
         }
 
-        public DateTime Now { get; private set; }
+        public override DateTime Now { get; protected set; }
 
-        public void Sleep(TimeSpan delay)
+        public override void Sleep(TimeSpan timeout)
         {
-            Now += delay;
+            Now += timeout;
         }
     }
 }
