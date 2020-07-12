@@ -280,6 +280,7 @@
     <Compile Include="Services\IServ\IErrorLogService.cs" />
     <Compile Include="Services\IServ\ITimeService.cs" />
     <Compile Include="Services\IServ\ISleepService.cs" />
+    <Compile Include="Services\Serv\Time\SomeClass.cs" />
     <Compile Include="Services\Serv\Time\TimeService.cs" />
     <Compile Include="Services\Serv\Time\TimeServiceStub.cs" />
     <Compile Include="Utils\ConsoleUtils.cs" />

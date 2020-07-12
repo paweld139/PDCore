@@ -1,12 +1,11 @@
-﻿using CommonServiceLocator;
-using PDCore.Services.IServ;
+﻿using PDCore.Services.IServ;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Unity;
 
-namespace PDCoreNew.Services.Serv
+namespace PDCore.Services.Serv.Time
 {
     public class SomeClass
     {

@@ -76,7 +76,6 @@
     <Compile Include="Repositories\IRepo\IEFRepo.cs" />
     <Compile Include="Repositories\Repo\SqlRepositoryEntityFramework.cs" />
     <Compile Include="Services\Serv\LogService.cs" />
-    <Compile Include="Services\Serv\SomeClass.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
