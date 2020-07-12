@@ -331,5 +331,15 @@ namespace PDCore.Extensions
         {
             return Convert.ChangeType(input, outputTypeCode);
         }
+
+        public static string GetTypeName(this Type type)
+        {
+            StringBuilder typeName = new StringBuilder(type.Name);
+
+            if (type.IsGenericType)
+                type.GetGenericArguments().ForEach(a => typeName.AppendFormat("[{0}]", a.Name));
+
+            return typeName.ToString();
+        }
     }
 }

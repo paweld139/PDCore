@@ -1,4 +1,5 @@
 ﻿using Org.BouncyCastle.Asn1.X509;
+using PDCore.Extensions;
 using PDCore.Utils;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,7 @@ namespace PDCore.Exceptions
         {
             get
             {
-                string message = $"{base.Message} Nazwa funkcjonalności: {TargetSite.Name}. Obiekt: {TargetSite.DeclaringType.Name}";
+                string message = $"{base.Message} Nazwa funkcjonalności: {TargetSite.Name}. Obiekt: {TargetSite.DeclaringType.GetTypeName()}.";
 
                 return message.TrimStart();
             }
