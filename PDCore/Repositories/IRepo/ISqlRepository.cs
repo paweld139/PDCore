@@ -6,7 +6,7 @@ using System.Text;
 
 namespace PDCore.Repositories.IRepo
 {
-    public interface ISqlRepository<T> : IRepository<T>
+    public interface ISqlRepository<T> : IRepository<T>, ISqlRepository
     {
         List<T> GetByWhere(string where);
     }
