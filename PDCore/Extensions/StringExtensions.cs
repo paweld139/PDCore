@@ -1,6 +1,8 @@
 ﻿using PDCore.Utils;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Security;
@@ -112,6 +114,22 @@ namespace PDCore.Extensions
             var orderedCharacters = ObjectUtils.GetOrderedCharacters(text);
 
             return string.Concat(orderedCharacters);
+        }
+
+        public static bool IsConnectionString(this string text)
+        {
+            DbConnectionStringBuilder csb = new DbConnectionStringBuilder();
+
+            try
+            {
+                csb.ConnectionString = text; // throws
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

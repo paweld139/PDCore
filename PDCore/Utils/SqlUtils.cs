@@ -1,4 +1,5 @@
 ﻿using FTCore.CoreLibrary.SQLLibrary;
+using PDCore.Extensions;
 using PDCore.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace PDCore.Utils
 {
     public static class SqlUtils
     {
-        public static string SQLQuery(string objectName = null, string projection = "*", string selection = null, string joins = "", string order = null, 
+        public static string SQLQuery(string objectName = null, string projection = "*", string selection = null, string joins = "", string order = null,
             string orderType = "", bool isUpdate = false, bool isInsert = false, bool isDelete = false, bool isStoredProcedure = false, bool isFunction = false, string parameters = "")
         {
             StringBuilder q = new StringBuilder("set dateformat ymd; ");
@@ -150,6 +151,36 @@ namespace PDCore.Utils
                     break;
                 }
             }
+
+            return result;
+        }
+
+        public static bool TestConnectionString(string text)
+        {
+            bool isConnectionString = text.IsConnectionString();
+
+            if (isConnectionString)
+            {
+                using (SqlConnection sqlConnection = new SqlConnection(text))
+                {
+                    try
+                    {
+                        sqlConnection.Open(); // throws if invalid
+                    }
+                    catch
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return isConnectionString;
+        }
+
+        public static string GetNameOrConnectionString(string nameOrConnectionString)
+        {
+            string result = !nameOrConnectionString.IsConnectionString() ? ConfigurationManager.ConnectionStrings[nameOrConnectionString]?.ConnectionString
+                            : nameOrConnectionString;
 
             return result;
         }

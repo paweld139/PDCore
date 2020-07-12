@@ -7,6 +7,7 @@ using PDCore.Interfaces;
 using PDCore.Utils;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace PDCore.Helpers
 {
     public class AttributableDbContext : LocalSqlHelper, IAttributableDbContext
     {
-        public AttributableDbContext(string connectionString) : base(connectionString) { }
+        public AttributableDbContext(string nameOrConnectionString) : base(SqlUtils.GetNameOrConnectionString(nameOrConnectionString)) { }
 
         private ILogger Logger;
 
