@@ -61,7 +61,8 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FTCore">
+    <Reference Include="FTCore, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Common\DLL\FTCore.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.4.369, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
@@ -277,6 +278,10 @@
     <Compile Include="Repositories\Repo\SqlRepository.cs" />
     <Compile Include="Services\IServ\ICacheService.cs" />
     <Compile Include="Services\IServ\IErrorLogService.cs" />
+    <Compile Include="Services\IServ\ITimeService.cs" />
+    <Compile Include="Services\IServ\ISleepService.cs" />
+    <Compile Include="Services\Serv\Time\TimeService.cs" />
+    <Compile Include="Services\Serv\Time\TimeServiceStub.cs" />
     <Compile Include="Utils\ConsoleUtils.cs" />
     <Compile Include="Utils\CSVUtils.cs" />
     <Compile Include="Utils\DateTimeUtils.cs" />
@@ -306,7 +311,6 @@
   <ItemGroup>
     <Folder Include="Helpers\CSV\" />
     <Folder Include="Models\" />
-    <Folder Include="Services\Serv\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Helpers\XML\Signing\Xades\XAdES.xsd">

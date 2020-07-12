@@ -7,6 +7,8 @@ using System.Linq;
 using FTCore.CoreLibrary.SQLLibrary;
 using System.Data.SqlClient;
 using System.Data;
+using Moq;
+using PDCore.Services.IServ;
 
 namespace PDCore.Tests
 {
@@ -86,6 +88,26 @@ namespace PDCore.Tests
             localSqlHelper.Dispose();
 
             Assert.IsTrue(sqlConnection.State == ConnectionState.Closed);
+        }
+
+        [TestMethod]
+        public void LocalSqlHelperNotClosesSqlConnectionImmediatelyAfterGetDataTable()
+        {
+            LocalSqlHelper localSqlHelper = SqlUtils.EnableSQLConnection();
+
+            string query = SqlUtils.SQLQuery("Employees", selection: "Id in (3, 4, 7)", order: "Name");
+
+
+            SqlConnection sqlConnection = localSqlHelper.GetOpenConnection();
+
+            Assert.IsTrue(sqlConnection.State == ConnectionState.Open);
+
+
+            DataTable dataTable = localSqlHelper.GetDataTable(query);
+
+            Assert.IsNotNull(dataTable);
+
+            Assert.IsFalse(sqlConnection.State == ConnectionState.Closed);
         }
 
         #endregion
