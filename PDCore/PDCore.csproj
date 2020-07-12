@@ -269,6 +269,7 @@
     <Compile Include="Interfaces\IInMemoryLogger.cs" />
     <Compile Include="Interfaces\ILogger.cs" />
     <Compile Include="Interfaces\IAsyncLogger.cs" />
+    <Compile Include="Models\NotSupportedFunctionalityException.cs" />
     <Compile Include="Repositories\IRepo\IReadOnlyRepository.cs" />
     <Compile Include="Repositories\IRepo\IRepository.cs" />
     <Compile Include="Repositories\IRepo\ISqlRepository.cs" />
@@ -304,8 +305,8 @@
     <Compile Include="Writers\Utf8StringWriter.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Exceptions\" />
     <Folder Include="Helpers\CSV\" />
-    <Folder Include="Models\" />
     <Folder Include="Services\Serv\" />
   </ItemGroup>
   <ItemGroup>

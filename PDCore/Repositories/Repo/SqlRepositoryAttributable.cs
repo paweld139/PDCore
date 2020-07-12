@@ -3,11 +3,13 @@ using FTCore.CoreLibrary.SQLLibrary;
 using PDCore.Context.IContext;
 using PDCore.Helpers;
 using PDCore.Interfaces;
+using PDCore.Models;
 using PDCore.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Security.Cryptography.Xml;
 using System.ServiceModel;
 using System.Text;
 
@@ -62,12 +64,12 @@ namespace PDCore.Repositories.Repo
 
         public override IQueryable<T> FindAll()
         {
-            throw new NotSupportedException(NotSupportedMessage);
+            throw new NotSupportedFunctionalityException(NotSupportedFunctionalityMessage);
         }
 
         public override int Commit()
         {
-            throw new NotSupportedException(NotSupportedMessage);
+            throw new NotSupportedFunctionalityException(NotSupportedFunctionalityMessage);
         }
     }
 }

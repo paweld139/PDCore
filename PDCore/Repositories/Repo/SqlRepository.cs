@@ -28,7 +28,7 @@ namespace PDCore.Repositories.Repo
 
     public abstract class SqlRepository : ISqlRepository
     {
-        protected const string NotSupportedMessage = "Ten typ repozytorium nie oferuje takiej funkcjonalności";
+        protected const string NotSupportedFunctionalityMessage = "Ten typ repozytorium nie oferuje takiej funkcjonalności.";
 
 
         private readonly IDbContext db;

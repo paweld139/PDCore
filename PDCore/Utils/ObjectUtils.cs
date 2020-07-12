@@ -289,5 +289,16 @@ namespace PDCore.Utils
             else
                 disableLogging();
         }
+
+        public static string GetCallerMethodName(int index = 2)
+        {
+            // Get call stack
+            StackTrace stackTrace = new StackTrace();
+
+            // Get calling method name
+            return stackTrace.GetFrame(index).GetMethod().Name;
+
+            //(new System.Diagnostics.StackTrace()).GetFrame(1).GetMethod().Name //one-liner
+        }
     }
 }
