@@ -8,11 +8,14 @@ namespace PDCore.Repositories.IRepo
 {
     public interface ISqlRepository<T> : IRepository<T>
     {
+        List<T> GetByWhere(string where);
+    }
+
+    public interface ISqlRepository
+    {
         bool IsLoggingEnabled { get; }
 
         void SetLogging(bool res);
-
-        List<T> GetByWhere(string where);
 
         DataTable GetDataTableByWhere(string where);
     }

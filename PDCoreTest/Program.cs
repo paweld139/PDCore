@@ -132,6 +132,7 @@ namespace PDCoreTest
         private static void TestCsvParsing()
         {
             string path = @"D:\Downloads\1253a5fc75280025995fa7f3cb61000e-6b4989b6cf20ddc619c28a2e51eb9e27eb185709\fuel.csv";
+            //string path = @"D:\Downloads\582e9c044eee5882d54a6e5997c0be52-1c6cd2fe0bda9c63178fda1f313370479ff0bc8a\manufacturers.csv";
 
             ConsoleUtils.WriteTableFromCSV(path);
 
@@ -140,6 +141,8 @@ namespace PDCoreTest
 
             ConsoleUtils.WriteDataTable(dt);
 
+            if (!path.EndsWith("fuel.csv"))
+                return;
 
             var customers = CSVUtils.ParseCSV<Customer, CustomerMap>(path);
 

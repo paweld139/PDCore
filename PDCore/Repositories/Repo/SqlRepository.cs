@@ -9,8 +9,52 @@ using System.Text;
 
 namespace PDCore.Repositories.Repo
 {
-    public abstract class SqlRepository<T> : ISqlRepository<T>
+    public abstract class SqlRepository<T> : SqlRepository, ISqlRepository<T>
     {
+        protected SqlRepository(IDbContext db, ILogger logger) : base(db, logger)
+        {
+
+        }
+
+        public abstract List<T> GetByWhere(string where);
+        public abstract T FindById(int id);
+        public abstract void Add(T newEntity);
+        public abstract void AddRange(IEnumerable<T> newEntities);
+        public abstract void Delete(T entity);
+        public abstract void DeleteRange(IEnumerable<T> entities);
+        public abstract IQueryable<T> FindAll();
+        public abstract int Commit();
+    }
+
+    public abstract class SqlRepository : ISqlRepository
+    {
+        public const string NotSupportedMessage = "Ten typ repozytorium nie oferuje takiej funkcjonalności";
+
+
+        private readonly IDbContext db;
+        private readonly ILogger logger;
+
+        protected SqlRepository(IDbContext db, ILogger logger)
+        {
+            this.db = db;
+            this.logger = logger;
+
+            if (IsLoggingEnabledByDefault)
+                SetLogging(true);
+        }
+
+        public bool IsLoggingEnabled => db.IsLoggingEnabled;
+
+        public virtual void SetLogging(bool res)
+        {
+            db.SetLogging(res, logger);
+        }
+
+        public abstract DataTable GetDataTableByWhere(string where);
+
+        public static bool IsLoggingEnabledByDefault { get; set; }
+
+
         // Flag: Has Dispose already been called?
         bool disposed = false;
 
@@ -45,31 +89,5 @@ namespace PDCore.Repositories.Repo
         {
             Dispose(false);
         }
-
-        private readonly IDbContext db;
-        private readonly ILogger logger;
-
-        public SqlRepository(IDbContext db, ILogger logger)
-        {
-            this.db = db;
-            this.logger = logger;
-        }
-
-        public bool IsLoggingEnabled => db.IsLoggingEnabled;
-
-        public virtual void SetLogging(bool res)
-        {
-            db.SetLogging(res, logger);
-        }
-
-        public abstract List<T> GetByWhere(string where);
-        public abstract DataTable GetDataTableByWhere(string where);
-        public abstract T FindById(int id);
-        public abstract void Add(T newEntity);
-        public abstract void AddRange(IEnumerable<T> newEntities);
-        public abstract void Delete(T entity);
-        public abstract void DeleteRange(IEnumerable<T> entities);
-        public abstract IQueryable<T> FindAll();
-        public abstract int Commit();
     }
 }

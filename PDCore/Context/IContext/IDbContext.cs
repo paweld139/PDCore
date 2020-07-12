@@ -21,6 +21,6 @@ namespace PDCore.Context.IContext
         /// Ustawienie czy logowanie informacji o zapytaniach ma być aktywne
         /// </summary>
         /// <param name="res">Flaga czy logowanie informacji o zapytaniach ma być aktywne</param>
-        void SetLogging(bool res, ILogger logger);
+        void SetLogging(bool input, ILogger logger);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using PDCore.Interfaces;
+using PDCore.Utils;
 using PDCoreNew.Models;
 using PDWebCore.Context.IContext;
 using PDWebCore.Models;
@@ -42,25 +43,14 @@ namespace PDWebCore.Context
         }
 
 
-        public bool IsLoggingEnabled { get; private set; }
+        public bool IsLoggingEnabled => Database.Log != null;
 
-        public void SetLogging(bool res, ILogger logger)
+        public void SetLogging(bool input, ILogger logger)
         {
-            if (res == IsLoggingEnabled || logger == null)
-            {
-                return;
-            }
-
-            IsLoggingEnabled = res;
-
-            if (res)
-            {
-                Database.Log = logger.Log;
-            }
-            else
-            {
-                Database.Log = null;
-            }
+            ObjectUtils.SetLogging(input, logger, IsLoggingEnabled,
+                () => Database.Log = logger.Log,
+                () => Database.Log = null
+            );
         }
     }
 }

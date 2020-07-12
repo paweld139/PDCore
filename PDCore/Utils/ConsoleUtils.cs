@@ -335,15 +335,13 @@ namespace PDCore.Utils
         /// <param name="rowsFields">Kolekcja pól wierszy</param>
         /// <param name="columnsWidths">Szerokość zawartości kolumn</param>
         /// <param name="horizontalTextAlignment">Sposób wyrównania tekstu w poziomie, domyślnie jest do lewej</param>
-        public static void WriteRows(ICollection<string[]> rowsFields, int[] columnsWidths, HorizontalTextAlignment horizontalTextAlignment = HorizontalTextAlignment.Left)
+        public static void WriteRows(IList<string[]> rowsFields, int[] columnsWidths, HorizontalTextAlignment horizontalTextAlignment = HorizontalTextAlignment.Left)
         {
             string row; //Tu będzie przechowywana tymaczasowo zawartość danego wiersza
 
-            foreach (var item in rowsFields) //Przejście po wszystkich kolekcjach pól wierszy pomijając pierwszy wiersz, pierwszy element kolekcji
+            for (int i = 1; i < rowsFields.Count; i++) //Przejście po wszystkich kolekcjach pól wierszy pomijając pierwszy wiersz, pierwszy element kolekcji
             {
-                
-
-                row = GetRow(item, columnsWidths, horizontalTextAlignment); //Utworzenie zawartości wiersza na podstawie pól wiersza biorąc pod uwagę szerokość zawartości kolumn
+                row = GetRow(rowsFields[i], columnsWidths, horizontalTextAlignment); //Utworzenie zawartości wiersza na podstawie pól wiersza biorąc pod uwagę szerokość zawartości kolumn
 
                 WriteRow(row); //Wyświetlenie zawartości wiersza bez oczkiwania na wciśnięcie klawisza
             }

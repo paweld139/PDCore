@@ -1,5 +1,6 @@
 ﻿using PDCore.Attributes;
 using PDCore.Extensions;
+using PDCore.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -274,6 +275,19 @@ namespace PDCore.Utils
             //       );
 
             return source.Select(s => s.Order());
+        }
+
+        public static void SetLogging(bool input, ILogger logger, bool isLoggingEnabled, Action enableLogging, Action disableLogging)
+        {
+            if (input == isLoggingEnabled || logger == null)
+            {
+                return;
+            }
+
+            if (input)
+                enableLogging();
+            else
+                disableLogging();
         }
     }
 }

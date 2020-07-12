@@ -1,8 +1,10 @@
 ﻿using FTCore.CoreLibrary.AttributeApi;
 using FTCore.CoreLibrary.SQLLibrary;
 using Microsoft.VisualBasic.Logging;
+using PDCore.Context.IContext;
 using PDCore.Extensions;
 using PDCore.Interfaces;
+using PDCore.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,9 +14,9 @@ using System.Text;
 
 namespace PDCore.Helpers
 {
-    public class WebSqlHelper : LocalSqlHelper
+    public class AttributableDbContext : LocalSqlHelper, IAttributableDbContext
     {
-        public WebSqlHelper(string connectionString) : base(connectionString) { }
+        public AttributableDbContext(string connectionString) : base(connectionString) { }
 
         private ILogger Logger;
 
@@ -122,25 +124,14 @@ namespace PDCore.Helpers
             list.ForEach(Delete);
         }
 
-        public bool IsLoggingEnabled { get; private set; }
+        public bool IsLoggingEnabled => Logger != null;
 
-        public void SetLogging(bool res, ILogger logger)
+        public void SetLogging(bool input, ILogger logger)
         {
-            if (res == IsLoggingEnabled || logger == null)
-            {
-                return;
-            }
-
-            IsLoggingEnabled = res;
-
-            if (res)
-            {
-                Logger = logger;
-            }
-            else
-            {
-                Logger = null;
-            }
+            ObjectUtils.SetLogging(input, logger, IsLoggingEnabled,
+                () => Logger = logger,
+                () => Logger = null
+            );
         }
     }
 }

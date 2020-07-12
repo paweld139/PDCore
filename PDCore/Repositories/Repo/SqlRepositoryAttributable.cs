@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 
 namespace PDCore.Repositories.Repo
@@ -61,12 +62,12 @@ namespace PDCore.Repositories.Repo
 
         public override IQueryable<T> FindAll()
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException(NotSupportedMessage);
         }
 
         public override int Commit()
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException(NotSupportedMessage);
         }
     }
 }
