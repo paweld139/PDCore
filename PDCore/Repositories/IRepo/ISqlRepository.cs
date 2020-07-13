@@ -8,7 +8,13 @@ namespace PDCore.Repositories.IRepo
 {
     public interface ISqlRepository<T> : IRepository<T>, ISqlRepository
     {
+        List<T> GetByQuery(string query);
+
         List<T> GetByWhere(string where);
+
+        DataTable GetDataTableByWhere(string where);
+
+        string GetQuery(string where);
     }
 
     public interface ISqlRepository
@@ -17,6 +23,6 @@ namespace PDCore.Repositories.IRepo
 
         void SetLogging(bool res);
 
-        DataTable GetDataTableByWhere(string where);
+        DataTable GetDataTableByQuery(string query);
     }
 }

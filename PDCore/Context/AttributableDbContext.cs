@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace PDCore.Context
 {
@@ -78,9 +79,9 @@ namespace PDCore.Context
             return result;
         }
 
-        public DataTable GetDataTable<T>(T o, string where) where T : Attributable, new()
+        public DataTable GetDataTable<T>(string where) where T : Attributable, new()
         {
-            return Savator.GetDataTable(o, where, this);
+            return Savator.GetDataTable(new T(), where, this);
         }
 
         public new int ExecuteSQLQuery(string query)
@@ -107,9 +108,14 @@ namespace PDCore.Context
             return o;
         }
 
-        public List<T> Load<T>(string where) where T : Attributable, new()
+        public List<T> LoadByWhere<T>(string where) where T : Attributable, new()
         {
             return Savator.FillObjectList(new T(), where, this);
+        }
+
+        public List<T> LoadByQuery<T>(string query) where T : Attributable, new()
+        {
+            return Savator.FillObjectList<T>(query, this);
         }
 
         public void Delete<T>(T obj) where T : Attributable, new()
@@ -120,6 +126,15 @@ namespace PDCore.Context
         public void Delete<T>(IEnumerable<T> list) where T : Attributable, new()
         {
             list.ForEach(Delete);
+        }
+
+        public string GetQuery<T>(string where) where T : Attributable, new()
+        {
+            string projection = Savator.GetSelectString(new T(), false, false);
+
+            string query = $"{projection} {where}";
+
+            return query;
         }
 
         public bool IsLoggingEnabled => Logger != null;

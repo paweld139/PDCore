@@ -41,7 +41,7 @@ namespace PDCore.Context.IContext
         /// <param name="o">Instancja pobieranego typu obiektu</param>
         /// <param name="where">Warunki selekcji, które zostaną dodane do kwerendy</param>
         /// <returns>Tabela z danymi</returns>
-        DataTable GetDataTable<T>(T o, string where) where T : Attributable, new();
+        DataTable GetDataTable<T>(string where) where T : Attributable, new();
 
         /// <summary>
         /// Wywołanie kwerendy SQL
@@ -64,7 +64,11 @@ namespace PDCore.Context.IContext
         /// <typeparam name="T">Typ pobierych obiektów. Musi dziedziczyć po Attributable, czyli musi być atrybutowalny i posiadać bezparametrowy konstruktor</typeparam>
         /// <param name="where">Warunki selekcji, które zostaną dodane do kwerendy</param>
         /// <returns>Lista obiektów pobranych z bazy danych</returns>
-        List<T> Load<T>(string where) where T : Attributable, new();
+        List<T> LoadByWhere<T>(string where) where T : Attributable, new();
+
+        List<T> LoadByQuery<T>(string query) where T : Attributable, new();
+
+        string GetQuery<T>(string where) where T : Attributable, new();
 
         /// <summary>
         /// Usunięcie zadanego obiektu z bazy danych

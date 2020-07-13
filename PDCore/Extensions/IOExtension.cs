@@ -1,10 +1,13 @@
 ﻿using PDCore.Utils;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace PDCore.Extensions
@@ -73,6 +76,12 @@ namespace PDCore.Extensions
             File.WriteAllBytes(path, image.GetBuffer(imageFormat)); //Pobranie tablicy bajtów dla zadanego zdjęcia i zapisanie zdjęcia w zadanej lokalizacji
 
             return path; //Zwrócenie ścieżki do zdjęcia
+        }
+
+        public static void OpenConnectionIfClosed(this DbConnection dbConnection)
+        {
+            if (dbConnection.State != ConnectionState.Open)
+                dbConnection.Open();
         }
     }
 }

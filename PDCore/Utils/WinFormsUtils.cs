@@ -38,5 +38,36 @@ namespace PDCore.Utils
         {
             numericUpDown.ForEach(x => x.SetMinAndMaxAsInt());
         }
+
+        public static void ShowMessage(string content, string title)
+        {
+            MessageBox.Show(content, title);
+        }
+
+        public static void ShowError(string content)
+        {
+            ShowMessage(content, "Uwaga");
+        }
+
+        public static void ShowInformation(string content)
+        {
+            ShowMessage(content, "Informacja");
+        }
+
+        public static void ShowError(string content, Exception exception)
+        {
+            string message = string.Format("{0}{1}{1}{2}{1}{1}{3}", content, Environment.NewLine, exception.Message, exception.StackTrace);
+
+            ShowError(message);
+        }
+
+        public static bool ShowQuestion(string content, string title = "Uwaga")
+        {
+            DialogResult dialogResult = MessageBox.Show(content, title, MessageBoxButtons.YesNo);
+
+            bool approved = dialogResult == DialogResult.Yes;
+
+            return approved;
+        }
     }
 }

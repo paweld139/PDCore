@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.Common;
+using System.Data.Odbc;
+using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -17,7 +19,8 @@ namespace PDCore.Utils
         public static string SQLQuery(string objectName = null, string projection = "*", string selection = null, string joins = "", string order = null,
             string orderType = "", bool isUpdate = false, bool isInsert = false, bool isDelete = false, bool isStoredProcedure = false, bool isFunction = false, string parameters = "")
         {
-            StringBuilder q = new StringBuilder("set dateformat ymd; ");
+            //StringBuilder q = new StringBuilder("set dateformat ymd; ");
+            StringBuilder q = new StringBuilder();
 
             if (isStoredProcedure)
             {
@@ -105,36 +108,63 @@ namespace PDCore.Utils
             FindByDate(dateF?.ToString(), dateT?.ToString(), ref result);
         }
 
+        public static DataSet GetDataSet(string query, DbConnection dbConnection)
+        {
+            DataSet dataSet = new DataSet();
+
+            using (DbCommand dbCommand = dbConnection.CreateCommand())
+            {
+                dbCommand.CommandText = query;
+
+                dbConnection.OpenConnectionIfClosed();
+
+                using (DbDataAdapter dbDataAdapter = CreateDataAdapter(dbCommand))
+                {
+                    dbDataAdapter.Fill(dataSet);
+                }
+            }
+
+            return dataSet;
+        }
+
+        public static DataSet GetDataSet(string query, string connectionString, string provider = null)
+        {
+            using (DbConnection dbConnection = GetDbConnection(connectionString, provider))
+            {
+                return GetDataSet(query, dbConnection);
+            }
+        }
+
+        public static DataTable GetDataTable(string query, DbConnection dbConnection)
+        {
+            DataSet dataSet = GetDataSet(query, dbConnection);
+
+            if (dataSet.Tables.Count > 0)
+                return dataSet.Tables[0];
+
+            return new DataTable();
+        }
+
+        public static DataTable GetDataTable(string query, string connectionString, string provider = null)
+        {
+            using (DbConnection dbConnection = GetDbConnection(connectionString, provider))
+            {
+                return GetDataTable(query, dbConnection);
+            }
+        }
+
         public static DataTable GetDataTable(string query)
         {
-            DataTable dataTable = new DataTable();
-            string connString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            SqlConnection conn = new SqlConnection(connString);
-            SqlCommand cmd = new SqlCommand(query, conn);
-            conn.Open();
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-            da.Fill(dataTable);
-            conn.Close();
-            conn.Dispose();
-            da.Dispose();
+            string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
-            return dataTable;
+            return GetDataTable(query, connectionString);
         }
 
         public static DataSet GetDataSet(string query)
         {
-            DataSet dataSet = new DataSet();
-            string connString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            SqlConnection conn = new SqlConnection(connString);
-            SqlCommand cmd = new SqlCommand(query, conn);
-            conn.Open();
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-            da.Fill(dataSet);
-            conn.Close();
-            conn.Dispose();
-            da.Dispose();
+            string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
-            return dataSet;
+            return GetDataSet(query, connectionString); ;
         }
 
         public static LocalSqlHelper EnableSQLConnection()
@@ -212,6 +242,70 @@ namespace PDCore.Utils
                             : nameOrConnectionString;
 
             return result;
+        }
+
+        /// <summary>
+        /// Construct a DataAdapater based on the type of DbConnection passed.
+        /// You can call connection.CreateCommand() to create a DbCommand object,
+        /// but there's no corresponding connection.CreateDataAdapter() method.
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <exception>Throws Exception if the connection is not of a known type.</exception>
+        /// <returns></returns>
+        public static DbDataAdapter CreateDataAdapter(DbConnection connection)
+        {
+            //Note: Any code is released into the public domain. No attribution required.
+
+            DbDataAdapter adapter; //we can't construct an adapter directly
+                                   //So let's run around the block 3 times, before potentially crashing
+
+            if (connection is SqlConnection)
+                adapter = new SqlDataAdapter();
+            else if (connection is OleDbConnection)
+                adapter = new OleDbDataAdapter();
+            else if (connection is OdbcConnection)
+                adapter = new OdbcDataAdapter();
+            //else if (connection is System.Data.SqlServerCe.SqlCeConnection)
+            //    adapter = new System.Data.SqlServerCe.SqlCeDataAdapter();
+            //else if (connection is Oracle.ManagedDataAccess.Client.OracleConnection)
+            //    adapter = new Oracle.ManagedDataAccess.Client.OracleDataAdapter();
+            //else if (connection is Oracle.DataAccess.Client.OracleConnection)
+            //    adapter = new Oracle.DataAccess.Client.OracleDataAdapter();
+            //else if (connection is IBM.Data.DB2.DB2Connection)
+            //    adapter = new IBM.Data.DB2.DB2DataAdapter();
+            ////TODO: Add more DbConnection kinds as they become invented
+            else
+            {
+                throw new Exception("[CreateDataAdapter] Unknown DbConnection type: " + connection.GetType().FullName);
+            }
+
+            return adapter;
+        }
+
+        public static DbDataAdapter CreateDataAdapter(DbCommand cmd)
+        {
+            /*
+             * DbProviderFactories.GetFactory(DbConnection connection) seams buggy 
+             * (.NET Framework too old?)
+             * this is a workaround
+             */
+
+            DbProviderFactory factory = GetDbProviderFactory(cmd.Connection);
+
+            DbDataAdapter adapter = factory.CreateDataAdapter();
+
+            adapter.SelectCommand = cmd;
+
+            return adapter;
+        }
+
+        public static DbProviderFactory GetDbProviderFactory(DbConnection dbConnection)
+        {
+            string nameSpace = dbConnection.GetType().Namespace;
+
+            DbProviderFactory factory = DbProviderFactories.GetFactory(nameSpace);
+
+            return factory;
         }
     }
 }

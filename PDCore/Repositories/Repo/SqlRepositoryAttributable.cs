@@ -27,7 +27,7 @@ namespace PDCore.Repositories.Repo
 
         public override List<T> GetByWhere(string where)
         {
-            return db.Load<T>(where);
+            return db.LoadByWhere<T>(where);
         }
 
         public override void AddRange(IEnumerable<T> list)
@@ -42,7 +42,7 @@ namespace PDCore.Repositories.Repo
 
         public override DataTable GetDataTableByWhere(string where)
         {
-            return db.GetDataTable(new T(), where);
+            return db.GetDataTable<T>(where);
         }
 
         public override void Delete(T obj)
@@ -63,6 +63,21 @@ namespace PDCore.Repositories.Repo
         public override int Commit()
         {
             throw new NotSupportedFunctionalityException(NotSupportedFunctionalityMessage);
+        }
+
+        public override string GetQuery(string where)
+        {
+            return db.GetQuery<T>(where);
+        }
+
+        public override List<T> GetByQuery(string query)
+        {
+            return db.LoadByQuery<T>(query);
+        }
+
+        public override DataTable GetDataTableByQuery(string query)
+        {
+            return db.GetDataTable(query);
         }
     }
 }

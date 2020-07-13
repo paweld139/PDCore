@@ -16,7 +16,20 @@ namespace PDCore.Repositories.Repo
 
         }
 
-        public abstract List<T> GetByWhere(string where);
+        public virtual DataTable GetDataTableByWhere(string where)
+        {
+            string query = GetQuery(where);
+
+            return GetDataTableByQuery(query);
+        }
+
+        public virtual List<T> GetByWhere(string where)
+        {
+            string query = GetQuery(where);
+
+            return GetByQuery(query);
+        }
+
         public abstract T FindById(int id);
         public abstract void Add(T newEntity);
         public abstract void AddRange(IEnumerable<T> newEntities);
@@ -24,6 +37,8 @@ namespace PDCore.Repositories.Repo
         public abstract void DeleteRange(IEnumerable<T> entities);
         public abstract IQueryable<T> FindAll();
         public abstract int Commit();
+        public abstract string GetQuery(string where);
+        public abstract List<T> GetByQuery(string query);
     }
 
     public abstract class SqlRepository : ISqlRepository
@@ -50,7 +65,7 @@ namespace PDCore.Repositories.Repo
             db.SetLogging(res, logger);
         }
 
-        public abstract DataTable GetDataTableByWhere(string where);
+        public abstract DataTable GetDataTableByQuery(string query);
 
         public static bool IsLoggingEnabledByDefault { get; set; }
 

@@ -68,10 +68,16 @@ namespace PDCore.Tests
 
             var actual = texts.Select(t => SqlUtils.TestConnectionString(t));
 
+            var actual2 = texts.Select(t => SqlUtils.TestConnectionString(t, "System.Data.SqlClient"));
+
+
+            Assert.IsTrue(actual.SequenceEqual(actual2));
+
+
             var expected = new[] { false, false, false, true, true, false };
 
 
-            Assert.IsTrue(expected.SequenceEqual(actual));
+            Assert.IsTrue(expected.SequenceEqual(actual));          
         }
 
         [TestMethod]

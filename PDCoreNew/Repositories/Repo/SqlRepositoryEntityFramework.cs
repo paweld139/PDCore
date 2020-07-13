@@ -6,7 +6,9 @@ using PDCoreNew.Context.IContext;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,7 +58,7 @@ namespace PDCoreNew.Repositories.Repo
 
         public override void DeleteRange(IEnumerable<T> entities)
         {
-            set.RemoveRange(entities); ;
+            set.RemoveRange(entities);
         }
 
         public IQueryable<T> FindAll(bool asNoTracking)
@@ -87,10 +89,8 @@ namespace PDCoreNew.Repositories.Repo
             return FindAll(asNoTracking).ToListAsync();
         }
 
-        public override List<T> GetByWhere(string where)
+        public override List<T> GetByQuery(string query)
         {
-            string query = ctx.GetQuery<T>(where);
-
             return set.SqlQuery(query).ToList();
         }
 
@@ -101,9 +101,20 @@ namespace PDCoreNew.Repositories.Repo
             return ObjectUtils.CreateDataTable(list);
         }
 
+        public override DataTable GetDataTableByQuery(string query)
+        {
+            DbConnection sqlConnection = ctx.Database.Connection;
+
+            DataTable dataTable = SqlUtils.GetDataTable(query, sqlConnection);
+
+            return dataTable;
+        }
+
         public Task<int> GetCountAsync()
         {
             return FindAll().CountAsync();
         }
+
+        public override string GetQuery(string where) => ctx.GetQuery<T>(where);
     }
 }
