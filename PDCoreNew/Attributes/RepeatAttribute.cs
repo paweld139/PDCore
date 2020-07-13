@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PDWebCore.Attributes
+namespace PDCoreNew.Attributes
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class RepeatAttribute : Attribute, ITestDataSource

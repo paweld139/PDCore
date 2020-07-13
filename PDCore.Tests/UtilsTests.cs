@@ -66,7 +66,7 @@ namespace PDCore.Tests
                 "Data Source=LAPTOP-JHQ9SF1E\\SQLEXPRESSS;Initial Catalog=MainTest;User ID=sa;Password=hasloos2"
             };
 
-            var actual = texts.Select(SqlUtils.TestConnectionString);
+            var actual = texts.Select(t => SqlUtils.TestConnectionString(t));
 
             var expected = new[] { false, false, false, true, true, false };
 
