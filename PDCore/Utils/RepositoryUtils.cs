@@ -12,7 +12,7 @@ namespace PDCore.Utils
         public static void DumpItems<T>(IReadOnlyRepository<T> repository, Action<T> print = null) where T : class
         {
             if (print == null)
-                print = i => Console.WriteLine(i);
+                print = Console.WriteLine;
 
             var result = repository.FindAll();
 

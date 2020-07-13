@@ -76,7 +76,8 @@
     <Compile Include="Repositories\IRepo\IEFRepo.cs" />
     <Compile Include="Repositories\Repo\SqlRepositoryEntityFramework.cs" />
     <Compile Include="Services\Serv\LogService.cs" />
-    <Compile Include="Utils.cs" />
+    <Compile Include="Utils\Utils.cs" />
+    <Compile Include="Utils\WebUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CommonServiceLocator">
@@ -90,6 +91,9 @@
     </PackageReference>
     <PackageReference Include="System.Reactive">
       <Version>4.4.1</Version>
+    </PackageReference>
+    <PackageReference Include="Unity">
+      <Version>5.11.7</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

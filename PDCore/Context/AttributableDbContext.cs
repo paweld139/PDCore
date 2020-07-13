@@ -1,19 +1,16 @@
 ﻿using FTCore.CoreLibrary.AttributeApi;
 using FTCore.CoreLibrary.SQLLibrary;
-using Microsoft.VisualBasic.Logging;
 using PDCore.Context.IContext;
 using PDCore.Extensions;
 using PDCore.Interfaces;
 using PDCore.Utils;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 
-namespace PDCore.Helpers
+namespace PDCore.Context
 {
     public class AttributableDbContext : LocalSqlHelper, IAttributableDbContext
     {

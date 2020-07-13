@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -99,6 +100,11 @@ namespace PDCore.Utils
             }
         }
 
+        public static void FindByDate<T>(DateTime? dateF, DateTime? dateT, ref IQueryable<T> result) where T : class, IByDateFindable
+        {
+            FindByDate(dateF?.ToString(), dateT?.ToString(), ref result);
+        }
+
         public static DataTable GetDataTable(string query)
         {
             DataTable dataTable = new DataTable();
@@ -155,22 +161,45 @@ namespace PDCore.Utils
             return result;
         }
 
-        public static bool TestConnectionString(string text)
+        public static DbConnection GetDbConnection(string connectionString, string provider = null)
+        {
+            DbConnection dbConnection;
+
+            if (!string.IsNullOrEmpty(provider)) //"System.Data.SqlClient"; // for example
+            {
+                DbProviderFactory factory = DbProviderFactories.GetFactory(provider);
+
+                dbConnection = factory.CreateConnection();
+
+                dbConnection.ConnectionString = connectionString;
+            }
+            else
+            {
+                dbConnection = new SqlConnection(connectionString);
+            }
+
+            return dbConnection;
+        }
+
+        public static bool TestConnectionString(string text, string provider = null)
         {
             bool isConnectionString = text.IsConnectionString();
 
             if (isConnectionString)
             {
-                using (SqlConnection sqlConnection = new SqlConnection(text))
+                DbConnection dbConnection = GetDbConnection(text, provider);
+
+                try
                 {
-                    try
-                    {
-                        sqlConnection.Open(); // throws if invalid
-                    }
-                    catch
-                    {
-                        return false;
-                    }
+                    dbConnection.Open(); // throws if invalid
+                }
+                catch
+                {
+                    return false;
+                }
+                finally
+                {
+                    dbConnection.Dispose();
                 }
             }
 

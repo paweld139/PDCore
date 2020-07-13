@@ -109,6 +109,7 @@
     <Compile Include="Factories\Fac\LogMessageFactory.cs" />
     <Compile Include="Factories\IFac\IFactory.cs" />
     <Compile Include="Factories\IFac\ILogMessageFactory.cs" />
+    <Compile Include="Helpers\Calculation\PreciseDateTime.cs" />
     <Compile Include="Helpers\Comparers\FileInfoLengthComparer.cs" />
     <Compile Include="Helpers\Comparers\NamedObjectComparer.cs" />
     <Compile Include="Helpers\DataStructures\Book\Book.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="Helpers\DataStructures\Book\IBook.cs" />
     <Compile Include="Helpers\DataStructures\Book\InMemoryBook.cs" />
     <Compile Include="Helpers\DataStructures\CategoryCollection.cs" />
+    <Compile Include="Helpers\MimeTypeMap.cs" />
     <Compile Include="Helpers\NamedObject.cs" />
     <Compile Include="Helpers\Calculation\Digit.cs" />
     <Compile Include="Helpers\DataStructures\Buffer\Buffer.cs" />
@@ -280,6 +282,9 @@
     <Compile Include="Services\IServ\IErrorLogService.cs" />
     <Compile Include="Services\IServ\ITimeService.cs" />
     <Compile Include="Services\IServ\ISleepService.cs" />
+    <Compile Include="Services\IServ\ITemporaryStorageService.cs" />
+    <Compile Include="Services\Serv\TemporaryStorageService.cs" />
+    <Compile Include="Services\Serv\Time\AA.cs" />
     <Compile Include="Services\Serv\Time\SomeClass.cs" />
     <Compile Include="Services\Serv\Time\TimeService.cs" />
     <Compile Include="Services\Serv\Time\TimeServiceStub.cs" />
@@ -293,7 +298,7 @@
     <Compile Include="Utils\SqlUtils.cs" />
     <Compile Include="Utils\StringUtils.cs" />
     <Compile Include="Utils\WebUtils.cs" />
-    <Compile Include="Helpers\AttributableDbContext.cs" />
+    <Compile Include="Context\AttributableDbContext.cs" />
     <Compile Include="Context\IContext\IAttributableDbContext.cs" />
     <Compile Include="Context\IContext\IDbContext.cs" />
     <Compile Include="Helpers\ImportHelper.cs" />
@@ -325,6 +330,9 @@
     <Content Include="Helpers\XML\Signing\Xades\doc\XAdES.xml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Antlr">
+      <Version>3.5.0.2</Version>
+    </PackageReference>
     <PackageReference Include="BouncyCastle">
       <Version>1.8.5</Version>
     </PackageReference>
@@ -333,9 +341,6 @@
     </PackageReference>
     <PackageReference Include="Security.Cryptography">
       <Version>1.7.2</Version>
-    </PackageReference>
-    <PackageReference Include="Unity">
-      <Version>5.11.7</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

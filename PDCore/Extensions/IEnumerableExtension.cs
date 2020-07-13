@@ -1,4 +1,6 @@
 ﻿using Org.BouncyCastle.Asn1.X509.Qualified;
+using PDCore.Interfaces;
+using PDCore.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -143,6 +145,18 @@ namespace PDCore.Extensions
         public static IEnumerable<TOutput> Map<T, TOutput>(this IEnumerable<T> source, Converter<T, TOutput> converter)
         {
             return source.Select(i => converter(i)); //Mapowanie
+        }
+
+        public static IQueryable<T> FindByDate<T>(this IQueryable<T> source, string dateF, string dateT) where T : class, IByDateFindable
+        {
+            SqlUtils.FindByDate(dateF, dateT, ref source);
+
+            return source;
+        }
+
+        public static IQueryable<T> FindByDate<T>(this IQueryable<T> source, DateTime? dateF, DateTime? dateT) where T : class, IByDateFindable
+        {
+            return source.FindByDate(dateF?.ToString(), dateT?.ToString());
         }
     }
 }

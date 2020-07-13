@@ -1,5 +1,5 @@
 ﻿using PDCore.Services;
-using PDCore.Utils;
+using PDCoreNew.Utils;
 using PDWebCore.Factories.IFac;
 using PDWebCore.Models;
 using PDWebCore.Services.IServ;
@@ -17,12 +17,12 @@ namespace PDWebCore.Services.Serv
     {
         private const string API_URL_FORMAT = "http://api.ipstack.com/{0}?access_key=33787ab45622e1c767d6857e593df627";
 
-        private readonly WebClient webClient;
+        //private readonly WebClient webClient;
         private readonly IUserDataFactory userDataFactory;
         private readonly ISqlRepositoryEntityFramework<UserDataModel> userDataRepo;
-        public UserDataService(WebClient webClient, IUserDataFactory userDataFactory, ISqlRepositoryEntityFramework<UserDataModel> userDataRepo)
+
+        public UserDataService(IUserDataFactory userDataFactory, ISqlRepositoryEntityFramework<UserDataModel> userDataRepo)
         {
-            this.webClient = webClient;
             this.userDataFactory = userDataFactory;
             this.userDataRepo = userDataRepo;
         }
@@ -53,7 +53,7 @@ namespace PDWebCore.Services.Serv
 
             try
             {
-                jsonString = await webClient.DownloadStringTaskAsync(apiUrl);
+                jsonString = await WebUtils.GetTextAsyncFromWebClient(apiUrl);
             }
             catch
             {

@@ -1,4 +1,5 @@
 ﻿using ICSharpCode.SharpZipLib.Zip;
+using Microsoft.Win32;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -83,6 +84,22 @@ namespace PDCore.Utils
                         select file;
 
             return query.Take(maxFilesCount);
+        }
+
+        public static string GetMimeType(string fileName)
+        {
+            string mimeType = "application/unknown";
+
+            string ext = Path.GetExtension(fileName).ToLower();
+
+            RegistryKey regKey = Registry.ClassesRoot.OpenSubKey(ext);
+
+            if (regKey != null && regKey.GetValue("Content Type") != null)
+                mimeType = regKey.GetValue("Content Type").ToString();
+
+            //string mimeType = Registry.GetValue(@"HKEY_CLASSES_ROOT\.pdf", "Content Type", null) as string;
+
+            return mimeType;
         }
     }
 }

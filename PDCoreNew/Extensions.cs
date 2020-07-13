@@ -10,6 +10,8 @@ using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Unity;
+using Unity.Lifetime;
 
 namespace PDCoreNew
 {
@@ -54,6 +56,27 @@ namespace PDCoreNew
         public static IDisposableWrapper<IEFRepo<TModel>> WrapRepo<TModel>(this IEFRepo<TModel> repo) where TModel : class
         {
             return new SaveChangesWrapper<TModel>(repo);
+        }
+
+        public static void RemoveRegistrations(this IUnityContainer container, string name, Type registeredType, Type lifetimeManager)
+        {
+            foreach (var registration in container.Registrations
+                .Where(p => p.RegisteredType == (registeredType ?? p.RegisteredType)
+                            && p.Name == (name ?? p.Name)
+                            && p.LifetimeManager.GetType() == (lifetimeManager ?? p.LifetimeManager.GetType())))
+            {
+                registration.LifetimeManager.RemoveValue();
+            }
+        }
+
+        public static void RemoveRegistrations<TReg, TLife>(this IUnityContainer container, string name = null)
+        {
+            container.RemoveRegistrations(name, typeof(TReg), typeof(TLife));
+        }
+
+        public static void RemoveAllRegistrations(this IUnityContainer container)
+        {
+            container.RemoveRegistrations(null, null, null);
         }
     }
 }

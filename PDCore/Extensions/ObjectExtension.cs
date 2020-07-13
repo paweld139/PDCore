@@ -341,5 +341,18 @@ namespace PDCore.Extensions
 
             return typeName.ToString();
         }
+
+        public static string EmptyIfNull(this object value)
+        {
+            if (value == null)
+                return string.Empty;
+
+            return value.ToString();
+        }
+
+        public static Tuple<T1, object> GetTuple<T1>(this object item2, T1 item1)
+        {
+            return Tuple.Create(item1, item2);
+        }
     }
 }

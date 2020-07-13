@@ -125,14 +125,14 @@ namespace PDCore.Utils
             return results.First(x => !string.IsNullOrWhiteSpace(x));
         }
 
-        public static void ThrowIfNull(params object[] objects)
+        public static void ThrowIfNull(params object[] objects) //Parametry mogą mieć różne typy i dlatego brak parametru generycznego
         {
             objects.ForEach(x => x.ThrowIfNull());
         }
 
-        public static void ThrowIfNull(params KeyValuePair<string, object>[] objects)
+        public static void ThrowIfNull(params Tuple<string, object>[] objects)
         {
-            objects.ForEach(x => x.Value.ThrowIfNull(x.Key));
+            objects.ForEach(x => x.Item2.ThrowIfNull(x.Item1));
         }
 
         public static IEnumerable<object> GetEnumValues(Type enumType)

@@ -1,13 +1,17 @@
-﻿using System;
+﻿using PDCore.Extensions;
+using PDCore.Utils;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PDCoreNew
+namespace PDCoreNew.Utils
 {
-    public static class Utils
+    public static class IOUtils
     {
         public static async Task WriteAllBytesAsync(string path, byte[] data)
         {

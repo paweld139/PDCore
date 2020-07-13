@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 
@@ -40,6 +35,13 @@ namespace PDWebCore
             SelectList res = new SelectList(kvp, "Key", "Value");
 
             return res;
+        }
+
+        public static string GetMimeType(string fileName)
+        {
+            string mimeType = MimeMapping.GetMimeMapping(fileName);
+
+            return mimeType;
         }
     }
 }

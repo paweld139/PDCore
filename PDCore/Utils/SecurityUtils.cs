@@ -227,27 +227,22 @@ namespace PDCore.Utils
             return x509Certificate2;
         }
 
-        public static string GetTempFilePathWithExtension(string extension)
+        public static string GetTempFilePath(string name = null, string extension = null)
         {
-            string fileName = Guid.NewGuid().ToString();
+            if (string.IsNullOrEmpty(name))
+                name = Guid.NewGuid().ToString();
 
+            if (!string.IsNullOrEmpty(extension))
+                name = Path.ChangeExtension(name, extension);
 
-            return GetTempFilePath(fileName, extension);
-        }
-
-        public static string GetTempFilePath(string name, string extension = null)
-        {
             string path = Path.GetTempPath();
 
-            string fileName = name + (extension == null ? string.Empty : ("." + extension));
-
-
-            return Path.Combine(path, fileName);
+            return Path.Combine(path, name);
         }
 
         public static string SaveTemp(string content, string extension)
         {
-            string fileName = GetTempFilePathWithExtension(extension);
+            string fileName = GetTempFilePath(extension: extension);
 
             File.WriteAllText(fileName, content);
 
