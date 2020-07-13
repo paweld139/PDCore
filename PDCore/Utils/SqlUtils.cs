@@ -112,13 +112,15 @@ namespace PDCore.Utils
         {
             DataSet dataSet = new DataSet();
 
-            using (DbCommand dbCommand = dbConnection.CreateCommand())
+            DbProviderFactory dbProviderFactory = GetDbProviderFactory(dbConnection);
+
+            using (DbCommand dbCommand = dbProviderFactory.CreateCommand())
             {
+                dbCommand.Connection = dbConnection;
+                dbCommand.CommandType = CommandType.Text;
                 dbCommand.CommandText = query;
 
-                dbConnection.OpenConnectionIfClosed();
-
-                using (DbDataAdapter dbDataAdapter = CreateDataAdapter(dbCommand))
+                using (DbDataAdapter dbDataAdapter = dbProviderFactory.CreateDataAdapter())
                 {
                     dbDataAdapter.Fill(dataSet);
                 }
