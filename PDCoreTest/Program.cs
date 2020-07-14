@@ -20,10 +20,15 @@ namespace PDCoreTest
 {
     class Program
     {
+        [STAThread]
         static void Main(string[] args)
         {
             _ = args;
 
+
+            TestOpenTextFile();
+
+            WriteSeparator();
 
             TestOrderBy();
 
@@ -97,6 +102,18 @@ namespace PDCoreTest
 
 
             Console.ReadKey();
+        }
+
+        private static void TestOpenTextFile()
+        {
+            var fileNames = WinFormsUtils.OpenFiles(filesCount: 4);
+
+            if (fileNames != null)
+                ConsoleUtils.WriteLines(fileNames);
+
+            var result = WinFormsUtils.OpenTextFile();
+
+            ConsoleUtils.WriteResult("Zawartość otworzonego pliku", result?.Item1);
         }
 
         private static void TestOrderBy()

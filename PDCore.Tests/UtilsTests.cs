@@ -66,9 +66,13 @@ namespace PDCore.Tests
                 "Data Source=LAPTOP-JHQ9SF1E\\SQLEXPRESSS;Initial Catalog=MainTest;User ID=sa;Password=hasloos2"
             };
 
-            var actual = texts.Select(t => SqlUtils.TestConnectionString(t));
+            int i = 0;
 
-            var actual2 = texts.Select(t => SqlUtils.TestConnectionString(t, "System.Data.SqlClient"));
+            Tuple<bool, int> func(string t, string p) => Tuple.Create(SqlUtils.TestConnectionString(t, p), i++);
+
+            var actual = texts.Select(t => func(t, null).Item1).ToList();
+
+            var actual2 = texts.Select(t => func(t, "System.Data.SqlClient").Item1);
 
 
             Assert.IsTrue(actual.SequenceEqual(actual2));
@@ -77,7 +81,9 @@ namespace PDCore.Tests
             var expected = new[] { false, false, false, true, true, false };
 
 
-            Assert.IsTrue(expected.SequenceEqual(actual));          
+            Assert.IsTrue(expected.SequenceEqual(actual));
+
+            Assert.AreEqual(12, i);
         }
 
         [TestMethod]
@@ -114,6 +120,26 @@ namespace PDCore.Tests
             Assert.IsNotNull(dataTable);
 
             Assert.IsFalse(sqlConnection.State == ConnectionState.Closed);
+        }
+
+        #endregion
+
+
+        #region IOUtils
+
+        [TestMethod]
+        public void CanGetFileCountForDirectory()
+        {
+            string[] directories = { @"C:\Fraps", @"C:\Frapso" };
+
+            var actual = directories.Select(d => IOUtils.GetFilesCount(d)).ToArray();
+
+            int actual2 = IOUtils.GetFilesCount(directories[0], true);
+
+            int expected = 0;
+
+            Assert.IsTrue(actual2 > actual[0]);
+            Assert.AreEqual(expected, actual[1]);
         }
 
         #endregion

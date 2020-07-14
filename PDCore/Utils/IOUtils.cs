@@ -101,5 +101,19 @@ namespace PDCore.Utils
 
             return mimeType;
         }
+
+        public static int GetFilesCount(string path, bool allDirectories = false, bool throwIfDirectoryNotExists = false)
+        {
+            var searchOption = allDirectories ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+
+            int filesCount = 0;
+
+            if(Directory.Exists(path) || throwIfDirectoryNotExists)
+            {
+                filesCount = Directory.GetFiles(path, "*.*", searchOption).Length;
+            }
+
+            return filesCount;
+        }
     }
 }
