@@ -1,4 +1,5 @@
-﻿using PDCore.Interfaces;
+﻿using PDCore.Helpers.Wrappers;
+using PDCore.Interfaces;
 using PDCore.Repositories.IRepo;
 using PDCore.Repositories.Repo;
 using PDCore.Utils;
@@ -103,11 +104,7 @@ namespace PDCoreNew.Repositories.Repo
 
         public override DataTable GetDataTableByQuery(string query)
         {
-            DbConnection sqlConnection = ctx.Database.Connection;
-
-            DataTable dataTable = SqlUtils.GetDataTable(query, sqlConnection);
-
-            return dataTable;
+            return DbLogWrapper.Execute(ctx.DataTable, query, ctx.Database.Connection.ConnectionString, ctx.Database.Log, IsLoggingEnabled);
         }
 
         public Task<int> GetCountAsync()

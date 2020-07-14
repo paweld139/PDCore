@@ -2,6 +2,7 @@
 using FTCore.CoreLibrary.SQLLibrary;
 using PDCore.Context.IContext;
 using PDCore.Extensions;
+using PDCore.Helpers.Wrappers;
 using PDCore.Interfaces;
 using PDCore.Utils;
 using System;
@@ -19,6 +20,11 @@ namespace PDCore.Context
 
         private ILogger Logger;
 
+        private T Log<T>(Func<string, T> func, string query)
+        {
+            return DbLogWrapper.Execute(func, query, ConnectionString, Logger.Log, IsLoggingEnabled);
+        }
+
         public void SaveChanges<T>(IEnumerable<T> list) where T : Attributable, new()
         {
             Savator.SaveObjectList(list.ToList(), this);
@@ -29,52 +35,9 @@ namespace PDCore.Context
             Savator.SaveObject(obj, this);
         }
 
-        private Stopwatch _stopWatch;
-        private Stopwatch StopWatch
-        {
-            get
-            {
-                if (_stopWatch == null)
-                {
-                    _stopWatch = new Stopwatch();
-                }
-
-                return _stopWatch;
-            }
-        }
-
-        private void StartWatching()
-        {
-            if (IsLoggingEnabled)
-            {
-                StopWatch.Start();
-            }
-        }
-
-        private void StopWatching(string query)
-        {
-            if (IsLoggingEnabled)
-            {
-                StopWatch.Stop();
-
-                string message = string.Format("{5}GetDataTable [{0}][{1}]{2} {3} [{4} ms]{5}",
-                    DateTime.Now, base.ConnectionString, string.Empty/*Environment.NewLine + Environment.StackTrace*/,
-                    (Environment.NewLine + query), StopWatch.ElapsedMilliseconds, Environment.NewLine);
-
-                Logger.Log(message);
-
-                StopWatch.Reset();
-            }
-        }
-
         public new DataTable GetDataTable(string query)
         {
-            StartWatching();
-
-            DataTable result = base.GetDataTable(query);
-
-            StopWatching(query);
-
+            DataTable result = Log(base.GetDataTable, query);
 
             return result;
         }
@@ -86,11 +49,7 @@ namespace PDCore.Context
 
         public new int ExecuteSQLQuery(string query)
         {
-            StartWatching();
-
-            int result = base.ExecuteSQLQuery(query);
-
-            StopWatching(query);
+            int result = Log(base.ExecuteSQLQuery, query);
 
             return result;
         }
@@ -132,7 +91,7 @@ namespace PDCore.Context
         {
             string projection = Savator.GetSelectString(new T(), false, false);
 
-            string query = $"{projection} {where}";
+            string query = $"{projection} where {where}";
 
             return query;
         }

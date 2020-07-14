@@ -122,6 +122,8 @@ namespace PDCore.Utils
 
                 using (DbDataAdapter dbDataAdapter = dbProviderFactory.CreateDataAdapter())
                 {
+                    dbDataAdapter.SelectCommand = dbCommand;
+
                     dbDataAdapter.Fill(dataSet);
                 }
             }

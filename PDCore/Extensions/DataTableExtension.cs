@@ -20,7 +20,7 @@ namespace PDCore.Extensions
         public static bool HasValue(this DataTable dt)
         {
             //Czy tabela z danymi posiada wiersze, czy pierwsza kolumna pierwszego wiersza nie posiada wartości, czy pierwsza kolumna pierwszego wiersza nie jest pusta (nie jest nullem ani pustym łańcuchem znaków)
-            return (dt.Rows.Count > 0 && dt.Rows[0][0] != DBNull.Value && !string.IsNullOrWhiteSpace(dt.Rows[0][0].ToString()));
+            return (dt.HasRows() && dt.Rows[0][0] != DBNull.Value && !string.IsNullOrWhiteSpace(dt.Rows[0][0].ToString()));
         }
 
         /// <summary>
@@ -215,6 +215,11 @@ namespace PDCore.Extensions
         public static bool HasColumns(this DataTable dt)
         {
             return dt.Columns.Count > 0;
+        }
+
+        public static bool HasRows(this DataTable dt)
+        {
+            return dt.Rows.Count > 0;
         }
 
         public static void PrintValues(this DataTable dt)

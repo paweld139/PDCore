@@ -13,7 +13,6 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Unity;
-using Unity.Lifetime;
 
 namespace PDCoreNew
 {
@@ -81,26 +80,9 @@ namespace PDCoreNew
             container.RemoveRegistrations(null, null, null);
         }
 
-        public static DataTable DataTable(this DbContext context, string sqlQuery)
+        public static DataTable DataTable(this IEntityFrameworkDbContext context, string query)
         {
-            DbProviderFactory dbFactory = DbProviderFactories.GetFactory(context.Database.Connection);
-
-            using (var cmd = dbFactory.CreateCommand())
-            {
-                cmd.Connection = context.Database.Connection;
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = sqlQuery;
-
-                using (DbDataAdapter adapter = dbFactory.CreateDataAdapter())
-                {
-                    adapter.SelectCommand = cmd;
-
-                    DataTable dt = new DataTable();
-                    adapter.Fill(dt);
-
-                    return dt;
-                }
-            }
+            return SqlUtils.GetDataTable(query, context.Database.Connection);
         }
     }
 }
