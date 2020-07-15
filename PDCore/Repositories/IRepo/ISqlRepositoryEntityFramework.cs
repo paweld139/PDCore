@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,6 +20,8 @@ namespace PDCore.Repositories.IRepo
 
         void Attach(T obj);
 
-        Task<int> GetCountAsync();
+        Task<int> GetCountAsync(Expression<Func<T, bool>> predicate = null);
+
+        int GetCount(Expression<Func<T, bool>> predicate = null);
     }
 }

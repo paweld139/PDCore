@@ -1,4 +1,5 @@
-﻿using PDCore.Helpers.Wrappers;
+﻿using PDCore.Extensions;
+using PDCore.Helpers.Wrappers;
 using PDCore.Interfaces;
 using PDCore.Repositories.IRepo;
 using PDCore.Repositories.Repo;
@@ -11,6 +12,7 @@ using System.Data.Common;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -107,11 +109,29 @@ namespace PDCoreNew.Repositories.Repo
             return DbLogWrapper.Execute(ctx.DataTable, query, ctx.Database.Connection.ConnectionString, ctx.Database.Log, IsLoggingEnabled);
         }
 
-        public Task<int> GetCountAsync()
+        public Task<int> GetCountAsync(Expression<Func<T, bool>> predicate = null)
         {
-            return FindAll().CountAsync();
+            return FindAll().CountAsync(predicate);
         }
 
         public override string GetQuery(string where) => ctx.GetQuery<T>(where);
+
+        public int GetCount(Expression<Func<T, bool>> predicate = null)
+        {
+            return FindAll().Count(predicate);
+        }
+
+        public override int GetCountByWhere(string where)
+        {
+            string tableName = ctx.GetTableName<T>();
+
+            string query = SqlUtils.SQLQuery(tableName, "count(*)", where);
+
+            DataTable dataTable = GetDataTableByQuery(query);
+
+            int result = dataTable.GetValue<int>();
+
+            return result;
+        }
     }
 }

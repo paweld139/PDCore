@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace PDCore.Repositories.Repo
@@ -39,6 +40,7 @@ namespace PDCore.Repositories.Repo
         public abstract int Commit();
         public abstract string GetQuery(string where);
         public abstract List<T> GetByQuery(string query);
+        public abstract int GetCountByWhere(string where);
     }
 
     public abstract class SqlRepository : ISqlRepository

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace PDCore.Context.IContext
@@ -83,5 +84,7 @@ namespace PDCore.Context.IContext
         /// <typeparam name="T">Typ obiektów do usunięcia. Muszą dziedziczyć po Attributable, czyli musi być atrybutowalny i posiadać bezparametrowy konstruktor</typeparam>
         /// <param name="list">Obiekty do usunięcia</param>
         void Delete<T>(IEnumerable<T> list) where T : Attributable, new();
+
+        int GetCountByWhere<T>(string where) where T : Attributable, new();
     }
 }

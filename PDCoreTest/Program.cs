@@ -106,7 +106,7 @@ namespace PDCoreTest
 
         private static void TestOpenTextFile()
         {
-            var fileNames = WinFormsUtils.OpenFiles(filesCount: 4);
+            var fileNames = WinFormsUtils.OpenFiles(requiredFilesCount: 4);
 
             if (fileNames != null)
                 ConsoleUtils.WriteLines(fileNames);

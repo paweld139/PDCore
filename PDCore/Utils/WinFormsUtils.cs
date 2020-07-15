@@ -76,10 +76,10 @@ namespace PDCore.Utils
             return approved;
         }
 
-        public static string[] OpenFiles(string title = "Otwórz", string filter = null, int filesCount = 1)
+        public static string[] OpenFiles(string title = "Otwórz", string filter = null, int requiredFilesCount = 0)
         {
-            if (filesCount < 1)
-                throw new ArgumentOutOfRangeException(nameof(filesCount), filesCount, "Podano nieprawidłową ilość plików do wybrania. Minimum to 1.");
+            if (requiredFilesCount < 0)
+                throw new ArgumentOutOfRangeException(nameof(requiredFilesCount), requiredFilesCount, "Podano nieprawidłową ilość plików do wybrania. Minimum to 0 (dowolna ilość).");
 
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
@@ -89,20 +89,20 @@ namespace PDCore.Utils
 
                 openFileDialog.Filter = filter; //"XML Files|*.xml";
 
-                openFileDialog.Multiselect = filesCount > 1; //true;
+                openFileDialog.Multiselect = requiredFilesCount != 1; //true;
 
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK && !string.IsNullOrWhiteSpace(openFileDialog.FileName))
                 {
                     int selectedFilesCount = openFileDialog.FileNames.Length;
 
-                    if (selectedFilesCount == filesCount)
+                    if (requiredFilesCount.ValueIn(selectedFilesCount, 0))
                     {
                         return openFileDialog.FileNames;
                     }
                     else
                     {
-                        throw new InvalidOperationException($"Oczekiwano wyboru {filesCount} plików, a wybrano {selectedFilesCount}.");
+                        throw new InvalidOperationException($"Oczekiwano wyboru {requiredFilesCount} plików, a wybrano {selectedFilesCount}.");
                     }
                 }
 
@@ -116,7 +116,7 @@ namespace PDCore.Utils
 
             try
             {
-                fileNames = OpenFiles("Otwórz plik tekstowy", "Text |*.txt");
+                fileNames = OpenFiles("Otwórz plik tekstowy", "Text |*.txt", 1);
             }
             catch (Exception ex)
             {

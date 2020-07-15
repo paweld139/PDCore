@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Windows.Forms;
 
 namespace PDCore.Context
@@ -104,6 +105,19 @@ namespace PDCore.Context
                 () => Logger = logger,
                 () => Logger = null
             );
+        }
+
+        public int GetCountByWhere<T>(string where) where T : Attributable, new()
+        {
+            string tableName = this.GetTableName<T>();
+
+            string query = SqlUtils.SQLQuery(tableName, "count(*)", where);
+
+            DataTable dataTable = GetDataTable(query);
+
+            int result = dataTable.GetValue<int>();
+
+            return result;
         }
     }
 }

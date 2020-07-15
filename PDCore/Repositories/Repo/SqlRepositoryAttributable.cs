@@ -2,9 +2,11 @@
 using PDCore.Context.IContext;
 using PDCore.Exceptions;
 using PDCore.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace PDCore.Repositories.Repo
 {
@@ -78,6 +80,11 @@ namespace PDCore.Repositories.Repo
         public override DataTable GetDataTableByQuery(string query)
         {
             return db.GetDataTable(query);
+        }
+
+        public override int GetCountByWhere(string where)
+        {
+            throw new NotImplementedException();
         }
     }
 }
