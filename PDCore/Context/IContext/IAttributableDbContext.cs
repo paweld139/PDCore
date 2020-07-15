@@ -69,7 +69,7 @@ namespace PDCore.Context.IContext
 
         List<T> LoadByQuery<T>(string query) where T : Attributable, new();
 
-        string GetQuery<T>(string where) where T : Attributable, new();
+        string GetQuery<T>() where T : Attributable, new();
 
         /// <summary>
         /// Usunięcie zadanego obiektu z bazy danych
@@ -85,6 +85,6 @@ namespace PDCore.Context.IContext
         /// <param name="list">Obiekty do usunięcia</param>
         void Delete<T>(IEnumerable<T> list) where T : Attributable, new();
 
-        int GetCountByWhere<T>(string where) where T : Attributable, new();
+        string ConnectionString { get; }
     }
 }

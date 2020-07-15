@@ -1,5 +1,6 @@
 ﻿using FTCore.CoreLibrary.AttributeApi;
 using PDCore.Context.IContext;
+using PDCore.Repositories.IRepo;
 using PDCore.Utils;
 using System;
 using System.Collections.Generic;
@@ -85,17 +86,6 @@ namespace PDCore.Extensions
         {
             if (dbConnection.State != ConnectionState.Open)
                 dbConnection.Open();
-        }
-
-        public static string GetTableName<T>(this IAttributableDbContext context)  where T : Attributable, new()
-        {
-            string sql = context.GetQuery<T>(string.Empty);
-
-            Regex regex = new Regex("FROM (?<table>.*) AS");
-            Match match = regex.Match(sql);
-
-            string table = match.Groups["table"].Value;
-            return table;
         }
     }
 }

@@ -17,7 +17,13 @@ namespace PDCore.Repositories.IRepo
 
         string GetQuery(string where);
 
+        string GetQuery();
+
         int GetCountByWhere(string where);
+
+        int GetCount();
+
+        string GetTableName();
     }
 
     public interface ISqlRepository
@@ -27,5 +33,7 @@ namespace PDCore.Repositories.IRepo
         void SetLogging(bool res);
 
         DataTable GetDataTableByQuery(string query);
+
+        T GetValue<T>(string query);
     }
 }

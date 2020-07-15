@@ -1,6 +1,8 @@
 ﻿using PDCore.Context.IContext;
+using PDCore.Extensions;
 using PDCore.Interfaces;
 using PDCore.Repositories.IRepo;
+using PDCore.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -17,11 +19,35 @@ namespace PDCore.Repositories.Repo
 
         }
 
-        public virtual DataTable GetDataTableByWhere(string where)
-        {
-            string query = GetQuery(where);
+        public abstract T FindById(int id);
+        public abstract void Add(T newEntity);
+        public abstract void AddRange(IEnumerable<T> newEntities);
+        public abstract void Delete(T entity);
+        public abstract void DeleteRange(IEnumerable<T> entities);
+        public abstract IQueryable<T> FindAll();
+        public abstract int Commit();
+        public abstract List<T> GetByQuery(string query);
+        public abstract DataTable GetDataTableByWhere(string where);
+        public abstract string GetQuery();
 
-            return GetDataTableByQuery(query);
+        public string GetTableName()
+        {
+            string query = GetQuery();
+
+            string tableName = SqlUtils.GetTableName(query);
+
+            return tableName;
+        }
+
+        public string GetQuery(string where)
+        {
+            string query = GetQuery();
+
+            string selection = $" where {where}";
+
+            query += selection;
+
+            return query;
         }
 
         public virtual List<T> GetByWhere(string where)
@@ -31,16 +57,21 @@ namespace PDCore.Repositories.Repo
             return GetByQuery(query);
         }
 
-        public abstract T FindById(int id);
-        public abstract void Add(T newEntity);
-        public abstract void AddRange(IEnumerable<T> newEntities);
-        public abstract void Delete(T entity);
-        public abstract void DeleteRange(IEnumerable<T> entities);
-        public abstract IQueryable<T> FindAll();
-        public abstract int Commit();
-        public abstract string GetQuery(string where);
-        public abstract List<T> GetByQuery(string query);
-        public abstract int GetCountByWhere(string where);
+        public int GetCountByWhere(string where)
+        {
+            string tableName = GetTableName();
+
+            string query = SqlUtils.GetCountQuery(tableName, where);
+
+            int count = GetValue<int>(query);
+
+            return count;
+        }
+
+        public virtual int GetCount()
+        {
+            return GetCountByWhere(null);
+        }
     }
 
     public abstract class SqlRepository : ISqlRepository
@@ -67,7 +98,18 @@ namespace PDCore.Repositories.Repo
             db.SetLogging(res, logger);
         }
 
+        public virtual T GetValue<T>(string query)
+        {
+            DataTable dataTable = GetDataTableByQuery(query);
+
+            T result = dataTable.GetValue<T>();
+
+            return result;
+        }
+
         public abstract DataTable GetDataTableByQuery(string query);
+
+        protected abstract string ConnectionString { get; }
 
         public static bool IsLoggingEnabledByDefault { get; set; }
 

@@ -17,6 +17,8 @@ namespace PDCore.Repositories.Repo
     {
         private readonly IAttributableDbContext db;
 
+        protected override string ConnectionString => db.ConnectionString;
+
         public SqlRepositoryAttributable(IAttributableDbContext db, ILogger logger) : base(db, logger)
         {
             this.db = db;
@@ -67,9 +69,9 @@ namespace PDCore.Repositories.Repo
             throw new NotSupportedFunctionalityException(NotSupportedFunctionalityMessage);
         }
 
-        public override string GetQuery(string where)
+        public override string GetQuery()
         {
-            return db.GetQuery<T>(where);
+            return db.GetQuery<T>();
         }
 
         public override List<T> GetByQuery(string query)
@@ -80,11 +82,6 @@ namespace PDCore.Repositories.Repo
         public override DataTable GetDataTableByQuery(string query)
         {
             return db.GetDataTable(query);
-        }
-
-        public override int GetCountByWhere(string where)
-        {
-            throw new NotImplementedException();
         }
     }
 }

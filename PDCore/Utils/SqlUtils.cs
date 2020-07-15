@@ -1,4 +1,5 @@
 ﻿using FTCore.CoreLibrary.SQLLibrary;
+using Org.BouncyCastle.Operators;
 using PDCore.Extensions;
 using PDCore.Interfaces;
 using System;
@@ -11,11 +12,15 @@ using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace PDCore.Utils
 {
     public static class SqlUtils
     {
+        public const string CountSelection = "count(*)";
+
+
         public static string SQLQuery(string objectName = null, string projection = "*", string selection = null, string joins = "", string order = null,
             string orderType = "", bool isUpdate = false, bool isInsert = false, bool isDelete = false, bool isStoredProcedure = false, bool isFunction = false, string parameters = "")
         {
@@ -310,6 +315,30 @@ namespace PDCore.Utils
             DbProviderFactory factory = DbProviderFactories.GetFactory(nameSpace);
 
             return factory;
+        }
+
+        public static string GetTableName(string query)
+        {
+            /*
+             * (?i) - włączenie case insensitive dla FROM
+             * (?-i) - wyłączenie case insensitive
+             * ?<table> - utworzenie grupy nazwanej "table"
+             * .* - 0 lub więcej każdego znaku oprócz znaku nowej linii
+             * ( AS|where) - biały znak, później "AS" lub "where" 0 razy lub raz
+             */
+            Regex regex = new Regex("(?i)FROM (?<table>.*)( AS|where)?");
+            Match match = regex.Match(query);
+
+            string table = match.Groups["table"].Value;
+
+            return table;
+        }
+
+        public static string GetCountQuery(string tableName, string where = null)
+        {
+            string query = SQLQuery(tableName, CountSelection, where);
+
+            return query;
         }
     }
 }

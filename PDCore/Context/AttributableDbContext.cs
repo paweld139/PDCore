@@ -88,11 +88,9 @@ namespace PDCore.Context
             list.ForEach(Delete);
         }
 
-        public string GetQuery<T>(string where) where T : Attributable, new()
+        public string GetQuery<T>() where T : Attributable, new()
         {
-            string projection = Savator.GetSelectString(new T(), false, false);
-
-            string query = $"{projection} where {where}";
+            string query = Savator.GetSelectString(new T(), false, false);
 
             return query;
         }
@@ -105,19 +103,6 @@ namespace PDCore.Context
                 () => Logger = logger,
                 () => Logger = null
             );
-        }
-
-        public int GetCountByWhere<T>(string where) where T : Attributable, new()
-        {
-            string tableName = this.GetTableName<T>();
-
-            string query = SqlUtils.SQLQuery(tableName, "count(*)", where);
-
-            DataTable dataTable = GetDataTable(query);
-
-            int result = dataTable.GetValue<int>();
-
-            return result;
         }
     }
 }

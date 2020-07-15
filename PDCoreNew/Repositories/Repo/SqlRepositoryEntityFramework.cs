@@ -5,6 +5,7 @@ using PDCore.Repositories.IRepo;
 using PDCore.Repositories.Repo;
 using PDCore.Utils;
 using PDCoreNew.Context.IContext;
+using PDCoreNew.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -22,6 +23,8 @@ namespace PDCoreNew.Repositories.Repo
     {
         private readonly IEntityFrameworkDbContext ctx;
         private readonly DbSet<T> set;
+
+        protected override string ConnectionString => ctx.Database.Connection.ConnectionString;
 
         public SqlRepositoryEntityFramework(IEntityFrameworkDbContext ctx, ILogger logger) : base(ctx, logger)
         {
@@ -106,7 +109,7 @@ namespace PDCoreNew.Repositories.Repo
 
         public override DataTable GetDataTableByQuery(string query)
         {
-            return DbLogWrapper.Execute(ctx.DataTable, query, ctx.Database.Connection.ConnectionString, ctx.Database.Log, IsLoggingEnabled);
+            return DbLogWrapper.Execute(ctx.DataTable, query, ConnectionString, ctx.Database.Log, IsLoggingEnabled);
         }
 
         public Task<int> GetCountAsync(Expression<Func<T, bool>> predicate = null)
@@ -114,24 +117,19 @@ namespace PDCoreNew.Repositories.Repo
             return FindAll().CountAsync(predicate);
         }
 
-        public override string GetQuery(string where) => ctx.GetQuery<T>(where);
+        public override string GetQuery()
+        {
+            return ctx.GetQuery<T>();
+        }
 
-        public int GetCount(Expression<Func<T, bool>> predicate = null)
+        public int GetCount(Expression<Func<T, bool>> predicate)
         {
             return FindAll().Count(predicate);
         }
 
-        public override int GetCountByWhere(string where)
+        public override int GetCount()
         {
-            string tableName = ctx.GetTableName<T>();
-
-            string query = SqlUtils.SQLQuery(tableName, "count(*)", where);
-
-            DataTable dataTable = GetDataTableByQuery(query);
-
-            int result = dataTable.GetValue<int>();
-
-            return result;
+            return GetCount(null);
         }
     }
 }

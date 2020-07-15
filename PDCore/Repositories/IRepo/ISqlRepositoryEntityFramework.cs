@@ -22,6 +22,6 @@ namespace PDCore.Repositories.IRepo
 
         Task<int> GetCountAsync(Expression<Func<T, bool>> predicate = null);
 
-        int GetCount(Expression<Func<T, bool>> predicate = null);
+        int GetCount(Expression<Func<T, bool>> predicate);
     }
 }
