@@ -245,10 +245,7 @@ namespace PDCore.Extensions
 
         public static string[] GetColumnNames(this DataTable dt)
         {
-            string[] columnNames = (from dc in dt.GetColumns()
-                                    select dc.ColumnName).ToArray();
-
-            return columnNames;
+            return (from column in dt.GetColumns() select column.ColumnName).ToArray();
         }
 
         public static IEnumerable<DataRow> AsEnumerable(this DataRowCollection source)
