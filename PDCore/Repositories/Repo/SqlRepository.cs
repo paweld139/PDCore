@@ -45,7 +45,7 @@ namespace PDCore.Repositories.Repo
 
             string selection;
 
-            if (query.IndexOf("where", StringComparison.OrdinalIgnoreCase) >= 0)
+            if (query.Contains("where", StringComparison.OrdinalIgnoreCase))
                 selection = " and ";
             else
                 selection = " where ";

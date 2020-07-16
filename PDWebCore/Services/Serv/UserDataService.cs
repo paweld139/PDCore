@@ -38,16 +38,16 @@ namespace PDWebCore.Services.Serv
 
         public async Task<UserDataModel> GetAsync()
         {
-            string usersIp = Utils.GetIPAddress();
+            UserDataModel userData = new UserDataModel();
+
+            string usersIp = Utils.GetIPAddress();          
 
             if (string.IsNullOrEmpty(usersIp))
             {
-                return new UserDataModel();
+                return userData;
             }
 
             string apiUrl = string.Format(API_URL_FORMAT, usersIp);
-
-            UserDataModel userData = new UserDataModel();
 
             string jsonString = string.Empty;
 
