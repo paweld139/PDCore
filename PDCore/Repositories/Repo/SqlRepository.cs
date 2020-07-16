@@ -87,7 +87,7 @@ namespace PDCore.Repositories.Repo
 
 
         private readonly IDbContext db;
-        private readonly ILogger logger;
+        protected readonly ILogger logger;
 
         protected SqlRepository(IDbContext db, ILogger logger)
         {

@@ -109,12 +109,15 @@ namespace PDCoreNew.Repositories.Repo
 
         public override DataTable GetDataTableByQuery(string query)
         {
-            return DbLogWrapper.Execute(ctx.DataTable, query, ConnectionString, ctx.Database.Log, IsLoggingEnabled);
+            return DbLogWrapper.Execute(ctx.DataTable, query, ConnectionString, logger, IsLoggingEnabled);
         }
 
         public Task<int> GetCountAsync(Expression<Func<T, bool>> predicate = null)
         {
-            return FindAll().CountAsync(predicate);
+            if (predicate != null)
+                return FindAll().CountAsync(predicate);
+            else
+                return FindAll().CountAsync();
         }
 
         public override string GetQuery()
@@ -129,7 +132,7 @@ namespace PDCoreNew.Repositories.Repo
 
         public override int GetCount()
         {
-            return GetCount(null);
+            return FindAll().Count();
         }
     }
 }

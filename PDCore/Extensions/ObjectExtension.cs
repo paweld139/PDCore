@@ -354,5 +354,10 @@ namespace PDCore.Extensions
         {
             return Tuple.Create(item1, item2);
         }
+
+        public static int GetEnumNumber<TEnum>(this TEnum value) where TEnum : struct
+        {
+            return value.ConvertOrCastTo<TEnum, int>();
+        }
     }
 }

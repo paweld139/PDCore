@@ -136,9 +136,9 @@ namespace PDCore.Utils
             return dataSet;
         }
 
-        public static DataSet GetDataSet(string query, string connectionString, string provider = null)
+        public static DataSet GetDataSet(string query, string nameOrConnectionString, string provider = null)
         {
-            using (DbConnection dbConnection = GetDbConnection(connectionString, provider))
+            using (DbConnection dbConnection = GetDbConnection(nameOrConnectionString, provider))
             {
                 return GetDataSet(query, dbConnection);
             }
@@ -154,9 +154,9 @@ namespace PDCore.Utils
             return new DataTable();
         }
 
-        public static DataTable GetDataTable(string query, string connectionString, string provider = null)
+        public static DataTable GetDataTable(string query, string nameOrConnectionString, string provider = null)
         {
-            using (DbConnection dbConnection = GetDbConnection(connectionString, provider))
+            using (DbConnection dbConnection = GetDbConnection(nameOrConnectionString, provider))
             {
                 return GetDataTable(query, dbConnection);
             }
@@ -200,8 +200,10 @@ namespace PDCore.Utils
             return result;
         }
 
-        public static DbConnection GetDbConnection(string connectionString, string provider = null)
+        public static DbConnection GetDbConnection(string nameOrConnectionString, string provider = null)
         {
+            string connectionString = GetConnectionString(nameOrConnectionString);
+
             DbConnection dbConnection;
 
             if (!string.IsNullOrEmpty(provider)) //"System.Data.SqlClient"; // for example

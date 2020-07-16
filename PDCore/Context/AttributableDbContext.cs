@@ -23,7 +23,7 @@ namespace PDCore.Context
 
         private T Log<T>(Func<string, T> func, string query)
         {
-            return DbLogWrapper.Execute(func, query, ConnectionString, Logger.Log, IsLoggingEnabled);
+            return DbLogWrapper.Execute(func, query, ConnectionString, Logger, IsLoggingEnabled);
         }
 
         public void SaveChanges<T>(IEnumerable<T> list) where T : Attributable, new()
