@@ -173,7 +173,7 @@ namespace PDCore.Utils
         {
             string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
-            return GetDataSet(query, connectionString); ;
+            return GetDataSet(query, connectionString);
         }
 
         public static LocalSqlHelper EnableSQLConnection()
@@ -326,7 +326,7 @@ namespace PDCore.Utils
              * .* - 0 lub więcej każdego znaku oprócz znaku nowej linii
              * ( AS|where) - biały znak, później "AS" lub "where" 0 razy lub raz
              */
-            Regex regex = new Regex("(?i)FROM (?<table>.*)( AS|where)?");
+            Regex regex = new Regex(@"(?i)FROM (?<table>((\[.*\](?=\s(as|where|inner|left|join|union)))|\S*))");
             Match match = regex.Match(query);
 
             string table = match.Groups["table"].Value;
@@ -339,6 +339,23 @@ namespace PDCore.Utils
             string query = SQLQuery(tableName, CountSelection, where);
 
             return query;
+        }
+
+        public static IEnumerable<string> GetTables(DbConnection dbConnection)
+        {
+            DataTable dt = dbConnection.GetSchema("Tables");
+
+            var tableNames = dt.AsEnumerable().Select(r => r[2]).ConvertOrCastTo<object, string>();
+
+            return tableNames;
+        }
+
+        public static IEnumerable<string> GetTables(string connectionString, string provider = null)
+        {
+            using (DbConnection dbConnection = GetDbConnection(connectionString, provider))
+            {
+                return GetTables(dbConnection);
+            }
         }
     }
 }

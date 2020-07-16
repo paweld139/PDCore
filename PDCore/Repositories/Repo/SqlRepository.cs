@@ -43,7 +43,14 @@ namespace PDCore.Repositories.Repo
         {
             string query = GetQuery();
 
-            string selection = $" where {where}";
+            string selection;
+
+            if (query.IndexOf("where", StringComparison.OrdinalIgnoreCase) >= 0)
+                selection = " and ";
+            else
+                selection = " where ";
+
+            selection += where;
 
             query += selection;
 
