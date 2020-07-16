@@ -271,6 +271,26 @@ namespace PDCore.Extensions
             return source.GetRowItemArrays().Select(x => x.ToArrayString());
         }
 
+        public static IEnumerable<object> GetColumnValues(this DataTable source, int columnIndex)
+        {
+            return source.GetRows().Select(r => r[columnIndex]);
+        }
+
+        public static IEnumerable<string> GetColumnStringValues(this DataTable source, int columnIndex)
+        {
+            return source.GetColumnValues(columnIndex).ToArrayString();
+        }
+
+        public static IEnumerable<object> GetColumnValues(this DataTable source, string columnName)
+        {
+            return source.GetRows().Select(r => r[columnName]);
+        }
+
+        public static IEnumerable<string> GetColumnStringValues(this DataTable source, string columnName)
+        {
+            return source.GetColumnValues(columnName).ToArrayString();
+        }
+
         public static IEnumerable<object[]> GetColumnsAndRows(this DataTable source)
         {
             string[] columnNames = source.GetColumnNames();

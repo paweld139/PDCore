@@ -29,12 +29,12 @@ namespace PDCore.Utils
 
         public static void WriteSeparator(bool readKey = false)
         {
-            WriteLine("***", readKey);
+            WriteLine(StringUtils.Separator, readKey);
         }
 
         public static void WriteResult<TInfo, TResult>(TInfo info, TResult result)
         {
-            WriteLine("{0}: {1}", false, info, result);
+            WriteLine(StringUtils.ResultFormat, false, info, result);
         }
 
         public static void ReadKey()
@@ -210,7 +210,7 @@ namespace PDCore.Utils
         /// <param name="horizontalTextAlignment">Sposób wyrównania tekstu w poziomie, domyślnie jest do lewej</param>
         public static void WriteTableFromObjects<T>(IEnumerable<T> collection, bool hasHeader = true, HorizontalTextAlignment horizontalTextAlignment = HorizontalTextAlignment.Left) where T : class
         {
-            List<string[]> rowsFields = collection.Select(x => ObjectUtils.GetObjectValues(x).ToArrayString()).ToList(); //Zwrócenie kolekcji pól dla obiektów
+            List<string[]> rowsFields = collection.Select(x => ObjectUtils.GetObjectPropertyStringValues(x)).ToList(); //Zwrócenie kolekcji pól dla obiektów
             //Z każdego obiektu zostają pobrane wartości właściwości i zostają przekonwertowane na tablicę łańcuchów znaków - tablicę pól dla danego wiersza
 
             WriteTableFromFields(rowsFields, hasHeader, horizontalTextAlignment); //Wyświetlenie kolekcji pól w formie tabeli z nagłówkiem lub bez

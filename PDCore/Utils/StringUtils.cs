@@ -7,6 +7,10 @@ namespace PDCore.Utils
 {
     public static class StringUtils
     {
+        public const string ResultFormat = "{0}: {1}";
+
+        public const string Separator = "***";
+
         public static string ZeroFix(string element)
         {
             if (element != null && element.Length == 1)

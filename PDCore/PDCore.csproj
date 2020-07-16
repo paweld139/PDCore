@@ -109,6 +109,7 @@
     <Compile Include="Factories\Fac\LogMessageFactory.cs" />
     <Compile Include="Factories\IFac\IFactory.cs" />
     <Compile Include="Factories\IFac\ILogMessageFactory.cs" />
+    <Compile Include="Helpers\Calculation\ObjectStatistics.cs" />
     <Compile Include="Helpers\Calculation\PreciseDateTime.cs" />
     <Compile Include="Helpers\Comparers\FileInfoLengthComparer.cs" />
     <Compile Include="Helpers\Comparers\NamedObjectComparer.cs" />

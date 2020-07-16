@@ -213,6 +213,22 @@ namespace PDCore.Extensions
             return input.ConvertObject<TOutput>();
         }
 
+        public static bool TryConvertOrCastTo<TInput, TOutput>(this TInput input, out TOutput output, Converter<TInput, TOutput> converter = null)
+        {
+            try
+            {
+                output = input.ConvertOrCastTo(converter);
+
+                return true;
+            }
+            catch
+            {
+                output = default;             
+            }
+
+            return false;
+        }
+
         public static double SampledAverageDouble(this double[] numbers)
         {
             var count = 0;
@@ -358,6 +374,18 @@ namespace PDCore.Extensions
         public static int GetEnumNumber<TEnum>(this TEnum value) where TEnum : struct
         {
             return value.ConvertOrCastTo<TEnum, int>();
+        }
+
+        public static string ToNumberString(this object value, int precision)
+        {
+            if (!value.TryConvertOrCastTo(out double numberValue))
+                return value.ToString();
+
+            string format = string.Format("{{0:N{0}}}", precision);
+
+            string valuestring = string.Format(format, numberValue);
+
+            return valuestring;
         }
     }
 }

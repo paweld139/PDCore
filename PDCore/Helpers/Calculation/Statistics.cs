@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PDCore.Extensions;
+using PDCore.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,16 +9,16 @@ namespace PDCore.Helpers.Calculation
 {
     public class Statistics
     {
-        public double Average
+        public virtual double Average
         {
             get
             {
-                return Sum / Count;
+                return Total / Count;
             }
         }
 
-        public double High { get; private set; }
-        public double Low { get; private set; }
+        public double Max { get; private set; }
+        public double Min { get; private set; }
 
         public char Letter
         {
@@ -42,23 +44,28 @@ namespace PDCore.Helpers.Calculation
             }
         }
 
-        public double Sum { get; private set; }
+        public double Total { get; private set; }
         public int Count { get; private set; }
 
         public void Add(double number)
         {
-            Sum += number;
+            Total += number;
             Count++;
-            Low = Math.Min(number, Low);
-            High = Math.Max(number, High);
+            Min = Math.Min(number, Min);
+            Max = Math.Max(number, Max);
         }
 
         public Statistics()
         {
             Count = 0;
-            Sum = 0.0;
-            High = double.MinValue;
-            Low = double.MaxValue;
+            Total = 0.0;
+            Max = double.MinValue;
+            Min = double.MaxValue;
+        }
+
+        public override string ToString()
+        {
+            return ObjectUtils.GetSummary(this);
         }
     }
 }

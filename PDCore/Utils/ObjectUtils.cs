@@ -205,7 +205,8 @@ namespace PDCore.Utils
             //creating rows
             foreach (var entity in entities)
             {
-                var values = GetObjectValues(entity);
+                var values = GetObjectPropertyValues(entity);
+
                 dt.Rows.Add(values);
             }
 
@@ -213,7 +214,12 @@ namespace PDCore.Utils
             return dt;
         }
 
-        public static object[] GetObjectValues<T>(T entity)
+        public static string[] GetObjectPropertyNames<T>()
+        {
+            return typeof(T).GetProperties().ConvertArray(p => p.Name);
+        }
+
+        public static object[] GetObjectPropertyValues<T>(T entity)
         {
             var values = new List<object>();
 
@@ -223,6 +229,11 @@ namespace PDCore.Utils
             }
 
             return values.ToArray();
+        }
+
+        public static string[] GetObjectPropertyStringValues<T>(T entity)
+        {
+            return GetObjectPropertyValues(entity).ConvertArray<object, string>();
         }
 
         public static long Time(Action action, int iterations = 1)
@@ -306,6 +317,30 @@ namespace PDCore.Utils
         public static bool ValueIn<TInput>(this TInput input, params TInput[] values) where TInput : struct, IEquatable<TInput>
         {
             return values.Any(v => v.Equals(input));
+        }
+
+        public static string GetSummary<TInput>(TInput input, int numberPrecision = 2)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            string[] propertyNames = GetObjectPropertyNames<TInput>();
+
+            string[] propertyValues = GetObjectPropertyStringValues(input).ConvertArray(v => v.ToNumberString(numberPrecision));
+
+            int padName = propertyNames.GetMaxLength();
+
+            int padValue = propertyValues.GetMaxLength();
+
+
+            propertyNames.ForEach((p, i) =>
+            {
+                stringBuilder.AppendLine(
+                        StringUtils.ResultFormat,
+                        propertyNames[i].PadRight(padName),
+                        propertyValues[i].PadLeft(padValue));
+            });
+
+            return stringBuilder.ToString();
         }
     }
 }

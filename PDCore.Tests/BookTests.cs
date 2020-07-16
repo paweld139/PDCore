@@ -25,8 +25,8 @@ namespace PDCore.Tests
 
             // assert
             Assert.AreEqual(85.6, result.Average, 1);
-            Assert.AreEqual(90.5, result.High, 1);
-            Assert.AreEqual(77.3, result.Low, 1);
+            Assert.AreEqual(90.5, result.Max, 1);
+            Assert.AreEqual(77.3, result.Min, 1);
             Assert.AreEqual('B', result.Letter);
         }
 
@@ -37,7 +37,7 @@ namespace PDCore.Tests
             var book = new InMemoryBook("");
 
             // act
-            var result = book.GetStatistics().High;
+            var result = book.GetStatistics().Max;
 
             // assert
             Assert.AreEqual(double.MinValue, result);

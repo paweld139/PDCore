@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PDCore.Helpers.Calculation
 {
-    abstract class MathProvider<T>
+    public abstract class MathProvider<T>
     {
         public abstract T Divide(T a, T b);
         public abstract T Multiply(T a, T b);
@@ -17,7 +17,7 @@ namespace PDCore.Helpers.Calculation
         }
     }
 
-    class DoubleMathProvider : MathProvider<double>
+    public class DoubleMathProvider : MathProvider<double>
     {
         public override double Divide(double a, double b)
         {
@@ -40,7 +40,7 @@ namespace PDCore.Helpers.Calculation
         }
     }
 
-    class IntMathProvider : MathProvider<int>
+    public class IntMathProvider : MathProvider<int>
     {
         public override int Divide(int a, int b)
         {
@@ -63,7 +63,7 @@ namespace PDCore.Helpers.Calculation
         }
     }
 
-    class Fraction<T>
+    public class Fraction<T>
     {
         static readonly MathProvider<T> _math;
         // Notice this is a type constructor.  It gets run the first time a

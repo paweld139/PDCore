@@ -2,6 +2,7 @@
 using PDCore.Extensions;
 using PDCore.Factories.Fac;
 using PDCore.Helpers;
+using PDCore.Helpers.Calculation;
 using PDCore.Helpers.DataStructures;
 using PDCore.Interfaces;
 using PDCore.Services.IServ;
@@ -25,6 +26,10 @@ namespace PDCoreTest
         {
             _ = args;
 
+
+            TestAccumulator();
+
+            WriteSeparator();
 
             TestOpenTextFile();
 
@@ -102,6 +107,23 @@ namespace PDCoreTest
 
 
             Console.ReadKey();
+        }
+
+        private static void TestAccumulator()
+        {
+            int[] valuesInt = { 1, 6, 9, 4, 645, 4, 75 };
+
+            double[] valuesDouble = ObjectUtils.Random().Take(10).ToArray();
+
+
+            var resultInt = valuesInt.Aggregate();
+
+            var resultDouble = valuesDouble.Aggregate();
+
+
+            ConsoleUtils.WriteResult("Akumulator int", $"\n\n{resultInt}");
+            Console.WriteLine();
+            ConsoleUtils.WriteResult("Akumulator double", $"\n\n{resultDouble}");
         }
 
         private static void TestOpenTextFile()

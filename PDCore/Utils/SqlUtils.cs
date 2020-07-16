@@ -350,7 +350,7 @@ namespace PDCore.Utils
         {
             DataTable dt = dbConnection.GetSchema("Tables");
 
-            var tableNames = dt.AsEnumerable().Select(r => r[2]).ConvertOrCastTo<object, string>();
+            var tableNames = dt.GetColumnStringValues(2);
 
             return tableNames;
         }

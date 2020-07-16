@@ -1,4 +1,6 @@
-﻿using Org.BouncyCastle.Asn1.X509.Qualified;
+﻿using FTCore.CoreLibrary.SQLLibrary;
+using Org.BouncyCastle.Asn1.X509.Qualified;
+using PDCore.Helpers.Calculation;
 using PDCore.Interfaces;
 using PDCore.Utils;
 using System;
@@ -102,7 +104,7 @@ namespace PDCore.Extensions
 
         public static string[] ToArrayString<T>(this IEnumerable<T> source)
         {
-            return source.ToArray(x => (x == null ? string.Empty : x.ToString()));
+            return source.ToArray(x => x.EmptyIfNull());
         }
 
         public static IEnumerable<T> Add<T>(this IEnumerable<T> source, T element, bool addAsFirst = false)
@@ -157,6 +159,28 @@ namespace PDCore.Extensions
         public static IQueryable<T> FindByDate<T>(this IQueryable<T> source, DateTime? dateF, DateTime? dateT) where T : class, IByDateFindable
         {
             return source.FindByDate(dateF?.ToString(), dateT?.ToString());
+        }
+
+        public static ObjectStatistics<TSource> Aggregate<TSource>(this IEnumerable<TSource> source, Converter<TSource, double> doubleConverter = null)
+        {
+            return source.Aggregate(new ObjectStatistics<TSource>(), 
+                                    (acc, i) =>  acc.Accumulate(i, p => p.ConvertOrCastTo(doubleConverter)), 
+                                    acc => acc.Compute());
+        }
+
+        public static int GetMaxLength(this IEnumerable<string> source)
+        {
+            return source.Max(s => s.Length);
+        }
+
+        public static TOutput[] ConvertArray<TInput, TOutput>(this TInput[] input, Converter<TInput, TOutput> converter)
+        {
+            return Array.ConvertAll(input, converter);
+        }
+
+        public static TOutput[] ConvertArray<TInput, TOutput>(this TInput[] input)
+        {
+            return Array.ConvertAll(input, i => i.ConvertOrCastTo<TInput, TOutput>());
         }
     }
 }
