@@ -138,7 +138,7 @@ namespace PDCore.Utils
 
         public static DataSet GetDataSet(string query, string nameOrConnectionString, string provider = null)
         {
-            using (DbConnection dbConnection = GetDbConnection(nameOrConnectionString, provider))
+            using (DbConnection dbConnection = GetDbConnection(nameOrConnectionString, true, provider))
             {
                 return GetDataSet(query, dbConnection);
             }
@@ -156,7 +156,7 @@ namespace PDCore.Utils
 
         public static DataTable GetDataTable(string query, string nameOrConnectionString, string provider = null)
         {
-            using (DbConnection dbConnection = GetDbConnection(nameOrConnectionString, provider))
+            using (DbConnection dbConnection = GetDbConnection(nameOrConnectionString, true, provider))
             {
                 return GetDataTable(query, dbConnection);
             }
@@ -200,7 +200,7 @@ namespace PDCore.Utils
             return result;
         }
 
-        public static DbConnection GetDbConnection(string nameOrConnectionString, string provider = null)
+        public static DbConnection GetDbConnection(string nameOrConnectionString, bool open, string provider = null)
         {
             string connectionString = GetConnectionString(nameOrConnectionString);
 
@@ -219,7 +219,8 @@ namespace PDCore.Utils
                 dbConnection = new SqlConnection(connectionString);
             }
 
-            dbConnection.OpenConnectionIfClosed();
+            if (open)
+                dbConnection.OpenConnectionIfClosed();
 
 
             return dbConnection;
@@ -231,7 +232,7 @@ namespace PDCore.Utils
 
             if (isConnectionString)
             {
-                DbConnection dbConnection = GetDbConnection(text, provider);
+                DbConnection dbConnection = GetDbConnection(text, false, provider);
 
                 try
                 {
@@ -357,7 +358,7 @@ namespace PDCore.Utils
 
         public static IEnumerable<string> GetTables(string nameOrConnectionString, string provider = null)
         {
-            using (DbConnection dbConnection = GetDbConnection(nameOrConnectionString, provider))
+            using (DbConnection dbConnection = GetDbConnection(nameOrConnectionString, true, provider))
             {
                 return GetTables(dbConnection);
             }

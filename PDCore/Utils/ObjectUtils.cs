@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Forms;
@@ -214,26 +215,34 @@ namespace PDCore.Utils
             return dt;
         }
 
+        private static PropertyInfo[] GetProperties<T>()
+        {
+            return typeof(T).GetProperties();
+        }
+
         public static string[] GetObjectPropertyNames<T>()
         {
-            return typeof(T).GetProperties().ConvertArray(p => p.Name);
+            return GetProperties<T>().ConvertArray(p => p.Name);
         }
 
         public static object[] GetObjectPropertyValues<T>(T entity)
         {
-            var values = new List<object>();
-
-            foreach (var prop in typeof(T).GetProperties())
-            {
-                values.Add(prop.GetValue(entity, null));
-            }
-
-            return values.ToArray();
+            return GetProperties<T>().ConvertArray(p => p.GetValue(entity, null));
         }
 
         public static string[] GetObjectPropertyStringValues<T>(T entity)
         {
-            return GetObjectPropertyValues(entity).ConvertArray<object, string>();
+            return GetObjectPropertyValues(entity).ConvertOrCastArray<object, string>();
+        }
+
+        public static Tuple<string, object>[] GetObjectPropertyNamesAndValues<T>(T entity)
+        {
+            return GetProperties<T>().ConvertArray(p => p.GetValue(entity, null).GetTuple(p.Name));
+        }
+
+        public static Tuple<string, string>[] GetObjectPropertyNamesAndStringValues<T>(T entity)
+        {
+            return GetObjectPropertyNamesAndValues(entity).ConvertArray(i => Tuple.Create(i.Item1, i.Item2.ConvertOrCastTo<object, string>()));
         }
 
         public static long Time(Action action, int iterations = 1)
@@ -319,13 +328,16 @@ namespace PDCore.Utils
             return values.Any(v => v.Equals(input));
         }
 
-        public static string GetSummary<TInput>(TInput input, int numberPrecision = 2)
+        public static string GetSummary<TInput>(TInput input, int numberPrecision = 0)
         {
             StringBuilder stringBuilder = new StringBuilder();
 
             string[] propertyNames = GetObjectPropertyNames<TInput>();
 
-            string[] propertyValues = GetObjectPropertyStringValues(input).ConvertArray(v => v.ToNumberString(numberPrecision));
+            string[] propertyValues = GetObjectPropertyStringValues(input);
+
+            if (numberPrecision > 0)
+                propertyValues = propertyValues.ConvertArray(v => v.ToNumberString(numberPrecision));
 
             int padName = propertyNames.GetMaxLength();
 

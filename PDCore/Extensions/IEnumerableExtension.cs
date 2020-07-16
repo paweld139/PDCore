@@ -178,7 +178,7 @@ namespace PDCore.Extensions
             return Array.ConvertAll(input, converter);
         }
 
-        public static TOutput[] ConvertArray<TInput, TOutput>(this TInput[] input)
+        public static TOutput[] ConvertOrCastArray<TInput, TOutput>(this TInput[] input)
         {
             return Array.ConvertAll(input, i => i.ConvertOrCastTo<TInput, TOutput>());
         }
