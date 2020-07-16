@@ -164,14 +164,14 @@ namespace PDCore.Utils
 
         public static DataTable GetDataTable(string query)
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            string connectionString = GetConnectionString("DefaultConnection");
 
             return GetDataTable(query, connectionString);
         }
 
         public static DataSet GetDataSet(string query)
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            string connectionString = GetConnectionString("DefaultConnection");
 
             return GetDataSet(query, connectionString);
         }
@@ -355,9 +355,9 @@ namespace PDCore.Utils
             return tableNames;
         }
 
-        public static IEnumerable<string> GetTables(string connectionString, string provider = null)
+        public static IEnumerable<string> GetTables(string nameOrConnectionString, string provider = null)
         {
-            using (DbConnection dbConnection = GetDbConnection(connectionString, provider))
+            using (DbConnection dbConnection = GetDbConnection(nameOrConnectionString, provider))
             {
                 return GetTables(dbConnection);
             }
