@@ -217,6 +217,9 @@ namespace PDCore.Utils
                 dbConnection = new SqlConnection(connectionString);
             }
 
+            dbConnection.OpenConnectionIfClosed();
+
+
             return dbConnection;
         }
 
