@@ -1,5 +1,6 @@
 ﻿using PDCore.Extensions;
 using PDCore.Utils;
+using PDCoreNew.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,7 +27,7 @@ namespace PDCoreNew.Utils
 
         private static async Task<string> DoGetTextFromWebClient(string address, bool sync)
         {
-            using (WebClient webClient = new WebClient())
+            using (WebClient webClient = GetWebClient())
             {
                 Task<string> task = DoGetTextFromWebClient(address, webClient, sync);
 
@@ -82,7 +83,7 @@ namespace PDCoreNew.Utils
 
         private static async Task<string> DoSaveFileFromWebClient(string address, bool sync)
         {
-            using (WebClient webClient = new WebClient())
+            using (WebClient webClient = GetWebClient())
             {
                 Task<string> task = DoSaveFileFromWebClient(address, webClient, sync);
 
@@ -128,11 +129,18 @@ namespace PDCoreNew.Utils
         public static async Task<string> DownloadStringAsync(string url)
         {
             //validate!
-            using (var client = new WebClient())
+            using (var client = GetWebClient())
             {
                 //optionally process and return
                 return await client.DownloadStringTaskAsync(url).ConfigureAwait(false);
             }
+        }
+
+        public static WebClient GetWebClient()
+        {
+            WebClient webClient = new WebClient();
+
+            return webClient;
         }
     }
 }

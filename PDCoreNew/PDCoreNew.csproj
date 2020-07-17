@@ -58,6 +58,9 @@
     <Compile Include="Helpers\ExceptionHandling\DbActionWrapper.cs" />
     <Compile Include="Helpers\SaveChangesWrapper.cs" />
     <Compile Include="Helpers\UnityServiceLocator.cs" />
+    <Compile Include="Helpers\WebClientWithTimeout.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Loggers\Factory\LoggerFactory.cs" />
     <Compile Include="Helpers\Log.cs" />
     <Compile Include="Models\FileModel.cs" />

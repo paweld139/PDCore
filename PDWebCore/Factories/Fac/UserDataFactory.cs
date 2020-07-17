@@ -16,18 +16,10 @@ namespace PDWebCore.Factories.Fac
         {
             if (!userData.ServiceUnresponded)
             {
-                dynamic dynObj = JsonConvert.DeserializeObject(jsonString);
+                JsonConvert.PopulateObject(jsonString, userData);
 
-                userData.CountryCode = dynObj.country_code;
-                userData.Country = dynObj.country_name;
-                userData.RegionCode = dynObj.region_code;
-                userData.RegionName = dynObj.region_name;
-                userData.City = dynObj.city;
-                userData.ZipCode = dynObj.zip_code;
-                userData.TimeZone = dynObj.time_zone;
-                userData.Latitude = dynObj.latitude;
-                userData.Longitude = dynObj.longitude;
-                userData.MetroCode = dynObj.metro_code;
+                //if (userData.Location?.GeonameId == null)
+                //    userData.Location = null;
             }
 
             HttpRequest request = HttpContext.Current.Request;
