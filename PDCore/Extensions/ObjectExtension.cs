@@ -46,16 +46,15 @@ namespace PDCore.Extensions
         //        throw new Exception();
         //}
 
-        public static void ThrowIfNull(this object obj, string objName)
+        public static void ThrowIfNull<T>(this T obj, string objName)
         {
             if (obj == null)
-                throw new ArgumentNullException(string.Format("{0} is null.", objName));
+                throw new ArgumentNullException(objName);
         }
 
-        public static void ThrowIfNull(this object obj)
+        public static void ThrowIfNull<T>(this T obj)
         {
-            if (obj == null)
-                throw new ArgumentNullException(string.Format("obj is null."));
+            obj.ThrowIfNull(nameof(obj));
         }
 
         public static void SwapValues<T>(this T[] source, long index1, long index2)
@@ -358,7 +357,7 @@ namespace PDCore.Extensions
             return typeName.ToString();
         }
 
-        public static string EmptyIfNull(this object value)
+        public static string EmptyIfNull<T>(this T value)
         {
             if (value == null)
                 return string.Empty;
@@ -381,7 +380,7 @@ namespace PDCore.Extensions
             return value.ConvertOrCastTo<TEnum, int>();
         }
 
-        public static string ToNumberString(this object value, int precision)
+        public static string ToNumberString<T>(this T value, int precision)
         {
             return value.ToString().ToNumberString(precision);
         }
