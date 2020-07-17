@@ -198,7 +198,7 @@ namespace PDCore.Utils
             var dt = new DataTable();
 
             //creating columns
-            foreach (var prop in typeof(T).GetProperties())
+            foreach (var prop in GetProperties<T>())
             {
                 dt.Columns.Add(prop.Name, prop.PropertyType);
             }
@@ -206,7 +206,7 @@ namespace PDCore.Utils
             //creating rows
             foreach (var entity in entities)
             {
-                var values = GetObjectPropertyValues(entity);
+                var values = GetObjectPropertyValues(entity).ToArray();
 
                 dt.Rows.Add(values);
             }
@@ -220,29 +220,29 @@ namespace PDCore.Utils
             return typeof(T).GetProperties();
         }
 
-        public static string[] GetObjectPropertyNames<T>()
+        public static IEnumerable<string> GetObjectPropertyNames<T>()
         {
-            return GetProperties<T>().ConvertArray(p => p.Name);
+            return GetProperties<T>().Select(p => p.Name);
         }
 
-        public static object[] GetObjectPropertyValues<T>(T entity)
+        public static IEnumerable<object> GetObjectPropertyValues<T>(T entity)
         {
-            return GetProperties<T>().ConvertArray(p => p.GetValue(entity, null));
+            return GetProperties<T>().Select(p => p.GetValue(entity, null));
         }
 
-        public static string[] GetObjectPropertyStringValues<T>(T entity)
+        public static IEnumerable<string> GetObjectPropertyStringValues<T>(T entity)
         {
-            return GetObjectPropertyValues(entity).ConvertOrCastArray<object, string>();
+            return GetObjectPropertyValues(entity).EmptyIfNull();
         }
 
-        public static Tuple<string, object>[] GetObjectPropertyNamesAndValues<T>(T entity)
+        public static IEnumerable<KeyValuePair<string, object>> GetObjectPropertyNamesAndValues<T>(T entity)
         {
-            return GetProperties<T>().ConvertArray(p => p.GetValue(entity, null).GetTuple(p.Name));
+            return GetProperties<T>().GetKVP(p => p.Name, p => p.GetValue(entity, null));
         }
 
-        public static Tuple<string, string>[] GetObjectPropertyNamesAndStringValues<T>(T entity)
+        public static IEnumerable<KeyValuePair<string, string>> GetObjectPropertyNamesAndStringValues<T>(T entity)
         {
-            return GetObjectPropertyNamesAndValues(entity).ConvertArray(i => Tuple.Create(i.Item1, i.Item2.ConvertOrCastTo<object, string>()));
+            return GetObjectPropertyNamesAndValues(entity).GetKVP(v => v.Key, v => v.Value.EmptyIfNull());
         }
 
         public static long Time(Action action, int iterations = 1)
@@ -332,12 +332,39 @@ namespace PDCore.Utils
         {
             StringBuilder stringBuilder = new StringBuilder();
 
-            string[] propertyNames = GetObjectPropertyNames<TInput>();
+            var propertyNamesAndValues = GetObjectPropertyNamesAndStringValues(input);
 
-            string[] propertyValues = GetObjectPropertyStringValues(input);
+            if (numberPrecision > 0)
+                propertyNamesAndValues = propertyNamesAndValues.GetKVP(v => v.Key, v => v.Value.ToNumberString(numberPrecision));
+
+            var propertyNamesAndValuesList = propertyNamesAndValues.OrderBy(v => v.Key).ToList();
+
+            var columnsWidths = StringUtils.GetColumnsWidths(propertyNamesAndValuesList);
+
+            for (int i = 0; i < propertyNamesAndValuesList.Count; i++)
+            {
+                stringBuilder.AppendLine(
+                        StringUtils.ResultFormat,
+                        propertyNamesAndValuesList[i].Key.PadRight(columnsWidths.Key),
+                        " ",
+                        propertyNamesAndValuesList[i].Value.PadRight(columnsWidths.Value));
+            }
+
+            return stringBuilder.ToString();
+        }
+
+        public static string GetSummary2<TInput>(TInput input, int numberPrecision = 0)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            var propertyNames = GetObjectPropertyNames<TInput>().ToArray();
+
+            var propertyValues = GetObjectPropertyStringValues(input).ToArray();
 
             if (numberPrecision > 0)
                 propertyValues = propertyValues.ConvertArray(v => v.ToNumberString(numberPrecision));
+
+            Array.Sort(propertyNames, propertyValues);
 
             int padName = propertyNames.GetMaxLength();
 
@@ -349,6 +376,7 @@ namespace PDCore.Utils
                 stringBuilder.AppendLine(
                         StringUtils.ResultFormat,
                         propertyNames[i].PadRight(padName),
+                        " ",
                         propertyValues[i].PadLeft(padValue));
             });
 

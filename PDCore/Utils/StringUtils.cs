@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PDCore.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ namespace PDCore.Utils
 {
     public static class StringUtils
     {
-        public const string ResultFormat = "{0}: {1}";
+        public const string ResultFormat = "{0}:{1}{2}";
 
         public const string Separator = "***";
 
@@ -56,6 +57,40 @@ namespace PDCore.Utils
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Zwrócenie szerokości zawartości kolumn na podstawie kolekcji pól wierszy
+        /// </summary>
+        /// <param name="rowsFields">Kolekcja pól wierszy</param>
+        /// <returns>Szerokość zawartości kolumn</returns>
+        public static int[] GetColumnsWidths(IList<string[]> rowsFields)
+        {
+            string[] firstRowFields = rowsFields.First(); //Pobranie pól pierwszego elementu kolekcji
+
+            int[] columnsWidths = new int[firstRowFields.Length]; //Tablica zawierająca szerokości kolumn w tabeli, która zostanie wyświetlona. Każde pole jest wyświetlone w określonej kolumnie
+            //Szerokości kolumn jest tyle co kolumm. Ilość kolumn została pobrana na podstawie ilości pól z pierwszym elemencie kolekcji. Każdy element powinien mieć taką samą ilość pól.
+
+            foreach (var fields in rowsFields) //Przechodzenie po wszystkich kolekcjach pól wierszy
+            {
+                fields.ForEach((x, i) => //Przejćie po wszystkich polach celem pobrania i ustalenia najdłuższego pola z danej kolumny
+                {
+                    if (columnsWidths[i] < x.Length) //Czy aktualnie ustawiona długość kolumny jest mniejsza od długości pola
+                        columnsWidths[i] = x.Length; //Ustawienie nowej długości kolumny
+                });
+            }
+
+            return columnsWidths; //Zwrócenie szerokości zawartości kolumn
+        }
+
+        public static KeyValuePair<int, int> GetColumnsWidths(ICollection<KeyValuePair<string, string>> rowsFields)
+        {
+            var rowsFieldsArrays = rowsFields.Select(f => new[] { f.Key, f.Value }).ToList();
+
+            var columnsWidths = GetColumnsWidths(rowsFieldsArrays);
+
+
+            return new KeyValuePair<int, int>(columnsWidths[0], columnsWidths[1]);
         }
     }
 }

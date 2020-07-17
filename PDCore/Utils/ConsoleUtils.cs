@@ -32,9 +32,11 @@ namespace PDCore.Utils
             WriteLine(StringUtils.Separator, readKey);
         }
 
-        public static void WriteResult<TInfo, TResult>(TInfo info, TResult result)
+        public static void WriteResult<TInfo, TResult>(TInfo info, TResult result, bool newLine = false)
         {
-            WriteLine(StringUtils.ResultFormat, false, info, result);
+            string separator = newLine ? (Environment.NewLine + Environment.NewLine) : " ";
+
+            WriteLine(StringUtils.ResultFormat, false, info, separator, result);
         }
 
         public static void ReadKey()
@@ -181,7 +183,7 @@ namespace PDCore.Utils
 
             string[] firstRowFields = rowsFields[0]; //Pobranie pól pierwszego elementu kolekcji
 
-            int[] columnsWidths = GetColumnsWidths(rowsFields); //Pobranie szerokości zawartości kolumn na podstawie kolekcji pól wierszy
+            int[] columnsWidths = StringUtils.GetColumnsWidths(rowsFields); //Pobranie szerokości zawartości kolumn na podstawie kolekcji pól wierszy
 
 
             WriteRowDelimiter(columnsWidths); //Wyświetlenie górnej krawędzi tabeli na o określonej szerokości, na podstawie obliczonych szerokości kolumn
@@ -210,7 +212,7 @@ namespace PDCore.Utils
         /// <param name="horizontalTextAlignment">Sposób wyrównania tekstu w poziomie, domyślnie jest do lewej</param>
         public static void WriteTableFromObjects<T>(IEnumerable<T> collection, bool hasHeader = true, HorizontalTextAlignment horizontalTextAlignment = HorizontalTextAlignment.Left) where T : class
         {
-            List<string[]> rowsFields = collection.Select(x => ObjectUtils.GetObjectPropertyStringValues(x)).ToList(); //Zwrócenie kolekcji pól dla obiektów
+            List<string[]> rowsFields = collection.Select(x => ObjectUtils.GetObjectPropertyStringValues(x).ToArray()).ToList(); //Zwrócenie kolekcji pól dla obiektów
             //Z każdego obiektu zostają pobrane wartości właściwości i zostają przekonwertowane na tablicę łańcuchów znaków - tablicę pól dla danego wiersza
 
             WriteTableFromFields(rowsFields, hasHeader, horizontalTextAlignment); //Wyświetlenie kolekcji pól w formie tabeli z nagłówkiem lub bez
@@ -230,30 +232,6 @@ namespace PDCore.Utils
             List<string[]> rowsFields = CSVUtils.ParseCSVLines(filePath, skipFirstLine, delimiter, shouldSkipRecord).ToList(); //Zwrócenie kolekcji pól dla wybranych linii pliku CSV
 
             WriteTableFromFields(rowsFields, hasHeader, horizontalTextAlignment); //Wyświetlenie kolekcji pól w formie tabeli z nagłówkiem lub bez
-        }
-
-        /// <summary>
-        /// Zwrócenie szerokości zawartości kolumn na podstawie kolekcji pól wierszy
-        /// </summary>
-        /// <param name="rowsFields">Kolekcja pól wierszy</param>
-        /// <returns>Szerokość zawartości kolumn</returns>
-        public static int[] GetColumnsWidths(ICollection<string[]> rowsFields)
-        {
-            string[] firstRowFields = rowsFields.First(); //Pobranie pól pierwszego elementu kolekcji
-
-            int[] columnsWidths = new int[firstRowFields.Length]; //Tablica zawierająca szerokości kolumn w tabeli, która zostanie wyświetlona. Każde pole jest wyświetlone w określonej kolumnie
-            //Szerokości kolumn jest tyle co kolumm. Ilość kolumn została pobrana na podstawie ilości pól z pierwszym elemencie kolekcji. Każdy element powinien mieć taką samą ilość pól.
-
-            foreach (var fields in rowsFields) //Przechodzenie po wszystkich kolekcjach pól wierszy
-            {
-                fields.ForEach((x, i) => //Przejćie po wszystkich polach celem pobrania i ustalenia najdłuższego pola z danej kolumny
-                {
-                    if (columnsWidths[i] < x.Length) //Czy aktualnie ustawiona długość kolumny jest mniejsza od długości pola
-                        columnsWidths[i] = x.Length; //Ustawienie nowej długości kolumny
-                });
-            }
-
-            return columnsWidths; //Zwrócenie szerokości zawartości kolumn
         }
 
         #endregion

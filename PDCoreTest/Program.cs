@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 
 namespace PDCoreTest
 {
@@ -26,6 +27,10 @@ namespace PDCoreTest
         {
             _ = args;
 
+
+            TestGetSummary();
+
+            WriteSeparator();
 
             TestAccumulator();
 
@@ -107,6 +112,28 @@ namespace PDCoreTest
 
 
             Console.ReadKey();
+        }
+
+        private static void TestGetSummary()
+        {
+            int[] valuesInt = { 1, 6, 9, 4, 645, 4, 75 };
+
+            var resultInt = valuesInt.Aggregate();
+
+            Stopwatch stopWatch = new Stopwatch();
+
+            int iterations = 100;
+
+            long time = stopWatch.Time(() => ObjectUtils.GetSummary(resultInt, 2), iterations);
+            long time2 = stopWatch.Time(() => ObjectUtils.GetSummary2(resultInt, 2), iterations);
+            long time3 = stopWatch.Time(() => ObjectUtils.GetSummary(new WebClient()), iterations);
+
+            var webClientSummary = ObjectUtils.GetSummary(new WebClient());
+
+            ConsoleUtils.WriteResult("GetSummary", time);
+            ConsoleUtils.WriteResult("GetSummary2", time2);
+            ConsoleUtils.WriteResult("GetSummary3", time3);
+            ConsoleUtils.WriteResult("WebClient", webClientSummary, true);
         }
 
         private static void TestAccumulator()

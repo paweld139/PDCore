@@ -223,7 +223,7 @@ namespace PDCore.Extensions
             }
             catch
             {
-                output = default;             
+                output = default;
             }
 
             return false;
@@ -366,6 +366,11 @@ namespace PDCore.Extensions
             return value.ToString();
         }
 
+        public static IEnumerable<string> EmptyIfNull(this IEnumerable<object> values)
+        {
+            return values.Select(v => v.EmptyIfNull());
+        }
+
         public static Tuple<T1, object> GetTuple<T1>(this object item2, T1 item1)
         {
             return Tuple.Create(item1, item2);
@@ -378,8 +383,13 @@ namespace PDCore.Extensions
 
         public static string ToNumberString(this object value, int precision)
         {
+            return value.ToString().ToNumberString(precision);
+        }
+
+        public static string ToNumberString(this string value, int precision)
+        {
             if (!value.TryConvertOrCastTo(out double numberValue))
-                return value.ToString();
+                return value;
 
             string format = string.Format("{{0:N{0}}}", precision);
 

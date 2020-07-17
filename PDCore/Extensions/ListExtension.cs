@@ -100,5 +100,10 @@ namespace PDCore.Extensions
 
             return lastIndex;
         }
+
+        public static T First<T>(this IList<T> list)
+        {
+            return list[0];
+        }
     }
 }
