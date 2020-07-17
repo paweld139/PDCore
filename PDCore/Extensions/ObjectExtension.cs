@@ -387,7 +387,7 @@ namespace PDCore.Extensions
 
         public static string ToNumberString(this string value, int precision)
         {
-            if (!value.TryConvertOrCastTo(out double numberValue))
+            if (!double.TryParse(value, out double numberValue))
                 return value;
 
             string format = string.Format("{{0:N{0}}}", precision);

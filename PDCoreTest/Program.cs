@@ -122,7 +122,7 @@ namespace PDCoreTest
 
             Stopwatch stopWatch = new Stopwatch();
 
-            int iterations = 100;
+            int iterations = 10000;
 
             long time = stopWatch.Time(() => ObjectUtils.GetSummary(resultInt, 2), iterations);
             long time2 = stopWatch.Time(() => ObjectUtils.GetSummary2(resultInt, 2), iterations);
