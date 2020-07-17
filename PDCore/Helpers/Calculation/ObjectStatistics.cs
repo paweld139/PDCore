@@ -19,7 +19,7 @@ namespace PDCore.Helpers.Calculation
 
         public ObjectStatistics<T> Compute()
         {
-            _average = Total / Count;
+            _average = base.Average;
 
             return this;
         }
