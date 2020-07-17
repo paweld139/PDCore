@@ -275,7 +275,7 @@ namespace PDCore.Extensions
 
         public static IEnumerable<string> GetColumnStringValues(this DataTable source, int columnIndex)
         {
-            return source.GetColumnValues(columnIndex).Cast<string>();
+            return source.GetColumnValues(columnIndex).ConvertOrCastTo<object, string>();
         }
 
         public static IEnumerable<object> GetColumnValues(this DataTable source, string columnName)
@@ -285,7 +285,7 @@ namespace PDCore.Extensions
 
         public static IEnumerable<string> GetColumnStringValues(this DataTable source, string columnName)
         {
-            return source.GetColumnValues(columnName).Cast<string>();
+            return source.GetColumnValues(columnName).ConvertOrCastTo<object, string>();
         }
 
         public static IEnumerable<object[]> GetColumnsAndRows(this DataTable source)

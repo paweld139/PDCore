@@ -341,13 +341,13 @@ namespace PDCore.Utils
 
             var columnsWidths = StringUtils.GetColumnsWidths(propertyNamesAndValuesList);
 
-            for (int i = 0; i < propertyNamesAndValuesList.Count; i++)
+            foreach(var item in propertyNamesAndValues)
             {
                 stringBuilder.AppendLine(
                         StringUtils.ResultFormat,
-                        propertyNamesAndValuesList[i].Key.PadRight(columnsWidths.Key),
+                        item.Key.PadRight(columnsWidths.Key),
                         " ",
-                        propertyNamesAndValuesList[i].Value.PadRight(columnsWidths.Value));
+                        item.Value.PadRight(columnsWidths.Value));
             }
 
             return stringBuilder.ToString();
