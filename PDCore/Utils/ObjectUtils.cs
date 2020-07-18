@@ -408,5 +408,14 @@ namespace PDCore.Utils
         {
             return keys.GetKVP(k => k, i => values.ElementAt(i));
         }
+
+        public static IEnumerable<T> GetChangedObjects<T>(IEnumerable<T> objects, IEnumerable<T> cachedObjects)
+        {
+            var newAndChanged = objects.Except(cachedObjects);
+            var removedAndChanged = cachedObjects.Except(objects);
+            var changed = newAndChanged.Concat(removedAndChanged);
+
+            return changed;
+        }
     }
 }
