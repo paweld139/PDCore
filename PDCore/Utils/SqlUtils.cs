@@ -332,7 +332,7 @@ namespace PDCore.Utils
              * .* - 0 lub więcej każdego znaku oprócz znaku nowej linii
              * ( AS|where) - biały znak, później "AS" lub "where" 0 razy lub raz
              */
-            Regex regex = new Regex(@"(?i)FROM (?<table>((\[.*\](?=\s(as|where|inner|left|join|union)))|\S*))");
+            Regex regex = new Regex(@"(?i)from\s+(?<table>((\[.+\](?=\s+(as|where|inner|left|right|join|union)))|\[.+\]\s*$|\S*))");
             Match match = regex.Match(query);
 
             string table = match.Groups["table"].Value;
