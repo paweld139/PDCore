@@ -68,5 +68,10 @@ namespace PDCore.Extensions
         {
             return dt.ToString("HH:mm" + (withSeconds ? ":ss" : string.Empty));
         }
+
+        public static int DaysToEndOfMonth(this DateTime date)
+        {
+            return DateTime.DaysInMonth(date.Year, date.Month) - date.Day;
+        }
     }
 }

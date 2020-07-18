@@ -92,6 +92,18 @@ namespace PDCore.Extensions
             }
         }
 
+        public static IEnumerable<KeyValuePair<TKey, TValue>> GetKVP<TSource, TKey, TValue>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<int, TValue> valueSelector)
+        {
+            int i = 0;
+
+            foreach (TSource element in source)
+            {
+                yield return new KeyValuePair<TKey, TValue>(keySelector(element), valueSelector(i));
+
+                i++;
+            }
+        }
+
         public static TResult[] ToArray<TResult>(this IEnumerable<object> source)
         {
             return ToArray<object, TResult>(source);
@@ -181,6 +193,16 @@ namespace PDCore.Extensions
         public static TOutput[] ConvertOrCastArray<TInput, TOutput>(this TInput[] input, Converter<TInput, TOutput> converter = null)
         {
             return Array.ConvertAll(input, i => i.ConvertOrCastTo(converter));
+        }
+
+        public static KeyValuePair<TKey[], TValue[]> ToArrays<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> keyValuePairs)
+        {
+            return new KeyValuePair<TKey[], TValue[]>(keyValuePairs.GetKeys().ToArray(), keyValuePairs.GetValues().ToArray());
+        }
+
+        public static KeyValuePair<TKey[], TValue[]> ToArrays<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>[]> keyValuePairs)
+        {
+            return new KeyValuePair<TKey[], TValue[]>(keyValuePairs.SelectMany(i => i.GetKeys()).ToArray(), keyValuePairs.SelectMany(i => i.GetValues()).ToArray());
         }
     }
 }

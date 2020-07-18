@@ -58,9 +58,14 @@ namespace PDCore.Extensions
             }
         }
 
-        public static List<U> GetValues<T, U>(this List<KeyValuePair<T, U>> keyValuePairList)
+        public static IEnumerable<U> GetValues<T, U>(this IEnumerable<KeyValuePair<T, U>> keyValuePairList)
         {
-            return keyValuePairList.Select(x => x.Value).ToList();
+            return keyValuePairList.Select(x => x.Value);
+        }
+
+        public static IEnumerable<T> GetKeys<T, U>(this IEnumerable<KeyValuePair<T, U>> keyValuePairList)
+        {
+            return keyValuePairList.Select(x => x.Key);
         }
 
         public static IList<T> Clone<T>(this IList<T> listToClone) where T : ICloneable

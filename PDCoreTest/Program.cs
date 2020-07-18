@@ -28,6 +28,10 @@ namespace PDCoreTest
             _ = args;
 
 
+            TestDateTIme();
+
+            WriteSeparator();
+
             TestGetSummary();
 
             WriteSeparator();
@@ -114,6 +118,26 @@ namespace PDCoreTest
             Console.ReadKey();
         }
 
+        private static void TestDateTIme()
+        {
+            DateTime date = DateTime.Today;
+
+
+            int days = date.DaysToEndOfMonth();
+
+            ConsoleUtils.WriteResult("Dni do końca miesiąca", days);
+
+
+            string dateWordly = date.GetWordly();
+
+            ConsoleUtils.WriteResult("Data słownie", dateWordly);
+
+
+            long dateLong = date.GetLong(false);
+
+            ConsoleUtils.WriteResult("Data jako liczba", dateLong);
+        }
+
         private static void TestGetSummary()
         {
             int[] valuesInt = { 1, 6, 9, 4, 645, 4, 75 };
@@ -124,8 +148,8 @@ namespace PDCoreTest
 
             int iterations = 10000;
 
-            long time = stopWatch.Time(() => ObjectUtils.GetSummary(resultInt, 2), iterations);
             long time2 = stopWatch.Time(() => ObjectUtils.GetSummary2(resultInt, 2), iterations);
+            long time = stopWatch.Time(() => ObjectUtils.GetSummary(resultInt, 2), iterations);     
             long time3 = stopWatch.Time(() => ObjectUtils.GetSummary(new WebClient()), iterations);
 
             var webClientSummary = ObjectUtils.GetSummary(new WebClient());

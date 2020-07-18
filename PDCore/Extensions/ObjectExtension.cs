@@ -396,5 +396,20 @@ namespace PDCore.Extensions
 
             return valuestring;
         }
+
+        public static IEnumerable<string> GetPropertyNames(this PropertyInfo[] propertyInfos)
+        {
+            return propertyInfos.Select(p => p.Name);
+        }
+
+        public static object GetPropertyValue<T>(this PropertyInfo propertyInfo, T entity)
+        {
+            return propertyInfo.GetValue(entity, null);
+        }
+
+        public static object GetPropertyValueString<T>(this PropertyInfo propertyInfo, T entity)
+        {
+            return propertyInfo.GetPropertyValue(entity).EmptyIfNull();
+        }
     }
 }

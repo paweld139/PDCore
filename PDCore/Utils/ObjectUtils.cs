@@ -220,29 +220,41 @@ namespace PDCore.Utils
             return typeof(T).GetProperties();
         }
 
-        public static IEnumerable<string> GetObjectPropertyNames<T>()
+        public static IEnumerable<string> GetObjectPropertyNames<T>(PropertyInfo[] propertyInfos = null)
         {
-            return GetProperties<T>().Select(p => p.Name);
+            return (propertyInfos ?? GetProperties<T>()).GetPropertyNames();
         }
 
-        public static IEnumerable<object> GetObjectPropertyValues<T>(T entity)
+        public static IEnumerable<object> GetObjectPropertyValues<T>(T entity, PropertyInfo[] propertyInfos = null)
         {
-            return GetProperties<T>().Select(p => p.GetValue(entity, null));
+            return (propertyInfos ?? GetProperties<T>()).Select(p => p.GetPropertyValue(entity));
         }
 
-        public static IEnumerable<string> GetObjectPropertyStringValues<T>(T entity)
+        public static IEnumerable<string> GetObjectPropertyStringValues<T>(T entity, PropertyInfo[] propertyInfos = null)
         {
-            return GetObjectPropertyValues(entity).EmptyIfNull();
+            return GetObjectPropertyValues(entity, propertyInfos).EmptyIfNull();
         }
 
-        public static IEnumerable<KeyValuePair<string, object>> GetObjectPropertyNamesAndValues<T>(T entity)
+        public static IEnumerable<KeyValuePair<string, object>> GetObjectPropertyKeyValuePairs<T>(T entity)
         {
-            return GetProperties<T>().GetKVP(p => p.Name, p => p.GetValue(entity, null));
+            return GetProperties<T>().GetKVP(k => k.Name, v => v.GetPropertyValue(entity));
         }
 
-        public static IEnumerable<KeyValuePair<string, string>> GetObjectPropertyNamesAndStringValues<T>(T entity)
+        public static IEnumerable<KeyValuePair<string, string>> GetObjectPropertyKeyValuePairsString<T>(T entity)
         {
-            return GetObjectPropertyNamesAndValues(entity).GetKVP(v => v.Key, v => v.Value.EmptyIfNull());
+            return GetObjectPropertyKeyValuePairs(entity).GetKVP(v => v.Key, v => v.Value.EmptyIfNull());
+        }
+
+        public static KeyValuePair<string[], object[]> GetObjectPropertyNamesAndValues<T>(T entity)
+        {
+            return GetObjectPropertyKeyValuePairs(entity).ToArrays();
+        }
+
+        public static KeyValuePair<string[], string[]> GetObjectPropertyNamesAndValuesString<T>(T entity)
+        {
+            var namesAndValues = GetObjectPropertyNamesAndValues(entity);
+
+            return new KeyValuePair<string[], string[]>(namesAndValues.Key, namesAndValues.Value.ToArrayString());
         }
 
         public static long Time(Action action, int iterations = 1)
@@ -332,7 +344,7 @@ namespace PDCore.Utils
         {
             StringBuilder stringBuilder = new StringBuilder();
 
-            var propertyNamesAndValues = GetObjectPropertyNamesAndStringValues(input);
+            var propertyNamesAndValues = GetObjectPropertyKeyValuePairsString(input);
 
             if (numberPrecision > 0)
                 propertyNamesAndValues = propertyNamesAndValues.GetKVP(v => v.Key, v => v.Value.ToNumberString(numberPrecision));
@@ -341,7 +353,7 @@ namespace PDCore.Utils
 
             var columnsWidths = StringUtils.GetColumnsWidths(propertyNamesAndValuesList);
 
-            foreach(var item in propertyNamesAndValues)
+            foreach(var item in propertyNamesAndValuesList)
             {
                 stringBuilder.AppendLine(
                         StringUtils.ResultFormat,
@@ -357,30 +369,44 @@ namespace PDCore.Utils
         {
             StringBuilder stringBuilder = new StringBuilder();
 
-            var propertyNames = GetObjectPropertyNames<TInput>().ToArray();
 
-            var propertyValues = GetObjectPropertyStringValues(input).ToArray();
+            var properties = GetProperties<TInput>();
+
+
+            var propertyNamesArray = GetObjectPropertyNames<TInput>(properties).ToArray();
+
+            var propertyValues = GetObjectPropertyStringValues(input, properties);
 
             if (numberPrecision > 0)
-                propertyValues = propertyValues.ConvertArray(v => v.ToNumberString(numberPrecision));
-
-            Array.Sort(propertyNames, propertyValues);
-
-            int padName = propertyNames.GetMaxLength();
-
-            int padValue = propertyValues.GetMaxLength();
+                propertyValues = propertyValues.Select(v => v.ToNumberString(numberPrecision));
 
 
-            propertyNames.ForEach((p, i) =>
+            var propertyValuesArray = propertyValues.ToArray();
+
+
+            Array.Sort(propertyNamesArray, propertyValuesArray);
+
+
+            int padName = propertyNamesArray.GetMaxLength();
+
+            int padValue = propertyValuesArray.GetMaxLength();
+
+
+            propertyNamesArray.ForEach((p, i) =>
             {
                 stringBuilder.AppendLine(
                         StringUtils.ResultFormat,
-                        propertyNames[i].PadRight(padName),
+                        propertyNamesArray[i].PadRight(padName),
                         " ",
-                        propertyValues[i].PadLeft(padValue));
+                        propertyValuesArray[i].PadLeft(padValue));
             });
 
             return stringBuilder.ToString();
+        }
+
+        public static IEnumerable<KeyValuePair<TKey, TValue>> GetKVPs<TKey, TValue>(IEnumerable<TKey> keys, IEnumerable<TValue> values)
+        {
+            return keys.GetKVP(k => k, i => values.ElementAt(i));
         }
     }
 }
