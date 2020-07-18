@@ -64,7 +64,7 @@ namespace PDCore.Utils
         /// </summary>
         /// <param name="rowsFields">Kolekcja pól wierszy</param>
         /// <returns>Szerokość zawartości kolumn</returns>
-        public static int[] GetColumnsWidths(IList<string[]> rowsFields)
+        public static int[] GetColumnsWidths(ICollection<string[]> rowsFields)
         {
             string[] firstRowFields = rowsFields.First(); //Pobranie pól pierwszego elementu kolekcji
 
@@ -83,7 +83,7 @@ namespace PDCore.Utils
             return columnsWidths; //Zwrócenie szerokości zawartości kolumn
         }
 
-        public static KeyValuePair<int, int> GetColumnsWidths(ICollection<KeyValuePair<string, string>> rowsFields)
+        public static KeyValuePair<int, int> GetColumnsWidths(IEnumerable<KeyValuePair<string, string>> rowsFields)
         {
             var rowsFieldsArrays = rowsFields.Select(f => new[] { f.Key, f.Value }).ToList();
 

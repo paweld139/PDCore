@@ -116,9 +116,10 @@ namespace PDCore.Utils
         /// <param name="value">Kolekcja łańcuchów znaków do wyświetlenia w nowych liniach</param>
         public static void WriteLines<T>(IEnumerable<T> value, bool readKey = false)
         {
-            value.Take(value.Count() - 1).ForEach(x => WriteLine(x, false)); //Wzięcie wszystkich stringów opórcz ostatniego i wyświetlenie każdego w nowej linii
+            value.ForEach(x => WriteLine(x, false)); //Wzięcie wszystkich stringów opórcz ostatniego i wyświetlenie każdego w nowej linii
 
-            WriteLine(value.Last(), readKey); //Wyśwetlenie ostatniego stringa i oczekiwanie na wciśnięcie klawisza
+            if (readKey)
+                ReadKey();
         }
 
         //public static void WriteLines(IEnumerable<object> value, bool readKey = false)
@@ -313,13 +314,13 @@ namespace PDCore.Utils
         /// <param name="rowsFields">Kolekcja pól wierszy</param>
         /// <param name="columnsWidths">Szerokość zawartości kolumn</param>
         /// <param name="horizontalTextAlignment">Sposób wyrównania tekstu w poziomie, domyślnie jest do lewej</param>
-        public static void WriteRows(IList<string[]> rowsFields, int[] columnsWidths, HorizontalTextAlignment horizontalTextAlignment = HorizontalTextAlignment.Left)
+        public static void WriteRows(IEnumerable<string[]> rowsFields, int[] columnsWidths, HorizontalTextAlignment horizontalTextAlignment = HorizontalTextAlignment.Left)
         {
             string row; //Tu będzie przechowywana tymaczasowo zawartość danego wiersza
 
-            for (int i = 1; i < rowsFields.Count; i++) //Przejście po wszystkich kolekcjach pól wierszy pomijając pierwszy wiersz, pierwszy element kolekcji
+            foreach (var item in rowsFields.Skip(1)) //Przejście po wszystkich kolekcjach pól wierszy pomijając pierwszy wiersz, pierwszy element kolekcji
             {
-                row = GetRow(rowsFields[i], columnsWidths, horizontalTextAlignment); //Utworzenie zawartości wiersza na podstawie pól wiersza biorąc pod uwagę szerokość zawartości kolumn
+                row = GetRow(item, columnsWidths, horizontalTextAlignment); //Utworzenie zawartości wiersza na podstawie pól wiersza biorąc pod uwagę szerokość zawartości kolumn
 
                 WriteRow(row); //Wyświetlenie zawartości wiersza bez oczkiwania na wciśnięcie klawisza
             }
