@@ -175,8 +175,8 @@ namespace PDCore.Extensions
 
         public static ObjectStatistics<TSource> Aggregate<TSource>(this IEnumerable<TSource> source, Converter<TSource, double> doubleConverter = null)
         {
-            return source.Aggregate(new ObjectStatistics<TSource>(), 
-                                    (acc, i) =>  acc.Accumulate(i, p => p.ConvertOrCastTo(doubleConverter)), 
+            return source.Aggregate(new ObjectStatistics<TSource>(),
+                                    (acc, i) => acc.Accumulate(i, p => p.ConvertOrCastTo(doubleConverter)),
                                     acc => acc.Compute());
         }
 
@@ -203,6 +203,17 @@ namespace PDCore.Extensions
         public static KeyValuePair<TKey[], TValue[]> ToArrays<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>[]> keyValuePairs)
         {
             return new KeyValuePair<TKey[], TValue[]>(keyValuePairs.SelectMany(i => i.GetKeys()).ToArray(), keyValuePairs.SelectMany(i => i.GetValues()).ToArray());
+        }
+
+        public static IEnumerable<string> StringsThatStartWith(this IEnumerable<string> input, string start)
+        {
+            foreach (var s in input)
+            {
+                if (s.StartsWith(start))
+                {
+                    yield return s;
+                }
+            }
         }
     }
 }
