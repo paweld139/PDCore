@@ -7,8 +7,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Windows;
+using System.Windows.Forms;
 
 namespace PDCore.Extensions
 {
@@ -143,9 +147,82 @@ namespace PDCore.Extensions
             return typeof(T);
         }
 
-        public static SortedDictionary<K, V> ToSortedDictionary<K, V>(this Dictionary<K, V> existing)
+        public static SortedDictionary<K, V> ToSortedDictionary<K, V>(this IDictionary<K, V> existing)
         {
             return new SortedDictionary<K, V>(existing);
+        }
+
+        public static SortedList<K, V> ToSortedList<K, V>(this IDictionary<K, V> existing)
+        {
+            return new SortedList<K, V>(existing);
+        }
+
+        public static SortedDictionary<TKey, TElement> ToSortedDictionary<TSource, TKey, TElement>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector)
+        {
+            return source.ToIDictionary<TSource, TKey, TElement, SortedDictionary<TKey, TElement>>(keySelector, elementSelector);
+        }
+
+        public static SortedList<TKey, TElement> ToSortedList<TSource, TKey, TElement>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector)
+        {
+            return source.ToIDictionary<TSource, TKey, TElement, SortedList<TKey, TElement>>(keySelector, elementSelector);
+        }
+
+        public static Dictionary<TKey, TElement> ToDictionary<TKey, TElement>(this IEnumerable<KeyValuePair<TKey, TElement>> source)
+        {
+            return source.ToIDictionary<TKey, TElement, Dictionary<TKey, TElement>>();
+        }
+
+        public static SortedDictionary<TKey, TElement> ToSortedDictionary<TKey, TElement>(this IEnumerable<KeyValuePair<TKey, TElement>> source)
+        {
+            return source.ToIDictionary<TKey, TElement, SortedDictionary<TKey, TElement>>();
+        }
+
+        public static SortedList<TKey, TElement> ToSortedList<TKey, TElement>(this IEnumerable<KeyValuePair<TKey, TElement>> source)
+        {
+            return source.ToIDictionary<TKey, TElement, SortedList<TKey, TElement>>();
+        }
+
+        public static TResult ToIDictionary<TSource, TKey, TElement, TResult>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector) where TResult : class, IDictionary<TKey, TElement>, new()
+        {
+            var result = new TResult();
+
+            foreach (var element in source)
+            {
+                result.Add(keySelector(element), elementSelector(element));
+            }
+
+            return result;
+        }
+
+        public static TResult ToIDictionary<TKey, TElement, TResult>(this IEnumerable<KeyValuePair<TKey, TElement>> source) where TResult : class, IDictionary<TKey, TElement>, new()
+        {
+            return source.ToIDictionary<KeyValuePair<TKey, TElement>, TKey, TElement, TResult>(e => e.Key, e => e.Value);
+        }
+
+        public static void UpdateValues<TKey, TValue>(this IDictionary<TKey, TValue> source, Func<TValue, TValue> valueSelector) where TKey : ICloneable
+        {
+            TKey[] keysToUpdate = source.Keys.ToArray();
+
+            keysToUpdate.ForEach(k => source[k] = valueSelector(source[k]));
+        }
+
+        public static void AddOrUpdate<TKey, TValue>(this IDictionary<TKey, TValue> source, TKey key, TValue newValue)
+        {
+            if (source.ContainsKey(key))
+            {
+                // yay, value exists!
+                source[key] = newValue;
+            }
+            else
+            {
+                // darn, lets add the value
+                source.Add(key, newValue);
+            }
+        }
+
+        public static void Update<TKey, TValue>(this IDictionary<TKey, TValue> source, TKey key, TValue newValue)
+        {
+            source[key] = newValue;
         }
 
         public static void Dump<T>(this IEnumerable<T> source, Action<T> print)

@@ -92,5 +92,15 @@ namespace PDCore.Utils
 
             return new KeyValuePair<int, int>(columnsWidths[0], columnsWidths[1]);
         }
+
+        public static KeyValuePair<int, int> GetColumnsWidths(IDictionary<string, string> rowsFields)
+        {
+            var rowsFieldsArrays = rowsFields.Keys.Zip(rowsFields.Values, (k, v) => new[] { k, v }).ToList();
+
+            var columnsWidths = GetColumnsWidths(rowsFieldsArrays);
+
+
+            return new KeyValuePair<int, int>(columnsWidths[0], columnsWidths[1]);
+        }
     }
 }

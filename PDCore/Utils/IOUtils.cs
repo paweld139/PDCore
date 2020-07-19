@@ -1,6 +1,9 @@
 ﻿using ICSharpCode.SharpZipLib.Zip;
 using Microsoft.Win32;
+using PDCore.Extensions;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -114,6 +117,28 @@ namespace PDCore.Utils
             }
 
             return filesCount;
+        }
+
+        public static IEnumerable<KeyValuePair<string, int>> GetProcessesWithThreads()
+        {
+            Process[] processes = Process.GetProcesses();
+
+            return processes.GetKVP(p => p.ProcessName, p => p.Threads.Count);
+        }
+
+        public static Dictionary<string, int> GetProcessesWithThreadsDictionary()
+        {
+            return GetProcessesWithThreads().ToDictionary();
+        }
+
+        public static SortedDictionary<string, int> GetProcessesWithThreadsSortedDictionary()
+        {
+            return GetProcessesWithThreads().ToSortedDictionary();
+        }
+
+        public static SortedList<string, int> GetProcessesWithThreadsSortedList()
+        {
+            return GetProcessesWithThreads().ToSortedList();
         }
     }
 }

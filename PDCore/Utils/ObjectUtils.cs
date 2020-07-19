@@ -242,7 +242,47 @@ namespace PDCore.Utils
 
         public static IEnumerable<KeyValuePair<string, string>> GetObjectPropertyKeyValuePairsString<T>(T entity)
         {
-            return GetObjectPropertyKeyValuePairs(entity).GetKVP(v => v.Key, v => v.Value.EmptyIfNull());
+            return GetProperties<T>().GetKVP(k => k.Name, v => v.GetPropertyValue(entity).EmptyIfNull());
+        }
+
+        public static TResult GetObjectPropertyIDictionary<T, TResult>(T entity) where TResult : class, IDictionary<string, object>, new()
+        {
+            return GetProperties<T>().ToIDictionary<PropertyInfo, string, object, TResult>(k => k.Name, v => v.GetPropertyValue(entity));
+        }
+
+        public static TResult GetObjectPropertyIDictionaryString<T, TResult>(T entity) where TResult : class, IDictionary<string, string>, new()
+        {
+            return GetProperties<T>().ToIDictionary<PropertyInfo, string, string, TResult>(k => k.Name, v => v.GetPropertyValue(entity).EmptyIfNull());
+        }
+
+        public static Dictionary<string, object> GetObjectPropertyDictionary<T>(T entity)
+        {
+            return GetObjectPropertyIDictionary<T, Dictionary<string, object>>(entity);
+        }
+
+        public static Dictionary<string, string> GetObjectPropertyDictionaryString<T>(T entity)
+        {
+            return GetObjectPropertyIDictionaryString<T, Dictionary<string, string>>(entity);
+        }
+
+        public static SortedDictionary<string, object> GetObjectPropertySortedDictionary<T>(T entity)
+        {
+            return GetObjectPropertyIDictionary<T, SortedDictionary<string, object>>(entity);
+        }
+
+        public static SortedDictionary<string, string> GetObjectPropertySortedDictionaryString<T>(T entity)
+        {
+            return GetObjectPropertyIDictionaryString<T, SortedDictionary<string, string>>(entity);
+        }
+
+        public static SortedList<string, object> GetObjectPropertySortedList<T>(T entity)
+        {
+            return GetObjectPropertyIDictionary<T, SortedList<string, object>>(entity);
+        }
+
+        public static SortedList<string, string> GetObjectPropertySortedListString<T>(T entity)
+        {
+            return GetObjectPropertyIDictionaryString<T, SortedList<string, string>>(entity);
         }
 
         public static KeyValuePair<string[], object[]> GetObjectPropertyNamesAndValues<T>(T entity)
@@ -347,19 +387,20 @@ namespace PDCore.Utils
             var propertyNamesAndValues = GetObjectPropertyKeyValuePairsString(input);
 
             if (numberPrecision > 0)
-                propertyNamesAndValues = propertyNamesAndValues.GetKVP(v => v.Key, v => v.Value.ToNumberString(numberPrecision));
+                propertyNamesAndValues = propertyNamesAndValues.GetKVP(i => i.Key, i => i.Value.ToNumberString(numberPrecision));
 
-            var propertyNamesAndValuesList = propertyNamesAndValues.OrderBy(v => v.Key).ToList();
+            var propertyNamesAndValuesList = propertyNamesAndValues.OrderBy(i => i.Key).ToList();
 
-            var columnsWidths = StringUtils.GetColumnsWidths(propertyNamesAndValuesList);
+            var columnWidths = StringUtils.GetColumnsWidths(propertyNamesAndValuesList);
 
-            foreach(var item in propertyNamesAndValuesList)
+
+            foreach (var item in propertyNamesAndValuesList)
             {
                 stringBuilder.AppendLine(
                         StringUtils.ResultFormat,
-                        item.Key.PadRight(columnsWidths.Key),
+                        item.Key.PadRight(columnWidths.Key),
                         " ",
-                        item.Value.PadRight(columnsWidths.Value));
+                        item.Value.PadRight(columnWidths.Value));
             }
 
             return stringBuilder.ToString();
@@ -416,6 +457,62 @@ namespace PDCore.Utils
             var changed = newAndChanged.Concat(removedAndChanged);
 
             return changed;
+        }
+
+        public static void InvokeMethod(object obj, string methodName, params object[] parameters)
+        {
+            obj.GetType().GetMethod(methodName).Invoke(obj, parameters);
+        }
+        public static dynamic GetDynamic(string assemblyString, string typeName)
+        {
+            Type type = Assembly.Load(assemblyString).GetType(typeName);
+
+            return Activator.CreateInstance(type);
+        }
+
+        public static dynamic GetDynamic(string progID)
+        {
+            Type type = Type.GetTypeFromProgID(progID);
+
+            return Activator.CreateInstance(type);
+        }
+
+        public static dynamic GetExcel()
+        {
+            return GetDynamic("Excel.Application");
+        }
+
+        public static dynamic OpenExcel()
+        {
+            dynamic excel = GetExcel();
+
+            excel.Visible = true;
+
+            excel.Workbooks.Add();
+
+            return excel;
+        }
+
+        public static dynamic OpenExcelAndGetActiveSheet()
+        {
+            dynamic excel = OpenExcel();
+
+            return excel.ActiveSheet;
+        }
+
+        public static void OpenExcelWithProcessesAndThreads()
+        {
+            dynamic sheet = OpenExcelAndGetActiveSheet();
+
+            var processesWithThreads = IOUtils.GetProcessesWithThreads();
+
+
+            processesWithThreads.ForEach((e, i) =>
+            {
+                sheet.Cells[i + 1, "A"] = e.Key;
+
+                sheet.Cells[i + 1, "B"] = e.Value;
+            });
         }
     }
 }

@@ -28,6 +28,10 @@ namespace PDCoreTest
             _ = args;
 
 
+            TestExcel();
+
+            WriteSeparator();
+
             TestDateTIme();
 
             WriteSeparator();
@@ -116,6 +120,11 @@ namespace PDCoreTest
 
 
             Console.ReadKey();
+        }
+
+        private static void TestExcel()
+        {
+            ObjectUtils.OpenExcelWithProcessesAndThreads();
         }
 
         private static void TestDateTIme()
