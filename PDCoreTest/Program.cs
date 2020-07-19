@@ -28,7 +28,7 @@ namespace PDCoreTest
             _ = args;
 
 
-            TestGetSummary();            
+            TestExcel();
 
             WriteSeparator();
 
@@ -36,7 +36,7 @@ namespace PDCoreTest
 
             WriteSeparator();
 
-            TestExcel();
+            TestGetSummary();
 
             WriteSeparator();
 
