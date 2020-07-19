@@ -60,7 +60,24 @@ namespace PDCore.Services.Serv
             return smtpClient;
         }
 
-        protected Tuple<SmtpClient, MailMessage> PrepareSending(string receiverEmail, string title, string body, string login = null, string password = null, string host = null, int port = 0, bool enableSsl = false)
+        public void SendEmail(string receiverEmail, string title, string body)
+        {
+            SendEmail(receiverEmail, title, body, null, null, null, 0, false);
+        }
+
+        public void SendEmail(string receiverEmail, string title, string body, string login, string password, string host, int port, bool enableSsl)
+        {
+            var data = PrepareSending(receiverEmail, title, body, login, password, host, port, enableSsl);
+
+            var client = data.Item1;
+
+            var message = data.Item2;
+
+
+            client.SendAsync(message, message);
+        }
+
+        protected Tuple<SmtpClient, MailMessage> PrepareSending(string receiverEmail, string title, string body, string login, string password, string host, int port, bool enableSsl)
         {
             MailMessage message = new MailMessage
             {
@@ -83,18 +100,6 @@ namespace PDCore.Services.Serv
             };
 
             return new Tuple<SmtpClient, MailMessage>(client, message);
-        }
-
-        public void SendEmail(string receiverEmail, string title, string body, string login = null, string password = null, string host = null, int port = 0, bool enableSsl = false)
-        {
-            var data = PrepareSending(receiverEmail, title, body, login, password, host, port, enableSsl);
-
-            var client = data.Item1;
-
-            var message = data.Item2;
-
-
-            client.SendAsync(message, message);
         }
 
         protected void OnSendAsyncCompleted(object sender, AsyncCompletedEventArgs e)
