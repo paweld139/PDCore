@@ -27,16 +27,16 @@ namespace PDCoreNew.Loggers.Async
 
         protected override async Task DoLogAsync(string message, Exception exception, LogType logType, bool sync)
         {
-            string result = string.Empty;
+            Tuple<string, Exception, Task> result;
 
-            result = DbActionWrapper.Execute(() => logRepository.Add(GetLogModel(message, logType, exception)));
+            result = ActionWrapper.Execute(() => logRepository.Add(GetLogModel(message, logType, exception)));
 
-            if (WebUtils.WithoutErrors(result))
+            if (WebUtils.WithoutErrors(result.Item1))
             {
-                result = sync ? DbActionWrapper.Execute(() => logRepository.Commit()) : await DbActionWrapper.ExecuteAsync(logRepository.CommitAsync);
+                result = sync ? ActionWrapper.Execute(() => logRepository.Commit()) : await ActionWrapper.ExecuteAsync(logRepository.CommitAsync);
             }
 
-            if (!WebUtils.WithoutErrors(result))
+            if (!WebUtils.WithoutErrors(result.Item1))
             {
                 message = $"{message}; {result}";
 

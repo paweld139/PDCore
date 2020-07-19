@@ -55,7 +55,7 @@
     <Compile Include="Factories\Fac\Factory.cs" />
     <Compile Include="Helpers\AsyncHelpers.cs" />
     <Compile Include="Helpers\Container.cs" />
-    <Compile Include="Helpers\ExceptionHandling\DbActionWrapper.cs" />
+    <Compile Include="Helpers\ExceptionHandling\ActionWrapper.cs" />
     <Compile Include="Helpers\SaveChangesWrapper.cs" />
     <Compile Include="Helpers\UnityServiceLocator.cs" />
     <Compile Include="Helpers\WebClientWithTimeout.cs">
@@ -81,6 +81,7 @@
     <Compile Include="Repositories\IRepo\IEFRepo.cs" />
     <Compile Include="Repositories\Repo\SqlRepositoryEntityFramework.cs" />
     <Compile Include="Services\Serv\LogService.cs" />
+    <Compile Include="Services\Serv\MailServiceAsync.cs" />
     <Compile Include="Utils\IOUtils.cs" />
     <Compile Include="Utils\WebUtils.cs" />
   </ItemGroup>

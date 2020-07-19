@@ -6,6 +6,7 @@ using PDCore.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
@@ -420,6 +421,11 @@ namespace PDCore.Extensions
         public static IEnumerable<string> GetPropertyValuesString<T>(this PropertyInfo[] propertyInfos, T entity)
         {
             return propertyInfos.GetPropertyValues(entity).EmptyIfNull();
+        }
+
+        public static bool ValueIn<TInput>(this TInput input, params TInput[] values) where TInput : struct, IEquatable<TInput>
+        {
+            return values.Any(v => v.Equals(input));
         }
     }
 }

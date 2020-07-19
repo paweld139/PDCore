@@ -10,37 +10,43 @@ using System.Threading.Tasks;
 
 namespace PDCoreNew.Helpers.ExceptionHandling
 {
-    public static class DbActionWrapper
+    public static class ActionWrapper
     {
-        public static string Execute(Action action)
+        public static Tuple<string, Exception, Task> Execute(Action action)
         {
             return DoExecuteAsync(null, action, true).Result;
         }
 
-        public static Task<string> ExecuteAsync(Func<Task> task)
+        public static Task<Tuple<string, Exception, Task>> ExecuteAsync(Func<Task> task)
         {
             return DoExecuteAsync(task, null, false);
         }
 
-        private async static Task<string> DoExecuteAsync(Func<Task> task, Action action, bool sync)
+        private async static Task<Tuple<string, Exception, Task>> DoExecuteAsync(Func<Task> task, Action action, bool sync)
         {
+            Task t = null;
+
             try
             {
                 if (sync)
                     action();
                 else
-                    await task();
+                {
+                    t = task();
+
+                    await t;
+                }
             }
             catch (DbEntityValidationException e)
             {
-                return e.GetErrors();
+                return Tuple.Create(e.GetErrors(), (Exception)e, t);
             }
             catch (Exception e)
             {
-                return e.Message;
+                return Tuple.Create(e.Message, e, t);
             }
 
-            return WebUtils.ResultOkIndicator;
+            return Tuple.Create<string, Exception, Task>(WebUtils.ResultOkIndicator, null, t);
         }
     }
 }

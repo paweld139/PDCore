@@ -81,8 +81,10 @@ namespace PDCore.Helpers.XML.Signing
 
             _cert = ExtractCertificate(doc);
 
-            _xml = new SignedXml(doc);
-            _xml.SigningKey = new RSACryptoServiceProvider(1024);
+            _xml = new SignedXml(doc)
+            {
+                SigningKey = new RSACryptoServiceProvider(1024)
+            };
             _xml.LoadXml(doc.DocumentElement);
         }
 

@@ -118,6 +118,7 @@
     <Compile Include="Helpers\DataStructures\Book\IBook.cs" />
     <Compile Include="Helpers\DataStructures\Book\InMemoryBook.cs" />
     <Compile Include="Helpers\DataStructures\CategoryCollection.cs" />
+    <Compile Include="Services\IServ\IMailService.cs" />
     <Compile Include="Helpers\MimeTypeMap.cs" />
     <Compile Include="Helpers\NamedObject.cs" />
     <Compile Include="Helpers\Calculation\Digit.cs" />
@@ -149,6 +150,7 @@
     <Compile Include="Helpers\WPF\Converters\ColorPlToColorEnConverter.cs" />
     <Compile Include="Helpers\WPF\Converters\PriorityToForegroundConverter.cs" />
     <Compile Include="Helpers\WPF\DataValidation\NumberValidator.cs" />
+    <Compile Include="Helpers\XML\DynamicXml.cs" />
     <Compile Include="Helpers\XML\Signing\SignVerifyEnvelope.cs" />
     <Compile Include="Helpers\XML\Signing\XAdESVerifier.cs" />
     <Compile Include="Helpers\XML\Signing\Xades\AllDataObjectsTimeStampCollection.cs" />
@@ -306,7 +308,7 @@
     <Compile Include="Helpers\ImportHelper.cs" />
     <Compile Include="Attributes\OrderAttribute.cs" />
     <Compile Include="Factories\IFac\IMessageCreator.cs" />
-    <Compile Include="Helpers\MailHelper.cs" />
+    <Compile Include="Services\Serv\MailService.cs" />
     <Compile Include="Interfaces\IByDateFindable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IRepo\IRepo.cs" />
@@ -340,6 +342,9 @@
     </PackageReference>
     <PackageReference Include="CsvHelper">
       <Version>2.16.3</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.3</Version>
     </PackageReference>
     <PackageReference Include="Security.Cryptography">
       <Version>1.7.2</Version>

@@ -23,14 +23,18 @@ namespace PDCore.Helpers.XML.Signing
             doc.Load(new XmlTextReader(FileName));
 
             // Create a SignedXml object.
-            SignedXml signedXml = new SignedXml(doc);
+            SignedXml signedXml = new SignedXml(doc)
+            {
 
-            // Add the key to the SignedXml document. 
-            signedXml.SigningKey = Key;
+                // Add the key to the SignedXml document. 
+                SigningKey = Key
+            };
 
             // Create a reference to be signed.
-            Reference reference = new Reference();
-            reference.Uri = "";
+            Reference reference = new Reference
+            {
+                Uri = ""
+            };
 
             // Add an enveloped transformation to the reference.
             XmlDsigEnvelopedSignatureTransform env = new XmlDsigEnvelopedSignatureTransform();
@@ -79,8 +83,10 @@ namespace PDCore.Helpers.XML.Signing
             signedXml.SigningKey = rsaKey;
 
             // Create a reference to be signed.
-            Reference reference = new Reference();
-            reference.Uri = "";
+            Reference reference = new Reference
+            {
+                Uri = ""
+            };
 
             // Add an enveloped transformation to the reference.
             XmlDsigEnvelopedSignatureTransform env = new XmlDsigEnvelopedSignatureTransform();

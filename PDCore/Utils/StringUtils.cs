@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace PDCore.Utils
 {
@@ -24,7 +25,7 @@ namespace PDCore.Utils
 
         public static string ZeroFixReversed(string element)
         {
-            if(element != null && element.Length == 2 && element[0] == '0')
+            if (element != null && element.Length == 2 && element[0] == '0')
             {
                 return element[1].ToString();
             }
@@ -101,6 +102,27 @@ namespace PDCore.Utils
 
 
             return new KeyValuePair<int, int>(columnsWidths[0], columnsWidths[1]);
+        }
+
+        public static string StripLineComments(string input)
+        {
+            var blockComments = @"/\*(.*?)\*/";
+            var lineComments = @"//(.*?)\r?\n";
+            var strings = @"""((\\[^\n]|[^""\n])*)""";
+            var verbatimStrings = @"@(""[^""]*"")+";
+
+            string noComments = Regex.Replace(input,
+                blockComments + "|" + lineComments + "|" + strings + "|" + verbatimStrings,
+                me =>
+                {
+                    if (me.Value.StartsWith("/*") || me.Value.StartsWith("//"))
+                        return me.Value.StartsWith("//") ? Environment.NewLine : "";
+                    // Keep the literal strings
+                    return me.Value;
+                },
+                RegexOptions.Singleline);
+
+            return noComments;
         }
     }
 }

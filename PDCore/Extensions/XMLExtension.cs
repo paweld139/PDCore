@@ -1,6 +1,8 @@
-﻿using PDCore.Writers;
+﻿using Newtonsoft.Json;
+using PDCore.Writers;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -118,6 +120,59 @@ namespace PDCore.Extensions
             {
                 return xAttribute.Value;
             }
+        }
+
+        /// <summary>
+        /// Utworzenie ExpandoObject dla zadanego dokumentu XML
+        /// </summary>
+        /// <param name="document">Dokument XML, na podstawie którego zostanie utworzony ExpandoObject</param>
+        /// <returns>ExpandoObject utworzony na podstawie zadanego dokumentu XML</returns>
+        public static dynamic AsExpando(this XDocument document)
+        {
+            return CreateExpando(document.Root); //Utworzenie ExpandoObject dla elementu najwyższego w hierarchi w zadanym dokumencie XML
+        }
+
+        /// <summary>
+        /// Utworzenie ExpandoObject dla zadanego elementu XML
+        /// </summary>
+        /// <param name="element">Element XML, na podstawie którego zostanie utworzony ExpandoObject</param>
+        /// <returns>ExpandoObject utworzony na podstawie zadanego elementu XML</returns>
+        private static dynamic CreateExpando(XElement element)
+        {
+            //Utworzenie instancji klasy ExpandoObject i zrzutowanie jej na interfejs IDictionary w którym kluczem jest string, a wartością object
+            var result = new ExpandoObject() as IDictionary<string, object>;
+
+            //Sprawdzenie czy jakikolwiek z elementów podrzędnych przekazanego elementu posiada podelementy - czy jakikolwiek element (węzeł) nie jest liściem
+            if (element.Elements().Any(e => e.HasElements))
+            {
+                var list = new List<ExpandoObject>(); //Utworzenie listy obiektów ExpandoObject
+
+                result.Add(element.Name.ToString(), list); //Dodanie do słownika nazwy przekazanego elementu i listy ExpandoObject
+
+                foreach (var childElement in element.Elements()) //Przejście po każdym dziecku przekazanego elementu
+                {
+                    //Dodanie do listy obiektu ExpandoObject utworzonego na podstawie danego podelementu przekazanego elementu
+                    list.Add(CreateExpando(childElement));
+                }
+            }
+            else //Wszystkie elementy podrzędne przekazanego elementu są liśćmi - nie posiadają podelementów
+            {
+                foreach (var leafElement in element.Elements()) //Przejście po każdym podelemencie (każdy jest liściem) przekazanego elementu
+                {
+                    result.Add(leafElement.Name.ToString(), leafElement.Value); //Dodanie do słownika nazwy elementu i jego wartości
+                }
+            }
+
+            return result; //Zwrócenie utworzonego ExpandoObject (słownika)
+        }
+
+        public static dynamic ToExpando(this XDocument xDocument)
+        {
+            string jsonText = JsonConvert.SerializeXNode(xDocument);
+
+            dynamic dyn = JsonConvert.DeserializeObject<ExpandoObject>(jsonText);
+
+            return dyn;
         }
     }
 }

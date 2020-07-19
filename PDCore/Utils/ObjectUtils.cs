@@ -363,11 +363,6 @@ namespace PDCore.Utils
             //(new System.Diagnostics.StackTrace()).GetFrame(1).GetMethod().Name //one-liner
         }
 
-        public static bool ValueIn<TInput>(this TInput input, params TInput[] values) where TInput : struct, IEquatable<TInput>
-        {
-            return values.Any(v => v.Equals(input));
-        }
-
         public static string GetSummary<TInput>(TInput input, int numberPrecision = 0)
         {
             StringBuilder stringBuilder = new StringBuilder();
