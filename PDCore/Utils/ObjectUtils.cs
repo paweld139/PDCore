@@ -227,7 +227,7 @@ namespace PDCore.Utils
 
         public static IEnumerable<object> GetObjectPropertyValues<T>(T entity, PropertyInfo[] propertyInfos = null)
         {
-            return (propertyInfos ?? GetProperties<T>()).Select(p => p.GetPropertyValue(entity));
+            return (propertyInfos ?? GetProperties<T>()).GetPropertyValues(entity);
         }
 
         public static IEnumerable<string> GetObjectPropertyStringValues<T>(T entity, PropertyInfo[] propertyInfos = null)
@@ -242,47 +242,37 @@ namespace PDCore.Utils
 
         public static IEnumerable<KeyValuePair<string, string>> GetObjectPropertyKeyValuePairsString<T>(T entity)
         {
-            return GetProperties<T>().GetKVP(k => k.Name, v => v.GetPropertyValue(entity).EmptyIfNull());
-        }
-
-        public static TResult GetObjectPropertyIDictionary<T, TResult>(T entity) where TResult : class, IDictionary<string, object>, new()
-        {
-            return GetProperties<T>().ToIDictionary<PropertyInfo, string, object, TResult>(k => k.Name, v => v.GetPropertyValue(entity));
-        }
-
-        public static TResult GetObjectPropertyIDictionaryString<T, TResult>(T entity) where TResult : class, IDictionary<string, string>, new()
-        {
-            return GetProperties<T>().ToIDictionary<PropertyInfo, string, string, TResult>(k => k.Name, v => v.GetPropertyValue(entity).EmptyIfNull());
+            return GetProperties<T>().GetKVP(k => k.Name, v => v.GetPropertyValueString(entity));
         }
 
         public static Dictionary<string, object> GetObjectPropertyDictionary<T>(T entity)
         {
-            return GetObjectPropertyIDictionary<T, Dictionary<string, object>>(entity);
+            return GetObjectPropertyKeyValuePairs(entity).ToDictionary();
         }
 
         public static Dictionary<string, string> GetObjectPropertyDictionaryString<T>(T entity)
         {
-            return GetObjectPropertyIDictionaryString<T, Dictionary<string, string>>(entity);
+            return GetObjectPropertyKeyValuePairsString(entity).ToDictionary();
         }
 
         public static SortedDictionary<string, object> GetObjectPropertySortedDictionary<T>(T entity)
         {
-            return GetObjectPropertyIDictionary<T, SortedDictionary<string, object>>(entity);
+            return GetObjectPropertyKeyValuePairs(entity).ToSortedDictionary();
         }
 
         public static SortedDictionary<string, string> GetObjectPropertySortedDictionaryString<T>(T entity)
         {
-            return GetObjectPropertyIDictionaryString<T, SortedDictionary<string, string>>(entity);
+            return GetObjectPropertyKeyValuePairsString(entity).ToSortedDictionary();
         }
 
         public static SortedList<string, object> GetObjectPropertySortedList<T>(T entity)
         {
-            return GetObjectPropertyIDictionary<T, SortedList<string, object>>(entity);
+            return GetObjectPropertyKeyValuePairs(entity).ToSortedList();
         }
 
         public static SortedList<string, string> GetObjectPropertySortedListString<T>(T entity)
         {
-            return GetObjectPropertyIDictionaryString<T, SortedList<string, string>>(entity);
+            return GetObjectPropertyKeyValuePairsString(entity).ToSortedList();
         }
 
         public static KeyValuePair<string[], object[]> GetObjectPropertyNamesAndValues<T>(T entity)
@@ -292,9 +282,7 @@ namespace PDCore.Utils
 
         public static KeyValuePair<string[], string[]> GetObjectPropertyNamesAndValuesString<T>(T entity)
         {
-            var namesAndValues = GetObjectPropertyNamesAndValues(entity);
-
-            return new KeyValuePair<string[], string[]>(namesAndValues.Key, namesAndValues.Value.ToArrayString());
+            return GetObjectPropertyKeyValuePairsString(entity).ToArrays();
         }
 
         public static long Time(Action action, int iterations = 1)

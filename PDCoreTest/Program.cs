@@ -28,15 +28,15 @@ namespace PDCoreTest
             _ = args;
 
 
+            TestGetSummary();            
+
+            WriteSeparator();
+
+            TestDateTime();
+
+            WriteSeparator();
+
             TestExcel();
-
-            WriteSeparator();
-
-            TestDateTIme();
-
-            WriteSeparator();
-
-            TestGetSummary();
 
             WriteSeparator();
 
@@ -127,7 +127,7 @@ namespace PDCoreTest
             ObjectUtils.OpenExcelWithProcessesAndThreads();
         }
 
-        private static void TestDateTIme()
+        private static void TestDateTime()
         {
             DateTime date = DateTime.Today;
 
