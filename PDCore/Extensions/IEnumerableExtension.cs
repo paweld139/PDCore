@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
@@ -147,14 +148,34 @@ namespace PDCore.Extensions
             return typeof(T);
         }
 
-        public static SortedDictionary<K, V> ToSortedDictionary<K, V>(this IDictionary<K, V> existing)
+        public static SortedDictionary<TKey, TValue> ToSortedDictionary<TKey, TValue>(this IDictionary<TKey, TValue> existing)
         {
-            return new SortedDictionary<K, V>(existing);
+            return new SortedDictionary<TKey, TValue>(existing);
         }
 
-        public static SortedList<K, V> ToSortedList<K, V>(this IDictionary<K, V> existing)
+        public static SortedList<TKey, TValue> ToSortedList<TKey, TValue>(this IDictionary<TKey, TValue> existing)
         {
-            return new SortedList<K, V>(existing);
+            return new SortedList<TKey, TValue>(existing);
+        }
+
+        public static HashSet<T> ToHashSet<T>(this IEnumerable<T> source)
+        {
+            return new HashSet<T>(source);
+        }
+
+        public static Queue<T> ToQueue<T>(this IEnumerable<T> source)
+        {
+            return new Queue<T>(source);
+        }
+
+        public static Stack<T> ToStack<T>(this IEnumerable<T> source)
+        {
+            return new Stack<T>(source);
+        }
+
+        public static LinkedList<T> ToLinkedList<T>(this IEnumerable<T> source)
+        {
+            return new LinkedList<T>(source);
         }
 
         public static SortedDictionary<TKey, TElement> ToSortedDictionary<TSource, TKey, TElement>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector)
