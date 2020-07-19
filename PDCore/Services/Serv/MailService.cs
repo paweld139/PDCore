@@ -72,9 +72,15 @@ namespace PDCore.Services.Serv
 
             var client = data.Item1;
 
-            client.SendCompleted += OnSendAsyncCompleted;
-
             var message = data.Item2;
+
+            client.SendCompleted += (s, e) =>
+            {
+                OnSendAsyncCompleted(s, e);
+
+                client.Dispose();
+                message.Dispose();
+            };
 
             try
             {
@@ -83,11 +89,6 @@ namespace PDCore.Services.Serv
             catch (Exception ex)
             {
                 logger.Log(ex, LogType.Fatal);
-            }
-            finally
-            {
-                client.Dispose();
-                message.Dispose();
             }
         }
 

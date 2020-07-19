@@ -6,6 +6,7 @@ using PDCore.Helpers.Calculation;
 using PDCore.Helpers.DataStructures;
 using PDCore.Interfaces;
 using PDCore.Services.IServ;
+using PDCore.Services.Serv;
 using PDCore.Utils;
 using PDCoreNew.Loggers;
 using PDCoreNew.Loggers.Factory;
@@ -27,6 +28,10 @@ namespace PDCoreTest
         {
             _ = args;
 
+
+            TestMail();
+
+            WriteSeparator();
 
             TestExcel();
 
@@ -120,6 +125,13 @@ namespace PDCoreTest
 
 
             Console.ReadKey();
+        }
+
+        private static void TestMail()
+        {
+            IMailService mailService = new MailService(new TraceLogger(new LogMessageFactory()));
+
+            mailService.SendEmail("p.dywan97@gmail.com", "Test", "Testowy", "pawell139139@gmail.com", "ytjtyj", "smtp.gmail.com", 587, true);
         }
 
         private static void TestExcel()
