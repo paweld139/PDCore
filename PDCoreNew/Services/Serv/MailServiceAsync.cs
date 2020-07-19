@@ -39,19 +39,13 @@ namespace PDCoreNew.Services.Serv
             {
                 using (var client = data.Item1)
                 {
-                    Task sendMailTask = null;
+                    var result = await ActionWrapper.ExecuteAsync(() => client.SendMailAsync(message));
 
-                    try
-                    {
-                        sendMailTask = client.SendMailAsync(message);
+                    Task sendMailTask = result.Item3;
 
-                        await sendMailTask;
-                    }
-                    catch
-                    {
-                    }
+                    Exception exception = result.Item2;
 
-                    AsyncCompletedEventArgs args = new AsyncCompletedEventArgs(sendMailTask.Exception, sendMailTask.IsCanceled, message);
+                    AsyncCompletedEventArgs args = new AsyncCompletedEventArgs(sendMailTask?.Exception ?? exception, sendMailTask?.IsCanceled ?? false, message);
 
                     OnSendAsyncCompleted(this, args);
                 }

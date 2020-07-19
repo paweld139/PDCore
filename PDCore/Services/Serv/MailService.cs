@@ -1,4 +1,5 @@
-﻿using PDCore.Enums;
+﻿using Microsoft.VisualBasic.Logging;
+using PDCore.Enums;
 using PDCore.Interfaces;
 using PDCore.Services.IServ;
 using PDCore.Utils;
@@ -71,10 +72,23 @@ namespace PDCore.Services.Serv
 
             var client = data.Item1;
 
+            client.SendCompleted += OnSendAsyncCompleted;
+
             var message = data.Item2;
 
-
-            client.SendAsync(message, message);
+            try
+            {
+                client.SendAsync(message, message);
+            }
+            catch (Exception ex)
+            {
+                logger.Log(ex, LogType.Fatal);
+            }
+            finally
+            {
+                client.Dispose();
+                message.Dispose();
+            }
         }
 
         protected Tuple<SmtpClient, MailMessage> PrepareSending(string receiverEmail, string title, string body, string login, string password, string host, int port, bool enableSsl)
@@ -91,13 +105,6 @@ namespace PDCore.Services.Serv
 
             SmtpClient client = GetSmtpClient(login, password, host, port, enableSsl, message);
 
-            client.SendCompleted += (s, e) =>
-            {
-                OnSendAsyncCompleted(s, e);
-
-                client.Dispose();
-                message.Dispose();
-            };
 
             return new Tuple<SmtpClient, MailMessage>(client, message);
         }

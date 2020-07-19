@@ -110,7 +110,7 @@ namespace PDCore.Utils
 
             var smtpClient = GetSMTPClient(email, password, host, port, enableSSL);
 
-            login = email ?? (smtpClient.Credentials as NetworkCredential).UserName;
+            login = email ?? (smtpClient.Credentials as NetworkCredential)?.UserName;
 
             return smtpClient;
         }
