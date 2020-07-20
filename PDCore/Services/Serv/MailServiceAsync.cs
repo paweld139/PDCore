@@ -7,16 +7,18 @@ using System.ComponentModel;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
+using Unity;
 
 namespace PDCore.Services.Serv
 {
     public class MailServiceAsync : MailService, IMailServiceAsync
     {
-        public MailServiceAsync(ILogger logger) : base(logger)
+        public MailServiceAsync(SmtpSettingsModel smtpSettingsModel, ILogger logger) : base(smtpSettingsModel, logger)
         {
         }
 
-        public MailServiceAsync(SmtpSettingsModel smtpSettingsModel, ILogger logger) : base(smtpSettingsModel, logger)
+        [InjectionConstructor]
+        public MailServiceAsync(ILogger logger) : base(logger)
         {
         }
 

@@ -13,6 +13,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
+using Unity;
 
 namespace PDCoreNew.Services.Serv
 {
@@ -22,6 +23,7 @@ namespace PDCoreNew.Services.Serv
         {
         }
 
+        [InjectionConstructor]
         public MailServiceAsyncTask(ILogger logger) : base(logger)
         {
         }

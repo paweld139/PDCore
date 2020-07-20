@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Net;
 using System.Net.Mail;
+using Unity;
 
 namespace PDCore.Services.Serv
 {
@@ -27,6 +28,7 @@ namespace PDCore.Services.Serv
 
         protected readonly ILogger logger;
 
+        [InjectionConstructor]
         public MailService(ILogger logger)
         {
             this.logger = logger;

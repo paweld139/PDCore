@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 
 namespace PDWebCore
@@ -42,6 +44,28 @@ namespace PDWebCore
             string mimeType = MimeMapping.GetMimeMapping(fileName);
 
             return mimeType;
+        }
+
+        public static void ToggleWebEncrypt(string sectionName = "connectionStrings")
+        {
+            // Open the Web.config file.
+            Configuration config = WebConfigurationManager.OpenWebConfiguration("~");
+
+            // Get the connectionStrings section.
+            ConfigurationSection section = config.GetSection(sectionName);
+
+            // Toggle encryption.
+            if (section.SectionInformation.IsProtected)
+            {
+                section.SectionInformation.UnprotectSection();
+            }
+            else
+            {
+                section.SectionInformation.ProtectSection("DataProtectionConfigurationProvider");
+            }
+
+            // Save changes to the Web.config file.
+            config.Save();
         }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.Win32;
 using PDCore.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -111,7 +112,7 @@ namespace PDCore.Utils
 
             int filesCount = 0;
 
-            if(Directory.Exists(path) || throwIfDirectoryNotExists)
+            if (Directory.Exists(path) || throwIfDirectoryNotExists)
             {
                 filesCount = Directory.GetFiles(path, "*.*", searchOption).Length;
             }
@@ -139,6 +140,33 @@ namespace PDCore.Utils
         public static SortedList<string, int> GetProcessesWithThreadsSortedList()
         {
             return GetProcessesWithThreads().ToSortedList();
+        }
+
+        public static void ToggleConfigEncryption(string sectionName = "connectionStrings")
+        {
+            // Takes the executable file name without the
+            // .config extension.
+
+            // Open the configuration file and retrieve
+            // the connectionStrings section.
+            Configuration config = ConfigurationManager.OpenExeConfiguration(AppDomain.CurrentDomain.BaseDirectory);
+
+            ConfigurationSection section = config.GetSection(sectionName);
+
+
+            if (section.SectionInformation.IsProtected)
+            {
+                // Remove encryption.
+                section.SectionInformation.UnprotectSection();
+            }
+            else
+            {
+                // Encrypt the section.
+                section.SectionInformation.ProtectSection("DataProtectionConfigurationProvider");
+            }
+
+            // Save the current configuration.
+            config.Save();
         }
     }
 }
