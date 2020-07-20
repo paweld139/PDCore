@@ -176,18 +176,32 @@ namespace PDCore.Extensions
 
         public static long Time(this Stopwatch sw, Action action, int iterations = 1)
         {
+            var elapsed = Time(sw, a => { action(); return true; }, true, iterations);
+
+            return elapsed.Item1.Milliseconds;
+        }
+
+        public static Tuple<TimeSpan, T> Time<T, TResult>(this Stopwatch sw, Func<T> func, int iterations = 1)
+        {
+            return sw.Time(f => func(), true, iterations);
+        }
+
+        public static Tuple<TimeSpan, TResult> Time<T, TResult>(this Stopwatch sw, Func<T, TResult> func, T param, int iterations = 1)
+        {
             sw.Reset();
 
             sw.Start();
 
+            TResult result = default;
+
             for (int i = 0; i < iterations; i++)
             {
-                action();
+                result = func(param);
             }
 
             sw.Stop();
 
-            return sw.ElapsedMilliseconds;
+            return new Tuple<TimeSpan, TResult>(sw.Elapsed, result);
         }
 
         public static IDisposableWrapper<DisposableStopwatch> WrapStopwatch(this DisposableStopwatch disposableStopwatch)

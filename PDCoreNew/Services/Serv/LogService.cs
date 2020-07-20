@@ -37,24 +37,29 @@ namespace PDCoreNew.Services.Serv
             return DoLogAsync(message, exception, logType, false);
         }
 
-        public static void Log(Exception exception, LogType logType)
+        public static void Debug(string message, Exception exception = null)
         {
-            Log(string.Empty, exception, logType);
+            Log(message, exception, LogType.Debug);
         }
 
-        public static Task LogAsync(Exception exception, LogType logType)
+        public static void Error(string message, Exception exception = null)
         {
-            return LogAsync(string.Empty, exception, logType);
+            Log(message, exception, LogType.Error);
         }
 
-        public static void Log(string message, LogType logType)
+        public static void Fatal(string message, Exception exception = null)
         {
-            Log(message, null, logType);
+            Log(message, exception, LogType.Fatal);
         }
 
-        public static Task LogAsync(string message, LogType logType)
+        public static void Info(string message, Exception exception = null)
         {
-            return LogAsync(message, null, logType);
+            Log(message, exception, LogType.Info);
+        }
+
+        public static void Warn(string message, Exception exception = null)
+        {
+            Log(message, exception, LogType.Warn);
         }
 
         private async static Task DoLogAsync(string message, Exception exception, LogType logType, bool sync)

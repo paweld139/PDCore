@@ -47,7 +47,7 @@ namespace PDCoreNew.Services.Serv
 
                     AsyncCompletedEventArgs args = new AsyncCompletedEventArgs(sendMailTask?.Exception ?? exception, sendMailTask?.IsCanceled ?? false, message);
 
-                    OnSendAsyncCompleted(this, args);
+                    SendCompletedCallback(this, args);
                 }
             }
         }

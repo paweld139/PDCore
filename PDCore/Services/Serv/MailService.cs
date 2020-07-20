@@ -11,6 +11,8 @@ namespace PDCore.Services.Serv
 {
     public class MailService : IMailService
     {
+        private const string SendCompletedMessageFormat = "{0} email to {1} with subject [{2}]";
+
         private readonly string login;
         private readonly string password;
         private readonly string host;
@@ -76,7 +78,7 @@ namespace PDCore.Services.Serv
 
             client.SendCompleted += (s, e) =>
             {
-                OnSendAsyncCompleted(s, e);
+                SendCompletedCallback(s, e);
 
                 client.Dispose();
                 message.Dispose();
@@ -85,10 +87,12 @@ namespace PDCore.Services.Serv
             try
             {
                 client.SendAsync(message, message);
+
+                logger.Info(string.Format(SendCompletedMessageFormat, "Sending async", message.To, message.Subject));
             }
             catch (Exception ex)
             {
-                logger.Log(ex, LogType.Fatal);
+                logger.Fatal("Async email error", ex);
             }
         }
 
@@ -110,24 +114,21 @@ namespace PDCore.Services.Serv
             return new Tuple<SmtpClient, MailMessage>(client, message);
         }
 
-        protected void OnSendAsyncCompleted(object sender, AsyncCompletedEventArgs e)
+        protected void SendCompletedCallback(object sender, AsyncCompletedEventArgs e)
         {
             var mail = (MailMessage)e.UserState;
 
-            //write out the subject
-            string subject = mail.Subject;
-
-            if (e.Cancelled)
-            {
-                logger?.Log(string.Format("Send canceled for mail with subject [{0}].", subject), LogType.Warn);
-            }
             if (e.Error != null)
             {
-                logger?.Log(string.Format("Error occurred when sending mail [{0}] ", subject), e.Error, LogType.Error);
+                logger.Error(string.Format(SendCompletedMessageFormat, "Error sending", mail.To, mail.Subject), e.Error);
+            }
+            else if (e.Cancelled)
+            {
+                logger.Warn(string.Format(SendCompletedMessageFormat, "Cancelled", mail.To, mail.Subject));
             }
             else
             {
-                logger?.Log(string.Format("Message [{0}] sent.", subject), LogType.Info);
+                logger.Info(string.Format(SendCompletedMessageFormat, "Sent email", mail.To, mail.Subject));
             }
         }
     }

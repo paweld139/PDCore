@@ -48,7 +48,7 @@ namespace PDWebCore.Context
         public void SetLogging(bool input, ILogger logger)
         {
             ObjectUtils.SetLogging(input, logger, IsLoggingEnabled,
-                () => Database.Log = logger.Log,
+                () => Database.Log = logger.Info,
                 () => Database.Log = null
             );
         }
