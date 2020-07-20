@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Security;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -21,7 +22,7 @@ namespace PDCore.Models
             Login = login;
             Email = email;
             DisplayName = displayName;
-            Password = password;
+            Password = password.GetSecureString();
             Host = host;
             Port = port;
             EnableSsl = enableSsl;
@@ -32,7 +33,7 @@ namespace PDCore.Models
             Login = appSettings["login"];
             Email = appSettings["email"];
             DisplayName = appSettings["displayName"];
-            Password = appSettings["password"];
+            Password = appSettings["password"]?.GetSecureString();
             Host = appSettings["host"];
             Port = Convert.ToInt32(appSettings["port"]);
             EnableSsl = Convert.ToBoolean(appSettings["enableSSL"]);
@@ -44,7 +45,7 @@ namespace PDCore.Models
 
         public string DisplayName { get; set; }
 
-        public string Password { get; set; }
+        public SecureString Password { get; set; }
 
         public string Host { get; set; }
 
@@ -56,11 +57,7 @@ namespace PDCore.Models
         public SmtpClient GetSmtpClient()
         {
             if (Email == null)
-            {
-                var smtpClient = new SmtpClient();
-
-                Email = smtpClient.GetUserName();
-            }
+                return new SmtpClient();
 
             return new SmtpClient
             {

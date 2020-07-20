@@ -32,7 +32,7 @@ namespace PDCore.Services.Serv
             this.logger = logger;
         }
 
-        protected Tuple<SmtpClient, MailMessage> PrepareSending(MailMessageModel mailMessageModel, SmtpSettingsModel smtpSettingsModel)
+        private void PrepareSending(ref SmtpSettingsModel smtpSettingsModel)
         {
             if (this.smtpSettingsModel != null) // Zostało przekazane proprzez konstruktor
             {
@@ -44,32 +44,63 @@ namespace PDCore.Services.Serv
 
                 smtpSettingsModel = new SmtpSettingsModel(appSettings);
             }
+        }
+
+        protected Tuple<MailMessage, SmtpClient> GetData(MailMessageModel mailMessageModel, SmtpSettingsModel smtpSettingsModel)
+        {
+            PrepareSending(ref smtpSettingsModel);
 
             var message = mailMessageModel.GetMailMessage(smtpSettingsModel);
 
             var client = smtpSettingsModel.GetSmtpClient();
 
-            
-            return new Tuple<SmtpClient, MailMessage>(client, message);
+            return Tuple.Create(message, client);
+        }
+
+        protected SmtpClient GetSmtpClient(SmtpSettingsModel smtpSettingsModel)
+        {
+            PrepareSending(ref smtpSettingsModel);
+
+            return smtpSettingsModel.GetSmtpClient();
         }
 
         public void SendEmail(MailMessageModel mailMessageModel, SmtpSettingsModel smtpSettingsModel = null)
         {
-            var data = PrepareSending(mailMessageModel, smtpSettingsModel);
+            var data = GetData(mailMessageModel, smtpSettingsModel);
 
-            var client = data.Item1;
+            SendEmail(data.Item1, data.Item2);
+        }
 
-            var message = data.Item2;
+        public void SendEmail(MailMessage message, SmtpSettingsModel smtpSettingsModel = null)
+        {
+            var client = GetSmtpClient(smtpSettingsModel);
 
+            SendEmail(message, client);
+        }
+
+        public void SendEmail(MailMessage message)
+        {
+            SendEmail(message, new SmtpClient());
+        }
+
+        public void SendEmail(MailMessage message, SmtpClient client)
+        {
             try
             {
                 logger.Info(string.Format(SendStatusMessageFormat, "Sending sync", message.To, message.Subject));
 
                 client.Send(message);
+
+                logger.Info(string.Format(SendStatusMessageFormat, "Sent email", message.To, message.Subject));
             }
             catch (Exception ex)
             {
-                logger.Fatal("Sync email error", ex);
+                logger.Error(string.Format(SendStatusMessageFormat, "Error sending", message.To, message.Subject), ex);
+            }
+            finally
+            {
+                client.Dispose();
+                message.Dispose();
             }
         }
     }

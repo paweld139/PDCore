@@ -22,12 +22,25 @@ namespace PDCore.Services.Serv
 
         public void SendEmailAsync(MailMessageModel mailMessageModel, SmtpSettingsModel smtpSettingsModel = null)
         {
-            var data = PrepareSending(mailMessageModel, smtpSettingsModel);
+            var data = GetData(mailMessageModel, smtpSettingsModel);
 
-            var client = data.Item1;
+            SendEmailAsync(data.Item1, data.Item2);
+        }
 
-            var message = data.Item2;
+        public void SendEmailAsync(MailMessage message, SmtpSettingsModel smtpSettingsModel = null)
+        {
+            var client = GetSmtpClient(smtpSettingsModel);
 
+            SendEmailAsync(message, client);
+        }
+
+        public void SendEmailAsync(MailMessage message)
+        {
+            SendEmailAsync(message, new SmtpClient());
+        }
+
+        public void SendEmailAsync(MailMessage message, SmtpClient client)
+        {
             client.SendCompleted += (s, e) =>
             {
                 SendCompletedCallback(s, e);

@@ -19,18 +19,19 @@ using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace PDCoreTest
 {
     class Program
     {
         [STAThread]
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             _ = args;
 
 
-            TestMail();
+            await TestMail();
 
             WriteSeparator();
 
@@ -128,13 +129,17 @@ namespace PDCoreTest
             Console.ReadKey();
         }
 
-        private static void TestMail()
+        private static Task TestMail()
         {
-            IMailService mailService = new MailService(new TraceLogger(new LogMessageFactory()));
+            SmtpSettingsModel smtpSettingsModel = new SmtpSettingsModel("p.dywan97@gmail.com", "p.dywan97@gmail.com", "Pawl", "password", "smtp.gmail.com", 587, true);
 
-            MailMessageModel mailMessageModel = new MailMessageModel("", "", "", false);
+            MailMessageModel mailMessageModel = new MailMessageModel("p.dywan97@gmail.com,pawell139139@gmail.com", "Test", "Testowy", true, new[] { @"D:\Downloads\teekst.txt", @"D:\Downloads\teekst2.txt" });
 
-            mailService.SendEmail(mailMessageModel);
+
+            IMailServiceAsyncTask mailService = new MailServiceAsyncTask(new TraceLogger(new LogMessageFactory()));
+
+
+           return mailService.SendEmailAsyncTask(mailMessageModel, smtpSettingsModel);
         }
 
         private static void TestExcel()

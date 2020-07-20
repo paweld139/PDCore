@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,14 +26,30 @@ namespace PDCoreNew.Services.Serv
         {
         }
 
-        public async Task SendEmailAsyncTask(MailMessageModel mailMessageModel, SmtpSettingsModel smtpSettingsModel = null)
+        public Task SendEmailAsyncTask(MailMessageModel mailMessageModel, SmtpSettingsModel smtpSettingsModel = null)
         {
-            var data = PrepareSending(mailMessageModel, smtpSettingsModel);
+            var data = GetData(mailMessageModel, smtpSettingsModel);
 
+            return SendEmailAsyncTask(data.Item1, data.Item2);
+        }
 
-            using (var message = data.Item2)
+        public Task SendEmailAsyncTask(MailMessage message, SmtpSettingsModel smtpSettingsModel = null)
+        {
+            var client = GetSmtpClient(smtpSettingsModel);
+
+            return SendEmailAsyncTask(message, client);
+        }
+
+        public Task SendEmailAsyncTask(MailMessage message)
+        {
+            return SendEmailAsyncTask(message, new SmtpClient());
+        }
+
+        public async Task SendEmailAsyncTask(MailMessage message, SmtpClient client)
+        {
+            using (message)
             {
-                using (var client = data.Item1)
+                using (client)
                 {
                     try
                     {
