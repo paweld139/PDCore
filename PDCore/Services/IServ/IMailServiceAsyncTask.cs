@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PDCore.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,6 @@ namespace PDCore.Services.IServ
 {
     public interface IMailServiceAsyncTask : IMailServiceAsync
     {
-        Task SendEmailAsyncTask(string receiverEmail, string title, string body);
-        Task SendEmailAsyncTask(string receiverEmail, string title, string body, string login, string password, string host, int port, bool enableSsl);
+        Task SendEmailAsyncTask(MailMessageModel mailMessageModel, SmtpSettingsModel smtpSettingsModel = null);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using PDCore.Interfaces;
+using PDCore.Models;
 using PDCore.Services.IServ;
 using System;
 using System.Collections.Generic;
@@ -15,18 +16,13 @@ namespace PDCore.Services.Serv
         {
         }
 
-        public MailServiceAsync(string login, string password, string host, int port, bool enableSsl, ILogger logger) : base(login, password, host, port, enableSsl, logger)
+        public MailServiceAsync(SmtpSettingsModel smtpSettingsModel, ILogger logger) : base(smtpSettingsModel, logger)
         {
         }
 
-        public void SendEmailAsync(string receiverEmail, string title, string body)
+        public void SendEmailAsync(MailMessageModel mailMessageModel, SmtpSettingsModel smtpSettingsModel = null)
         {
-            SendEmailAsync(receiverEmail, title, body, null, null, null, 0, false);
-        }
-
-        public void SendEmailAsync(string receiverEmail, string title, string body, string login, string password, string host, int port, bool enableSsl)
-        {
-            var data = PrepareSending(receiverEmail, title, body, login, password, host, port, enableSsl);
+            var data = PrepareSending(mailMessageModel, smtpSettingsModel);
 
             var client = data.Item1;
 

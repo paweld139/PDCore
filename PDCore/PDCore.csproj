@@ -118,6 +118,9 @@
     <Compile Include="Helpers\DataStructures\Book\IBook.cs" />
     <Compile Include="Helpers\DataStructures\Book\InMemoryBook.cs" />
     <Compile Include="Helpers\DataStructures\CategoryCollection.cs" />
+    <Compile Include="Helpers\PropertyCache.cs" />
+    <Compile Include="Models\MailMessageModel.cs" />
+    <Compile Include="Models\SmtpSettingsModel.cs" />
     <Compile Include="Services\IServ\IMailService.cs" />
     <Compile Include="Helpers\MimeTypeMap.cs" />
     <Compile Include="Helpers\NamedObject.cs" />
@@ -323,7 +326,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Helpers\CSV\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Helpers\XML\Signing\Xades\XAdES.xsd">

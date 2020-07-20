@@ -5,6 +5,7 @@ using PDCore.Helpers;
 using PDCore.Helpers.Calculation;
 using PDCore.Helpers.DataStructures;
 using PDCore.Interfaces;
+using PDCore.Models;
 using PDCore.Services.IServ;
 using PDCore.Services.Serv;
 using PDCore.Utils;
@@ -131,7 +132,9 @@ namespace PDCoreTest
         {
             IMailService mailService = new MailService(new TraceLogger(new LogMessageFactory()));
 
-            mailService.SendEmail("", "", "");
+            MailMessageModel mailMessageModel = new MailMessageModel("", "", "", false);
+
+            mailService.SendEmail(mailMessageModel);
         }
 
         private static void TestExcel()

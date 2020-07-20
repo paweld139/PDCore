@@ -5,11 +5,14 @@ using PDCore.Helpers.Wrappers.DisposableWrapper;
 using PDCore.Utils;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net;
+using System.Net.Mail;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -441,5 +444,15 @@ namespace PDCore.Extensions
         {
             return values.Any(v => v.Equals(input));
         }
+
+        public static bool ArePropertiesNotNull<T>(this T obj)
+        {
+            if (obj == null)
+                return false;
+
+            return PropertyCache<T>.PublicProperties.All(propertyInfo => propertyInfo.GetPropertyValue(obj) != null);
+        }
+
+        public static string GetUserName(this SmtpClient smtpClient) => (smtpClient.Credentials as NetworkCredential)?.UserName;
     }
 }

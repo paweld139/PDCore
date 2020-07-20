@@ -1,10 +1,14 @@
-﻿using Microsoft.VisualBasic.Logging;
+﻿using Microsoft.VisualBasic.Devices;
+using Microsoft.VisualBasic.Logging;
 using PDCore.Enums;
+using PDCore.Extensions;
 using PDCore.Interfaces;
+using PDCore.Models;
 using PDCore.Services.IServ;
 using PDCore.Utils;
 using System;
 using System.ComponentModel;
+using System.Configuration;
 using System.Net;
 using System.Net.Mail;
 
@@ -14,19 +18,11 @@ namespace PDCore.Services.Serv
     {
         protected const string SendStatusMessageFormat = "{0} email to {1} with subject [{2}]";
 
-        private readonly string login;
-        private readonly string password;
-        private readonly string host;
-        private readonly int port;
-        private readonly bool enableSsl;
+        private readonly SmtpSettingsModel smtpSettingsModel;
 
-        public MailService(string login, string password, string host, int port, bool enableSsl, ILogger logger) : this(logger)
+        public MailService(SmtpSettingsModel smtpSettingsModel, ILogger logger) : this(logger)
         {
-            this.login = login;
-            this.password = password;
-            this.host = host;
-            this.port = port;
-            this.enableSsl = enableSsl;
+            this.smtpSettingsModel = smtpSettingsModel;
         }
 
         protected readonly ILogger logger;
@@ -36,60 +32,30 @@ namespace PDCore.Services.Serv
             this.logger = logger;
         }
 
-        private SmtpClient GetSmtpClient(string login, string password, string host, int port, bool enableSsl, MailMessage mailMessage)
+        protected Tuple<SmtpClient, MailMessage> PrepareSending(MailMessageModel mailMessageModel, SmtpSettingsModel smtpSettingsModel)
         {
-            SmtpClient smtpClient;
-
-            bool areNotNull = ObjectUtils.AreNotNull(login, password, host, port, enableSsl);
-            bool areNotNullThis = ObjectUtils.AreNotNull(this.login, this.password, this.host, this.port, this.enableSsl);
-
-            if (areNotNull)
+            if (this.smtpSettingsModel != null) // Zostało przekazane proprzez konstruktor
             {
-                smtpClient = WebUtils.GetSMTPClient(login, password, host, port, enableSsl);
+                smtpSettingsModel = this.smtpSettingsModel;
             }
-            else if (areNotNullThis)
+            else if (smtpSettingsModel == null) // Nie zostało przekazane proprzez konstruktor i poprzez metodę
             {
-                smtpClient = WebUtils.GetSMTPClient(this.login, this.password, this.host, this.port, this.enableSsl);
+                var appSettings = ConfigurationManager.AppSettings;
 
-                login = this.login;
-            }
-            else
-            {
-                smtpClient = WebUtils.GetSMTPClient(out login);
+                smtpSettingsModel = new SmtpSettingsModel(appSettings);
             }
 
-            mailMessage.From = new MailAddress(login);
+            var message = mailMessageModel.GetMailMessage(smtpSettingsModel);
 
+            var client = smtpSettingsModel.GetSmtpClient();
 
-            return smtpClient;
-        }
-
-        protected Tuple<SmtpClient, MailMessage> PrepareSending(string receiverEmail, string title, string body, string login, string password, string host, int port, bool enableSsl)
-        {
-            MailMessage message = new MailMessage
-            {
-                Subject = title,
-                Body = body,
-                IsBodyHtml = true
-            };
-
-            message.To.Add(receiverEmail);
-
-
-            SmtpClient client = GetSmtpClient(login, password, host, port, enableSsl, message);
-
-
+            
             return new Tuple<SmtpClient, MailMessage>(client, message);
         }
 
-        public void SendEmail(string receiverEmail, string title, string body)
+        public void SendEmail(MailMessageModel mailMessageModel, SmtpSettingsModel smtpSettingsModel = null)
         {
-            SendEmail(receiverEmail, title, body, null, null, null, 0, false);
-        }
-
-        public void SendEmail(string receiverEmail, string title, string body, string login, string password, string host, int port, bool enableSsl)
-        {
-            var data = PrepareSending(receiverEmail, title, body, login, password, host, port, enableSsl);
+            var data = PrepareSending(mailMessageModel, smtpSettingsModel);
 
             var client = data.Item1;
 
@@ -99,7 +65,7 @@ namespace PDCore.Services.Serv
             {
                 logger.Info(string.Format(SendStatusMessageFormat, "Sending sync", message.To, message.Subject));
 
-                client.Send(message);              
+                client.Send(message);
             }
             catch (Exception ex)
             {

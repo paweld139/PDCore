@@ -1,5 +1,6 @@
 ﻿using Org.BouncyCastle.Crypto.Tls;
 using PDCore.Interfaces;
+using PDCore.Models;
 using PDCore.Services.IServ;
 using PDCore.Services.Serv;
 using PDCore.Utils;
@@ -16,8 +17,7 @@ namespace PDCoreNew.Services.Serv
 {
     public class MailServiceAsyncTask : MailServiceAsync, IMailServiceAsyncTask
     {
-        public MailServiceAsyncTask(string login, string password, string host, int port, bool enableSsl, ILogger logger) :
-            base(login, password, host, port, enableSsl, logger)
+        public MailServiceAsyncTask(SmtpSettingsModel smtpSettingsModel, ILogger logger) : base(smtpSettingsModel, logger)
         {
         }
 
@@ -25,14 +25,9 @@ namespace PDCoreNew.Services.Serv
         {
         }
 
-        public Task SendEmailAsyncTask(string receiverEmail, string title, string body)
+        public async Task SendEmailAsyncTask(MailMessageModel mailMessageModel, SmtpSettingsModel smtpSettingsModel = null)
         {
-            return SendEmailAsyncTask(receiverEmail, title, body, null, null, null, 0, false);
-        }
-
-        public async Task SendEmailAsyncTask(string receiverEmail, string title, string body, string login, string password, string host, int port, bool enableSsl)
-        {
-            var data = PrepareSending(receiverEmail, title, body, login, password, host, port, enableSsl);
+            var data = PrepareSending(mailMessageModel, smtpSettingsModel);
 
 
             using (var message = data.Item2)

@@ -1,4 +1,5 @@
 ﻿using PDCore.Extensions;
+using PDCore.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -98,37 +99,6 @@ namespace PDCore.Utils
             string el = string.Format("<a href='{0}'>{1}</a>", url, text);
 
             return el;
-        }
-
-        public static SmtpClient GetSMTPClient(out string login)
-        {
-            var appSettings = ConfigurationManager.AppSettings;
-
-            string email = appSettings["e-mail"], password = appSettings["password"], host = appSettings["host"];
-            int port = Convert.ToInt32(appSettings["port"]);
-            bool enableSSL = Convert.ToBoolean(appSettings["enableSSL"]);
-
-            var smtpClient = GetSMTPClient(email, password, host, port, enableSSL);
-
-            login = email ?? (smtpClient.Credentials as NetworkCredential)?.UserName;
-
-            return smtpClient;
-        }
-
-        public static SmtpClient GetSMTPClient(string login, string password, string host, int port, bool enableSsl)
-        {
-            if (!ObjectUtils.AreNotNull(login, password, host, port, enableSsl))
-                return new SmtpClient();
-
-            return new SmtpClient
-            {
-                Host = host, //"ssl0.ovh.net",
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(login, password),
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                EnableSsl = enableSsl, //true
-                Port = port //25
-            };
         }
     }
 }
