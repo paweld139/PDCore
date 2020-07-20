@@ -81,7 +81,7 @@
     <Compile Include="Repositories\IRepo\IEFRepo.cs" />
     <Compile Include="Repositories\Repo\SqlRepositoryEntityFramework.cs" />
     <Compile Include="Services\Serv\LogService.cs" />
-    <Compile Include="Services\Serv\MailServiceAsync.cs" />
+    <Compile Include="Services\Serv\MailServiceAsyncTask.cs" />
     <Compile Include="Utils\IOUtils.cs" />
     <Compile Include="Utils\WebUtils.cs" />
   </ItemGroup>

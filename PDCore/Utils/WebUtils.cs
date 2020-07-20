@@ -125,6 +125,7 @@ namespace PDCore.Utils
                 Host = host, //"ssl0.ovh.net",
                 UseDefaultCredentials = false,
                 Credentials = new NetworkCredential(login, password),
+                DeliveryMethod = SmtpDeliveryMethod.Network,
                 EnableSsl = enableSsl, //true
                 Port = port //25
             };

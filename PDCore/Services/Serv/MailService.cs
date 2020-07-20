@@ -5,13 +5,14 @@ using PDCore.Services.IServ;
 using PDCore.Utils;
 using System;
 using System.ComponentModel;
+using System.Net;
 using System.Net.Mail;
 
 namespace PDCore.Services.Serv
 {
     public class MailService : IMailService
     {
-        private const string SendCompletedMessageFormat = "{0} email to {1} with subject [{2}]";
+        protected const string SendStatusMessageFormat = "{0} email to {1} with subject [{2}]";
 
         private readonly string login;
         private readonly string password;
@@ -28,7 +29,7 @@ namespace PDCore.Services.Serv
             this.enableSsl = enableSsl;
         }
 
-        private readonly ILogger logger;
+        protected readonly ILogger logger;
 
         public MailService(ILogger logger)
         {
@@ -63,39 +64,6 @@ namespace PDCore.Services.Serv
             return smtpClient;
         }
 
-        public void SendEmail(string receiverEmail, string title, string body)
-        {
-            SendEmail(receiverEmail, title, body, null, null, null, 0, false);
-        }
-
-        public void SendEmail(string receiverEmail, string title, string body, string login, string password, string host, int port, bool enableSsl)
-        {
-            var data = PrepareSending(receiverEmail, title, body, login, password, host, port, enableSsl);
-
-            var client = data.Item1;
-
-            var message = data.Item2;
-
-            client.SendCompleted += (s, e) =>
-            {
-                SendCompletedCallback(s, e);
-
-                client.Dispose();
-                message.Dispose();
-            };
-
-            try
-            {
-                client.SendAsync(message, message);
-
-                logger.Info(string.Format(SendCompletedMessageFormat, "Sending async", message.To, message.Subject));
-            }
-            catch (Exception ex)
-            {
-                logger.Fatal("Async email error", ex);
-            }
-        }
-
         protected Tuple<SmtpClient, MailMessage> PrepareSending(string receiverEmail, string title, string body, string login, string password, string host, int port, bool enableSsl)
         {
             MailMessage message = new MailMessage
@@ -114,21 +82,28 @@ namespace PDCore.Services.Serv
             return new Tuple<SmtpClient, MailMessage>(client, message);
         }
 
-        protected void SendCompletedCallback(object sender, AsyncCompletedEventArgs e)
+        public void SendEmail(string receiverEmail, string title, string body)
         {
-            var mail = (MailMessage)e.UserState;
+            SendEmail(receiverEmail, title, body, null, null, null, 0, false);
+        }
 
-            if (e.Error != null)
+        public void SendEmail(string receiverEmail, string title, string body, string login, string password, string host, int port, bool enableSsl)
+        {
+            var data = PrepareSending(receiverEmail, title, body, login, password, host, port, enableSsl);
+
+            var client = data.Item1;
+
+            var message = data.Item2;
+
+            try
             {
-                logger.Error(string.Format(SendCompletedMessageFormat, "Error sending", mail.To, mail.Subject), e.Error);
+                logger.Info(string.Format(SendStatusMessageFormat, "Sending sync", message.To, message.Subject));
+
+                client.Send(message);              
             }
-            else if (e.Cancelled)
+            catch (Exception ex)
             {
-                logger.Warn(string.Format(SendCompletedMessageFormat, "Cancelled", mail.To, mail.Subject));
-            }
-            else
-            {
-                logger.Info(string.Format(SendCompletedMessageFormat, "Sent email", mail.To, mail.Subject));
+                logger.Fatal("Sync email error", ex);
             }
         }
     }

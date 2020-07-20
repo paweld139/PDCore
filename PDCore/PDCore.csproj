@@ -285,9 +285,11 @@
     <Compile Include="Services\IServ\ICacheService.cs" />
     <Compile Include="Services\IServ\IErrorLogService.cs" />
     <Compile Include="Services\IServ\IMailServiceAsync.cs" />
+    <Compile Include="Services\IServ\IMailServiceAsyncTask.cs" />
     <Compile Include="Services\IServ\ITimeService.cs" />
     <Compile Include="Services\IServ\ISleepService.cs" />
     <Compile Include="Services\IServ\ITemporaryStorageService.cs" />
+    <Compile Include="Services\Serv\MailServiceAsync.cs" />
     <Compile Include="Services\Serv\TemporaryStorageService.cs" />
     <Compile Include="Services\Serv\Time\AA.cs" />
     <Compile Include="Services\Serv\Time\SomeClass.cs" />
