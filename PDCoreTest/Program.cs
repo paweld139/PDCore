@@ -131,7 +131,7 @@ namespace PDCoreTest
         {
             IMailService mailService = new MailService(new TraceLogger(new LogMessageFactory()));
 
-            mailService.SendEmail("p.dywan97@gmail.com", "Test", "Testowy", "pawell139139@gmail.com", "ytjtyj", "smtp.gmail.com", 587, true);
+            mailService.SendEmail("", "", "");
         }
 
         private static void TestExcel()
