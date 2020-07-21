@@ -1,4 +1,5 @@
 ﻿using PDCore.Enums;
+using PDCore.Extensions;
 using PDCore.Factories.IFac;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,9 @@ namespace PDCore.Factories.Fac
         {
             StringBuilder result = new StringBuilder();
 
-            result.AppendFormat("{0}: ", logType);
+            string date = DateTime.Now.ToDMY();
+
+            result.AppendFormat("[{1}] {0}: ", logType, date);
 
             var items = new[] { message, exception?.ToString() };
 

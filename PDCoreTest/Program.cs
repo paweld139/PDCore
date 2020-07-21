@@ -31,6 +31,10 @@ namespace PDCoreTest
             _ = args;
 
 
+            TestDateWordly();
+
+            WriteSeparator();
+
             TestConfigEncryption();
 
             WriteSeparator();
@@ -137,6 +141,26 @@ namespace PDCoreTest
             Console.ReadKey();
         }
 
+        private static void TestDateWordly()
+        {
+            DateTime date = DateTime.Now;
+
+
+            string dateWordly = date.GetWordlyPL();
+
+            ConsoleUtils.WriteResult("Data słownie", dateWordly);
+
+
+            dateWordly = date.GetWordlyGB();
+
+            ConsoleUtils.WriteResult("Data słownie", dateWordly);
+
+
+            dateWordly = date.GetWordlyDE();
+
+            ConsoleUtils.WriteResult("Data słownie", dateWordly);
+        }
+
         private static void TestConfigEncryption()
         {
             IOUtils.ToggleConfigEncryption();
@@ -169,7 +193,7 @@ namespace PDCoreTest
             IMailServiceAsyncTask mailService = new MailServiceAsyncTask(new TraceLogger(new LogMessageFactory()));
 
 
-           return mailService.SendEmailAsyncTask(mailMessageModel, smtpSettingsModel);
+            return mailService.SendEmailAsyncTask(mailMessageModel, smtpSettingsModel);
         }
 
         private static void TestExcel()
@@ -187,7 +211,7 @@ namespace PDCoreTest
             ConsoleUtils.WriteResult("Dni do końca miesiąca", days);
 
 
-            string dateWordly = date.GetWordly();
+            string dateWordly = date.GetWordlyPL();
 
             ConsoleUtils.WriteResult("Data słownie", dateWordly);
 
@@ -208,7 +232,7 @@ namespace PDCoreTest
             int iterations = 10000;
 
             long time2 = stopWatch.Time(() => ObjectUtils.GetSummary2(resultInt, 2), iterations);
-            long time = stopWatch.Time(() => ObjectUtils.GetSummary(resultInt, 2), iterations);     
+            long time = stopWatch.Time(() => ObjectUtils.GetSummary(resultInt, 2), iterations);
             long time3 = stopWatch.Time(() => ObjectUtils.GetSummary(new WebClient()), iterations);
 
             var webClientSummary = ObjectUtils.GetSummary(new WebClient());

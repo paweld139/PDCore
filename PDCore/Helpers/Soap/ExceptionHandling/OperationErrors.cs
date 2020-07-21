@@ -25,7 +25,7 @@ namespace PDCore.Helpers.Soap.ExceptionHandling
 
         public List<T> Errors { get; private set; }
 
-        private string error { get; set; }
+        private string Error { get; set; }
 
         private const string errorFormat = "Wystąpił błąd: {0}";
 
@@ -33,19 +33,19 @@ namespace PDCore.Helpers.Soap.ExceptionHandling
         {
             if(Errors == null)
             {
-                return error ?? string.Empty;
+                return Error ?? string.Empty;
             }
 
             SetError(string.Join(", ", GetErrorsString(Errors)));
 
-            return error;
+            return Error;
         }
 
         protected abstract IEnumerable<string> GetErrorsString(List<T> errors);
 
         private void SetError(string error)
         {
-            this.error = string.Format(errorFormat, error);
+            this.Error = string.Format(errorFormat, error);
         }
 
         public void HandleException(Exception ex)
@@ -61,9 +61,9 @@ namespace PDCore.Helpers.Soap.ExceptionHandling
 
                 HandleException(ex.InnerException);
             }
-            else if (ex is FaultException)
+            else if (ex is FaultException exception)
             {
-                HandleFaultException((FaultException)ex);
+                HandleFaultException(exception);
             }
             else if (ex is TimeoutException)
             {

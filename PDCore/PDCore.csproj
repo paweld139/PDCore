@@ -119,6 +119,7 @@
     <Compile Include="Helpers\DataStructures\Book\InMemoryBook.cs" />
     <Compile Include="Helpers\DataStructures\CategoryCollection.cs" />
     <Compile Include="Helpers\PropertyCache.cs" />
+    <Compile Include="Interfaces\IDataLoader.cs" />
     <Compile Include="Models\MailMessageModel.cs" />
     <Compile Include="Models\SmtpSettingsModel.cs" />
     <Compile Include="Services\IServ\IMailService.cs" />

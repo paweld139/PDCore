@@ -146,5 +146,39 @@ namespace PDCore.Tests
         }
 
         #endregion
+
+
+        #region DateTimeExtension
+
+        [TestMethod]
+        public void CanConvertAnyTypeOfDateFormatsToDate()
+        {
+            DateTime date = DateTime.Today;
+
+
+            string ymd = date.ToYMD(false);
+
+            string dmy = date.ToDMY(false);
+
+
+            DateTime dateFromYmd = DateTime.Parse(ymd);
+
+            DateTime dateFromDmy = DateTime.Parse(dmy);
+
+
+            string ymdFromDmy = dmy.ToYMD(false);
+
+            string dmyFromYmd = ymd.ToDMY(false);
+
+
+
+            Assert.AreEqual(date, dateFromYmd);
+            Assert.AreEqual(date, dateFromDmy);
+
+            Assert.AreEqual(ymd, ymdFromDmy);
+            Assert.AreEqual(dmy, dmyFromYmd);
+        }
+
+        #endregion
     }
 }

@@ -136,5 +136,7 @@ namespace PDCore.Extensions
         {
             return source?.IndexOf(toCheck, comp) >= 0;
         }
+
+        public static bool IsUrl(this string urlOrFilename) => urlOrFilename.ToLower().StartsWith("http");
     }
 }

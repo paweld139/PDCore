@@ -32,7 +32,7 @@ namespace PDCore.Extensions
         {
             DateTime dt = Convert.ToDateTime(s); //Konwersja łańcucha znaków na datę
 
-            return dt.ToString("yyyy-MM-dd" + (withHours ? " HH:mm:ss" : string.Empty)); //Konwersja daty do odpowiedniego formatu i zwrócenie łańcucha znaków
+            return dt.ToYMD(withHours); //Konwersja daty do odpowiedniego formatu i zwrócenie łańcucha znaków
         }
 
         /// <summary>
@@ -46,6 +46,13 @@ namespace PDCore.Extensions
             return dt.ToString("dd-MM-yyyy" + (withHours ? " HH:mm:ss" : string.Empty)); //Konwersja daty do odpowiedniego formatu i zwrócenie łańcucha znaków
         }
 
+        public static string ToDMY(this string s, bool withHours = true)
+        {
+            DateTime dt = Convert.ToDateTime(s); //Konwersja łańcucha znaków na datę
+
+            return dt.ToDMY(withHours); //Konwersja daty do odpowiedniego formatu i zwrócenie łańcucha znaków
+        }
+
         /// <summary>
         /// Zwrócenie liczby (całkowita podwójnej precyzji - 64 bitowa) o formacie "rok-miesiąc-dzień", opcjonalnie także z czasem dla zadanej daty
         /// </summary>
@@ -57,11 +64,31 @@ namespace PDCore.Extensions
             return long.Parse(dateTime.ToString("yyyyMMdd" + (withHours ? "HHmmss" : string.Empty)));
         }
 
-        public static string GetWordly(this DateTime dateTime)
+        public static string GetWordly(this DateTime dateTime, CultureInfo cultureInfo)
         {
-            CultureInfo cultureInfo = new CultureInfo("pl-PL");
-
             return dateTime.ToString("d MMMM yyyy r.", cultureInfo);
+        }
+
+        public static string GetWordly(this DateTime dateTime, string cultureInfoName)
+        {
+            CultureInfo cultureInfo = new CultureInfo(cultureInfoName);
+
+            return dateTime.GetWordly(cultureInfo);
+        }
+
+        public static string GetWordlyPL(this DateTime dateTime)
+        {
+            return dateTime.GetWordly("pl-PL");
+        }
+
+        public static string GetWordlyGB(this DateTime dateTime)
+        {
+            return dateTime.GetWordly("en-GB");
+        }
+
+        public static string GetWordlyDE(this DateTime dateTime)
+        {
+            return dateTime.GetWordly("de-DE");
         }
 
         public static string GetTime(this DateTime dt, bool withSeconds = true)
