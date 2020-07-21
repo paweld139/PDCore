@@ -157,7 +157,7 @@ namespace PDCore.Clients.Soap
         public TResponse SendRequest<TResponse>(Func<TClient, TResponse> operation, bool handleTimeoutException = true)
         {
             //Utworzenie obiektu odpowiedzi z domyślną wartością
-            TResponse response = default(TResponse);
+            TResponse response = default;
 
             //Utworzenie klienta usługi. Żeby szybciej sie pisało i kod był czystszy, wykorzystano "var". Poza tym i tak nie wiemy jakiego typu jest klient usługi
             var client = GetClient();
@@ -165,7 +165,7 @@ namespace PDCore.Clients.Soap
             /*
              * W tym fragmencie kodu może zdarzyć się wyjątkowa, nieprzewidziana sytuacja. Użycie bloku "try" nie jest zbyt wydajne, ale 
              * lepsze to niż oglądanie przez klienta errorów lub co gorszaie oglądanie ich i frustracja.
-             */ 
+             */
             try
             {
                 //Wywołanie operacji z pomocą klienta i możliwe otrzymanie obiektu będącego odpowiedzią.
@@ -253,7 +253,7 @@ namespace PDCore.Clients.Soap
             ConsoleKeyInfo key = Console.ReadKey();
 
             //Jeżeli użytkownik wcisnął na klawiaturze klawisz "T", czyli odpowiedź "tak"
-            if(key.Key == ConsoleKey.T)
+            if (key.Key == ConsoleKey.T)
             {
                 //Odpowiedź twierdząca
                 return true;

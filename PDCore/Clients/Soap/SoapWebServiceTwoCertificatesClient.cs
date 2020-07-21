@@ -69,10 +69,12 @@ namespace PDCore.Clients.Soap
         protected override void PrepareClient(TClient client)
         {
             //Jest tworzony obiekt listy uwierzytelniającej klienta z osobnym certyfikatem TLS na podstawie istniejącej listy uwierzytelniającej klienta
-            TwoCertificatesClientCredentials myCredentials = new TwoCertificatesClientCredentials(client.ClientCredentials);
+            TwoCertificatesClientCredentials myCredentials = new TwoCertificatesClientCredentials(client.ClientCredentials)
+            {
 
-            //Przypisanie certyfikatu TLS do listy uwierzytelniającej klienta
-            myCredentials.TransportCertificate = transportCertificate;
+                //Przypisanie certyfikatu TLS do listy uwierzytelniającej klienta
+                TransportCertificate = transportCertificate
+            };
 
             myCredentials.ClientCertificate.Certificate = signCertificate; //Przypisanie certyfikatu WSS do listy uwierzytelniającej klienta
 
@@ -147,12 +149,14 @@ namespace PDCore.Clients.Soap
 
 
             //Utworznie elementu wiązania zawierającego informcje o transporcie wiadomości poprzez protokuł HTTPS (Hypertext Transfer Protocol Secure)
-            var https = new HttpsTransportBindingElement();
-            
-            //Wymagane jest uwierzytelnianie SSL klienta z wykorzystaniem certyfikatu
-            https.RequireClientCertificate = true;
+            var https = new HttpsTransportBindingElement
+            {
 
-            https.MaxReceivedMessageSize = 1000000; //Maksymalna wielkość otrzymywanej wiadomości w bajtach wynosi 1000000, czyli ok. 1MB
+                //Wymagane jest uwierzytelnianie SSL klienta z wykorzystaniem certyfikatu
+                RequireClientCertificate = true,
+
+                MaxReceivedMessageSize = 1000000 //Maksymalna wielkość otrzymywanej wiadomości w bajtach wynosi 1000000, czyli ok. 1MB
+            };
 
             //Dodawanie utworzonego elementu wiązania do utworzonego niestandardowego wiązania
             binding.Elements.Add(https);

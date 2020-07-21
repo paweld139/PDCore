@@ -64,9 +64,7 @@ namespace PDCoreNew.Services.Serv
                         await sendMailTask;
 
 
-                        AsyncCompletedEventArgs args = new AsyncCompletedEventArgs(sendMailTask?.Exception, sendMailTask?.IsCanceled ?? false, message);
-
-                        SendCompletedCallback(this, args);
+                        OnSendCompleted(sendMailTask, message);
                     }
                     catch (Exception ex)
                     {
@@ -74,6 +72,13 @@ namespace PDCoreNew.Services.Serv
                     }
                 }
             }
+        }
+
+        private void OnSendCompleted(Task sendMailTask, MailMessage mailMessage)
+        {
+            AsyncCompletedEventArgs args = new AsyncCompletedEventArgs(sendMailTask?.Exception, sendMailTask?.IsCanceled ?? false, mailMessage);
+
+            SendCompletedCallback(this, args);
         }
     }
 }
