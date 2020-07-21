@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Customer.cs" />
     <Compile Include="CustomerMap.cs" />
+    <Compile Include="Employee.cs" />
     <Compile Include="Factory\Actions.cs" />
     <Compile Include="Factory\AirConditioner.cs" />
     <Compile Include="Factory\Factories\AirConditionerFactory.cs" />
@@ -62,6 +63,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Program.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PDCoreNew\PDCoreNew.csproj">

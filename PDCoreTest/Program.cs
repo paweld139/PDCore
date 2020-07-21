@@ -31,6 +31,14 @@ namespace PDCoreTest
             _ = args;
 
 
+            TestConfigEncryption();
+
+            WriteSeparator();
+
+            TestIronRuby();
+
+            WriteSeparator();
+
             await TestMail();
 
             WriteSeparator();
@@ -127,6 +135,28 @@ namespace PDCoreTest
 
 
             Console.ReadKey();
+        }
+
+        private static void TestConfigEncryption()
+        {
+            IOUtils.ToggleConfigEncryption();
+            IOUtils.ToggleConfigEncryption("system.net/mailSettings/smtp");
+        }
+
+        private static void TestIronRuby()
+        {
+            var variables = new Dictionary<string, object>
+            {
+                ["employee"] = new Employee { FirstName = "Pawl C#" }
+            };
+
+            dynamic ruby = ObjectUtils.GetIronRubyRunitimeGlobals(variables, "Program.rb");
+
+            dynamic person = ruby.Person.@new();
+
+            person.firstName = "Pawl Ruby";
+
+            person.speak();
         }
 
         private static Task TestMail()

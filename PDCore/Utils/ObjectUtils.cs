@@ -1,4 +1,6 @@
-﻿using PDCore.Attributes;
+﻿using IronRuby;
+using Microsoft.Scripting.Hosting;
+using PDCore.Attributes;
 using PDCore.Extensions;
 using PDCore.Interfaces;
 using System;
@@ -496,6 +498,20 @@ namespace PDCore.Utils
 
                 sheet.Cells[i + 1, "B"] = e.Value;
             });
+        }
+
+        public static dynamic GetIronRubyRunitimeGlobals(IDictionary<string, object> variables, string fileToExecute)
+        {
+            var engine = Ruby.CreateEngine();
+
+            var scope = engine.CreateScope();
+
+            variables?.ForEach(v => scope.SetVariable(v.Key, v.Value));
+
+            if (!string.IsNullOrEmpty(fileToExecute))
+                engine.ExecuteFile(fileToExecute, scope);
+
+            return engine.Runtime.Globals;
         }
     }
 }

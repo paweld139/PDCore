@@ -149,7 +149,7 @@ namespace PDCore.Utils
 
             // Open the configuration file and retrieve
             // the connectionStrings section.
-            Configuration config = ConfigurationManager.OpenExeConfiguration(AppDomain.CurrentDomain.BaseDirectory);
+            Configuration config = ConfigurationManager.OpenExeConfiguration(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile);
 
             ConfigurationSection section = config.GetSection(sectionName);
 
