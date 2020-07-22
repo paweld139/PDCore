@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Configuration;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
@@ -454,5 +455,10 @@ namespace PDCore.Extensions
         }
 
         public static string GetUserName(this SmtpClient smtpClient) => (smtpClient.Credentials as NetworkCredential)?.UserName;
+
+        public static ConsoleColor ToConsoleColor(this Color color)
+        {
+            return color.Name.ParseEnum<ConsoleColor>();
+        }
     }
 }

@@ -53,6 +53,7 @@
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\ContextExtensions.cs" />
     <Compile Include="Factories\Fac\Factory.cs" />
+    <Compile Include="Factories\Fac\DataLoaderFactory.cs" />
     <Compile Include="Helpers\AsyncHelpers.cs" />
     <Compile Include="Helpers\Container.cs" />
     <Compile Include="Helpers\ExceptionHandling\ActionWrapper.cs" />

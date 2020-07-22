@@ -93,6 +93,7 @@
     <Compile Include="Clients\Soap\SoapWebServiceTwoCertificatesClient.cs" />
     <Compile Include="Enums\CertificateType.cs" />
     <Compile Include="Enums\HorizontalTextAlignment.cs" />
+    <Compile Include="Enums\Loaders.cs" />
     <Compile Include="Enums\Loggers.cs" />
     <Compile Include="Enums\LogType.cs" />
     <Compile Include="Extensions\CompresExtension.cs" />
@@ -111,6 +112,14 @@
     <Compile Include="Factories\IFac\ILogMessageFactory.cs" />
     <Compile Include="Helpers\Calculation\ObjectStatistics.cs" />
     <Compile Include="Helpers\Calculation\PreciseDateTime.cs" />
+    <Compile Include="Helpers\Calculation\StockQuoteAnalysis\Interfaces\IStockQuoteParser.cs" />
+    <Compile Include="Helpers\Calculation\StockQuoteAnalysis\Models\Reversal.cs" />
+    <Compile Include="Helpers\Calculation\StockQuoteAnalysis\Enums\ReversalDirection.cs" />
+    <Compile Include="Helpers\Calculation\StockQuoteAnalysis\ReversalLocator.cs" />
+    <Compile Include="Helpers\Calculation\StockQuoteAnalysis\Models\StockQuote.cs" />
+    <Compile Include="Helpers\Calculation\StockQuoteAnalysis\StockQuoteAnalyzer.cs" />
+    <Compile Include="Helpers\Calculation\StockQuoteAnalysis\StockQuoteCsvParser.cs" />
+    <Compile Include="Helpers\Calculation\StockQuoteAnalysis\StockQuoteUtils.cs" />
     <Compile Include="Helpers\Comparers\FileInfoLengthComparer.cs" />
     <Compile Include="Helpers\Comparers\NamedObjectComparer.cs" />
     <Compile Include="Helpers\DataStructures\Book\Book.cs" />
@@ -118,8 +127,11 @@
     <Compile Include="Helpers\DataStructures\Book\IBook.cs" />
     <Compile Include="Helpers\DataStructures\Book\InMemoryBook.cs" />
     <Compile Include="Helpers\DataStructures\CategoryCollection.cs" />
+    <Compile Include="Helpers\DataLoaders\FileLoader.cs" />
+    <Compile Include="Helpers\DataLoaders\WebLoader.cs" />
     <Compile Include="Helpers\PropertyCache.cs" />
     <Compile Include="Interfaces\IDataLoader.cs" />
+    <Compile Include="Interfaces\IParser.cs" />
     <Compile Include="Models\MailMessageModel.cs" />
     <Compile Include="Models\SmtpSettingsModel.cs" />
     <Compile Include="Services\IServ\IMailService.cs" />
