@@ -89,6 +89,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builders\Account\Account.cs" />
+    <Compile Include="Builders\Account\AccountBuilder.cs" />
+    <Compile Include="Builders\Account\Address.cs" />
+    <Compile Include="Builders\Account\Customer.cs" />
+    <Compile Include="Builders\Account\IAccountBuilder.cs" />
+    <Compile Include="Builders\Builder.cs" />
+    <Compile Include="Builders\IBuilder.cs" />
     <Compile Include="Clients\Soap\SoapWebServiceClient.cs" />
     <Compile Include="Clients\Soap\SoapWebServiceTwoCertificatesClient.cs" />
     <Compile Include="Enums\CertificateType.cs" />

@@ -72,6 +72,7 @@
     <Reference Include="System.Threading.Thread" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountBuilderTests.cs" />
     <Compile Include="Additional\GenericCollections\DictionaryTests.cs" />
     <Compile Include="Additional\GenericCollections\HashSetTests.cs" />
     <Compile Include="Additional\GenericCollections\LinkedListTests.cs" />
