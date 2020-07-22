@@ -1,0 +1,76 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Text;
+
+namespace PDCore.Extensions
+{
+    public static class DelegateExtension
+    {
+        public static TResult WithRetry<TResult, TException>(this Func<TResult> func) where TException : Exception
+        {
+            var result = default(TResult);
+
+            int retryCount = 0;
+
+            bool succesful = false;
+
+            do
+            {
+                try
+                {
+                    result = func();
+
+                    succesful = true;
+                }
+                catch (TException)
+                {
+                    retryCount++;
+                }
+            } while (retryCount < 3 && !succesful);
+
+            return result;
+        }
+
+        public static T WithRetryWeb<T>(this Func<T> func)
+        {
+            return func.WithRetry<T, WebException>();
+        }
+
+        public static Func<TResult> Partial<TParam1, TResult>(this Func<TParam1, TResult> func, TParam1 parameter)
+        {
+            return () => func(parameter);
+        }
+
+        public static Func<TResult> Partial<TParam1, TParam2, TResult>(this Func<TParam1, TParam2, TResult> func, TParam1 param1, TParam2 param2)
+        {
+            return () => func(param1, param2);
+        }
+
+        public static Action Partial<TResult>(this Func<TResult> func)
+        {
+            return () => func();
+        }
+
+        public static Action Partial<TParam1>(this Action<TParam1> action, TParam1 parameter)
+        {
+            return () => action(parameter);
+        }
+
+        public static Action Partial<TParam1, TParam2>(this Action<TParam1, TParam2> action, TParam1 param1, TParam2 param2)
+        {
+            return () => action(param1, param2);
+        }
+
+        public static Func<TParam1, Func<TResult>> Curry<TParam1, TResult>(this Func<TParam1, TResult> func)
+        {
+            return parameter => () => func(parameter);
+        }
+
+        public static Func<TParam1, TParam2, Func<TResult>> Curry<TParam1, TParam2, TResult>(this Func<TParam1, TParam2, TResult> func)
+        {
+            return (param1, param2) => () => func(param1, param2);
+        }
+    }
+}

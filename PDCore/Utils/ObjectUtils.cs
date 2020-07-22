@@ -1,41 +1,17 @@
-﻿using IronRuby;
-using Microsoft.Scripting.Hosting;
-using PDCore.Attributes;
-using PDCore.Extensions;
+﻿using PDCore.Extensions;
 using PDCore.Interfaces;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Windows.Forms;
 
 namespace PDCore.Utils
 {
     public static class ObjectUtils
     {
-        public static bool CheckIsOnePropertyTrue(object o)
-        {
-            return o.GetType().GetProperties().Where(p => p.PropertyType == typeof(bool)).Any(x => x.GetValue(o, null) as bool? == true);
-        }
-
-        public static object[] GetParamsOrderedByOrderAttribute(object o)
-        {
-            return (from property in o.GetType().GetProperties()
-                    where Attribute.IsDefined(property, typeof(OrderAttribute))
-                    orderby ((OrderAttribute)property
-                              .GetCustomAttributes(typeof(OrderAttribute), false)
-                              .Single()).Order
-                    select property.GetValue(o, null)).ToArray();
-        }
-
         public static string GetParam(object param)
         {
             if (param == null)
@@ -139,52 +115,6 @@ namespace PDCore.Utils
             objects.ForEach(x => x.Item2.ThrowIfNull(x.Item1));
         }
 
-        public static IEnumerable<object> GetEnumValues(Type enumType)
-        {
-            if (!enumType.IsEnum)
-                throw new ArgumentException("EnumType must be of Enum type", "enumType");
-
-            return Enum.GetValues(enumType).Cast<object>();
-        }
-
-        public static IEnumerable<TEnum> GetEnumValues<TEnum>() where TEnum : struct
-        {
-            return GetEnumValues(typeof(TEnum)).Cast<TEnum>();
-        }
-
-        public static IEnumerable<TResult> GetEnumValues<TEnum, TResult>() where TEnum : struct
-        {
-            return GetEnumValues<TEnum>().ConvertOrCastTo<TEnum, TResult>();
-        }
-
-        public static IEnumerable<int> GetEnumNumbers<TEnum>() where TEnum : struct
-        {
-            return GetEnumValues<TEnum, int>();
-        }
-
-        public static string GetNameOf<T, TT>(Expression<Func<T, TT>> accessor)
-        {
-            return GetNameOf(accessor.Body);
-        }
-
-        public static string GetNameOf<T>(Expression<Func<T>> accessor)
-        {
-            return GetNameOf(accessor.Body);
-        }
-
-        public static string GetNameOf(Expression expression)
-        {
-            if (expression.NodeType == ExpressionType.MemberAccess)
-            {
-                if (!(expression is MemberExpression memberExpression))
-                    return null;
-
-                return memberExpression.Member.Name;
-            }
-
-            return null;
-        }
-
         public static void SwapValues<T>(ref T object1, ref T object2) //Zmienne muszą być zainicjalizowane przed przekazaniem do metody. Można odczytać wartości.
         {
             T temp = object1;
@@ -195,107 +125,11 @@ namespace PDCore.Utils
             object2 = temp;
         }
 
-        public static DataTable CreateDataTable<T>(IEnumerable<T> entities)
-        {
-            var dt = new DataTable();
-
-            //creating columns
-            foreach (var prop in GetProperties<T>())
-            {
-                dt.Columns.Add(prop.Name, prop.PropertyType);
-            }
-
-            //creating rows
-            foreach (var entity in entities)
-            {
-                var values = GetObjectPropertyValues(entity).ToArray();
-
-                dt.Rows.Add(values);
-            }
-
-
-            return dt;
-        }
-
-        private static PropertyInfo[] GetProperties<T>()
-        {
-            return typeof(T).GetProperties();
-        }
-
-        public static IEnumerable<string> GetObjectPropertyNames<T>(PropertyInfo[] propertyInfos = null)
-        {
-            return (propertyInfos ?? GetProperties<T>()).GetPropertyNames();
-        }
-
-        public static IEnumerable<object> GetObjectPropertyValues<T>(T entity, PropertyInfo[] propertyInfos = null)
-        {
-            return (propertyInfos ?? GetProperties<T>()).GetPropertyValues(entity);
-        }
-
-        public static IEnumerable<string> GetObjectPropertyStringValues<T>(T entity, PropertyInfo[] propertyInfos = null)
-        {
-            return GetObjectPropertyValues(entity, propertyInfos).EmptyIfNull();
-        }
-
-        public static IEnumerable<KeyValuePair<string, object>> GetObjectPropertyKeyValuePairs<T>(T entity)
-        {
-            return GetProperties<T>().GetKVP(k => k.Name, v => v.GetPropertyValue(entity));
-        }
-
-        public static IEnumerable<KeyValuePair<string, string>> GetObjectPropertyKeyValuePairsString<T>(T entity)
-        {
-            return GetProperties<T>().GetKVP(k => k.Name, v => v.GetPropertyValueString(entity));
-        }
-
-        public static Dictionary<string, object> GetObjectPropertyDictionary<T>(T entity)
-        {
-            return GetObjectPropertyKeyValuePairs(entity).ToDictionary();
-        }
-
-        public static Dictionary<string, string> GetObjectPropertyDictionaryString<T>(T entity)
-        {
-            return GetObjectPropertyKeyValuePairsString(entity).ToDictionary();
-        }
-
-        public static SortedDictionary<string, object> GetObjectPropertySortedDictionary<T>(T entity)
-        {
-            return GetObjectPropertyKeyValuePairs(entity).ToSortedDictionary();
-        }
-
-        public static SortedDictionary<string, string> GetObjectPropertySortedDictionaryString<T>(T entity)
-        {
-            return GetObjectPropertyKeyValuePairsString(entity).ToSortedDictionary();
-        }
-
-        public static SortedList<string, object> GetObjectPropertySortedList<T>(T entity)
-        {
-            return GetObjectPropertyKeyValuePairs(entity).ToSortedList();
-        }
-
-        public static SortedList<string, string> GetObjectPropertySortedListString<T>(T entity)
-        {
-            return GetObjectPropertyKeyValuePairsString(entity).ToSortedList();
-        }
-
-        public static KeyValuePair<string[], object[]> GetObjectPropertyNamesAndValues<T>(T entity)
-        {
-            return GetObjectPropertyKeyValuePairs(entity).ToArrays();
-        }
-
-        public static KeyValuePair<string[], string[]> GetObjectPropertyNamesAndValuesString<T>(T entity)
-        {
-            return GetObjectPropertyKeyValuePairsString(entity).ToArrays();
-        }
-
         public static long Time(Action action, int iterations = 1)
         {
             Stopwatch stopwatch = new Stopwatch();
 
-            return stopwatch.Time(action, iterations);
-        }
-        public static string GetEnumName<TEnum>(object value) where TEnum : struct
-        {
-            return Enum.GetName(typeof(TEnum), value);
+            return stopwatch.TimeMillis(action, iterations);
         }
 
         public static IEnumerable<double> Random()
@@ -308,7 +142,7 @@ namespace PDCore.Utils
             }
         }
 
-        private static IEnumerable<int> GetRandomNumbers(int maxValue)
+        public static IEnumerable<int> GetRandomNumbers(int maxValue)
         {
             Random rand = new Random();
 
@@ -316,39 +150,6 @@ namespace PDCore.Utils
             {
                 yield return rand.Next(maxValue);
             }
-        }
-
-        public static IEnumerable<char> GetOrderedCharacters(IEnumerable<char> source)
-        {
-            return source.OrderBy(c => c);
-        }
-
-        public static IEnumerable<char> GetCharacters(IEnumerable<string> source)
-        {
-            return source.SelectMany(s => s);
-        }
-
-        public static IEnumerable<char> GetOrderedCharacters(IEnumerable<string> source)
-        {
-            var characters = GetCharacters(source);
-
-            return GetOrderedCharacters(characters);
-        }
-
-        public static IEnumerable<string> GetWithOrderedCharacters(IEnumerable<string> source)
-        {
-            //return source.Select(s => string.Concat(s.OrderBy(c => c)));
-            //return source.Select(s => string.Concat(GetOrderedCharacters(s)));
-            //return source.Map(s => s.Order());
-            //return from text in source
-            //       select string.Concat
-            //       (
-            //           from character in text
-            //           orderby character
-            //           select character
-            //       );
-
-            return source.Select(s => s.Order());
         }
 
         public static void SetLogging(bool input, ILogger logger, bool isLoggingEnabled, Action enableLogging, Action disableLogging)
@@ -362,82 +163,6 @@ namespace PDCore.Utils
                 enableLogging();
             else
                 disableLogging();
-        }
-
-        public static string GetCallerMethodName(int index = 2)
-        {
-            // Get call stack
-            StackTrace stackTrace = new StackTrace();
-
-            // Get calling method name
-            return stackTrace.GetFrame(index).GetMethod().Name;
-
-            //(new System.Diagnostics.StackTrace()).GetFrame(1).GetMethod().Name //one-liner
-        }
-
-        public static string GetSummary<TInput>(TInput input, int numberPrecision = 0)
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-
-            var propertyNamesAndValues = GetObjectPropertyKeyValuePairsString(input);
-
-            if (numberPrecision > 0)
-                propertyNamesAndValues = propertyNamesAndValues.GetKVP(i => i.Key, i => i.Value.ToNumberString(numberPrecision));
-
-            var propertyNamesAndValuesList = propertyNamesAndValues.OrderBy(i => i.Key).ToList();
-
-            var columnWidths = StringUtils.GetColumnsWidths(propertyNamesAndValuesList);
-
-
-            foreach (var item in propertyNamesAndValuesList)
-            {
-                stringBuilder.AppendLine(
-                        StringUtils.ResultFormat,
-                        item.Key.PadRight(columnWidths.Key),
-                        " ",
-                        item.Value.PadRight(columnWidths.Value));
-            }
-
-            return stringBuilder.ToString();
-        }
-
-        public static string GetSummary2<TInput>(TInput input, int numberPrecision = 0)
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-
-
-            var properties = GetProperties<TInput>();
-
-
-            var propertyNamesArray = GetObjectPropertyNames<TInput>(properties).ToArray();
-
-            var propertyValues = GetObjectPropertyStringValues(input, properties);
-
-            if (numberPrecision > 0)
-                propertyValues = propertyValues.Select(v => v.ToNumberString(numberPrecision));
-
-
-            var propertyValuesArray = propertyValues.ToArray();
-
-
-            Array.Sort(propertyNamesArray, propertyValuesArray);
-
-
-            int padName = propertyNamesArray.GetMaxLength();
-
-            int padValue = propertyValuesArray.GetMaxLength();
-
-
-            propertyNamesArray.ForEach((p, i) =>
-            {
-                stringBuilder.AppendLine(
-                        StringUtils.ResultFormat,
-                        propertyNamesArray[i].PadRight(padName),
-                        " ",
-                        propertyValuesArray[i].PadLeft(padValue));
-            });
-
-            return stringBuilder.ToString();
         }
 
         public static IEnumerable<KeyValuePair<TKey, TValue>> GetKVPs<TKey, TValue>(IEnumerable<TKey> keys, IEnumerable<TValue> values)
@@ -454,81 +179,11 @@ namespace PDCore.Utils
             return changed;
         }
 
-        public static void InvokeMethod(object obj, string methodName, params object[] parameters)
-        {
-            obj.GetType().GetMethod(methodName).Invoke(obj, parameters);
-        }
-        public static dynamic GetDynamic(string assemblyString, string typeName)
-        {
-            Type type = Assembly.Load(assemblyString).GetType(typeName);
-
-            return Activator.CreateInstance(type);
-        }
-
-        public static dynamic GetDynamic(string progID)
-        {
-            Type type = Type.GetTypeFromProgID(progID);
-
-            return Activator.CreateInstance(type);
-        }
-
-        public static dynamic GetExcel()
-        {
-            return GetDynamic("Excel.Application");
-        }
-
-        public static dynamic OpenExcel()
-        {
-            dynamic excel = GetExcel();
-
-            excel.Visible = true;
-
-            excel.Workbooks.Add();
-
-            return excel;
-        }
-
-        public static dynamic OpenExcelAndGetActiveSheet()
-        {
-            dynamic excel = OpenExcel();
-
-            return excel.ActiveSheet;
-        }
-
-        public static void OpenExcelWithProcessesAndThreads()
-        {
-            dynamic sheet = OpenExcelAndGetActiveSheet();
-
-            var processesWithThreads = IOUtils.GetProcessesWithThreads();
-
-
-            processesWithThreads.ForEach((e, i) =>
-            {
-                sheet.Cells[i + 1, "A"] = e.Key;
-
-                sheet.Cells[i + 1, "B"] = e.Value;
-            });
-        }
-
-        public static dynamic GetIronRubyRunitimeGlobals(IDictionary<string, object> variables, string fileToExecute)
-        {
-            var engine = Ruby.CreateEngine();
-
-            var scope = engine.CreateScope();
-
-            variables?.ForEach(v => scope.SetVariable(v.Key, v.Value));
-
-            if (!string.IsNullOrEmpty(fileToExecute))
-                engine.ExecuteFile(fileToExecute, scope);
-
-            return engine.Runtime.Globals;
-        }
-
         public static IList<int> FindLargePrimes(int start, int end)
         {
             var primes = Enumerable.Range(start, end - start).ToList();
 
-            return primes.Where(ObjectExtension.IsPrime).ToList();
+            return primes.Where(NumberExtension.IsPrime).ToList();
         }
 
         public static IList<int> FindLargePrimesInParallel(int start, int end)

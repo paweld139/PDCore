@@ -174,7 +174,7 @@ namespace PDCoreTest
                 ["employee"] = new Employee { FirstName = "Pawl C#" }
             };
 
-            dynamic ruby = ObjectUtils.GetIronRubyRunitimeGlobals(variables, "Program.rb");
+            dynamic ruby = ReflectionUtils.GetIronRubyRunitimeGlobals(variables, "Program.rb");
 
             dynamic person = ruby.Person.@new();
 
@@ -198,7 +198,7 @@ namespace PDCoreTest
 
         private static void TestExcel()
         {
-            ObjectUtils.OpenExcelWithProcessesAndThreads();
+            ReflectionUtils.OpenExcelWithProcessesAndThreads();
         }
 
         private static void TestDateTime()
@@ -231,11 +231,11 @@ namespace PDCoreTest
 
             int iterations = 10000;
 
-            long time2 = stopWatch.Time(() => ObjectUtils.GetSummary2(resultInt, 2), iterations);
-            long time = stopWatch.Time(() => ObjectUtils.GetSummary(resultInt, 2), iterations);
-            long time3 = stopWatch.Time(() => ObjectUtils.GetSummary(new WebClient()), iterations);
+            long time2 = stopWatch.TimeMillis(() => ReflectionUtils.GetSummary2(resultInt, 2), iterations);
+            long time = stopWatch.TimeMillis(() => ReflectionUtils.GetSummary(resultInt, 2), iterations);
+            long time3 = stopWatch.TimeMillis(() => ReflectionUtils.GetSummary(new WebClient()), iterations);
 
-            var webClientSummary = ObjectUtils.GetSummary(new WebClient());
+            var webClientSummary = ReflectionUtils.GetSummary(new WebClient());
 
             ConsoleUtils.WriteResult("GetSummary", time);
             ConsoleUtils.WriteResult("GetSummary2", time2);
@@ -329,12 +329,12 @@ namespace PDCoreTest
 
         private static void TestGetEnumValues()
         {
-            var enumValues = ObjectUtils.GetEnumValues(typeof(CertificateType));
+            var enumValues = EnumUtils.GetEnumValues(typeof(CertificateType));
 
             var result = enumValues.ConvertOrCastTo<object, string>();
 
 
-            string enumName = ObjectUtils.GetEnumName<CertificateType>(2);
+            string enumName = EnumUtils.GetEnumName<CertificateType>(2);
 
             result = result.Append(enumName);
 
@@ -347,7 +347,7 @@ namespace PDCoreTest
 
 
 
-            var enumValues2 = ObjectUtils.GetEnumValues<CertificateType, decimal>();
+            var enumValues2 = EnumUtils.GetEnumValues<CertificateType, decimal>();
 
             ConsoleUtils.WriteLines(enumValues2);
 
@@ -359,7 +359,7 @@ namespace PDCoreTest
             ConsoleUtils.WriteLine(enumNumber);
 
 
-            var enumNumbers = ObjectUtils.GetEnumNumbers<HorizontalTextAlignment>();
+            var enumNumbers = EnumUtils.GetEnumNumbers<HorizontalTextAlignment>();
 
             ConsoleUtils.WriteLines(enumNumbers);
         }
@@ -417,14 +417,14 @@ namespace PDCoreTest
         {
             Stopwatch stopwatch = new Stopwatch();
 
-            long time1 = stopwatch.Time(() =>
+            long time1 = stopwatch.TimeMillis(() =>
             {
                 CategoryCollection categoryCollection = new CategoryCollection();
 
                 Enumerable.Range(0, 1000000).ForEach(x => categoryCollection.Add("Kategoria", new NamedObject("Nazwa")));
             });
 
-            long time2 = stopwatch.Time(() =>
+            long time2 = stopwatch.TimeMillis(() =>
             {
                 CategoryCollection categoryCollection = new CategoryCollection();
 
@@ -498,7 +498,7 @@ namespace PDCoreTest
 
             Stopwatch stopwatch = new Stopwatch();
 
-            long time = stopwatch.Time(() =>
+            long time = stopwatch.TimeMillis(() =>
             {
                 CSVUtils.ParseCSVLines(filePath, delimiter: "\t").ToList();
                 CSVUtils.ParseCSVLines(filePath, delimiter: "\t").ToList();

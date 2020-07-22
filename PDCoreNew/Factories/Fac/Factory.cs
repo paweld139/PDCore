@@ -32,7 +32,7 @@ namespace PDCoreNew.Factories.Fac
 
             TElement elementTemp;
 
-            foreach (TEnum type in ObjectUtils.GetEnumValues<TEnum>())
+            foreach (TEnum type in EnumUtils.GetEnumValues<TEnum>())
             {
                 elementTemp = (TElement)container.Resolve(Type.GetType($"{ElementsNamespace}.{type}{ElementsPostfix}"));
 

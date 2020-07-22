@@ -75,84 +75,6 @@ namespace PDCore.Extensions
             source.SwapValues(0, 1);
         }
 
-        public static TypeCode GetTypeCode(this object obj)
-        {
-            return obj.GetType().GetTypeCode();
-        }
-
-        public static TypeCode GetTypeCode(this Type type)
-        {
-            return Type.GetTypeCode(type);
-        }
-
-        public static bool IsEnum<TEnum>(this object obj)
-        {
-            Type enumType = typeof(TEnum);
-
-            TypeCode enumTypeCode = enumType.GetTypeCode(); //Typ numeru enuma
-
-            if (enumTypeCode != obj.GetTypeCode())
-                obj = obj.ConvertObject(enumTypeCode);
-
-            return Enum.IsDefined(enumType, obj);
-        }
-
-        public static bool IsNumericDatatype(this object obj)
-        {
-            switch (obj.GetTypeCode())
-            {
-                case TypeCode.Byte:
-                case TypeCode.SByte:
-                case TypeCode.UInt16:
-                case TypeCode.UInt32:
-                case TypeCode.UInt64:
-                case TypeCode.Int16:
-                case TypeCode.Int32:
-                case TypeCode.Int64:
-                case TypeCode.Decimal:
-                case TypeCode.Double:
-                case TypeCode.Single:
-                    return true;
-                default:
-                    return false;
-            }
-        }
-
-        public static int Power(this int x)
-        {
-            return x * x;
-        }
-
-        public static int Power(this int x, uint pow)
-        {
-            int ret = 1;
-
-            while (pow != 0)
-            {
-                if ((pow & 1) == 1)
-                    ret *= x;
-
-                x *= x;
-                pow >>= 1;
-            }
-
-            return ret;
-        }
-
-        public static string GetNameOf<T, TT>(this T obj, Expression<Func<T, TT>> propertyAccessor)
-        {
-            _ = obj;
-
-            return ObjectUtils.GetNameOf(propertyAccessor.Body);
-        }
-
-        public static string GetName<T>(this T obj, Expression<Func<T>> accessor)
-        {
-            _ = obj;
-
-            return ObjectUtils.GetNameOf(accessor.Body);
-        }
-
         public static T[] GetRow<T>(this T[,] array, int row)
         {
             if (!typeof(T).IsPrimitive)
@@ -201,7 +123,7 @@ namespace PDCore.Extensions
             return sw.Time(f => func(), true, iterations);
         }
 
-        public static long Time(this Stopwatch sw, Action action, int iterations = 1)
+        public static long TimeMillis(this Stopwatch sw, Action action, int iterations = 1)
         {
             var elapsed = sw.Time(p => { action(); return true; }, true, iterations);
 
@@ -211,11 +133,6 @@ namespace PDCore.Extensions
         public static IDisposableWrapper<DisposableStopwatch> WrapStopwatch(this DisposableStopwatch disposableStopwatch)
         {
             return new StopWatchDisposableWrapper(disposableStopwatch);
-        }
-
-        public static Type GetType(this TypeCode code)
-        {
-            return Type.GetType("System." + ObjectUtils.GetEnumName<TypeCode>(code));
         }
 
         public static TOutput ConvertOrCastTo<TInput, TOutput>(this TInput input, Converter<TInput, TOutput> converter = null)
@@ -245,57 +162,6 @@ namespace PDCore.Extensions
             }
 
             return false;
-        }
-
-        public static double SampledAverageDouble(this double[] numbers)
-        {
-            var count = 0;
-            var sum = 0.0;
-
-            for (int i = 0; i < numbers.Length; i += 2)
-            {
-                sum += numbers[i];
-                count++;
-            }
-
-            return sum / count;
-        }
-
-        public static T SampledAverage<T>(this T[] numbers) where T : struct, IComparable
-        {
-            int count = 0;
-            dynamic sum = default(T);
-
-            try
-            {
-                for (int i = 0; i < numbers.Length; i += 2)
-                {
-                    sum += numbers[i];
-                    count++;
-                }
-
-                return sum / count;
-            }
-            catch (RuntimeBinderException)
-            {
-                return sum;
-            }
-        }
-
-        public static T Multiply<T>(this T multiplicand, int multiplier) where T : struct, IComparable // Mnożna i mnożnik
-        {
-            T val = default;
-
-            try
-            {
-                val = (dynamic)multiplicand * multiplier;
-            }
-            catch (RuntimeBinderException)
-            {
-
-            }
-
-            return val;
         }
 
         /// <summary>
@@ -332,20 +198,6 @@ namespace PDCore.Extensions
             return enumerationValue.ToString();
         }
 
-        public static T ToEnumValue<T>(this string enumerationDescription) where T : struct
-        {
-            var type = typeof(T);
-
-            if (!type.IsEnum)
-                throw new ArgumentException("ToEnumValue<T>(): Must be of enum type", "T");
-
-            foreach (T val in ObjectUtils.GetEnumValues<T>())
-                if (val.GetDescription() == enumerationDescription)
-                    return val;
-
-            throw new ArgumentException("ToEnumValue<T>(): Invalid description for enum " + type.Name, "enumerationDescription");
-        }
-
         public static T CastObject<T>(this object input)
         {
             return (T)input;
@@ -366,27 +218,12 @@ namespace PDCore.Extensions
             return Convert.ChangeType(input, outputTypeCode);
         }
 
-        public static string GetTypeName(this Type type)
-        {
-            StringBuilder typeName = new StringBuilder(type.Name);
-
-            if (type.IsGenericType)
-                type.GetGenericArguments().ForEach(a => typeName.AppendFormat("[{0}]", a.Name));
-
-            return typeName.ToString();
-        }
-
         public static string EmptyIfNull<T>(this T value)
         {
             if (value == null)
                 return string.Empty;
 
             return value.ToString();
-        }
-
-        public static IEnumerable<string> EmptyIfNull(this IEnumerable<object> values)
-        {
-            return values.Select(v => v.EmptyIfNull());
         }
 
         public static Tuple<T1, object> GetTuple<T1>(this object item2, T1 item1)
@@ -402,43 +239,6 @@ namespace PDCore.Extensions
         public static string ToNumberString<T>(this T value, int precision)
         {
             return value.ToString().ToNumberString(precision);
-        }
-
-        public static string ToNumberString(this string value, int precision)
-        {
-            if (!double.TryParse(value, out double numberValue))
-                return value;
-
-            string format = string.Format("{{0:N{0}}}", precision);
-
-            string valuestring = string.Format(format, numberValue);
-
-            return valuestring;
-        }
-
-        public static IEnumerable<string> GetPropertyNames(this PropertyInfo[] propertyInfos)
-        {
-            return propertyInfos.Select(p => p.Name);
-        }
-
-        public static object GetPropertyValue<T>(this PropertyInfo propertyInfo, T entity)
-        {
-            return propertyInfo.GetValue(entity, null);
-        }
-
-        public static string GetPropertyValueString<T>(this PropertyInfo propertyInfo, T entity)
-        {
-            return propertyInfo.GetPropertyValue(entity).EmptyIfNull();
-        }
-
-        public static IEnumerable<object> GetPropertyValues<T>(this PropertyInfo[] propertyInfos, T entity)
-        {
-            return propertyInfos.Select(p => p.GetPropertyValue(entity));
-        }
-
-        public static IEnumerable<string> GetPropertyValuesString<T>(this PropertyInfo[] propertyInfos, T entity)
-        {
-            return propertyInfos.GetPropertyValues(entity).EmptyIfNull();
         }
 
         public static bool ValueIn<TInput>(this TInput input, params TInput[] values) where TInput : struct, IEquatable<TInput>
@@ -459,72 +259,6 @@ namespace PDCore.Extensions
         public static ConsoleColor ToConsoleColor(this Color color)
         {
             return color.Name.ParseEnum<ConsoleColor>();
-        }
-
-        /// <summary>
-        /// Sprawdzenie czy dana liczba jest liczbą pierwszą
-        /// </summary>
-        /// <param name="number">Liczba do sprawdzenia</param>
-        /// <returns>Informacja czy dana liczba jest liczbą pierwszą</returns>
-        public static bool IsPrime(this int number)
-        {
-            //Liczba pierwsza dzieli się jedynie przez jeden i samą siebie. Jeśli dzieli się jeszcze przez coś, to nie jest liczbą pierwszą.
-
-            bool result = true; //Początkowo zakłada się, że dana liczba jest liczbą pierwszą
-
-            for (long i = 2; i < number; i++) //Dla każdej liczby mniejszej od zadanej liczby i większej od dwa
-            {
-                if (number % i == 0) //Sprawdzenie czy zadana liczba jest podzielna przez aktualną liczbę z pętli
-                {
-                    result = false; //Jeśli tak, to zadana liczba nie jest liczbą pierwsza. Rezultat to nieprawda, następuje przewanie pętli.
-
-                    break;
-                }
-            }
-            //Każda liczba oprócza zera jest podzielna przez 1 i przez samą siebie. W przypadku 0, 1, 2 pętla nawet się nie zacznie.
-            //Jeśli pętla zakończy się w całości, to oznacza że liczba jest liczbą pierwszą
-
-            return result; //Zwrócenie rezultatu
-        }
-
-        public static TResult WithRetry<TResult, TException>(this Func<TResult> func) where TException : Exception
-        {
-            var result = default(TResult);
-
-            int retryCount = 0;
-
-            bool succesful = false;
-
-            do
-            {
-                try
-                {
-                    result = func();
-
-                    succesful = true;
-                }
-                catch (TException)
-                {
-                    retryCount++;
-                }
-            } while (retryCount < 3 && !succesful);
-
-            return result;
-        }
-
-        public static T WithRetryWeb<T>(this Func<T> func)
-        {
-            return func.WithRetry<T, WebException>();
-        }
-
-        public static Func<TResult> Partial<TParam1, TResult>(this Func<TParam1, TResult> func, TParam1 parameter)
-        {
-            return () => func(parameter);
-        }
-
-        public static Func<TParam1, Func<TResult>> Curry<TParam1, TResult>(this Func<TParam1, TResult> func)
-        {
-            return parameter => () => func(parameter);
         }
     }
 }

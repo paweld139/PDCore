@@ -19,7 +19,7 @@ namespace PDCoreTest.Factory
 
             string factoriesNamespace = typeof(AirConditionerFactory).Namespace;
 
-            foreach (Actions action in ObjectUtils.GetEnumValues<Actions>())
+            foreach (Actions action in EnumUtils.GetEnumValues<Actions>())
             {
                 var factory = (AirConditionerFactory)Activator.CreateInstance(Type.GetType($"{factoriesNamespace}.{action}Factory"));
 

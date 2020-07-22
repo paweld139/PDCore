@@ -17,7 +17,7 @@ namespace PDCore.Helpers.Calculation
         {
             if (digit > 9)
             {
-                throw new ArgumentOutOfRangeException(ObjectUtils.GetNameOf(() => digit), "Digit cannot be greater than nine.");
+                throw new ArgumentOutOfRangeException(ReflectionUtils.GetNameOf(() => digit), "Digit cannot be greater than nine.");
             }
 
             this.digit = digit;

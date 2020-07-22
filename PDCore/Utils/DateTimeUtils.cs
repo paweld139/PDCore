@@ -26,7 +26,7 @@ namespace PDCore.Utils
 
         public static string GetDayOfWeekName(DateTime dt)
         {
-            return ObjectUtils.GetEnumName<DniTygodnia>(dt.DayOfWeek);
+            return EnumUtils.GetEnumName<DniTygodnia>(dt.DayOfWeek);
         }
 
         public static bool IsEvenWeek(DateTime dt)

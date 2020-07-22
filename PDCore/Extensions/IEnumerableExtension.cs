@@ -313,5 +313,10 @@ namespace PDCore.Extensions
                 }
             }
         }
+
+        public static IEnumerable<string> EmptyIfNull(this IEnumerable<object> values)
+        {
+            return values.Select(v => v.EmptyIfNull());
+        }
     }
 }

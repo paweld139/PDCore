@@ -111,7 +111,7 @@ namespace PDCore.Extensions
 
         public static string Order(this string text)
         {
-            var orderedCharacters = ObjectUtils.GetOrderedCharacters(text);
+            var orderedCharacters = StringUtils.GetOrderedCharacters(text);
 
             return string.Concat(orderedCharacters);
         }
@@ -138,5 +138,40 @@ namespace PDCore.Extensions
         }
 
         public static bool IsUrl(this string urlOrFilename) => urlOrFilename.ToLower().StartsWith("http");
+
+        public static string ToNumberString(this string value, int precision)
+        {
+            if (!double.TryParse(value, out double numberValue))
+                return value;
+
+            string format = string.Format("{{0:N{0}}}", precision);
+
+            string valuestring = string.Format(format, numberValue);
+
+            return valuestring;
+        }
+
+        public static T ToEnumValue<T>(this string enumerationDescription) where T : struct
+        {
+            var type = typeof(T);
+
+            if (!type.IsEnum)
+                throw new ArgumentException("ToEnumValue<T>(): Must be of enum type", "T");
+
+            foreach (T val in EnumUtils.GetEnumValues<T>())
+                if (val.GetDescription() == enumerationDescription)
+                    return val;
+
+            throw new ArgumentException("ToEnumValue<T>(): Invalid description for enum " + type.Name, "enumerationDescription");
+        }
+
+        public static bool IsPalindrome(this string input)
+        {
+            var forwards = input.Replace(" ", "");
+
+            var backwards = new string(forwards.Reverse().ToArray());
+
+            return backwards.Equals(forwards);
+        }
     }
 }

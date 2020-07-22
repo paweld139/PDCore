@@ -38,6 +38,20 @@ namespace PDCore.Tests
             Assert.AreEqual(expected, actual);
         }
 
+        [TestMethod]
+        public void CanCheckStringIsPalindrome()
+        {
+            var inputs = new[] { "baobab", "rotator", "tofu", "oko" };
+
+
+            var actual = inputs.ConvertArray(s => s.IsPalindrome());
+
+            var expected = new[] { false, true, false, true };
+
+
+            Assert.IsTrue(expected.SequenceEqual(actual));
+        }
+
         #endregion
 
 
@@ -111,7 +125,7 @@ namespace PDCore.Tests
         {
             IEnumerable<string> stringSequence = new[] { "gerge", "jtweqf", "r5gw" };
 
-            IEnumerable<char> actual = ObjectUtils.GetCharacters(stringSequence);
+            IEnumerable<char> actual = StringUtils.GetCharacters(stringSequence);
 
             IEnumerable<char> expected = new[] { 'g', 'e', 'r', 'g', 'e', 'j', 't', 'w', 'e', 'q', 'f', 'r', '5', 'g', 'w' };
 
@@ -124,7 +138,7 @@ namespace PDCore.Tests
         {
             IEnumerable<string> stringSequence = new[] { "gerge", "jtweqf", "r5gw" };
 
-            IEnumerable<char> actual = ObjectUtils.GetOrderedCharacters(stringSequence);
+            IEnumerable<char> actual = StringUtils.GetOrderedCharacters(stringSequence);
 
             IEnumerable<char> expected = new[] { '5', 'e', 'e', 'e', 'f', 'g', 'g', 'g', 'j', 'q', 'r', 'r', 't', 'w', 'w' };
 
@@ -137,7 +151,7 @@ namespace PDCore.Tests
         {
             IEnumerable<string> stringSequence = new string[] { "abc", "bacd", "pacds" };
 
-            IEnumerable<string> actual = ObjectUtils.GetWithOrderedCharacters(stringSequence);
+            IEnumerable<string> actual = StringUtils.GetWithOrderedCharacters(stringSequence);
 
             IEnumerable<string> expected = new[] { "abc", "abcd", "acdps" };
 

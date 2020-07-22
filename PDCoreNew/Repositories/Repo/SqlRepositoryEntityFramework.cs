@@ -104,7 +104,7 @@ namespace PDCoreNew.Repositories.Repo
         {
             var list = GetByWhere(where);
 
-            return ObjectUtils.CreateDataTable(list);
+            return ReflectionUtils.CreateDataTable(list);
         }
 
         public override DataTable GetDataTableByQuery(string query)

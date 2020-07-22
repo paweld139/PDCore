@@ -20,7 +20,7 @@ namespace PDCore.Tests
         [TestMethod]
         public void CanGetCallerMethodName()
         {
-            string actual = ObjectUtils.GetCallerMethodName(1);
+            string actual = ReflectionUtils.GetCallerMethodName(1);
 
             string expected = "CanGetCallerMethodName";
 

@@ -63,6 +63,6 @@ namespace PDCore.Helpers.Calculation
             Min = double.MaxValue;
         }
 
-        public override string ToString() => ObjectUtils.GetSummary(this, 2);
+        public override string ToString() => ReflectionUtils.GetSummary(this, 2);
     }
 }

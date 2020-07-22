@@ -99,10 +99,13 @@
     <Compile Include="Extensions\CompresExtension.cs" />
     <Compile Include="Extensions\DataTableExtension.cs" />
     <Compile Include="Extensions\DateTimeExtension.cs" />
+    <Compile Include="Extensions\DelegateExtension.cs" />
     <Compile Include="Extensions\IEnumerableExtension.cs" />
     <Compile Include="Extensions\IOExtension.cs" />
     <Compile Include="Extensions\ListExtension.cs" />
+    <Compile Include="Extensions\NumberExtension.cs" />
     <Compile Include="Extensions\ObjectExtension.cs" />
+    <Compile Include="Extensions\ReflectionExtension.cs" />
     <Compile Include="Extensions\SecurityExtension.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\WinFormsExtensions.cs" />
@@ -314,8 +317,10 @@
     <Compile Include="Utils\ConsoleUtils.cs" />
     <Compile Include="Utils\CSVUtils.cs" />
     <Compile Include="Utils\DateTimeUtils.cs" />
+    <Compile Include="Utils\EnumUtils.cs" />
     <Compile Include="Utils\IOUtils.cs" />
     <Compile Include="Utils\ObjectUtils.cs" />
+    <Compile Include="Utils\ReflectionUtils.cs" />
     <Compile Include="Utils\RepositoryUtils.cs" />
     <Compile Include="Utils\SecurityUtils.cs" />
     <Compile Include="Utils\SqlUtils.cs" />

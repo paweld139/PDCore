@@ -26,10 +26,10 @@ namespace PDCore.Helpers.Calculation
         public static int[] Next(int from, int to, int instances)
         {
             if (instances <= 0)
-                throw new ArgumentOutOfRangeException(ObjectUtils.GetNameOf(() => instances), instances, "Wartość \"od\" musi być większa od zera");
+                throw new ArgumentOutOfRangeException(ReflectionUtils.GetNameOf(() => instances), instances, "Wartość \"od\" musi być większa od zera");
 
             if (from > to)
-                throw new ArgumentOutOfRangeException(ObjectUtils.GetNameOf(() => from), from, "Wartość \"od\" nie może być większa od wartości \"do\"");
+                throw new ArgumentOutOfRangeException(ReflectionUtils.GetNameOf(() => from), from, "Wartość \"od\" nie może być większa od wartości \"do\"");
 
             int[] result = new int[instances];
 
