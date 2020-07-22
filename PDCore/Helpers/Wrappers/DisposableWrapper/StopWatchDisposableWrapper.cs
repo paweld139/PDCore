@@ -6,9 +6,9 @@ using System.Text;
 
 namespace PDCore.Helpers.Wrappers.DisposableWrapper
 {
-    public class StopWatchWrapper : DisposableWrapper<DisposableStopwatch>
+    public class StopWatchDisposableWrapper : DisposableWrapper<DisposableStopwatch>
     {
-        public StopWatchWrapper(DisposableStopwatch disposableStopwatch) : base(disposableStopwatch) { }
+        public StopWatchDisposableWrapper(DisposableStopwatch disposableStopwatch) : base(disposableStopwatch) { }
 
         protected override void OnDispose()
         {

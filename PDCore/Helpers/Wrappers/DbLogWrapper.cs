@@ -13,7 +13,7 @@ namespace PDCore.Helpers.Wrappers
 {
     public static class DbLogWrapper
     {
-        private static readonly Lazy<Stopwatch> stopwatch = new Lazy<Stopwatch>();
+        private static readonly Lazy<StopWatchWrapper> stopwatchWrapper = new Lazy<StopWatchWrapper>();
 
         private static void Log(TimeSpan timeSpan, string query, string connectionString, ILogger logger)
         {
@@ -29,7 +29,7 @@ namespace PDCore.Helpers.Wrappers
             if (!loggingEnabled)
                 return func(query);
 
-            var time = stopwatch.Value.Time(func, query);
+            var time = stopwatchWrapper.Value.Measure(func, query);
 
             Log(time.Item1, query, connectionString, logger);
 

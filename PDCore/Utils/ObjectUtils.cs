@@ -308,6 +308,16 @@ namespace PDCore.Utils
             }
         }
 
+        private static IEnumerable<int> GetRandomNumbers(int maxValue)
+        {
+            Random rand = new Random();
+
+            while (true)
+            {
+                yield return rand.Next(maxValue);
+            }
+        }
+
         public static IEnumerable<char> GetOrderedCharacters(IEnumerable<char> source)
         {
             return source.OrderBy(c => c);
@@ -512,6 +522,20 @@ namespace PDCore.Utils
                 engine.ExecuteFile(fileToExecute, scope);
 
             return engine.Runtime.Globals;
+        }
+
+        public static IList<int> FindLargePrimes(int start, int end)
+        {
+            var primes = Enumerable.Range(start, end - start).ToList();
+
+            return primes.Where(ObjectExtension.IsPrime).ToList();
+        }
+
+        public static IList<int> FindLargePrimesInParallel(int start, int end)
+        {
+            var primes = Enumerable.Range(start, end - start).ToList();
+
+            return primes.AsParallel().Where(n => n.IsPrime()).ToList();
         }
     }
 }

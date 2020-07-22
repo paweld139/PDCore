@@ -160,8 +160,8 @@
     <Compile Include="Helpers\Soap\SoapMessageSigning\SignedXmlWithId.cs" />
     <Compile Include="Helpers\Soap\SoapMessageSigning\SoapMessage.cs" />
     <Compile Include="Helpers\Soap\SoapMessageSigning\SoapSigner.cs" />
-    <Compile Include="Helpers\Wrappers\StopWatchTraceWrapper.cs" />
-    <Compile Include="Helpers\Wrappers\DisposableWrapper\StopWatchWrapper.cs" />
+    <Compile Include="Helpers\Wrappers\StopWatchWrapper.cs" />
+    <Compile Include="Helpers\Wrappers\DisposableWrapper\StopWatchDisposableWrapper.cs" />
     <Compile Include="Helpers\Calculation\Vector.cs" />
     <Compile Include="Helpers\WPF\Converters\ColorPlToColorEnConverter.cs" />
     <Compile Include="Helpers\WPF\Converters\PriorityToForegroundConverter.cs" />

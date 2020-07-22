@@ -178,18 +178,6 @@ namespace PDCore.Extensions
             return result;
         }
 
-        public static long Time(this Stopwatch sw, Action action, int iterations = 1)
-        {
-            var elapsed = Time(sw, a => { action(); return true; }, true, iterations);
-
-            return elapsed.Item1.Milliseconds;
-        }
-
-        public static Tuple<TimeSpan, T> Time<T, TResult>(this Stopwatch sw, Func<T> func, int iterations = 1)
-        {
-            return sw.Time(f => func(), true, iterations);
-        }
-
         public static Tuple<TimeSpan, TResult> Time<T, TResult>(this Stopwatch sw, Func<T, TResult> func, T param, int iterations = 1)
         {
             sw.Reset();
@@ -208,9 +196,21 @@ namespace PDCore.Extensions
             return new Tuple<TimeSpan, TResult>(sw.Elapsed, result);
         }
 
+        public static Tuple<TimeSpan, T> Time<T>(this Stopwatch sw, Func<T> func, int iterations = 1)
+        {
+            return sw.Time(f => func(), true, iterations);
+        }
+
+        public static long Time(this Stopwatch sw, Action action, int iterations = 1)
+        {
+            var elapsed = sw.Time(p => { action(); return true; }, true, iterations);
+
+            return elapsed.Item1.Milliseconds;
+        }
+
         public static IDisposableWrapper<DisposableStopwatch> WrapStopwatch(this DisposableStopwatch disposableStopwatch)
         {
-            return new StopWatchWrapper(disposableStopwatch);
+            return new StopWatchDisposableWrapper(disposableStopwatch);
         }
 
         public static Type GetType(this TypeCode code)
@@ -459,6 +459,72 @@ namespace PDCore.Extensions
         public static ConsoleColor ToConsoleColor(this Color color)
         {
             return color.Name.ParseEnum<ConsoleColor>();
+        }
+
+        /// <summary>
+        /// Sprawdzenie czy dana liczba jest liczbą pierwszą
+        /// </summary>
+        /// <param name="number">Liczba do sprawdzenia</param>
+        /// <returns>Informacja czy dana liczba jest liczbą pierwszą</returns>
+        public static bool IsPrime(this int number)
+        {
+            //Liczba pierwsza dzieli się jedynie przez jeden i samą siebie. Jeśli dzieli się jeszcze przez coś, to nie jest liczbą pierwszą.
+
+            bool result = true; //Początkowo zakłada się, że dana liczba jest liczbą pierwszą
+
+            for (long i = 2; i < number; i++) //Dla każdej liczby mniejszej od zadanej liczby i większej od dwa
+            {
+                if (number % i == 0) //Sprawdzenie czy zadana liczba jest podzielna przez aktualną liczbę z pętli
+                {
+                    result = false; //Jeśli tak, to zadana liczba nie jest liczbą pierwsza. Rezultat to nieprawda, następuje przewanie pętli.
+
+                    break;
+                }
+            }
+            //Każda liczba oprócza zera jest podzielna przez 1 i przez samą siebie. W przypadku 0, 1, 2 pętla nawet się nie zacznie.
+            //Jeśli pętla zakończy się w całości, to oznacza że liczba jest liczbą pierwszą
+
+            return result; //Zwrócenie rezultatu
+        }
+
+        public static TResult WithRetry<TResult, TException>(this Func<TResult> func) where TException : Exception
+        {
+            var result = default(TResult);
+
+            int retryCount = 0;
+
+            bool succesful = false;
+
+            do
+            {
+                try
+                {
+                    result = func();
+
+                    succesful = true;
+                }
+                catch (TException)
+                {
+                    retryCount++;
+                }
+            } while (retryCount < 3 && !succesful);
+
+            return result;
+        }
+
+        public static T WithRetryWeb<T>(this Func<T> func)
+        {
+            return func.WithRetry<T, WebException>();
+        }
+
+        public static Func<TResult> Partial<TParam1, TResult>(this Func<TParam1, TResult> func, TParam1 parameter)
+        {
+            return () => func(parameter);
+        }
+
+        public static Func<TParam1, Func<TResult>> Curry<TParam1, TResult>(this Func<TParam1, TResult> func)
+        {
+            return parameter => () => func(parameter);
         }
     }
 }
