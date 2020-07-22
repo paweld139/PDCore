@@ -3,6 +3,7 @@ using PDCore.Helpers.Calculation.StockQuoteAnalysis.Enums;
 using PDCore.Helpers.Calculation.StockQuoteAnalysis.Models;
 using PDCore.Helpers.DataLoaders;
 using PDCore.Interfaces;
+using PDCore.Utils;
 using System;
 using System.Drawing;
 
@@ -10,22 +11,6 @@ namespace PDCore.Helpers.Calculation.StockQuoteAnalysis
 {
     public static class StockQuoteUtils
     {
-        public static IDataLoader GetLoaderFor(string source)
-        {
-            IDataLoader loader;
-
-            if (source.IsUrl())
-            {
-                loader = new WebLoader(source);
-            }
-            else
-            {
-                loader = new FileLoader(source);
-            }
-
-            return loader;
-        }
-
         private static void PrintReversal(Reversal reversal, Action<string, Color> print)
         {
             if (reversal.Direction == ReversalDirection.Down)
@@ -54,7 +39,7 @@ namespace PDCore.Helpers.Calculation.StockQuoteAnalysis
         public static void AnalyzeAndPrintStockQuote(string source, Action<string, Color> print)
         {
             // set the scene ...
-            var loader = GetLoaderFor(source);
+            var loader = IOUtils.GetLoaderFor(source);
             var parser = new StockQuoteCsvParser(loader);
             var analyzer = new StockQuoteAnalyzer(parser);
 
