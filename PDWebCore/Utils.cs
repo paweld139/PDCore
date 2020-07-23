@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
+using System.Web.Optimization;
 
 namespace PDWebCore
 {
@@ -66,6 +67,20 @@ namespace PDWebCore
 
             // Save changes to the Web.config file.
             config.Save();
+        }
+
+        /// <summary>
+        /// Render scripts as deferred
+        /// </summary>
+        /// <param name="paths">
+        /// The paths.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IHtmlString"/>.
+        /// </returns>
+        public static IHtmlString RenderDefer(params string[] paths)
+        {
+            return Scripts.RenderFormat(@"<script src='{0}' defer></script>", paths);
         }
     }
 }

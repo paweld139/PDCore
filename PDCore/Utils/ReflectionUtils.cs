@@ -99,8 +99,10 @@ namespace PDCore.Utils
         {
             var dt = new DataTable();
 
+            var properties = GetProperties<T>();
+
             //creating columns
-            foreach (var prop in GetProperties<T>())
+            foreach (var prop in properties)
             {
                 dt.Columns.Add(prop.Name, prop.PropertyType);
             }
@@ -108,7 +110,7 @@ namespace PDCore.Utils
             //creating rows
             foreach (var entity in entities)
             {
-                var values = GetObjectPropertyValues(entity).ToArray();
+                var values = GetObjectPropertyValues(entity, properties).ToArray();
 
                 dt.Rows.Add(values);
             }

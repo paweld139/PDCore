@@ -109,6 +109,20 @@ namespace PDCore.Extensions
             }
         }
 
+        public static List<KeyValuePair<TKey, TValue>> GetKVP<TSource, TKey, TValue>(this IQueryable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> valueSelector)
+        {
+            List<TSource> list = new List<TSource>(source);
+
+            List<KeyValuePair<TKey, TValue>> result = new List<KeyValuePair<TKey, TValue>>();
+
+            foreach (TSource element in list)
+            {
+                result.Add(new KeyValuePair<TKey, TValue>(keySelector(element), valueSelector(element)));
+            }
+
+            return result;
+        }
+
         public static TResult[] ToArray<TResult>(this IEnumerable<object> source)
         {
             return ToArray<object, TResult>(source);

@@ -351,6 +351,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Helpers\CSV\" />
+    <Folder Include="Helpers\WPF\WIndows\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Helpers\XML\Signing\Xades\XAdES.xsd">
