@@ -50,6 +50,8 @@
     <Compile Include="Context\IContext\IEntityFrameworkDbContext.cs" />
     <Compile Include="Context\IContext\IHasLogDbSet.cs" />
     <Compile Include="Context\IContext\IHasFileDbSet.cs" />
+    <Compile Include="Context\IContext\IMainDbContext.cs" />
+    <Compile Include="Context\MainDbContext.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\ContextExtensions.cs" />
     <Compile Include="Factories\Fac\Factory.cs" />

@@ -141,6 +141,7 @@
     <Compile Include="Helpers\DataLoaders\WebLoader.cs" />
     <Compile Include="Helpers\PropertyCache.cs" />
     <Compile Include="Interfaces\IDataLoader.cs" />
+    <Compile Include="Interfaces\IModificationHistory.cs" />
     <Compile Include="Interfaces\IParser.cs" />
     <Compile Include="Models\MailMessageModel.cs" />
     <Compile Include="Models\SmtpSettingsModel.cs" />

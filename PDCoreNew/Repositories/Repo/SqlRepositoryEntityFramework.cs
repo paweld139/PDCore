@@ -49,12 +49,12 @@ namespace PDCoreNew.Repositories.Repo
 
         public override int Commit()
         {
-            return ctx.SaveChanges(); //Zwraca ilość wierszy wziętych po uwagę
+            return ctx.SaveChangesWithModificationHistory(); //Zwraca ilość wierszy wziętych po uwagę
         }
 
         public Task<int> CommitAsync()
         {
-            return ctx.SaveChangesAsync();
+            return ctx.SaveChangesWithModificationHistoryAsync();
         }
 
         public override void Delete(T entity)

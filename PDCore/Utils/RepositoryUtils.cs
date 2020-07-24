@@ -1,9 +1,7 @@
 ﻿using PDCore.Helpers;
+using PDCore.Interfaces;
 using PDCore.Repositories.IRepo;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace PDCore.Utils
 {
@@ -29,6 +27,19 @@ namespace PDCore.Utils
                 print = i => Console.WriteLine(i.Name);
 
             DumpItems(repository, print);
+        }
+
+        public static void SetLogging(bool input, ILogger logger, bool isLoggingEnabled, Action enableLogging, Action disableLogging)
+        {
+            if (input == isLoggingEnabled || logger == null)
+            {
+                return;
+            }
+
+            if (input)
+                enableLogging();
+            else
+                disableLogging();
         }
     }
 }

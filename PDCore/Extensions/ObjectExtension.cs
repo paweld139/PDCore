@@ -2,6 +2,7 @@
 using PDCore.Helpers;
 using PDCore.Helpers.Soap.ExceptionHandling;
 using PDCore.Helpers.Wrappers.DisposableWrapper;
+using PDCore.Interfaces;
 using PDCore.Utils;
 using System;
 using System.Collections.Generic;
@@ -260,5 +261,7 @@ namespace PDCore.Extensions
         {
             return color.Name.ParseEnum<ConsoleColor>();
         }
+
+        public static bool IsNew(this IModificationHistory history) => history.DateCreated == DateTime.MinValue;
     }
 }

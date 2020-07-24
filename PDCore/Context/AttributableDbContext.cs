@@ -99,7 +99,7 @@ namespace PDCore.Context
 
         public void SetLogging(bool input, ILogger logger)
         {
-            ObjectUtils.SetLogging(input, logger, IsLoggingEnabled,
+            RepositoryUtils.SetLogging(input, logger, IsLoggingEnabled,
                 () => Logger = logger,
                 () => Logger = null
             );

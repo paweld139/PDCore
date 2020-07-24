@@ -53,8 +53,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context\IContext\IHasUserDataDbSet.cs" />
-    <Compile Include="Context\IContext\IMainDbContext.cs" />
-    <Compile Include="Context\MainDbContext.cs" />
+    <Compile Include="Context\IContext\IMainWebDbContext.cs" />
+    <Compile Include="Context\MainWebDbContext.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Factories\Fac\UserDataFactory.cs" />
     <Compile Include="Factories\IFac\IUserDataFactory.cs" />

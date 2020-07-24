@@ -1,5 +1,4 @@
 ﻿using PDCore.Extensions;
-using PDCore.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -150,19 +149,6 @@ namespace PDCore.Utils
             {
                 yield return rand.Next(maxValue);
             }
-        }
-
-        public static void SetLogging(bool input, ILogger logger, bool isLoggingEnabled, Action enableLogging, Action disableLogging)
-        {
-            if (input == isLoggingEnabled || logger == null)
-            {
-                return;
-            }
-
-            if (input)
-                enableLogging();
-            else
-                disableLogging();
         }
 
         public static IEnumerable<KeyValuePair<TKey, TValue>> GetKVPs<TKey, TValue>(IEnumerable<TKey> keys, IEnumerable<TValue> values)

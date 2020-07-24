@@ -18,8 +18,8 @@ namespace PDWebCore.Repositories.Repo
 {
     public sealed class FileRepository : SqlRepositoryEntityFramework<FileModel>
     {
-        public readonly IMainDbContext _db;
-        public FileRepository(IMainDbContext db, ILogger logger) : base(db, logger)
+        public readonly IMainWebDbContext _db;
+        public FileRepository(IMainWebDbContext db, ILogger logger) : base(db, logger)
         {
             _db = db;
         }
