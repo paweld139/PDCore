@@ -78,6 +78,11 @@ namespace PDCore.Context
             return Savator.FillObjectList<T>(query, this);
         }
 
+        public List<T> Load<T>() where T : Attributable, new()
+        {
+            return Savator.FillObjectList(new T(), this);
+        }
+
         public void Delete<T>(T obj) where T : Attributable, new()
         {
             Savator.DeleteObject(obj, this);

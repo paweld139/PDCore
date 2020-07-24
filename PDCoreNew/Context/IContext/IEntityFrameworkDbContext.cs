@@ -22,5 +22,9 @@ namespace PDCoreNew.Context.IContext
         DbSet Set(Type entityType);
 
         DbChangeTracker ChangeTracker { get; }
+
+        DbEntityEntry Entry(object entity);
+
+        DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
     }
 }

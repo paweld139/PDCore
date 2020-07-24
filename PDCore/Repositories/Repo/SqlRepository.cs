@@ -29,6 +29,7 @@ namespace PDCore.Repositories.Repo
         public abstract List<T> GetByQuery(string query);
         public abstract DataTable GetDataTableByWhere(string where);
         public abstract string GetQuery();
+        public abstract List<T> GetAll();
 
         public string GetTableName()
         {

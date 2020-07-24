@@ -59,7 +59,9 @@ namespace PDCoreNew.Extensions
 
         private static void AfterSaveChangesWithHistory(IEntityFrameworkDbContext dbContext)
         {
-            foreach (var history in dbContext.ChangeTracker.Entries().OfType<IModificationHistory>())
+            foreach (var history in dbContext.ChangeTracker.Entries()
+                                    .Where(e => e.Entity is IModificationHistory)
+                                    .Select(e => e.Entity as IModificationHistory))
             {
                 history.IsDirty = false;
             }

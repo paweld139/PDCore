@@ -13,6 +13,8 @@ namespace PDCore.Repositories.IRepo
 
         List<T> GetByWhere(string where);
 
+        List<T> GetAll();
+
         DataTable GetDataTableByWhere(string where);
 
         string GetQuery(string where);

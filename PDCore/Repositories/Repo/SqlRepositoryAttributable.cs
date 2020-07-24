@@ -83,5 +83,10 @@ namespace PDCore.Repositories.Repo
         {
             return db.GetDataTable(query);
         }
+
+        public override List<T> GetAll()
+        {
+            return db.Load<T>();
+        }
     }
 }

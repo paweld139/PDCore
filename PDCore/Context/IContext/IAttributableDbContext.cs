@@ -86,5 +86,7 @@ namespace PDCore.Context.IContext
         void Delete<T>(IEnumerable<T> list) where T : Attributable, new();
 
         string ConnectionString { get; }
+
+        List<T> Load<T>() where T : Attributable, new();
     }
 }
