@@ -11,11 +11,10 @@ using System.Threading.Tasks;
 namespace PDWebCore.Models
 {
     [Table("UserData")]
-    public class UserDataModel : IByDateFindable
+    public class UserDataModel : IModificationHistory
     {
         [Key]
         public int ULId { get; set; }
-        public DateTime Date { get; set; }
         public string IP { get; set; }
         public string OperatingSystem { get; set; }
         public DeviceType Device { get; set; }
@@ -26,6 +25,10 @@ namespace PDWebCore.Models
         public string Language { get; set; }
         public string Browser { get; set; }
         public bool ServiceUnresponded { get; set; }
+
+        public DateTime DateModified { get; set; }
+        public DateTime DateCreated { get; set; }
+        public bool IsDirty { get; set; }
 
         //[JsonProperty("ip")]
         //public string Ip { get; set; }

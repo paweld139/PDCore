@@ -72,7 +72,7 @@ namespace PDCore.Utils
             return query;
         }
 
-        public static void FindByDate<T>(string dateF, string dateT, ref IQueryable<T> result) where T : class, IByDateFindable
+        public static void FindByDate<T>(string dateF, string dateT, Func<T, DateTime> dateSelector, ref IQueryable<T> result) where T : class
         {
             if (result == null)
             {
@@ -94,23 +94,23 @@ namespace PDCore.Utils
                 {
                     if (dateTo > dateFrom)
                     {
-                        result = result.Where(x => x.Date >= dateFrom && x.Date <= dateTo);
+                        result = result.Where(x => dateSelector(x) >= dateFrom && dateSelector(x) <= dateTo);
                     }
                 }
                 else if (string.IsNullOrWhiteSpace(dateF))
                 {
-                    result = result.Where(x => x.Date <= dateTo);
+                    result = result.Where(x => dateSelector(x) <= dateTo);
                 }
                 else
                 {
-                    result = result.Where(x => x.Date >= dateFrom);
+                    result = result.Where(x => dateSelector(x) >= dateFrom);
                 }
             }
         }
 
-        public static void FindByDate<T>(DateTime? dateF, DateTime? dateT, ref IQueryable<T> result) where T : class, IByDateFindable
+        public static void FindByDate<T>(DateTime? dateF, DateTime? dateT, Func<T, DateTime> dateSelector, ref IQueryable<T> result) where T : class
         {
-            FindByDate(dateF?.ToString(), dateT?.ToString(), ref result);
+            FindByDate(dateF?.ToString(), dateT?.ToString(), dateSelector, ref result);
         }
 
         public static DataSet GetDataSet(string query, DbConnection dbConnection)

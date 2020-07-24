@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PDCore.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 namespace PDCoreNew.Models
 {
     [Table("File")]
-    public class FileModel
+    public class FileModel : IModificationHistory
     {
         [Key]
         public int ALLFId { get; set; }
@@ -34,6 +35,10 @@ namespace PDCoreNew.Models
 
         [NotMapped]
         public byte[] Data { get; set; }
+
+        public DateTime DateModified { get; set; }
+        public DateTime DateCreated { get; set; }
+        public bool IsDirty { get; set; }
     }
 
     public enum ObjType { Ticket = 0, Comment }

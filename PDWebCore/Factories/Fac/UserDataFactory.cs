@@ -28,7 +28,6 @@ namespace PDWebCore.Factories.Fac
             string info = ua.Split(';')[0].Split('(')[1] + ua.Split(';')[1];
 
             userData.IP = usersIp;
-            userData.Date = DateTime.Now;
             userData.Device = request.Browser.IsMobileDevice ? DeviceType.Mobile : DeviceType.Desktop;
             userData.PhoneManufacturer = request.Browser.MobileDeviceManufacturer == "Unknown" ? null : request.Browser.MobileDeviceManufacturer;
             userData.PhoneModel = request.Browser.MobileDeviceModel == "Unknown" ? null : request.Browser.MobileDeviceManufacturer;

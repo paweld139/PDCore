@@ -273,16 +273,36 @@ namespace PDCore.Extensions
             return source.Select(i => converter(i)); //Mapowanie
         }
 
-        public static IQueryable<T> FindByDate<T>(this IQueryable<T> source, string dateF, string dateT) where T : class, IByDateFindable
+        public static IQueryable<T> FindByDate<T>(this IQueryable<T> source, string dateF, string dateT, Func<T, DateTime> dateSelector) where T : class
         {
-            SqlUtils.FindByDate(dateF, dateT, ref source);
+            SqlUtils.FindByDate(dateF, dateT, dateSelector, ref source);
 
             return source;
         }
 
-        public static IQueryable<T> FindByDate<T>(this IQueryable<T> source, DateTime? dateF, DateTime? dateT) where T : class, IByDateFindable
+        public static IQueryable<T> FindByDate<T>(this IQueryable<T> source, DateTime? dateF, DateTime? dateT, Func<T, DateTime> dateSelector) where T : class
         {
-            return source.FindByDate(dateF?.ToString(), dateT?.ToString());
+            return source.FindByDate(dateF?.ToString(), dateT?.ToString(), dateSelector);
+        }
+
+        public static IQueryable<T> FindByDateCreated<T>(this IQueryable<T> source, string dateF, string dateT) where T : class, IModificationHistory
+        {
+            return source.FindByDate(dateF, dateT, e => e.DateCreated);
+        }
+
+        public static IQueryable<T> FindByDateModified<T>(this IQueryable<T> source, string dateF, string dateT) where T : class, IModificationHistory
+        {
+            return source.FindByDate(dateF, dateT, e => e.DateModified);
+        }
+
+        public static IQueryable<T> FindByDateCreated<T>(this IQueryable<T> source, DateTime? dateF, DateTime? dateT) where T : class, IModificationHistory
+        {
+            return source.FindByDateCreated(dateF?.ToString(), dateT?.ToString());
+        }
+
+        public static IQueryable<T> FindByDateModified<T>(this IQueryable<T> source, DateTime? dateF, DateTime? dateT) where T : class, IModificationHistory
+        {
+            return source.FindByDateModified(dateF?.ToString(), dateT?.ToString());
         }
 
         public static ObjectStatistics<TSource> Aggregate<TSource>(this IEnumerable<TSource> source, Converter<TSource, double> doubleConverter = null)

@@ -11,12 +11,11 @@ using PDCore.Interfaces;
 namespace PDCoreNew.Models
 {
     [Table("Log")]
-    public class LogModel : IByDateFindable
+    public class LogModel : IModificationHistory
     {
         public LogModel(string message, LogType logType, string requestUri, Exception exception = null)
         {
             Message = message;
-            Date = DateTime.Now;
 
             if (exception != null)
             {
@@ -44,12 +43,14 @@ namespace PDCoreNew.Models
 
         public string StackTrace { get; set; }
 
-        public DateTime Date { get; set; }
-
         public LogType LogLevel { get; set; }
 
         public string RequestUri { get; set; }
 
         public string MachineName { get; set; }
+
+        public DateTime DateModified { get; set; }
+        public DateTime DateCreated { get; set; }
+        public bool IsDirty { get; set; }
     }
 }

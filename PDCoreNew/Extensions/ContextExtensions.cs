@@ -114,8 +114,8 @@ namespace PDCoreNew.Extensions
 
         public static void ConfigureForModificationHistory(this DbModelBuilder modelBuilder)
         {
-            modelBuilder.Types().
-               Configure(c => c.Ignore("IsDirty"));
+            modelBuilder.Types<IModificationHistory>().
+               Configure(c => c.Ignore(e => e.IsDirty));
         }
     }
 }
