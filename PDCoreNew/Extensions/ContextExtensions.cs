@@ -44,14 +44,16 @@ namespace PDCoreNew.Extensions
 
         private static void BeforeSaveChangesWithHistory(IEntityFrameworkDbContext dbContext)
         {
+            DateTime dateTime = DateTime.Now;
+
             foreach (var history in dbContext.ChangeTracker.Entries()
                             .Where(e => e.Entity is IModificationHistory && (e.State == EntityState.Added || e.State == EntityState.Modified))
                             .Select(e => e.Entity as IModificationHistory))
             {
-                history.DateModified = DateTime.Now;
+                history.DateModified = dateTime;
 
                 if (history.IsNew())
-                    history.DateCreated = DateTime.Now;
+                    history.DateCreated = dateTime;
             }
         }
 
@@ -92,6 +94,8 @@ namespace PDCoreNew.Extensions
                 () => dbContext.Database.Log = null
             );
         }
+
+        public static bool IsLoggingEnabled(this DbContext dbContext) => dbContext.Database.Log != null;
 
         public static bool ExistsLocal<T>(this IEntityFrameworkDbContext dbContext, Func<T, bool> predicate) where T : class
         {

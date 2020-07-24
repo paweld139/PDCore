@@ -17,7 +17,7 @@ namespace PDCoreNew.Context
 
         public DbSet<FileModel> File { get; set; }
 
-        public bool IsLoggingEnabled => Database.Log != null;
+        public bool IsLoggingEnabled => this.IsLoggingEnabled();
 
         public void SetLogging(bool input, ILogger logger)
         {

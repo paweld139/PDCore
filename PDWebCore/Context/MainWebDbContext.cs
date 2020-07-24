@@ -28,7 +28,7 @@ namespace PDWebCore.Context
 
         public DbSet<UserDataModel> UserData { get; set; }
 
-        public bool IsLoggingEnabled => Database.Log != null;
+        public bool IsLoggingEnabled => this.IsLoggingEnabled();
 
         public void SetLogging(bool input, ILogger logger)
         {
