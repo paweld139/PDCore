@@ -106,5 +106,24 @@ namespace PDCore.Extensions
 
             return Enum.IsDefined(enumType, obj);
         }
+
+        public static IEnumerable<Type> GetImmediateInterfaces(this Type type)
+        {
+            var interfaces = type.GetInterfaces();
+
+            var result = new HashSet<Type>(interfaces);
+
+            foreach (Type i in interfaces)
+                result.ExceptWith(i.GetInterfaces());
+
+            return result;
+        }
+
+        public static bool ImplementsInterface<TInterface>(this Type type) => typeof(TInterface).IsAssignableFrom(type);
+
+        public static bool ImplementsInterface<TInterface>(this object input)
+        {
+            return input.GetType().ImplementsInterface<TInterface>();
+        }
     }
 }

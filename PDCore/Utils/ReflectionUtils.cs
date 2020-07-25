@@ -291,5 +291,9 @@ namespace PDCore.Utils
                               .Single()).Order
                     select property.GetValue(o, null)).ToArray();
         }
+
+        public static IEnumerable<Type> GetImmediateInterfaces<T>() => typeof(T).GetImmediateInterfaces();
+
+        public static bool ImplementsInterface<TInput, TInterface>() => typeof(TInput).ImplementsInterface<TInterface>();
     }
 }
