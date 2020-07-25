@@ -70,6 +70,9 @@
     <Compile Include="Repositories\IRepo\IFileRepository.cs" />
     <Compile Include="Repositories\IRepo\ILogRepo.cs" />
     <Compile Include="Repositories\Repo\LogRepo.cs" />
+    <Compile Include="Repositories\Repo\SqlRepositoryEntityFrameworkAsync.cs" />
+    <Compile Include="Repositories\Repo\SqlRepositoryEntityFrameworkConnected.cs" />
+    <Compile Include="Repositories\Repo\SqlRepositoryEntityFrameworkDisconnected.cs" />
     <Compile Include="Services\Serv\CacheService.cs" />
     <Compile Include="Loggers\Async\AsyncLogger.cs" />
     <Compile Include="Loggers\ConsoleLogger.cs" />

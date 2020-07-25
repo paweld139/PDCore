@@ -16,20 +16,26 @@ namespace PDCore.Repositories.Repo
     {
         protected SqlRepository(IDbContext db, ILogger logger) : base(db, logger)
         {
-
         }
 
+
+        public abstract List<T> GetAll();
+        public abstract List<T> GetByQuery(string query);
+
+        public abstract string GetQuery();
+        public abstract DataTable GetDataTableByWhere(string where);
+
         public abstract T FindById(int id);
+        public abstract IQueryable<T> FindAll();
+
         public abstract void Add(T newEntity);
         public abstract void AddRange(IEnumerable<T> newEntities);
+
         public abstract void Delete(T entity);
         public abstract void DeleteRange(IEnumerable<T> entities);
-        public abstract IQueryable<T> FindAll();
+
         public abstract int Commit();
-        public abstract List<T> GetByQuery(string query);
-        public abstract DataTable GetDataTableByWhere(string where);
-        public abstract string GetQuery();
-        public abstract List<T> GetAll();
+
 
         public string GetTableName()
         {

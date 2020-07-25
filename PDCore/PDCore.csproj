@@ -131,6 +131,7 @@
     <Compile Include="Helpers\Calculation\StockQuoteAnalysis\StockQuoteCsvParser.cs" />
     <Compile Include="Helpers\Calculation\StockQuoteAnalysis\StockQuoteUtils.cs" />
     <Compile Include="Helpers\Comparers\FileInfoLengthComparer.cs" />
+    <Compile Include="Helpers\Comparers\KeyValuePairComparer.cs" />
     <Compile Include="Helpers\Comparers\NamedObjectComparer.cs" />
     <Compile Include="Helpers\DataStructures\Book\Book.cs" />
     <Compile Include="Helpers\DataStructures\Book\DiskBook.cs" />

@@ -8,22 +8,17 @@ using PDCoreNew.Context.IContext;
 using PDCoreNew.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Data;
-using System.Data.Common;
 using System.Data.Entity;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PDCoreNew.Repositories.Repo
 {
-    public class SqlRepositoryEntityFramework<T> : SqlRepository<T>, ISqlRepositoryEntityFramework<T> where T : class, IModificationHistory, new()
+    public class SqlRepositoryEntityFramework<T> : SqlRepository<T>, ISqlRepositoryEntityFramework<T> where T : class, IModificationHistory
     {
-        private readonly IEntityFrameworkDbContext ctx;
-        private readonly DbSet<T> set;
+        protected readonly IEntityFrameworkDbContext ctx;
+        protected readonly DbSet<T> set;
 
         protected override string ConnectionString => ctx.Database.Connection.ConnectionString;
 
@@ -33,69 +28,9 @@ namespace PDCoreNew.Repositories.Repo
             set = this.ctx.Set<T>();
         }
 
-        public override void Add(T newEntity)
+        public override IQueryable<T> FindAll()
         {
-            set.Add(newEntity);
-        }
-
-        //Funkcjonalność ConnectedRepository, np. do Bindingu obiektu w WPF.
-        public T Add()
-        {
-            var entry = new T();
-
-            Add(entry);
-
-            return entry;
-        }
-
-        public override void AddRange(IEnumerable<T> newEntities)
-        {
-            set.AddRange(newEntities);
-        }
-
-        public void Attach(T obj)
-        {
-            set.Attach(obj);
-        }
-
-        public override int Commit()
-        {
-            RemoveEmptyEntries();
-
-            return ctx.SaveChangesWithModificationHistory(); //Zwraca ilość wierszy wziętych po uwagę
-        }
-
-        public Task<int> CommitAsync()
-        {
-            RemoveEmptyEntries();
-
-            return ctx.SaveChangesWithModificationHistoryAsync();
-        }
-
-        public override void Delete(T entity)
-        {
-            set.Remove(entity);
-        }
-
-        //Funkcjonalność ConnectedRepository. Niekiedy przydaje się w aplikacjach okienkowych, np.by usunąć dany element z grida.
-        public void DeleteAndCommit(T entity)
-        {
-            Delete(entity);
-
-            Commit();
-        }
-
-        //Funkcjonalność ConnectedRepository. Niekiedy przydaje się w aplikacjach okienkowych, np.by usunąć dany element z grida.
-        public Task DeleteAndCommitAsync(T entity)
-        {
-            Delete(entity);
-
-            return CommitAsync();
-        }
-
-        public override void DeleteRange(IEnumerable<T> entities)
-        {
-            set.RemoveRange(entities);
+            return FindAll(false);
         }
 
         public IQueryable<T> FindAll(bool asNoTracking)
@@ -106,24 +41,100 @@ namespace PDCoreNew.Repositories.Repo
             return set;
         }
 
-        public override IQueryable<T> FindAll()
+        public IQueryable<KeyValuePair<TKey, TValue>> FindKeyValuePairs<TKey, TValue>(Func<T, TKey> keySelector, Func<T, TValue> valueSelector, bool sortByValue = true) where TValue : IComparable<TValue>
         {
-            return FindAll(true);
+            var query = FindAll().GetKVP(keySelector, valueSelector);
+
+            if (sortByValue)
+                query = query.OrderBy(e => e.Value);
+
+            return query;
         }
+
+        public IQueryable<T> FindByFilter(Converter<T, string> converter, string substring)
+        {
+            var query = FindAll();
+
+            if (!string.IsNullOrWhiteSpace(substring))
+                query = query.Filter(substring, converter);
+
+            return query;
+        }
+
+        public IQueryable<T> FindPage(int page, int pageSize)
+        {
+            var query = FindAll();
+
+            if (page > 0 && pageSize > 0)
+            {
+                query = query.GetPage(page, pageSize);
+            }
+
+            return query;
+        }
+
+
+        public List<T> GetAll(bool asNoTracking)
+        {
+            return FindAll(asNoTracking).ToList();
+        }
+
+        public List<KeyValuePair<TKey, TValue>> GetKeyValuePairs<TKey, TValue>(Func<T, TKey> keySelector, Func<T, TValue> valueSelector, bool sortByValue = true) where TValue : IComparable<TValue>
+        {
+            return FindKeyValuePairs(keySelector, valueSelector, sortByValue).ToList();
+        }
+
+        public List<T> GetByFilter(Converter<T, string> converter, string substring)
+        {
+            return FindByFilter(converter, substring).ToList();
+        }
+
+        public List<T> GetPage(int page, int pageSize)
+        {
+            return FindPage(page, pageSize).ToList();
+        }
+
+        public override int GetCount()
+        {
+            return FindAll().Count();
+        }
+
+        public int GetCount(Expression<Func<T, bool>> predicate)
+        {
+            return FindAll().Count(predicate);
+        }
+
+
+        public void Attach(T obj)
+        {
+            set.Attach(obj);
+        }
+
+        public override void Add(T newEntity)
+        {
+            set.Add(newEntity);
+        }
+
+        public override void AddRange(IEnumerable<T> newEntities)
+        {
+            set.AddRange(newEntities);
+        }
+
+
+        public override void Delete(T entity)
+        {
+            set.Remove(entity);
+        }
+
+        public override void DeleteRange(IEnumerable<T> entities)
+        {
+            set.RemoveRange(entities);
+        }
+
 
         public override T FindById(int id)
         {
             return set.Find(id);
-        }
-
-        public Task<T> FindByIdAsync(int id)
-        {
-            return set.FindAsync(id);
-        }
-
-        public Task<List<T>> GetAllAsync(bool asNoTracking = true)
-        {
-            return FindAll(asNoTracking).ToListAsync();
         }
 
         public override List<T> GetAll()
@@ -131,66 +142,14 @@ namespace PDCoreNew.Repositories.Repo
             return FindAll().ToList();
         }
 
-        public List<T> GetAll(bool asNoTracking)
+        public override string GetQuery()
         {
-            return FindAll(asNoTracking).ToList();
-        }
-
-        //Funkcjonalność ConnectedRepository. Nie ma potrzeby pobierania danych wiele razy. Repository i kontekst żyją w danym oknie.
-        public ObservableCollection<T> GetAllFromMemory()
-        {
-            if (set.Local.IsEmpty())
-            {
-                GetAll();
-            }
-
-            return set.Local;
-        }
-
-
-        //Funkcjonalność ConnectedRepository. Nie ma potrzeby pobierania danych wiele razy. Repository i kontekst żyją w danym oknie.
-        public async Task<ObservableCollection<T>> GetAllFromMemoryAsync()
-        {
-            if (set.Local.IsEmpty())
-            {
-                await GetAllAsync();
-            }
-
-            return set.Local;
-        }
-
-        //Funkcjonalność ConnectedRepository. Pozbycie się z pamięci przed zapisem obiektów utworzonych, ale niezedytowanych.
-        private void RemoveEmptyEntries()
-        {
-            T entry;
-
-            //you can't remove from or add to a collection in a foreach loop
-            for (int i = set.Local.Count; i > 0; i--)
-            {
-                entry = set.Local[i - 1];
-
-                if (ctx.Entry(entry).State == EntityState.Added && !entry.IsDirty)
-                {
-                    Delete(entry);
-                }
-            }
+            return ctx.GetQuery<T>();
         }
 
         public override List<T> GetByQuery(string query)
         {
             return set.SqlQuery(query).ToList();
-        }
-
-        public Task<List<T>> GetByQueryAsync(string query)
-        {
-            return set.SqlQuery(query).ToListAsync();
-        }
-
-        public Task<List<T>> GetByWhereAsync(string where)
-        {
-            string query = GetQuery(where);
-
-            return GetByQueryAsync(query);
         }
 
         public override DataTable GetDataTableByWhere(string where)
@@ -205,27 +164,10 @@ namespace PDCoreNew.Repositories.Repo
             return DbLogWrapper.Execute(ctx.DataTable, query, ConnectionString, logger, IsLoggingEnabled);
         }
 
-        public Task<int> GetCountAsync(Expression<Func<T, bool>> predicate = null)
-        {
-            if (predicate != null)
-                return FindAll().CountAsync(predicate);
-            else
-                return FindAll().CountAsync();
-        }
 
-        public override string GetQuery()
+        public override int Commit()
         {
-            return ctx.GetQuery<T>();
-        }
-
-        public int GetCount(Expression<Func<T, bool>> predicate)
-        {
-            return FindAll().Count(predicate);
-        }
-
-        public override int GetCount()
-        {
-            return FindAll().Count();
+            return ctx.SaveChangesWithModificationHistory(); //Zwraca ilość wierszy wziętych po uwagę
         }
     }
 }

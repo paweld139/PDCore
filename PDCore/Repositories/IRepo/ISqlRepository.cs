@@ -9,23 +9,24 @@ namespace PDCore.Repositories.IRepo
 {
     public interface ISqlRepository<T> : IRepository<T>, ISqlRepository
     {
+        List<T> GetAll();
+
         List<T> GetByQuery(string query);
 
         List<T> GetByWhere(string where);
 
-        List<T> GetAll();
+        int GetCount();
 
-        DataTable GetDataTableByWhere(string where);
 
-        string GetQuery(string where);
+        string GetTableName();
 
         string GetQuery();
 
+        string GetQuery(string where);
+
         int GetCountByWhere(string where);
 
-        int GetCount();
-
-        string GetTableName();
+        DataTable GetDataTableByWhere(string where);         
     }
 
     public interface ISqlRepository
@@ -33,6 +34,7 @@ namespace PDCore.Repositories.IRepo
         bool IsLoggingEnabled { get; }
 
         void SetLogging(bool res);
+
 
         DataTable GetDataTableByQuery(string query);
 

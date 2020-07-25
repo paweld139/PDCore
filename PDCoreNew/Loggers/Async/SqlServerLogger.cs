@@ -17,10 +17,10 @@ namespace PDCoreNew.Loggers.Async
 {
     public class SqlServerLogger : AsyncLogger
     {
-        private readonly ISqlRepositoryEntityFramework<LogModel> logRepository;
+        private readonly ISqlRepositoryEntityFrameworkAsync<LogModel> logRepository;
         private static readonly Lazy<FileLogger> fileLogger = new Lazy<FileLogger>();
 
-        public SqlServerLogger(ISqlRepositoryEntityFramework<LogModel> logRepository)
+        public SqlServerLogger(ISqlRepositoryEntityFrameworkAsync<LogModel> logRepository)
         {
             this.logRepository = logRepository;
         }

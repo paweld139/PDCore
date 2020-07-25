@@ -12,9 +12,11 @@ namespace PDCore.Repositories.IRepo
 
         void AddRange(IEnumerable<T> newEntities);
 
+
         void Delete(T entity);
 
         void DeleteRange(IEnumerable<T> entities);
+
 
         int Commit();
     }

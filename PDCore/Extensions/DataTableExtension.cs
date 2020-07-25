@@ -1,4 +1,5 @@
-﻿using PDCore.Utils;
+﻿using IronRuby.Runtime;
+using PDCore.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -98,16 +99,7 @@ namespace PDCore.Extensions
         /// <returns>Lista typu klucz-wartość dla zadanej tabeli</returns>
         public static List<KeyValuePair<TKey, TValue>> GetKVP<TKey, TValue>(this DataTable source, Func<DataRow, TKey> keySelector, Func<DataRow, TValue> valueSelector)
         {
-            //Utworzenie listy typu klucz-wartość z zadanymi typami, która zawiera tyle elementów, co tabela zawiera wierszy (capacity - pojemność)
-            List<KeyValuePair<TKey, TValue>> result = new List<KeyValuePair<TKey, TValue>>(source.Rows.Count);
-
-            foreach (DataRow element in source.Rows) //Następuje iteracja po wierszach tabeli
-            {
-                //Dla każdego wiersza zostaje utworzony obiekt typu klucz-wartość z wykorzystaniem przekazanych metod. Obiekt zostaje dodany do listy.
-                result.Add(new KeyValuePair<TKey, TValue>(keySelector(element), valueSelector(element)));
-            }
-
-            return result;
+            return source.AsEnumerable().GetKVPList(keySelector, valueSelector);
         }
 
         /// <summary>

@@ -19,9 +19,9 @@ namespace PDWebCore.Services.Serv
 
         //private readonly WebClient webClient;
         private readonly IUserDataFactory userDataFactory;
-        private readonly ISqlRepositoryEntityFramework<UserDataModel> userDataRepo;
+        private readonly ISqlRepositoryEntityFrameworkAsync<UserDataModel> userDataRepo;
 
-        public UserDataService(IUserDataFactory userDataFactory, ISqlRepositoryEntityFramework<UserDataModel> userDataRepo)
+        public UserDataService(IUserDataFactory userDataFactory, ISqlRepositoryEntityFrameworkAsync<UserDataModel> userDataRepo)
         {
             this.userDataFactory = userDataFactory;
             this.userDataRepo = userDataRepo;

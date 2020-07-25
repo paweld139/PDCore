@@ -85,16 +85,14 @@ namespace PDCore.Extensions
         /// <param name="keySelector">Metoda, która jako parametr przyjmuje element kolekcji i zwraca obiekt typu klucza</param>
         /// <param name="valueSelector">Metoda, która jako parametr przyjmuje element kolekcji i zwraca obiekt typu wartości</param>
         /// <returns></returns>
+        public static IQueryable<KeyValuePair<TKey, TValue>> GetKVP<TSource, TKey, TValue>(this IQueryable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> valueSelector)
+        {
+            return source.Select(e => new KeyValuePair<TKey, TValue>(keySelector(e), valueSelector(e)));
+        }
+
         public static IEnumerable<KeyValuePair<TKey, TValue>> GetKVP<TSource, TKey, TValue>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> valueSelector)
         {
-            foreach (TSource element in source) //Następuje iteracja po źródłowym module wyliczającym, który przechodzi po każdym elemencie kolekcji
-            {
-                /*
-                 * Dla każdego elementu kolekcji zostaje utworzony obiekt typu klucz-wartość z wykorzystaniem przekazanych metod. 
-                 * Obiekt zwrócony z kolekcji i brany pod uwagę w ewentualnych następnych operacjach.
-                 */
-                yield return new KeyValuePair<TKey, TValue>(keySelector(element), valueSelector(element));
-            }
+            return source.AsQueryable().GetKVP(keySelector, valueSelector);
         }
 
         public static IEnumerable<KeyValuePair<TKey, TValue>> GetKVP<TSource, TKey, TValue>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<int, TValue> valueSelector)
@@ -109,18 +107,14 @@ namespace PDCore.Extensions
             }
         }
 
-        public static List<KeyValuePair<TKey, TValue>> GetKVP<TSource, TKey, TValue>(this IQueryable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> valueSelector)
+        public static List<KeyValuePair<TKey, TValue>> GetKVPList<TSource, TKey, TValue>(this IQueryable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> valueSelector)
         {
-            List<TSource> list = new List<TSource>(source);
+            return source.GetKVP(keySelector, valueSelector).ToList();
+        }
 
-            List<KeyValuePair<TKey, TValue>> result = new List<KeyValuePair<TKey, TValue>>();
-
-            foreach (TSource element in list)
-            {
-                result.Add(new KeyValuePair<TKey, TValue>(keySelector(element), valueSelector(element)));
-            }
-
-            return result;
+        public static List<KeyValuePair<TKey, TValue>> GetKVPList<TSource, TKey, TValue>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> valueSelector)
+        {
+            return source.AsQueryable().GetKVPList(keySelector, valueSelector);
         }
 
         public static TResult[] ToArray<TResult>(this IEnumerable<object> source)
@@ -348,9 +342,31 @@ namespace PDCore.Extensions
             }
         }
 
+        public static IQueryable<T> Filter<T>(this IQueryable<T> input, string substring, Converter<T, string> converter = null)
+        {
+            return input.Where(e => e.ConvertOrCastTo(converter).Contains(substring, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public static IEnumerable<T> Filter<T>(this IEnumerable<T> input, string substring, Converter<T, string> converter = null)
+        {
+            return input.AsQueryable().Filter(substring, converter);
+        }
+
         public static IEnumerable<string> EmptyIfNull(this IEnumerable<object> values)
         {
             return values.Select(v => v.EmptyIfNull());
+        }
+
+        public static IEnumerable<T> GetPage<T>(this IEnumerable<T> input, int page, int pagesize)
+        {
+            return input.AsQueryable().GetPage(page, pagesize);
+        }
+
+        public static IQueryable<T> GetPage<T>(this IQueryable<T> input, int page, int pagesize)
+        {
+            int elementsToSkip = (page - 1) * pagesize;
+
+            return input.Skip(elementsToSkip).Take(pagesize);
         }
     }
 }

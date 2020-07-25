@@ -80,20 +80,6 @@ namespace PDCore.Extensions
             return result;
         }
 
-        public static List<KeyValuePair<TKey, TValue>> GetKVP<TSource, TKey, TValue>(this IQueryable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> valueSelector)
-        {
-            List<TSource> list = new List<TSource>(source);
-
-            List<KeyValuePair<TKey, TValue>> result = new List<KeyValuePair<TKey, TValue>>(list.Count);
-
-            foreach (TSource element in list)
-            {
-                result.Add(new KeyValuePair<TKey, TValue>(keySelector(element), valueSelector(element)));
-            }
-
-            return result;
-        }
-
         public static T Last<T>(this IList<T> list)
         {
             return list[list.LastIndex()];
