@@ -12,7 +12,9 @@ using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Unity;
 
 namespace PDCoreNew.Extensions
@@ -48,6 +50,64 @@ namespace PDCoreNew.Extensions
         public static void RemoveAllRegistrations(this IUnityContainer container)
         {
             container.RemoveRegistrations(null, null, null);
+        }
+
+        private async static Task<TResult> DoWithRetry<TResult, TException>(Func<TResult> func, Func<Task<TResult>> task, bool sync) where TException : Exception
+        {
+            var result = default(TResult);
+
+            int retryCount = 0;
+
+            bool succesful = false;
+
+            do
+            {
+                try
+                {
+                    if (sync)
+                        result = func();
+                    else
+                        result = await task();
+
+                    succesful = true;
+                }
+                catch (TException)
+                {
+                    retryCount++;
+                }
+            } while (retryCount < 3 && !succesful);
+
+            return result;
+        }
+
+        public static TResult WithRetry<TResult, TException>(this Func<TResult> func) where TException : Exception
+        {
+            return DoWithRetry<TResult, TException>(func, null, true).Result;
+        }
+
+        public static Task<TResult> WithRetry<TResult, TException>(this Func<Task<TResult>> task) where TException : Exception
+        {
+            return DoWithRetry<TResult, TException>(null, task, false);
+        }
+
+        public static T WithRetryWeb<T>(this Func<T> func)
+        {
+            return func.WithRetry<T, WebException>();
+        }
+
+        public static Task<T> WithRetryWeb<T>(this Func<Task<T>> task)
+        {
+            return task.WithRetry<T, WebException>();
+        }
+
+        public static TResult WithRetry<TResult>(this Func<TResult> func)
+        {
+            return func.WithRetry<TResult, Exception>();
+        }
+
+        public static Task<TResult> WithRetry<TResult>(this Func<Task<TResult>> task)
+        {
+            return task.WithRetry<TResult, Exception>();
         }
     }
 }

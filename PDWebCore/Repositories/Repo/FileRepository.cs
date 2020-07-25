@@ -16,7 +16,7 @@ using System.Web.Hosting;
 
 namespace PDWebCore.Repositories.Repo
 {
-    public sealed class FileRepository : SqlRepositoryEntityFramework<FileModel>
+    public sealed class FileRepository : SqlRepositoryEntityFrameworkAsync<FileModel>
     {
         public readonly IMainWebDbContext _db;
         public FileRepository(IMainWebDbContext db, ILogger logger) : base(db, logger)

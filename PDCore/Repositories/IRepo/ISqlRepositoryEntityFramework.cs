@@ -43,6 +43,14 @@ namespace PDCore.Repositories.IRepo
 
         IQueryable<T> FindPage(int page, int pageSize);
 
+        IQueryable<T> FindByDateCreated(IQueryable<T> source, string dateF, string dateT);
+
+        IQueryable<T> FindByDateCreated(IQueryable<T> source, DateTime? dateF, DateTime? dateT);
+
+        IQueryable<T> FindByDateModified(IQueryable<T> source, string dateF, string dateT);
+
+        IQueryable<T> FindByDateModified(IQueryable<T> source, DateTime? dateF, DateTime? dateT);
+
 
         List<T> GetAll(bool asNoTracking);
 

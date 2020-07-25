@@ -1,15 +1,12 @@
-﻿using PDCore.Services;
+﻿using PDCore.Repositories.IRepo;
 using PDCoreNew.Utils;
 using PDWebCore.Factories.IFac;
 using PDWebCore.Models;
 using PDWebCore.Services.IServ;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
-using PDCore.Repositories.IRepo;
+using PDCoreNew.Extensions;
+using PDCore.Extensions;
+using System;
 
 namespace PDWebCore.Services.Serv
 {
@@ -19,9 +16,9 @@ namespace PDWebCore.Services.Serv
 
         //private readonly WebClient webClient;
         private readonly IUserDataFactory userDataFactory;
-        private readonly ISqlRepositoryEntityFrameworkAsync<UserDataModel> userDataRepo;
+        private readonly ISqlRepositoryEntityFrameworkDisconnected<UserDataModel> userDataRepo;
 
-        public UserDataService(IUserDataFactory userDataFactory, ISqlRepositoryEntityFrameworkAsync<UserDataModel> userDataRepo)
+        public UserDataService(IUserDataFactory userDataFactory, ISqlRepositoryEntityFrameworkDisconnected<UserDataModel> userDataRepo)
         {
             this.userDataFactory = userDataFactory;
             this.userDataRepo = userDataRepo;
@@ -31,16 +28,14 @@ namespace PDWebCore.Services.Serv
         {
             var userData = await GetAsync();
 
-            userDataRepo.Add(userData);
-
-            await userDataRepo.CommitAsync();
+            await userDataRepo.SaveNewAsync(userData);
         }
 
         public async Task<UserDataModel> GetAsync()
         {
             UserDataModel userData = new UserDataModel();
 
-            string usersIp = Utils.GetIPAddress();          
+            string usersIp = Utils.GetIPAddress();
 
             if (string.IsNullOrEmpty(usersIp))
             {
@@ -51,14 +46,14 @@ namespace PDWebCore.Services.Serv
 
             string jsonString = string.Empty;
 
-            try
-            {
-                jsonString = await WebUtils.GetTextAsyncFromWebClient(apiUrl);
-            }
-            catch
-            {
+
+            Func<string, Task<string>> func = WebUtils.GetTextAsyncFromWebClient;
+
+            jsonString = await func.Partial(apiUrl).WithRetry();
+
+            if (string.IsNullOrEmpty(jsonString))
                 userData.ServiceUnresponded = true;
-            }
+
 
             userDataFactory.Fill(userData, jsonString, usersIp);
 

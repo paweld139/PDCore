@@ -15,7 +15,7 @@ namespace PDWebCore.Loggers
 {
     public class SqlServerWebLogger : SqlServerLogger
     {
-        public SqlServerWebLogger(ISqlRepositoryEntityFramework<LogModel> logRepository) : base(logRepository)
+        public SqlServerWebLogger(ISqlRepositoryEntityFrameworkAsync<LogModel> logRepository) : base(logRepository)
         {
 
         }

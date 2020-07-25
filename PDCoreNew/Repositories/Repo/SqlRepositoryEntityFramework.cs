@@ -73,6 +73,26 @@ namespace PDCoreNew.Repositories.Repo
             return query;
         }
 
+        public IQueryable<T> FindByDateCreated(IQueryable<T> source, string dateF, string dateT)
+        {
+            return FindAll().FindByDateCreated(dateF, dateT);
+        }
+
+        public IQueryable<T> FindByDateCreated(IQueryable<T> source, DateTime? dateF, DateTime? dateT)
+        {
+            return FindAll().FindByDateCreated(dateF, dateT);
+        }
+
+        public IQueryable<T> FindByDateModified(IQueryable<T> source, string dateF, string dateT)
+        {
+            return FindAll().FindByDateModified(dateF, dateT);
+        }
+
+        public IQueryable<T> FindByDateModified(IQueryable<T> source, DateTime? dateF, DateTime? dateT)
+        {
+            return FindAll().FindByDateModified(dateF, dateT);
+        }
+
 
         public List<T> GetAll(bool asNoTracking)
         {

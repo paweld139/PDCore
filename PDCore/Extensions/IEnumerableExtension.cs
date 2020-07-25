@@ -267,6 +267,16 @@ namespace PDCore.Extensions
             return source.Select(i => converter(i)); //Mapowanie
         }
 
+        public static IEnumerable<T> FindByDate<T>(this IEnumerable<T> source, string dateF, string dateT, Func<T, DateTime> dateSelector) where T : class
+        {
+            return source.AsQueryable().FindByDate(dateF, dateT, dateSelector);
+        }
+
+        public static IEnumerable<T> FindByDate<T>(this IEnumerable<T> source, DateTime? dateF, DateTime? dateT, Func<T, DateTime> dateSelector) where T : class
+        {
+            return source.AsQueryable().FindByDate(dateF, dateT, dateSelector);
+        }
+
         public static IQueryable<T> FindByDate<T>(this IQueryable<T> source, string dateF, string dateT, Func<T, DateTime> dateSelector) where T : class
         {
             SqlUtils.FindByDate(dateF, dateT, dateSelector, ref source);
