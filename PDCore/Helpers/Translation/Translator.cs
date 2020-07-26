@@ -48,11 +48,17 @@ namespace PDCore.Helpers.Translation
             {
                 var sentences = text.GetSentences().ToList();
 
-                result = TranslateSentences(sentences);
+                var translatedSentences = new List<string>(sentences);
+
+                result = TranslateSentences(translatedSentences);
 
                 if (result)
                 {
-                    text = string.Join(" ", sentences);
+                    StringBuilder translatedText = new StringBuilder(text);
+
+                    sentences.ForEach((s, i) => translatedText.Replace(s, translatedSentences[i]));
+
+                    text = translatedText.ToString();
                 }
             }
 
@@ -142,7 +148,7 @@ namespace PDCore.Helpers.Translation
                 {
                     sentences[i] = sentence;
 
-                    if(!result)
+                    if (!result)
                     {
                         result = true;
                     }
