@@ -5,8 +5,10 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace PDCore.Extensions
 {
@@ -172,6 +174,50 @@ namespace PDCore.Extensions
             var backwards = new string(forwards.Reverse().ToArray());
 
             return backwards.Equals(forwards);
+        }
+
+        public static char LastCharacter(this string input)
+        {
+            int lastIndex = input.LastIndex();
+
+            return input[lastIndex];
+        }
+
+        public static int LastIndex(this string input) => input.Length - 1;
+
+        public static string RemoveLastCharacter(this string input)
+        {
+            int lastIndex = input.LastIndex();
+
+            return input.Remove(lastIndex);
+        }
+
+        public static string[] GetSentences(this string input)
+        {
+            return Regex.Split(input, @"(?<=[\.!\?])\s+");
+        }
+
+        public static string TrimSuffix(this string word)
+        {
+            int apostropheLocation = word.IndexOf('\'');
+
+            if (apostropheLocation != -1)
+            {
+                word = word.Substring(0, apostropheLocation);
+            }
+
+            return word;
+        }
+
+        public static string[] GetWords(this string input)
+        {
+            MatchCollection matches = Regex.Matches(input, @"\b[\w'-]*\b");
+
+            var words = from m in matches.Cast<Match>()
+                        where !string.IsNullOrEmpty(m.Value)
+                        select TrimSuffix(m.Value);
+
+            return words.ToArray();
         }
     }
 }

@@ -141,6 +141,9 @@
     <Compile Include="Helpers\DataLoaders\FileLoader.cs" />
     <Compile Include="Helpers\DataLoaders\WebLoader.cs" />
     <Compile Include="Helpers\PropertyCache.cs" />
+    <Compile Include="Helpers\Translation\CustomIdentityErrorDescriber.cs" />
+    <Compile Include="Helpers\Translation\ErrorTranslator.cs" />
+    <Compile Include="Helpers\Translation\Translator.cs" />
     <Compile Include="Interfaces\IDataLoader.cs" />
     <Compile Include="Interfaces\IModificationHistory.cs" />
     <Compile Include="Interfaces\IParser.cs" />

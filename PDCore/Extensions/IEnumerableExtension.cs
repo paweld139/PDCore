@@ -378,5 +378,10 @@ namespace PDCore.Extensions
 
             return input.Skip(elementsToSkip).Take(pagesize);
         }
+
+        public static IEnumerable<string> GetSentences(this IEnumerable<string> source)
+        {
+            return source.SelectMany(s => s.GetSentences());
+        }
     }
 }
