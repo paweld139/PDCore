@@ -1,38 +1,12 @@
 ﻿using PDCore.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace PDCore.Repositories.IRepo
 {
-    public interface ISqlRepositoryEntityFrameworkAsync<T> : ISqlRepositoryEntityFramework<T> where T : class, IModificationHistory
-    {
-        Task<T> FindByIdAsync(int id);
-
-        Task<List<T>> GetByQueryAsync(string query);
-
-        Task<List<T>> GetByWhereAsync(string where);
-
-        Task<List<T>> GetAllAsync(bool asNoTracking);
-
-        Task<List<T>> GetAllAsync();
-
-        Task<List<KeyValuePair<TKey, TValue>>> GetKeyValuePairsAsync<TKey, TValue>(Func<T, TKey> keySelector, Func<T, TValue> valueSelector, bool sortByValue = true) where TValue : IComparable<TValue>;
-
-        Task<List<T>> GetByFilterAsync(Converter<T, string> converter, string substring);
-
-        Task<List<T>> GetPageAsync(int page, int pageSize);
-
-        Task<int> GetCountAsync(Expression<Func<T, bool>> predicate = null);
-
-
-        Task<int> CommitAsync();        
-    }
-
     public interface ISqlRepositoryEntityFramework<T> : ISqlRepository<T> where T : class, IModificationHistory
     {
         IQueryable<T> FindAll(bool asNoTracking);
@@ -63,41 +37,6 @@ namespace PDCore.Repositories.IRepo
         int GetCount(Expression<Func<T, bool>> predicate);
 
 
-        void Attach(T obj);                                                                                     
-    }
-
-    public interface ISqlRepositoryEntityFrameworkConnected<T> : ISqlRepositoryEntityFrameworkAsync<T> where T : class, IModificationHistory, new()
-    {
-        ObservableCollection<T> GetAllFromMemory();
-
-        Task<ObservableCollection<T>> GetAllFromMemoryAsync();
-
-
-        T Add();
-
-
-        void DeleteAndCommit(T entity);
-
-        Task DeleteAndCommitAsync(T entity);
-    }
-
-    public interface ISqlRepositoryEntityFrameworkDisconnected<T> : ISqlRepositoryEntityFrameworkAsync<T> where T : class, IModificationHistory
-    {
-        void SaveNew(T entity);
-
-        Task SaveNewAsync(T entity);
-
-
-        void SaveUpdated(T entity);
-
-        Task SaveUpdatedAsync(T entity);
-
-
-        void Delete(int id);
-
-
-        void DeleteAndCommit(int id);
-
-        Task DeleteAndCommitAsync(int id);
+        void Attach(T obj);
     }
 }
