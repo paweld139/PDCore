@@ -154,7 +154,12 @@ namespace PDCoreNew.Repositories.Repo
 
         public override T FindById(int id)
         {
-            return set.Find(id);
+            return FindByKeyValues(id);
+        }
+
+        public T FindByKeyValues(params object[] keyValues)
+        {
+            return set.Find(keyValues);
         }
 
         public override List<T> GetAll()

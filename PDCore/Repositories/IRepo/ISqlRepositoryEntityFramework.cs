@@ -26,6 +26,8 @@ namespace PDCore.Repositories.IRepo
         IQueryable<T> FindByDateModified(IQueryable<T> source, DateTime? dateF, DateTime? dateT);
 
 
+        T FindByKeyValues(params object[] keyValues);
+
         List<T> GetAll(bool asNoTracking);
 
         List<KeyValuePair<TKey, TValue>> GetKeyValuePairs<TKey, TValue>(Func<T, TKey> keySelector, Func<T, TValue> valueSelector, bool sortByValue = true) where TValue : IComparable<TValue>;
