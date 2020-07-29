@@ -1,27 +1,25 @@
 ﻿using System;
-using System.Drawing;
 using System.Globalization;
 using System.Windows.Data;
 
 namespace PDCore.Helpers.WPF.Converters
 {
-    public class PriorityToForegroundConverter : IValueConverter
+    public class CapitalizeFirstLetterConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (targetType != typeof(Brush))
+            if (value is string castValue)
             {
-                throw new InvalidOperationException("Celem powinien być typ Brush");
+                return char.ToUpper(castValue[0]) + castValue.Substring(1);
             }
 
-            int priorytet = System.Convert.ToInt32(value);
-
-            return (priorytet == 1 ? Brushes.Red : Brushes.Black);
+            return value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            // To keep it simple, no need to convert back 
+            return null;
         }
     }
 }
