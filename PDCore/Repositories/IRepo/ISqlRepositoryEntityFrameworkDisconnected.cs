@@ -17,6 +17,8 @@ namespace PDCore.Repositories.IRepo
 
         void Delete(int id);
 
+        void Update(T entity);
+
 
         void DeleteAndCommit(int id);
 

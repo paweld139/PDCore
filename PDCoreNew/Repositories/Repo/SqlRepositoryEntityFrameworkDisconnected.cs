@@ -35,27 +35,36 @@ namespace PDCoreNew.Repositories.Repo
             return CommitAsync();
         }
 
+        public void Update(T entity)
+        {
+            ctx.Entry(entity).State = EntityState.Modified;
+        }
 
         public void SaveUpdated(T entity)
         {
-            ctx.Entry(entity).State = EntityState.Modified;
+            Update(entity);
 
             Commit();
         }
 
         public Task SaveUpdatedAsync(T entity)
         {
-            ctx.Entry(entity).State = EntityState.Modified;
+            Update(entity);
 
             return CommitAsync();
         }
 
 
+        public override void Delete(T entity)
+        {
+            ctx.Entry(entity).State = EntityState.Deleted;
+        }
+
         public void Delete(int id)
         {
             var entry = FindById(id);
 
-            ctx.Entry(entry).State = EntityState.Deleted;
+            Delete(entry);
         }
 
 
@@ -69,6 +78,20 @@ namespace PDCoreNew.Repositories.Repo
         public Task DeleteAndCommitAsync(int id)
         {
             Delete(id);
+
+            return CommitAsync();
+        }
+
+        public override void DeleteAndCommit(T entity)
+        {
+            Delete(entity);
+
+            Commit();
+        }
+
+        public override Task DeleteAndCommitAsync(T entity)
+        {
+            Delete(entity);
 
             return CommitAsync();
         }

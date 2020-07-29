@@ -71,5 +71,12 @@ namespace PDCoreNew.Repositories.Repo
         {
             return ctx.SaveChangesWithModificationHistoryAsync(); //Zwraca ilość wierszy wziętych po uwagę
         }
+
+        public virtual Task DeleteAndCommitAsync(T entity)
+        {
+            Delete(entity);
+
+            return CommitAsync();
+        }
     }
 }

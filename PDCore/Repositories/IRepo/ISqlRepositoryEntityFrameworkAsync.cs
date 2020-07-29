@@ -28,5 +28,7 @@ namespace PDCore.Repositories.IRepo
 
 
         Task<int> CommitAsync();
+
+        Task DeleteAndCommitAsync(T entity);
     }
 }

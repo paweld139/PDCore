@@ -12,10 +12,5 @@ namespace PDCore.Repositories.IRepo
 
 
         T Add();
-
-
-        void DeleteAndCommit(T entity);
-
-        Task DeleteAndCommitAsync(T entity);
     }
 }

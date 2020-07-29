@@ -50,23 +50,6 @@ namespace PDCoreNew.Repositories.Repo
         }
 
 
-        //Funkcjonalność ConnectedRepository. Niekiedy przydaje się w aplikacjach okienkowych, np.by usunąć dany element z grida.
-        public void DeleteAndCommit(T entity)
-        {
-            Delete(entity);
-
-            Commit();
-        }
-
-        //Funkcjonalność ConnectedRepository. Niekiedy przydaje się w aplikacjach okienkowych, np.by usunąć dany element z grida.
-        public Task DeleteAndCommitAsync(T entity)
-        {
-            Delete(entity);
-
-            return CommitAsync();
-        }
-
-
         //Funkcjonalność ConnectedRepository. Pozbycie się z pamięci przed zapisem obiektów utworzonych, ale niezedytowanych.
         private void RemoveEmptyEntries()
         {

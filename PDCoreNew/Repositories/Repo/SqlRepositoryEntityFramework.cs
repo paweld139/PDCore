@@ -194,5 +194,12 @@ namespace PDCoreNew.Repositories.Repo
         {
             return ctx.SaveChangesWithModificationHistory(); //Zwraca ilość wierszy wziętych po uwagę
         }
+
+        public virtual void DeleteAndCommit(T entity)
+        {
+            Delete(entity);
+
+            Commit();
+        }
     }
 }

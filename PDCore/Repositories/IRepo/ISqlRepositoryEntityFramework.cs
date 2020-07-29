@@ -40,5 +40,7 @@ namespace PDCore.Repositories.IRepo
 
 
         void Attach(T obj);
+
+        void DeleteAndCommit(T entity);
     }
 }
