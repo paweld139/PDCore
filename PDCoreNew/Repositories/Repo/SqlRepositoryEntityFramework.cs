@@ -346,7 +346,28 @@ namespace PDCoreNew.Repositories.Repo
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                result = ex.HandleExceptionOnDelete(writeError);
+                var entry = ex.Entries.Single();
+
+                var databaseEntry = entry.GetDatabaseValues();
+
+                if (databaseEntry == null)
+                {
+                    result = true;
+                }
+                else
+                {
+                    writeError(string.Empty, "The record you attempted to delete "
+                        + "was modified by another user after you got the original values. "
+                        + "The delete operation was canceled and the current values in the "
+                        + "database have been displayed. If you still want to delete this "
+                        + "record, click the Delete button again. Otherwise "
+                        + "click the Back to List hyperlink.");
+
+                    if (sync)
+                        entry.Reload();
+                    else
+                        await entry.ReloadAsync();
+                }
             }
             catch (DataException dex)
             {

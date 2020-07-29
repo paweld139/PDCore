@@ -157,32 +157,5 @@ namespace PDCoreNew.Extensions
                 entity.RowVersion = databaseValues.RowVersion;
             }
         }
-
-        public static bool HandleExceptionOnDelete(this DbUpdateConcurrencyException exception, Action<string, string> writeError)
-        {
-            bool result = false;
-
-            var entry = exception.Entries.Single();
-
-            var databaseEntry = entry.GetDatabaseValues();
-
-            if (databaseEntry == null)
-            {
-                result = true;
-            }
-            else
-            {
-                writeError(string.Empty, "The record you attempted to delete "
-                    + "was modified by another user after you got the original values. "
-                    + "The delete operation was canceled and the current values in the "
-                    + "database have been displayed. If you still want to delete this "
-                    + "record, click the Delete button again. Otherwise "
-                    + "click the Back to List hyperlink.");
-
-                entry.Reload();
-            }
-
-            return result;
-        }
     }
 }
