@@ -218,7 +218,9 @@ namespace PDCoreNew.Repositories.Repo
                 {
                     foreach (var entry in ex.Entries)
                     {
-                        entry.Reload();
+                        var databaseValues = entry.GetDatabaseValues();
+
+                        entry.OriginalValues.SetValues(databaseValues);
                     }
                 }
             }
@@ -253,9 +255,10 @@ namespace PDCoreNew.Repositories.Repo
                 {
                     foreach (var entry in ex.Entries)
                     {
-                        var databaseValues = entry.GetDatabaseValues();
-
-                        entry.OriginalValues.SetValues(databaseValues);
+                        if (sync)
+                            entry.Reload();
+                        else
+                            await entry.ReloadAsync();
                     }
                 }
             }
