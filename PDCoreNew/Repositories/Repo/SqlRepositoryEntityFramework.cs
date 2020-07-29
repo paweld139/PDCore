@@ -10,8 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace PDCoreNew.Repositories.Repo
 {
@@ -195,11 +197,170 @@ namespace PDCoreNew.Repositories.Repo
             return ctx.SaveChangesWithModificationHistory(); //Zwraca ilość wierszy wziętych po uwagę
         }
 
+        protected async Task<int> DoCommitAsClientWins(bool sync, Func<Task<int>> commitAsync)
+        {
+            bool saved = false;
+
+            int result = 0;
+
+            do
+            {
+                try
+                {
+                    if (sync)
+                        result = Commit(); //Zwraca ilość wierszy wziętych po uwagę
+                    else
+                        result = await commitAsync();
+
+                    saved = true;
+                }
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    foreach (var entry in ex.Entries)
+                    {
+                        entry.Reload();
+                    }
+                }
+            }
+            while (!saved);
+
+            return result;
+        }
+
+        public int CommitAsClientWins()
+        {
+            return DoCommitAsClientWins(true, null).Result;
+        }
+
+        public async Task<int> DoCommitAsDatabaseWins(bool sync, Func<Task<int>> commitAsync)
+        {
+            bool saved = false;
+
+            int result = 0;
+
+            do
+            {
+                try
+                {
+                    if (sync)
+                        result = Commit(); //Zwraca ilość wierszy wziętych po uwagę
+                    else
+                        result = await commitAsync();
+
+                    saved = true;
+                }
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    foreach (var entry in ex.Entries)
+                    {
+                        var databaseValues = entry.GetDatabaseValues();
+
+                        entry.OriginalValues.SetValues(databaseValues);
+                    }
+                }
+            }
+            while (!saved);
+
+            return result;
+        }
+
+        public int CommitAsDatabaseWins()
+        {
+            return DoCommitAsDatabaseWins(true, null).Result;
+        }
+
+        protected async Task<int> DoCommitWithOptimisticConcurrency(bool sync, Func<Task<int>> commitAsync)
+        {
+            bool saved = false;
+
+            int result = 0;
+
+            do
+            {
+                try
+                {
+                    if (sync)
+                        result = Commit(); //Zwraca ilość wierszy wziętych po uwagę
+                    else
+                        result = await commitAsync();
+
+                    saved = true;
+                }
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    foreach (var entry in ex.Entries)
+                    {
+                        var currentValues = entry.CurrentValues;
+                        var databaseValues = entry.GetDatabaseValues();
+
+                        // Choose an initial set of resolved values. In this case we
+                        // make the default be the values currently in the database.
+                        var resolvedValues = currentValues.Clone();
+
+                        // Have the user choose what the resolved values should be
+                        HaveUserResolveConcurrency?.Invoke(currentValues, databaseValues, resolvedValues);
+
+                        // Update the original values with the database values and
+                        // the current values with whatever the user choose.
+                        entry.OriginalValues.SetValues(databaseValues);
+                        entry.CurrentValues.SetValues(resolvedValues);
+                    }
+                }
+            }
+            while (!saved);
+
+            return result;
+        }
+
+        public int CommitWithOptimisticConcurrency()
+        {
+            return DoCommitWithOptimisticConcurrency(true, null).Result;
+        }
+
+        /// <summary>
+        /// DbPropertyValues currentValues, DbPropertyValues databaseValues, DbPropertyValues resolvedValues
+        /// </summary>
+        public static event Action<DbPropertyValues, DbPropertyValues, DbPropertyValues> HaveUserResolveConcurrency;
+
         public virtual void DeleteAndCommit(T entity)
         {
             Delete(entity);
 
             Commit();
+        }
+
+        protected async Task<bool> DoDeleteAndCommitWithOptimisticConcurrency(T entity, Action<string, string> writeError, bool sync, Func<Task<int>> commitAsync)
+        {
+            Delete(entity);
+
+            bool result = false;
+
+            try
+            {
+                if (sync)
+                    Commit();
+                else
+                    await commitAsync();
+
+                result = true;
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                result = ex.HandleExceptionOnDelete(writeError);
+            }
+            catch (DataException dex)
+            {
+                logger.Error("An error occurred while trying to delete the entity", dex);
+
+                writeError(string.Empty, "Unable to delete. Try again, and if the problem persists contact your system administrator.");
+            }
+
+            return result;
+        }
+
+        public bool DeleteAndCommitWithOptimisticConcurrency(T entity, Action<string, string> writeError)
+        {
+            return DoDeleteAndCommitWithOptimisticConcurrency(entity, writeError, true, null).Result;
         }
     }
 }

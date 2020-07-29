@@ -5,6 +5,8 @@ using PDCoreNew.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Diagnostics.Contracts;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -77,6 +79,26 @@ namespace PDCoreNew.Repositories.Repo
             Delete(entity);
 
             return CommitAsync();
+        }
+
+        public Task<int> CommitAsClientWinsAsync()
+        {
+            return DoCommitAsClientWins(false, CommitAsync);
+        }
+
+        public Task<int> CommitAsDatabaseWinsAsync()
+        {
+            return DoCommitAsDatabaseWins(false, CommitAsync);
+        }
+
+        public Task<int> CommitWithOptimisticConcurrencyAsync()
+        {
+            return DoCommitWithOptimisticConcurrency(false, CommitAsync);
+        }
+
+        public Task<bool> DeleteAndCommitWithOptimisticConcurrencyAsync(T entity, Action<string, string> writeError)
+        {
+            return DoDeleteAndCommitWithOptimisticConcurrency(entity, writeError, false, CommitAsync);
         }
     }
 }

@@ -42,5 +42,13 @@ namespace PDCore.Repositories.IRepo
         void Attach(T obj);
 
         void DeleteAndCommit(T entity);
+
+        int CommitAsClientWins();
+
+        int CommitAsDatabaseWins();
+
+        int CommitWithOptimisticConcurrency();
+
+        bool DeleteAndCommitWithOptimisticConcurrency(T entity, Action<string, string> writeError);
     }
 }

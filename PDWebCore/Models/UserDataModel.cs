@@ -71,6 +71,7 @@ namespace PDWebCore.Models
 
         [JsonProperty("location")]
         public virtual Location Location { get; set; }
+        public byte[] RowVersion { get; set; }
     }
 
     [Table("Language")]

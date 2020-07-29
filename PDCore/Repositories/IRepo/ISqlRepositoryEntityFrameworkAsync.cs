@@ -30,5 +30,13 @@ namespace PDCore.Repositories.IRepo
         Task<int> CommitAsync();
 
         Task DeleteAndCommitAsync(T entity);
+
+        Task<int> CommitAsClientWinsAsync();
+
+        Task<int> CommitAsDatabaseWinsAsync();
+
+        Task<int> CommitWithOptimisticConcurrencyAsync();
+
+        Task<bool> DeleteAndCommitWithOptimisticConcurrencyAsync(T entity, Action<string, string> writeError);
     }
 }

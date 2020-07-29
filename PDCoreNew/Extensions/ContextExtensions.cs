@@ -119,5 +119,70 @@ namespace PDCoreNew.Extensions
             modelBuilder.Types<IModificationHistory>().
                Configure(c => c.Ignore(e => e.IsDirty));
         }
+
+        public static void HandleExceptionOnEdit<T>(this DbUpdateConcurrencyException exception, T entity, Action<string, string> writeError) where T : class, IModificationHistory
+        {
+            var entry = exception.Entries.Single();
+
+            var clientEntry = entry.CurrentValues;
+
+            var databaseEntry = entry.GetDatabaseValues();
+
+            if (databaseEntry == null)
+            {
+                writeError(string.Empty, "Unable to save changes. The object was deleted by another user.");
+            }
+            else
+            {
+                var databaseValues = (T)databaseEntry.ToObject();
+
+                foreach (var property in clientEntry.PropertyNames)
+                {
+                    var databaseValue = databaseEntry[property];
+
+                    var clientValue = clientEntry[property];
+
+                    if (clientValue != databaseValue && !clientValue.Equals(databaseValue))
+                    {
+                        writeError(property, "Current value: " + databaseValue);
+                    }
+                }
+
+                writeError(string.Empty, "The record you attempted to edit "
+                    + "was modified by another user after you got the original value. The "
+                    + "edit operation was canceled and the current values in the database "
+                    + "have been displayed. If you still want to edit this record, click "
+                    + "the Save button again. Otherwise click the Back to List hyperlink.");
+
+                entity.RowVersion = databaseValues.RowVersion;
+            }
+        }
+
+        public static bool HandleExceptionOnDelete(this DbUpdateConcurrencyException exception, Action<string, string> writeError)
+        {
+            bool result = false;
+
+            var entry = exception.Entries.Single();
+
+            var databaseEntry = entry.GetDatabaseValues();
+
+            if (databaseEntry == null)
+            {
+                result = true;
+            }
+            else
+            {
+                writeError(string.Empty, "The record you attempted to delete "
+                    + "was modified by another user after you got the original values. "
+                    + "The delete operation was canceled and the current values in the "
+                    + "database have been displayed. If you still want to delete this "
+                    + "record, click the Delete button again. Otherwise "
+                    + "click the Back to List hyperlink.");
+
+                entry.Reload();
+            }
+
+            return result;
+        }
     }
 }

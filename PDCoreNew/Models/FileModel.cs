@@ -39,6 +39,7 @@ namespace PDCoreNew.Models
         public DateTime DateModified { get; set; }
         public DateTime DateCreated { get; set; }
         public bool IsDirty { get; set; }
+        public byte[] RowVersion { get; set; }
     }
 
     public enum ObjType { Ticket = 0, Comment }

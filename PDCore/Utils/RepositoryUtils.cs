@@ -7,6 +7,15 @@ namespace PDCore.Utils
 {
     public static class RepositoryUtils
     {
+        public const string DeleteDataExceptionMessage = "Unable to delete. Try again, and if the problem persists contact your system administrator.";
+
+        public const string ConcurrencyDeleteErrorMessage = "The record you attempted to delete "
+                    + "was modified by another user after you got the original values. "
+                    + "The delete operation was canceled and the current values in the "
+                    + "database have been displayed. If you still want to delete this "
+                    + "record, click the Delete button again. Otherwise "
+                    + "click the Back to List hyperlink.";
+
         public static void DumpItems<T>(IReadOnlyRepository<T> repository, Action<T> print = null) where T : class
         {
             if (print == null)

@@ -1,4 +1,5 @@
 ﻿using PDCore.Interfaces;
+using System;
 using System.Threading.Tasks;
 
 namespace PDCore.Repositories.IRepo
@@ -12,7 +13,11 @@ namespace PDCore.Repositories.IRepo
 
         void SaveUpdated(T entity);
 
+        bool SaveUpdatedWithOptimisticConcurrency(T entity, Action<string, string> writeError);
+
         Task SaveUpdatedAsync(T entity);
+
+        Task<bool> SaveUpdatedWithOptimisticConcurrencyAsync(T entity, Action<string, string> writeError);
 
 
         void Delete(int id);
