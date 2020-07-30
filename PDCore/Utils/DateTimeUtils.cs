@@ -50,5 +50,19 @@ namespace PDCore.Utils
         {
             return TimeSpan.FromMilliseconds(milliseconds);
         }
+
+        public static int CalculateAge(DateTime birthdate) //08.08.1990
+        {
+            // Save today's date.
+            var today = DateTime.Today; //20.01.2020
+
+            // Calculate the age.
+            var age = today.Year - birthdate.Year; //30
+
+            // Go back to the year the person was born in case of a leap year
+            if (birthdate.Date > today.AddYears(-age)) age--;
+
+            return age;
+        }
     }
 }

@@ -31,6 +31,10 @@ namespace PDCoreTest
             _ = args;
 
 
+            TestEventLog();
+
+            WriteSeparator();
+
             TestDateWordly();
 
             WriteSeparator();
@@ -139,6 +143,17 @@ namespace PDCoreTest
 
 
             Console.ReadKey();
+        }
+
+        private static void TestEventLog()
+        {
+            EventLogLogger eventLog = new EventLogLogger(new LogMessageFactory());
+
+            eventLog.Warn("test ojej");
+            eventLog.Fatal("test ojej 2");
+            eventLog.Info("test ojej 3");
+
+            eventLog.Dispose();
         }
 
         private static void TestDateWordly()

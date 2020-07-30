@@ -10,6 +10,7 @@ namespace PDCore.Enums
         Console,
         File,
         InMemory,
-        Trace
+        Trace,
+        Debug
     }
 }

@@ -31,12 +31,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -64,6 +67,11 @@
     <Compile Include="Helpers\WebClientWithTimeout.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Helpers\WPF\DialogViewModelBase.cs" />
+    <Compile Include="Helpers\WPF\PageViewModelBase.cs" />
+    <Compile Include="Helpers\WPF\ViewModelBase.cs" />
+    <Compile Include="Loggers\DebugLogger.cs" />
+    <Compile Include="Loggers\EventLogLogger.cs" />
     <Compile Include="Loggers\Factory\LoggerFactory.cs" />
     <Compile Include="Helpers\Log.cs" />
     <Compile Include="Models\FileModel.cs" />
