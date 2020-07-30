@@ -59,11 +59,6 @@ namespace PDCore.Repositories.Repo
             db.Delete(list);
         }
 
-        public override IQueryable<T> FindAll()
-        {
-            throw new NotSupportedFunctionalityException(NotSupportedFunctionalityMessage);
-        }
-
         public override int Commit()
         {
             throw new NotSupportedFunctionalityException(NotSupportedFunctionalityMessage);
@@ -84,9 +79,14 @@ namespace PDCore.Repositories.Repo
             return db.GetDataTable(query);
         }
 
-        public override List<T> GetAll()
+        public override IEnumerable<T> GetAll()
         {
             return db.Load<T>();
+        }
+
+        public override IQueryable<T> FindAll()
+        {
+            throw new NotSupportedFunctionalityException(NotSupportedFunctionalityMessage);
         }
     }
 }

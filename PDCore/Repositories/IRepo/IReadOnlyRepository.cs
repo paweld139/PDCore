@@ -11,5 +11,9 @@ namespace PDCore.Repositories.IRepo
         T FindById(int id);
 
         IQueryable<T> FindAll();
+
+        IEnumerable<T> GetAll();
+
+        int GetCount();
     }
 }

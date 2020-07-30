@@ -9,13 +9,9 @@ namespace PDCore.Repositories.IRepo
 {
     public interface ISqlRepository<T> : IRepository<T>, ISqlRepository
     {
-        List<T> GetAll();
-
         List<T> GetByQuery(string query);
 
         List<T> GetByWhere(string where);
-
-        int GetCount();
 
 
         string GetTableName();

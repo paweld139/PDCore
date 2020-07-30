@@ -8,5 +8,7 @@ namespace PDCore.Interfaces
     public interface IEntity
     {
         bool IsValid();
+
+        int Id { get; set; }
     }
 }

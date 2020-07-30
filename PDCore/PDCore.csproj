@@ -197,6 +197,7 @@
     <Compile Include="Repositories\IRepo\ISqlRepositoryEntityFrameworkAsync.cs" />
     <Compile Include="Repositories\IRepo\ISqlRepositoryEntityFrameworkConnected.cs" />
     <Compile Include="Repositories\IRepo\ISqlRepositoryEntityFrameworkDisconnected.cs" />
+    <Compile Include="Repositories\Repo\InMemoryRepository.cs" />
     <Compile Include="Services\IServ\IMailService.cs" />
     <Compile Include="Helpers\MimeTypeMap.cs" />
     <Compile Include="Helpers\NamedObject.cs" />

@@ -18,15 +18,13 @@ namespace PDCore.Repositories.Repo
         {
         }
 
-
-        public abstract List<T> GetAll();
-        public abstract List<T> GetByQuery(string query);
-
         public abstract string GetQuery();
+        public abstract List<T> GetByQuery(string query);
         public abstract DataTable GetDataTableByWhere(string where);
 
         public abstract T FindById(int id);
         public abstract IQueryable<T> FindAll();
+        public abstract IEnumerable<T> GetAll();
 
         public abstract void Add(T newEntity);
         public abstract void AddRange(IEnumerable<T> newEntities);
@@ -85,7 +83,7 @@ namespace PDCore.Repositories.Repo
         public virtual int GetCount()
         {
             return GetCountByWhere(null);
-        }
+        }       
     }
 
     public abstract class SqlRepository : ISqlRepository

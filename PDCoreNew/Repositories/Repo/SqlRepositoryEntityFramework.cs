@@ -164,7 +164,7 @@ namespace PDCoreNew.Repositories.Repo
             return set.Find(keyValues);
         }
 
-        public override List<T> GetAll()
+        public override IEnumerable<T> GetAll()
         {
             return FindAll().ToList();
         }
