@@ -27,12 +27,12 @@ namespace PDCore.Commands.WPF
 
         public bool CanExecute(object parameter)
         {
-            return canExecute?.Invoke(Parameter ?? parameter) ?? true;
+            return canExecute?.Invoke(parameter ?? Parameter) ?? true;
         }
 
         public void Execute(object parameter)
         {
-            execute?.Invoke(Parameter ?? parameter);
+            execute?.Invoke(parameter ?? Parameter);
         }
 
         public void FireCanExecuteChanged()
