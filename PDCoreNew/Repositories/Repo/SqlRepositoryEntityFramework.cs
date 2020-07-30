@@ -386,5 +386,15 @@ namespace PDCoreNew.Repositories.Repo
         {
             return DoDeleteAndCommitWithOptimisticConcurrency(entity, writeError, true, null).Result;
         }
+
+        public IQueryable<T> Find(Expression<Func<T, bool>> predicate)
+        {
+            return FindAll().Where(predicate);
+        }
+
+        public List<T> Get(Expression<Func<T, bool>> predicate)
+        {
+            return Find(predicate).ToList();
+        }
     }
 }

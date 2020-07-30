@@ -100,5 +100,10 @@ namespace PDCoreNew.Repositories.Repo
         {
             return DoDeleteAndCommitWithOptimisticConcurrency(entity, writeError, false, CommitAsync);
         }
+
+        public Task<List<T>> GetAsync(Expression<Func<T, bool>> predicate)
+        {
+            return Find(predicate).ToListAsync();
+        }
     }
 }

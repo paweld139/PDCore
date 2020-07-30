@@ -18,6 +18,8 @@ namespace PDCore.Repositories.IRepo
 
         Task<List<T>> GetAllAsync();
 
+        Task<List<T>> GetAsync(Expression<Func<T, bool>> predicate);
+
         Task<List<KeyValuePair<TKey, TValue>>> GetKeyValuePairsAsync<TKey, TValue>(Func<T, TKey> keySelector, Func<T, TValue> valueSelector, bool sortByValue = true) where TValue : IComparable<TValue>;
 
         Task<List<T>> GetByFilterAsync(Converter<T, string> converter, string substring);
