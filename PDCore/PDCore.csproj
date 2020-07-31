@@ -106,6 +106,7 @@
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\WPF\RelayCommand.cs" />
     <Compile Include="Enums\CertificateType.cs" />
+    <Compile Include="Enums\DateComparison.cs" />
     <Compile Include="Enums\HorizontalTextAlignment.cs" />
     <Compile Include="Enums\Loaders.cs" />
     <Compile Include="Enums\LoadStatus.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="Helpers\Comparers\FileInfoLengthComparer.cs" />
     <Compile Include="Helpers\Comparers\KeyValuePairComparer.cs" />
     <Compile Include="Helpers\Comparers\NamedObjectComparer.cs" />
+    <Compile Include="Helpers\Comparers\Range.cs" />
     <Compile Include="Helpers\DataStructures\Book\Book.cs" />
     <Compile Include="Helpers\DataStructures\Book\DiskBook.cs" />
     <Compile Include="Helpers\DataStructures\Book\IBook.cs" />
@@ -195,6 +197,7 @@
     <Compile Include="Interfaces\IDataLoader.cs" />
     <Compile Include="Interfaces\IModificationHistory.cs" />
     <Compile Include="Interfaces\IParser.cs" />
+    <Compile Include="Interfaces\IPeriod.cs" />
     <Compile Include="Lazy\ValueHolder.cs" />
     <Compile Include="Models\MailMessageModel.cs" />
     <Compile Include="Models\SmtpSettingsModel.cs" />

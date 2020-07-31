@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PDCore.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -100,5 +101,13 @@ namespace PDCore.Extensions
         {
             return DateTime.DaysInMonth(date.Year, date.Month) - date.Day;
         }
+
+        public static string ToISO8601(this DateTime dateTime) => dateTime.ToString("o", CultureInfo.InvariantCulture);
+
+        public static bool IsBetween(this DateTime source, DateTime start, DateTime end) => source > start && source < end;
+
+        public static DateTimeOffset GetEndDate(this IPeriod period) => period.StartDate.Add(period.Duration);
+
+        public static TimeSpan GetTimeSince(this IPeriod period) => DateTimeOffset.UtcNow.ToOffset(period.StartDate.Offset) - period.StartDate;
     }
 }
