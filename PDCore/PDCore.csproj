@@ -108,6 +108,7 @@
     <Compile Include="Enums\CertificateType.cs" />
     <Compile Include="Enums\HorizontalTextAlignment.cs" />
     <Compile Include="Enums\Loaders.cs" />
+    <Compile Include="Enums\LoadStatus.cs" />
     <Compile Include="Enums\Loggers.cs" />
     <Compile Include="Enums\LogType.cs" />
     <Compile Include="Enums\MessageBoxOptions.cs" />
@@ -125,6 +126,8 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\WinFormsExtensions.cs" />
     <Compile Include="Extensions\XMLExtension.cs" />
+    <Compile Include="Factories\Fac\Factory.cs" />
+    <Compile Include="Factories\Fac\FactoryProvider.cs" />
     <Compile Include="Factories\Fac\LogMessageFactory.cs" />
     <Compile Include="Factories\IFac\IFactory.cs" />
     <Compile Include="Factories\IFac\ILogMessageFactory.cs" />
@@ -192,6 +195,7 @@
     <Compile Include="Interfaces\IDataLoader.cs" />
     <Compile Include="Interfaces\IModificationHistory.cs" />
     <Compile Include="Interfaces\IParser.cs" />
+    <Compile Include="Lazy\ValueHolder.cs" />
     <Compile Include="Models\MailMessageModel.cs" />
     <Compile Include="Models\SmtpSettingsModel.cs" />
     <Compile Include="Repositories\IRepo\ISqlRepositoryEntityFrameworkAsync.cs" />
