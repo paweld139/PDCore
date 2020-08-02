@@ -22,8 +22,6 @@ namespace PDCore.Repositories.IRepo
 
         void Delete(params object[] keyValues);
 
-        void Update(T entity);
-
 
         void DeleteAndCommit(params object[] keyValues);
 

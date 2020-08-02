@@ -142,6 +142,11 @@ namespace PDCoreNew.Repositories.Repo
             set.AddRange(newEntities);
         }
 
+        public override void Update(T entity)
+        {
+            ctx.Entry(entity).State = EntityState.Modified;
+        }
+
 
         public override void Delete(T entity)
         {

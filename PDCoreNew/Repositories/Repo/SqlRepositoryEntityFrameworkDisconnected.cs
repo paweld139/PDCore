@@ -38,11 +38,6 @@ namespace PDCoreNew.Repositories.Repo
             return CommitAsync();
         }
 
-        public void Update(T entity)
-        {
-            ctx.Entry(entity).State = EntityState.Modified;
-        }
-
         public void SaveUpdated(T entity)
         {
             Update(entity);

@@ -44,6 +44,11 @@ namespace PDCore.Repositories.Repo
             db.SaveChanges(obj);
         }
 
+        public override void Update(T obj)
+        {
+            db.SaveChanges(obj);
+        }
+
         public override DataTable GetDataTableByWhere(string where)
         {
             return db.GetDataTable<T>(where);

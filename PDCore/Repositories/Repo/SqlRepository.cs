@@ -28,6 +28,7 @@ namespace PDCore.Repositories.Repo
 
         public abstract void Add(T newEntity);
         public abstract void AddRange(IEnumerable<T> newEntities);
+        public abstract void Update(T entity);
 
         public abstract void Delete(T entity);
         public abstract void DeleteRange(IEnumerable<T> entities);
@@ -83,7 +84,7 @@ namespace PDCore.Repositories.Repo
         public virtual int GetCount()
         {
             return GetCountByWhere(null);
-        }       
+        }
     }
 
     public abstract class SqlRepository : ISqlRepository

@@ -12,6 +12,8 @@ namespace PDCore.Repositories.IRepo
 
         void AddRange(IEnumerable<T> newEntities);
 
+        void Update(T entity);
+
 
         void Delete(T entity);
 

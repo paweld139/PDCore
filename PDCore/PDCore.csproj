@@ -201,6 +201,7 @@
     <Compile Include="Lazy\ValueHolder.cs" />
     <Compile Include="Models\MailMessageModel.cs" />
     <Compile Include="Models\SmtpSettingsModel.cs" />
+    <Compile Include="MVVM\ViewModelBase.cs" />
     <Compile Include="Repositories\IRepo\ISqlRepositoryEntityFrameworkAsync.cs" />
     <Compile Include="Repositories\IRepo\ISqlRepositoryEntityFrameworkConnected.cs" />
     <Compile Include="Repositories\IRepo\ISqlRepositoryEntityFrameworkDisconnected.cs" />

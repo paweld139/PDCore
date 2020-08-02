@@ -14,7 +14,7 @@ namespace PDCore.Repositories.Repo
         private List<T> entities = new List<T>();
 
 
-        private int GetNextId() => entities.Max(e => e.Id) + 1;
+        private int GetNextId() => entities.Select(e => e.Id).DefaultIfEmpty(0).Max() + 1;
 
         private void SetEntityId(T newEntity)
         {
@@ -25,7 +25,10 @@ namespace PDCore.Repositories.Repo
         {
             int nextId = GetNextId();
 
-            newEntities.ForEach(e => e.Id = nextId++);
+            foreach (var item in newEntities)
+            {
+                item.Id = nextId++;
+            }
         }
 
 
@@ -48,6 +51,13 @@ namespace PDCore.Repositories.Repo
             entities.AddRange(newEntities);
         }
 
+        public void Update(T entity)
+        {
+            int index = entities.FindIndex(e => e.Id == entity.Id);
+
+            entities[index] = entity;
+        }
+
 
         public void Delete(T entity)
         {
@@ -56,13 +66,16 @@ namespace PDCore.Repositories.Repo
 
         public void DeleteRange(IEnumerable<T> entities)
         {
-            entities.ForEach(e => Delete(e));
+            foreach (var item in entities)
+            {
+                Delete(item);
+            }
         }
 
 
         public IQueryable<T> FindAll()
         {
-            throw new NotSupportedFunctionalityException();
+            return GetAll().AsQueryable();
         }
 
         public T FindById(int id)
@@ -83,7 +96,7 @@ namespace PDCore.Repositories.Repo
 
         public int Commit()
         {
-            throw new NotSupportedFunctionalityException();
+            throw new NotSupportedException();
         }
 
 
