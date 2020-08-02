@@ -100,24 +100,24 @@ namespace PDCoreNew.Repositories.Repo
             ctx.Entry(entity).State = EntityState.Deleted;
         }
 
-        public void Delete(int id)
+        public void Delete(params object[] keyValues)
         {
-            var entry = FindById(id);
+            var entry = FindByKeyValues(keyValues);
 
             Delete(entry);
         }
 
 
-        public void DeleteAndCommit(int id)
+        public void DeleteAndCommit(params object[] keyValues)
         {
-            Delete(id);
+            Delete(keyValues);
 
             Commit();
         }
 
-        public Task DeleteAndCommitAsync(int id)
+        public Task DeleteAndCommitAsync(params object[] keyValues)
         {
-            Delete(id);
+            Delete(keyValues);
 
             return CommitAsync();
         }

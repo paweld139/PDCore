@@ -20,13 +20,13 @@ namespace PDCore.Repositories.IRepo
         Task<bool> SaveUpdatedWithOptimisticConcurrencyAsync(T entity, Action<string, string> writeError);
 
 
-        void Delete(int id);
+        void Delete(params object[] keyValues);
 
         void Update(T entity);
 
 
-        void DeleteAndCommit(int id);
+        void DeleteAndCommit(params object[] keyValues);
 
-        Task DeleteAndCommitAsync(int id);
+        Task DeleteAndCommitAsync(params object[] keyValues);
     }
 }

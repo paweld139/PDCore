@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Security;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Windows.Forms.VisualStyles;
 
 namespace PDCore.Extensions
 {
@@ -219,5 +220,9 @@ namespace PDCore.Extensions
 
             return words.ToArray();
         }
+
+        public static bool IsLower(this string input) => input.ToLower() == input;
+
+        public static bool IsUpper(this string input) => input.ToUpper() == input;
     }
 }
