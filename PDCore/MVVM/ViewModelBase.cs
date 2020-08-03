@@ -26,7 +26,7 @@ namespace PDCore.MVVM
         public bool IsListAreaVisible { get; protected set; }
         public bool IsSearchAreaVisible { get; protected set; }
 
-        public ViewModelBase(IRepository<T> repository)
+        protected ViewModelBase(IRepository<T> repository)
         {
             this.repository = repository;
             Init();

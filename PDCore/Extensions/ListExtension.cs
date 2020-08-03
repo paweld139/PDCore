@@ -80,9 +80,9 @@ namespace PDCore.Extensions
             return result;
         }
 
-        public static T Last<T>(this IList<T> list)
+        public static T First<T>(this IList<T> list)
         {
-            return list[list.LastIndex()];
+            return list[0];
         }
 
         public static int LastIndex<T>(this IList<T> list)
@@ -92,9 +92,17 @@ namespace PDCore.Extensions
             return lastIndex;
         }
 
-        public static T First<T>(this IList<T> list)
+        public static T Last<T>(this IList<T> list)
         {
-            return list[0];
+            return list[list.LastIndex()];
+        }
+
+        public static void SetAll<T>(this IList<T> list, T value)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                list[i] = value;
+            }
         }
     }
 }

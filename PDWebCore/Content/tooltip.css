@@ -1,0 +1,138 @@
+﻿.helper
+{
+    display: inline-block;
+    color: coral;
+}
+
+.info
+{
+    display: inline-block;
+    color: dodgerBlue;
+}
+
+.helper, .info {
+	border: none;
+	background: transparent;
+}
+
+.helper > span, .info > span {
+	color: #2196f3;
+	font-size: large;
+}
+
+.helper i, .info i
+{
+    font-size: 1.4em;
+}
+
+.tooltip-content
+{
+    position: relative;
+    background: white;
+    text-align: left;
+    padding: 15px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    text-align: justify;
+    font-size: 18px;
+    font-family: "Roboto";
+}
+.tooltip-content:before
+{
+    position: absolute;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    content: "";
+    width: 0;
+    height: 0;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+}
+.tooltip-content b
+{
+    color: coral;
+}
+
+.help-right .tooltip-content
+{
+    left: 15px;
+    border-left: 5px solid coral;
+}
+.help-right .tooltip-content:before
+{
+    left: -15px;
+    top: 50%;
+    border-right: 15px solid coral;
+}
+
+.help-left .tooltip-content
+{
+    right: 15px;
+    border-right: 5px solid coral;
+}
+.help-left .tooltip-content:before
+{
+    right: -15px;
+    top: 50%;
+    border-left: 15px solid coral;
+}
+
+.info-right .tooltip-content
+{
+    left: 15px;
+    border-left: 5px solid dodgerBlue;
+}
+.info-right .tooltip-content:before
+{
+    left: -15px;
+    top: 50%;
+    border-right: 15px solid dodgerBlue;
+}
+
+.info-left .tooltip-content
+{
+    right: 15px;
+    border-right: 5px solid dodgerBlue;
+}
+.info-left .tooltip-content:before
+{
+    right: -15px;
+    top: 50%;
+    border-left: 15px solid dodgerBlue;
+}
+
+.info-top .tooltip-content
+{
+    bottom: 15px;
+    border-bottom: 5px solid dodgerBlue;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+.info-top .tooltip-content:before
+{
+    bottom: -24px;
+    left: 50%;
+    border-top: 15px solid dodgerBlue;
+    border-bottom: none;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+}
+
+.info-bottom .tooltip-content
+{
+    top: 15px;
+    border-top: 5px solid dodgerBlue;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+}
+.info-bottom .tooltip-content:before
+{
+    top: -12px;
+    left: 50%;
+    border-bottom: 15px solid dodgerBlue;
+    border-top: none;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+}

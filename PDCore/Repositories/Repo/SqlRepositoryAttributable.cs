@@ -91,7 +91,7 @@ namespace PDCore.Repositories.Repo
 
         public override IQueryable<T> FindAll()
         {
-            throw new NotSupportedFunctionalityException(NotSupportedFunctionalityMessage);
+            return GetAll().AsQueryable();
         }
     }
 }
