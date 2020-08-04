@@ -587,6 +587,7 @@
     <Content Include="ckeditor\styles.js" />
     <Content Include="Content\all.css" />
     <Content Include="Content\bootstrap-select.css" />
+    <Content Include="Content\coderunner.css" />
     <Content Include="Content\fontawesome\css\all.css" />
     <Content Include="Content\fontawesome\css\all.min.css" />
     <Content Include="Content\fontawesome\css\brands.css" />
