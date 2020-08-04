@@ -186,5 +186,13 @@ namespace PDCore.Utils
 
             return loader;
         }
+
+        public static void SaveFile(string fileName, Stream sourceStream)
+        {
+            using (FileStream fileStream = File.Open(fileName, FileMode.OpenOrCreate))
+            {
+                sourceStream.CopyTo(fileStream);
+            }
+        }
     }
 }

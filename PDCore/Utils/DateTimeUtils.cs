@@ -145,5 +145,82 @@ namespace PDCore.Utils
         public static long ToUnixTimeSeconds(DateTimeOffset dateTimeOffset) => (long)(dateTimeOffset - Jan1st1970).TotalSeconds;
 
         public static long ToUnixTimeMilliseconds(DateTimeOffset dateTimeOffset) => (long)(dateTimeOffset - Jan1st1970).TotalMilliseconds;
+
+        public static IEnumerable<KeyValuePair<string, string>> GetMonthsList()
+        {
+            List<KeyValuePair<string, string>> months = new List<KeyValuePair<string, string>>();
+            int i = 1;
+
+            foreach (string monthName in DateTimeFormatInfo.CurrentInfo.MonthNames.Where(m => !string.IsNullOrEmpty(m)))
+            {
+                months.Add(new KeyValuePair<string, string>(i.ToString(), monthName));
+
+                i++;
+            }
+
+            return months;
+        }
+
+        public static IEnumerable<DateTime> GetDaysOff(int year, int month, IEnumerable<DateTime> fixedHolidays)
+        {
+            List<DateTime> daysOff = new List<DateTime>();
+
+            daysOff.AddRange(GetWeekends(year, month));
+            daysOff.AddRange(fixedHolidays);
+            daysOff.AddRange(GetMovingHolidays(year, month));
+
+            return daysOff;
+        }
+
+        public static IEnumerable<DateTime> GetWeekends(int year, int month)
+        {
+            List<DateTime> weekends = new List<DateTime>();
+
+            DateTime start = new DateTime(year, month, 1);
+            DateTime end = new DateTime(year, month, DateTime.DaysInMonth(year, month));
+
+            for (DateTime d = start; d <= end; d = d.AddDays(1))
+            {
+                if (d.DayOfWeek == DayOfWeek.Saturday || d.DayOfWeek == DayOfWeek.Sunday)
+                {
+                    weekends.Add(d);
+                }
+            }
+
+            return weekends;
+        }
+
+        public static IEnumerable<DateTime> GetMovingHolidays(int year, int month)
+        {
+            List<DateTime> holidays = new List<DateTime>();
+
+            DateTime easter = GetEaster(year);
+            holidays.AddRange(
+                (new DateTime[] { easter, easter.AddDays(1), easter.AddDays(49), easter.AddDays(60) })
+                .Where(d => d.Month == month)
+                );
+
+            return holidays;
+        }
+
+        private static DateTime GetEaster(int year)
+        {
+            int a = year % 19,
+                b = year / 100,
+                c = year % 100,
+                d = b / 4,
+                e = b % 4,
+                f = (b + 8) / 25,
+                g = (b - f + 1) / 3,
+                h = (19 * a + b - d - g + 15) % 30,
+                i = c / 4,
+                k = c % 4,
+                l = (32 + 2 * e + 2 * i - h - k) % 7,
+                m = (a + 11 * h + 22 * l) / 451,
+                month = (h + l - 7 * m + 114) / 31,
+                day = ((h + l - 7 * m + 114) % 31) + 1;
+
+            return new DateTime(year, month, day);
+        }
     }
 }

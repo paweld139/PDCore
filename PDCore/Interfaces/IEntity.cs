@@ -9,7 +9,7 @@ namespace PDCore.Interfaces
     {
         bool IsValid();
 
-        List<KeyValuePair<string, string>> ValidationErrors { get; set; }
+        List<KeyValuePair<string, string>> ValidationErrors { get; }
 
         int Id { get; set; }
     }

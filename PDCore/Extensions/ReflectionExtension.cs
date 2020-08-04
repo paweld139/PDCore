@@ -186,5 +186,71 @@ namespace PDCore.Extensions
             }
             return self == to;
         }
+
+        public static string GetPropertyName<T, U>(this T obj, Expression<Func<U>> propertyExpression)
+        {
+            _ = obj;
+
+            var memberExpr = propertyExpression.Body as MemberExpression;
+            return memberExpr.Member.Name;
+        }
+
+        public static object GetPropertyValue<T>(this T obj, string name)
+        {
+            return obj.GetType().GetProperty(name).GetValue(obj, null);
+        }
+
+        public static void SetPropertyValue<T>(this T obj, string name, object value)
+        {
+            PropertyInfo pInfo = obj.GetType().GetProperty(name);
+            if (pInfo != null)
+            {
+                pInfo.SetValue(obj, value, null);
+            }
+        }
+
+        public static IEnumerable<string> GetProperties<T>(this T obj)
+        {
+            return obj.GetType().GetProperties().Select(p => p.Name);
+        }
+
+        public static Dictionary<string, object> GetDictionaryFromType<T>(this T obj)
+        {
+            IEnumerable<string> properties = obj.GetProperties();
+
+            var dict = new Dictionary<string, object>();
+
+            foreach (string propertyName in properties)
+            {
+                object propertyValue = obj.GetPropertyValue(propertyName);
+
+                dict.Add(propertyName, propertyValue);
+            }
+
+            return dict;
+        }
+
+        static public void RaiseEvent(this EventHandler eventHandler, object sender, EventArgs e)
+        {
+            eventHandler?.Invoke(sender, e);
+        }
+
+        static public void RaiseEvent<T>(this EventHandler<T> eventHandler, object sender, T e) where T : EventArgs
+        {
+            eventHandler?.Invoke(sender, e);
+        }
+
+        public static List<Exception> GetInnerExceptions(this Exception ex)
+        {
+            List<Exception> list = new List<Exception>();
+
+            if (ex.InnerException != null)
+            {
+                list.AddRange(ex.InnerException.GetInnerExceptions());
+                list.Add(ex.InnerException);
+            }
+
+            return list;
+        }
     }
 }
