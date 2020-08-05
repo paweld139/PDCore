@@ -36,9 +36,14 @@ namespace PDCoreNew.Models
         [NotMapped]
         public byte[] Data { get; set; }
 
+
         public DateTime DateModified { get; set; }
+
         public DateTime DateCreated { get; set; }
+
         public bool IsDirty { get; set; }
+
+        [Timestamp]
         public byte[] RowVersion { get; set; }
     }
 

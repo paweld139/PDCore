@@ -27,18 +27,20 @@ namespace PDCore.Repositories.IRepo
 
         IQueryable<T> Find(Expression<Func<T, bool>> predicate);
 
+        IQueryable<TOutput> FindBy<TOutput>(Expression<Func<T, bool>> predicate, Expression<Func<T, TOutput>> columns);
+
 
         T FindByKeyValues(params object[] keyValues);
 
-        List<T> GetAll(bool asNoTracking);
+        IEnumerable<T> GetAll(bool asNoTracking);
 
-        List<T> Get(Expression<Func<T, bool>> predicate);
+        IEnumerable<T> Get(Expression<Func<T, bool>> predicate);
 
-        List<KeyValuePair<TKey, TValue>> GetKeyValuePairs<TKey, TValue>(Func<T, TKey> keySelector, Func<T, TValue> valueSelector, bool sortByValue = true) where TValue : IComparable<TValue>;
+        IEnumerable<KeyValuePair<TKey, TValue>> GetKeyValuePairs<TKey, TValue>(Func<T, TKey> keySelector, Func<T, TValue> valueSelector, bool sortByValue = true) where TValue : IComparable<TValue>;
 
-        List<T> GetByFilter(Converter<T, string> converter, string substring);
+        IEnumerable<T> GetByFilter(Converter<T, string> converter, string substring);
 
-        List<T> GetPage(int page, int pageSize);
+        IEnumerable<T> GetPage(int page, int pageSize);
 
         int GetCount(Expression<Func<T, bool>> predicate);
 

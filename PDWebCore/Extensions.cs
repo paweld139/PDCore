@@ -19,7 +19,10 @@ namespace System.ComponentModel.DataAnnotations
         public override bool IsValid(object value)
         {
             if (value == null) return false;
-            if (value.GetType() != typeof(bool)) throw new InvalidOperationException("can only be used on boolean properties.");
+
+            if (value.GetType() != typeof(bool))
+                throw new InvalidOperationException("can only be used on boolean properties.");
+
             return (bool)value == true;
         }
 
@@ -128,6 +131,45 @@ namespace PDWebCore
             }
 
             return Guid.Empty;
+        }
+
+        public static MvcHtmlString HashLink(this HtmlHelper htmlHelper, string text, string className = "")
+        {
+            _ = htmlHelper;
+
+            var anchor = new TagBuilder("a")
+            {
+                InnerHtml = text
+            };
+
+            anchor.Attributes.Add("href", "#");
+
+            if (!string.IsNullOrWhiteSpace(className))
+            {
+                anchor.AddCssClass(className);
+            }
+
+            return MvcHtmlString.Create(anchor.ToString());
+        }
+
+        public static MvcHtmlString ActionLinkWithHash(this HtmlHelper htmlHelper, string linkText, string hashText, string actionName, string controllerName)
+        {
+            _ = htmlHelper;
+
+            var requestContext = HttpContext.Current.Request.RequestContext;
+
+            var urlHelper = new UrlHelper(requestContext);
+
+            var urlAction = urlHelper.Action(actionName, controllerName);
+
+            var anchor = new TagBuilder("a")
+            {
+                InnerHtml = linkText
+            };
+
+            anchor.Attributes.Add("href", $"{urlAction}#{hashText}");
+
+            return MvcHtmlString.Create(anchor.ToString());
         }
     }
 }

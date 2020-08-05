@@ -44,7 +44,7 @@ namespace PDCoreNew.Extensions
 
         private static void BeforeSaveChangesWithHistory(IEntityFrameworkDbContext dbContext)
         {
-            DateTime dateTime = DateTime.Now;
+            DateTime dateTime = DateTime.UtcNow;
 
             foreach (var history in dbContext.ChangeTracker.Entries()
                             .Where(e => e.Entity is IModificationHistory && (e.State == EntityState.Added || e.State == EntityState.Modified))
