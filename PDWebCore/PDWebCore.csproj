@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\FromJson.cs" />
+    <Compile Include="Attributes\UtcDateTimeModelBinder.cs" />
     <Compile Include="Context\IContext\IHasUserDataDbSet.cs" />
     <Compile Include="Context\IContext\IMainWebDbContext.cs" />
     <Compile Include="Context\MainWebDbContext.cs" />

@@ -35,7 +35,7 @@ namespace PDCoreNew.Repositories.Repo
             return FindAll(false);
         }
 
-        public IQueryable<T> FindAll(bool asNoTracking)
+        public virtual IQueryable<T> FindAll(bool asNoTracking)
         {
             if (asNoTracking)
                 return set.AsNoTracking();
@@ -43,7 +43,7 @@ namespace PDCoreNew.Repositories.Repo
             return set;
         }
 
-        public IQueryable<KeyValuePair<TKey, TValue>> FindKeyValuePairs<TKey, TValue>(Func<T, TKey> keySelector, Func<T, TValue> valueSelector, bool sortByValue = true) where TValue : IComparable<TValue>
+        public virtual IQueryable<KeyValuePair<TKey, TValue>> FindKeyValuePairs<TKey, TValue>(Func<T, TKey> keySelector, Func<T, TValue> valueSelector, bool sortByValue = true) where TValue : IComparable<TValue>
         {
             var query = FindAll().GetKVP(keySelector, valueSelector);
 
@@ -53,7 +53,7 @@ namespace PDCoreNew.Repositories.Repo
             return query;
         }
 
-        public IQueryable<T> FindByFilter(Converter<T, string> converter, string substring)
+        public virtual IQueryable<T> FindByFilter(Converter<T, string> converter, string substring)
         {
             var query = FindAll();
 
@@ -63,7 +63,7 @@ namespace PDCoreNew.Repositories.Repo
             return query;
         }
 
-        public IQueryable<T> FindPage(int page, int pageSize)
+        public virtual IQueryable<T> FindPage(int page, int pageSize)
         {
             var query = FindAll();
 
@@ -75,43 +75,43 @@ namespace PDCoreNew.Repositories.Repo
             return query;
         }
 
-        public IQueryable<T> FindByDateCreated(IQueryable<T> source, string dateF, string dateT)
+        public virtual IQueryable<T> FindByDateCreated(IQueryable<T> source, string dateF, string dateT)
         {
             return FindAll().FindByDateCreated(dateF, dateT);
         }
 
-        public IQueryable<T> FindByDateCreated(IQueryable<T> source, DateTime? dateF, DateTime? dateT)
+        public virtual IQueryable<T> FindByDateCreated(IQueryable<T> source, DateTime? dateF, DateTime? dateT)
         {
             return FindAll().FindByDateCreated(dateF, dateT);
         }
 
-        public IQueryable<T> FindByDateModified(IQueryable<T> source, string dateF, string dateT)
+        public virtual IQueryable<T> FindByDateModified(IQueryable<T> source, string dateF, string dateT)
         {
             return FindAll().FindByDateModified(dateF, dateT);
         }
 
-        public IQueryable<T> FindByDateModified(IQueryable<T> source, DateTime? dateF, DateTime? dateT)
+        public virtual IQueryable<T> FindByDateModified(IQueryable<T> source, DateTime? dateF, DateTime? dateT)
         {
             return FindAll().FindByDateModified(dateF, dateT);
         }
 
 
-        public List<T> GetAll(bool asNoTracking)
+        public virtual IEnumerable<T> GetAll(bool asNoTracking)
         {
             return FindAll(asNoTracking).ToList();
         }
 
-        public List<KeyValuePair<TKey, TValue>> GetKeyValuePairs<TKey, TValue>(Func<T, TKey> keySelector, Func<T, TValue> valueSelector, bool sortByValue = true) where TValue : IComparable<TValue>
+        public virtual IEnumerable<KeyValuePair<TKey, TValue>> GetKeyValuePairs<TKey, TValue>(Func<T, TKey> keySelector, Func<T, TValue> valueSelector, bool sortByValue = true) where TValue : IComparable<TValue>
         {
             return FindKeyValuePairs(keySelector, valueSelector, sortByValue).ToList();
         }
 
-        public List<T> GetByFilter(Converter<T, string> converter, string substring)
+        public virtual IEnumerable<T> GetByFilter(Converter<T, string> converter, string substring)
         {
             return FindByFilter(converter, substring).ToList();
         }
 
-        public List<T> GetPage(int page, int pageSize)
+        public virtual IEnumerable<T> GetPage(int page, int pageSize)
         {
             return FindPage(page, pageSize).ToList();
         }
@@ -121,13 +121,13 @@ namespace PDCoreNew.Repositories.Repo
             return FindAll().Count();
         }
 
-        public int GetCount(Expression<Func<T, bool>> predicate)
+        public virtual int GetCount(Expression<Func<T, bool>> predicate)
         {
             return FindAll().Count(predicate);
         }
 
 
-        public void Attach(T obj)
+        public virtual void Attach(T obj)
         {
             set.Attach(obj);
         }
@@ -164,7 +164,7 @@ namespace PDCoreNew.Repositories.Repo
             return FindByKeyValues(id);
         }
 
-        public T FindByKeyValues(params object[] keyValues)
+        public virtual T FindByKeyValues(params object[] keyValues)
         {
             return set.Find(keyValues);
         }
@@ -202,7 +202,7 @@ namespace PDCoreNew.Repositories.Repo
             return ctx.SaveChangesWithModificationHistory(); //Zwraca ilość wierszy wziętych po uwagę
         }
 
-        protected async Task<int> DoCommitAsClientWins(bool sync, Func<Task<int>> commitAsync)
+        protected virtual async Task<int> DoCommitAsClientWins(bool sync, Func<Task<int>> commitAsync)
         {
             bool saved = false;
 
@@ -234,12 +234,12 @@ namespace PDCoreNew.Repositories.Repo
             return result;
         }
 
-        public int CommitAsClientWins()
+        public virtual int CommitAsClientWins()
         {
             return DoCommitAsClientWins(true, null).Result;
         }
 
-        public async Task<int> DoCommitAsDatabaseWins(bool sync, Func<Task<int>> commitAsync)
+        protected virtual async Task<int> DoCommitAsDatabaseWins(bool sync, Func<Task<int>> commitAsync)
         {
             bool saved = false;
 
@@ -272,12 +272,12 @@ namespace PDCoreNew.Repositories.Repo
             return result;
         }
 
-        public int CommitAsDatabaseWins()
+        public virtual int CommitAsDatabaseWins()
         {
             return DoCommitAsDatabaseWins(true, null).Result;
         }
 
-        protected async Task<int> DoCommitWithOptimisticConcurrency(bool sync, Func<Task<int>> commitAsync)
+        protected virtual async Task<int> DoCommitWithOptimisticConcurrency(bool sync, Func<Task<int>> commitAsync)
         {
             bool saved = false;
 
@@ -320,7 +320,7 @@ namespace PDCoreNew.Repositories.Repo
             return result;
         }
 
-        public int CommitWithOptimisticConcurrency()
+        public virtual int CommitWithOptimisticConcurrency()
         {
             return DoCommitWithOptimisticConcurrency(true, null).Result;
         }
@@ -337,7 +337,7 @@ namespace PDCoreNew.Repositories.Repo
             Commit();
         }
 
-        protected async Task<bool> DoDeleteAndCommitWithOptimisticConcurrency(T entity, Action<string, string> writeError, bool sync, Func<Task<int>> commitAsync)
+        protected virtual async Task<bool> DoDeleteAndCommitWithOptimisticConcurrency(T entity, Action<string, string> writeError, bool sync, Func<Task<int>> commitAsync)
         {
             Delete(entity);
 
@@ -387,17 +387,22 @@ namespace PDCoreNew.Repositories.Repo
             return result;
         }
 
-        public bool DeleteAndCommitWithOptimisticConcurrency(T entity, Action<string, string> writeError)
+        public virtual bool DeleteAndCommitWithOptimisticConcurrency(T entity, Action<string, string> writeError)
         {
             return DoDeleteAndCommitWithOptimisticConcurrency(entity, writeError, true, null).Result;
         }
 
-        public IQueryable<T> Find(Expression<Func<T, bool>> predicate)
+        public virtual IQueryable<T> Find(Expression<Func<T, bool>> predicate)
         {
             return FindAll().Where(predicate);
         }
 
-        public List<T> Get(Expression<Func<T, bool>> predicate)
+        public virtual IQueryable<TOutput> FindBy<TOutput>(Expression<Func<T, bool>> predicate, Expression<Func<T, TOutput>> columns)
+        {
+            return Find(predicate).Select(columns);
+        }
+
+        public virtual IEnumerable<T> Get(Expression<Func<T, bool>> predicate)
         {
             return Find(predicate).ToList();
         }

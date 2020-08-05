@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PDCoreNew.Repositories.Repo
 {
-    public sealed class SqlRepositoryEntityFrameworkConnected<T> :
+    public class SqlRepositoryEntityFrameworkConnected<T> :
         SqlRepositoryEntityFrameworkAsync<T>, ISqlRepositoryEntityFrameworkConnected<T> where T : class, IModificationHistory, new()
     {
         public SqlRepositoryEntityFrameworkConnected(IEntityFrameworkDbContext ctx, ILogger logger) : base(ctx, logger)
@@ -17,7 +17,7 @@ namespace PDCoreNew.Repositories.Repo
         }
 
         //Funkcjonalność ConnectedRepository. Nie ma potrzeby pobierania danych wiele razy. Repository i kontekst żyją w danym oknie.
-        public ObservableCollection<T> GetAllFromMemory()
+        public virtual ObservableCollection<T> GetAllFromMemory()
         {
             if (set.Local.IsEmpty())
             {
@@ -28,7 +28,7 @@ namespace PDCoreNew.Repositories.Repo
         }
 
         //Funkcjonalność ConnectedRepository. Nie ma potrzeby pobierania danych wiele razy. Repository i kontekst żyją w danym oknie.
-        public async Task<ObservableCollection<T>> GetAllFromMemoryAsync()
+        public virtual async Task<ObservableCollection<T>> GetAllFromMemoryAsync()
         {
             if (set.Local.IsEmpty())
             {
@@ -40,7 +40,7 @@ namespace PDCoreNew.Repositories.Repo
 
 
         //Funkcjonalność ConnectedRepository, np. do Bindingu obiektu w WPF.
-        public T Add()
+        public virtual T Add()
         {
             var entry = new T();
 

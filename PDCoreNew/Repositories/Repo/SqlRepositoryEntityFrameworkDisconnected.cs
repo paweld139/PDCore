@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace PDCoreNew.Repositories.Repo
 {
-    public sealed class SqlRepositoryEntityFrameworkDisconnected<T> :
+    public class SqlRepositoryEntityFrameworkDisconnected<T> :
         SqlRepositoryEntityFrameworkAsync<T>, ISqlRepositoryEntityFrameworkDisconnected<T> where T : class, IModificationHistory
     {
         public SqlRepositoryEntityFrameworkDisconnected(IEntityFrameworkDbContext ctx, ILogger logger) : base(ctx, logger)
@@ -24,28 +24,28 @@ namespace PDCoreNew.Repositories.Repo
         }
 
 
-        public void SaveNew(T entity)
+        public virtual void SaveNew(T entity)
         {
             Add(entity);
 
             Commit();
         }
 
-        public Task SaveNewAsync(T entity)
+        public virtual Task SaveNewAsync(T entity)
         {
             Add(entity);
 
             return CommitAsync();
         }
 
-        public void SaveUpdated(T entity)
+        public virtual void SaveUpdated(T entity)
         {
             Update(entity);
 
             Commit();
         }
 
-        public Task SaveUpdatedAsync(T entity)
+        public virtual Task SaveUpdatedAsync(T entity)
         {
             Update(entity);
 
@@ -79,12 +79,12 @@ namespace PDCoreNew.Repositories.Repo
             return rowsAffected > 0;
         }
 
-        public bool SaveUpdatedWithOptimisticConcurrency(T entity, Action<string, string> writeError)
+        public virtual bool SaveUpdatedWithOptimisticConcurrency(T entity, Action<string, string> writeError)
         {
             return DoSaveUpdatedWithOptimisticConcurrency(entity, writeError, true).Result;
         }
 
-        public Task<bool> SaveUpdatedWithOptimisticConcurrencyAsync(T entity, Action<string, string> writeError)
+        public virtual Task<bool> SaveUpdatedWithOptimisticConcurrencyAsync(T entity, Action<string, string> writeError)
         {
             return DoSaveUpdatedWithOptimisticConcurrency(entity, writeError, false);
         }
@@ -95,7 +95,7 @@ namespace PDCoreNew.Repositories.Repo
             ctx.Entry(entity).State = EntityState.Deleted;
         }
 
-        public void Delete(params object[] keyValues)
+        public virtual void Delete(params object[] keyValues)
         {
             var entry = FindByKeyValues(keyValues);
 
@@ -103,14 +103,14 @@ namespace PDCoreNew.Repositories.Repo
         }
 
 
-        public void DeleteAndCommit(params object[] keyValues)
+        public virtual void DeleteAndCommit(params object[] keyValues)
         {
             Delete(keyValues);
 
             Commit();
         }
 
-        public Task DeleteAndCommitAsync(params object[] keyValues)
+        public virtual Task DeleteAndCommitAsync(params object[] keyValues)
         {
             Delete(keyValues);
 
