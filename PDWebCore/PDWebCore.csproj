@@ -63,6 +63,9 @@
     <Compile Include="Handlers\LogExceptionHandler.cs" />
     <Compile Include="Filters\LogExceptionFilterAttribute.cs" />
     <Compile Include="Helpers\ExceptionHandling\HttpApplicationErrorHandler.cs" />
+    <Compile Include="Helpers\MultiLanguage\Language.cs" />
+    <Compile Include="Helpers\MultiLanguage\LanguageHelper.cs" />
+    <Compile Include="Helpers\MultiLanguage\MultiLanguageController.cs" />
     <Compile Include="Models\JsonResultModel.cs" />
     <Compile Include="Models\UserDataModel.cs" />
     <Compile Include="MVVM\ViewModelBaseWeb.cs" />

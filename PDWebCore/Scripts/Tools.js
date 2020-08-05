@@ -66,6 +66,17 @@ function arrayLengthOf(array, predicate, predicateOwner) {
     return length;
 }
 
+function arrayExist(array, predicate, predicateOwner) {
+    let result = false;
+
+    for (let i = 0, j = array.length; i < j; i++) {
+        if (predicate.call(predicateOwner, array[i])) {
+            result = true;
+        }
+    }
+    return result;
+}
+
 Date.prototype.addHours = function (h) {
     this.setTime(this.getTime() + (h * 60 * 60 * 1000));
     return this;
@@ -710,4 +721,98 @@ function parseISOString(s) {
 function isoFormatDMY(d) {
     function pad(n) { return (n < 10 ? '0' : '') + n }
     return pad(d.getUTCDate()) + '/' + pad(d.getUTCMonth() + 1) + '/' + d.getUTCFullYear();
+}
+
+ko.bindingHandlers.foreachprop = {
+    transformObject: function (obj) {
+        var properties = [];
+        ko.utils.objectForEach(obj, function (key, value) {
+            properties.push({ key: key, value: value });
+        });
+        return properties;
+    },
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+        var properties = ko.pureComputed(function () {
+            var obj = ko.utils.unwrapObservable(valueAccessor());
+            return ko.bindingHandlers.foreachprop.transformObject(obj);
+        });
+        ko.applyBindingsToNode(element, { foreach: properties }, bindingContext);
+        return { controlsDescendantBindings: true };
+    }
+};
+
+function makeIterator(array) {
+    var nextIndex = 0;
+
+    return {
+        next: function () {
+            return nextIndex < array.length ?
+                { value: array[nextIndex++], done: false } :
+                { done: true };
+        }
+    };
+}
+
+function* idMaker() {
+    var index = 0;
+    while (true)
+        yield index++;
+}
+
+function* gen() {
+    yield* ['a', 'b', 'c'];
+}
+
+function* fibonacci() {
+    var fn1 = 0;
+    var fn2 = 1;
+    while (true) {
+        var current = fn1;
+        fn1 = fn2;
+        fn2 = current + fn1;
+        var reset = yield current;
+        if (reset) {
+            fn1 = 0;
+            fn2 = 1;
+        }
+    }
+}
+
+function getAsync(url) {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", url);
+        xhr.onload = () => resolve(xhr.responseText);
+        xhr.onerror = () => reject(xhr.statusText);
+        xhr.send();
+    });
+}
+
+function imgLoad(url) {
+    // Create new promise with the Promise() constructor;
+    // This has as its argument a function
+    // with two parameters, resolve and reject
+    return new Promise(function (resolve, reject) {
+        // Standard XHR to load an image
+        var request = new XMLHttpRequest();
+        request.open('GET', url);
+        request.responseType = 'blob';
+        // When the request loads, check whether it was successful
+        request.onload = function () {
+            if (request.status === 200) {
+                // If successful, resolve the promise by passing back the request response
+                resolve(request.response);
+            } else {
+                // If it fails, reject the promise with a error message
+                reject(Error('Image didn\'t load successfully; error code:' + request.statusText));
+            }
+        };
+        request.onerror = function () {
+            // Also deal with the case when the entire request fails to begin with
+            // This is probably a network error, so reject the promise with an appropriate message
+            reject(Error('There was a network error.'));
+        };
+        // Send the request
+        request.send();
+    });
 }

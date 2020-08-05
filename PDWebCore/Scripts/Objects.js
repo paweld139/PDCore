@@ -67,9 +67,39 @@ function OnLoad(onLoad) {
     };
 }
 
-function KeyValuePair(key, value) {
-    this.Key = key;
-    this.Value = value;
+class KeyValuePair {
+    constructor(key, value) {
+        this.key = key;
+        this.value = value;
+    }
+
+    set(key, value) {
+        this.key = key;
+        this.value = value;
+    }
+
+    *[Symbol.iterator]() {
+        for (let key in this) {
+            yield [key, this[key]] // yield [key, value] pair
+        }
+    }
+}
+
+class Storage {
+    constructor(pKey, pValue) {
+        this.key = pKey;
+        this.value = pValue;
+        this.map = new Map([[pKey, pValue]]);
+    }
+
+    set(pKey, pValue) {
+        this.map.set(pKey, pValue);
+    }
+
+    get(pKey) {
+        var result = this.map.get(pKey);
+        return result;
+    }
 }
 
 var ObjectInfo = {
@@ -105,4 +135,18 @@ var ObjectInfo = {
 function Confirm() {
     this.Message;
     this.Result;
+}
+
+class Point {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    static distance(a, b) {
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+
+        return Math.sqrt(dx * dx + dy * dy);
+    }
 }
