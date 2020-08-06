@@ -1,11 +1,19 @@
-﻿using PDCore.Enums;
+﻿using PDCore.Commands;
+using PDCore.Commands.Shop;
+using PDCore.Enums;
 using PDCore.Extensions;
 using PDCore.Factories.Fac;
+using PDCore.Handlers.Payment;
+using PDCore.Handlers.Payment.Receivers;
 using PDCore.Helpers;
 using PDCore.Helpers.Calculation;
 using PDCore.Helpers.DataStructures;
 using PDCore.Interfaces;
 using PDCore.Models;
+using PDCore.Models.Shop;
+using PDCore.Models.Shop.Enums;
+using PDCore.Processors;
+using PDCore.Repositories.Repo.Shop;
 using PDCore.Services.IServ;
 using PDCore.Services.Serv;
 using PDCore.Utils;
@@ -17,6 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -30,6 +39,17 @@ namespace PDCoreTest
         {
             _ = args;
 
+            TestCommand();
+
+            WriteSeparator();
+
+            UserProcessor();
+
+            WriteSeparator();
+
+            PaymentProcessor();
+
+            WriteSeparator();
 
             TestEventLog();
 
@@ -143,6 +163,87 @@ namespace PDCoreTest
 
 
             Console.ReadKey();
+        }
+
+        private static void TestCommand()
+        {
+            var shoppingCartRepository = new ShoppingCartRepository();
+            var productsRepository = new ProductsRepository();
+
+            var product = productsRepository.FindBy("SM7B");
+
+            var addToCartCommand = new AddToCartCommand(shoppingCartRepository,
+                productsRepository,
+                product);
+
+            var increaseQuantityCommand = new ChangeQuantityCommand(
+                ChangeQuantityCommand.Operation.Increase,
+                shoppingCartRepository,
+                productsRepository,
+                product);
+
+            var manager = new CommandManager();
+            manager.Invoke(addToCartCommand);
+            manager.Invoke(increaseQuantityCommand);
+            manager.Invoke(increaseQuantityCommand);
+            manager.Invoke(increaseQuantityCommand);
+            manager.Invoke(increaseQuantityCommand);
+
+            ShoppingCartRepository.PrintCart(shoppingCartRepository);
+
+            manager.Undo();
+
+            ShoppingCartRepository.PrintCart(shoppingCartRepository);
+        }
+
+        private static void UserProcessor()
+        {
+            var user = new User("Filip Ekberg",
+                            "870101XXXX",
+                            new RegionInfo("SE"),
+                            new DateTimeOffset(1987, 01, 29, 00, 00, 00, TimeSpan.FromHours(2)));
+
+            var processor = new UserProcessor();
+
+            var result = processor.Register(user);
+
+            Console.WriteLine(result);
+        }
+
+        private static void PaymentProcessor()
+        {
+            var order = new Order();
+            order.LineItems.Add(new Item("ATOMOSV", "Atomos Ninja V", 499), 2);
+            order.LineItems.Add(new Item("EOSR", "Canon EOS R", 1799), 1);
+
+            order.SelectedPayments.Add(new Payment
+            {
+                PaymentProvider = PaymentProvider.Paypal,
+                Amount = 1000
+            });
+
+            order.SelectedPayments.Add(new Payment
+            {
+                PaymentProvider = PaymentProvider.Invoice,
+                Amount = 1797
+            });
+
+            Console.WriteLine(order.AmountDue);
+            Console.WriteLine(order.ShippingStatus);
+
+            var handler = new PaymentHandler2(
+                new CreditCardHandler(),
+                new InvoiceHandler(),
+                new PaypalHandler()
+            );
+
+            //var handler = new PaypalHandler();
+            //handler.SetNext(new CreditCardHandler()).SetNext(new InvoiceHandler());
+
+            handler.Handle(order);
+
+            Console.WriteLine(order.AmountDue);
+            Console.WriteLine(order.ShippingStatus);
         }
 
         private static void TestEventLog()
