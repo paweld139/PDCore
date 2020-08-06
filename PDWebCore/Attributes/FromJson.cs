@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using PDCoreNew.Services.Serv;
+using System;
 using System.Web.Mvc;
 
 namespace PDWebCore.Attributes
@@ -21,8 +23,10 @@ namespace PDWebCore.Attributes
                     // Swap this out with whichever Json deserializer you prefer.
                     return JsonConvert.DeserializeObject(json, bindingContext.ModelType);
                 }
-                catch
+                catch(Exception ex)
                 {
+                    LogService.Error("Błąd podczas ładowaniu modelu z JSON", ex);
+
                     return null;
                 }
             }

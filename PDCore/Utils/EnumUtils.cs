@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace PDCore.Utils
@@ -34,6 +35,30 @@ namespace PDCore.Utils
         public static string GetEnumName<TEnum>(object value) where TEnum : struct
         {
             return Enum.GetName(typeof(TEnum), value);
+        }
+
+        public static T GetValueFromEnumMember<T>(string value)
+        {
+            var type = typeof(T);
+
+            if (!type.IsEnum) 
+                throw new InvalidOperationException();
+
+            foreach (var field in type.GetFields())
+            {
+                if (Attribute.GetCustomAttribute(field, typeof(EnumMemberAttribute)) is EnumMemberAttribute attribute)
+                {
+                    if (attribute.Value == value)
+                        return (T)field.GetValue(null);
+                }
+                else
+                {
+                    if (field.Name == value)
+                        return (T)field.GetValue(null);
+                }
+            }
+
+            throw new ArgumentException($"unknow value: {value}");
         }
     }
 }
