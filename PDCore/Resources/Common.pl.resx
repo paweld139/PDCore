@@ -126,11 +126,23 @@
   <data name="Delete" xml:space="preserve">
     <value>Usuń</value>
   </data>
+  <data name="Done" xml:space="preserve">
+    <value>zrobione</value>
+  </data>
+  <data name="False" xml:space="preserve">
+    <value>fałsz</value>
+  </data>
   <data name="Finished" xml:space="preserve">
     <value>Gotowe</value>
   </data>
+  <data name="No" xml:space="preserve">
+    <value>nie</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Zapisz</value>
+  </data>
+  <data name="Saved" xml:space="preserve">
+    <value>Zapisano</value>
   </data>
   <data name="Send" xml:space="preserve">
     <value>Wyślij</value>
@@ -140,5 +152,11 @@
   </data>
   <data name="ServerReceivedData" xml:space="preserve">
     <value>Serwer otrzymał dane</value>
+  </data>
+  <data name="True" xml:space="preserve">
+    <value>prawda</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>tak</value>
   </data>
 </root>

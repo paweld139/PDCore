@@ -126,11 +126,23 @@
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="Done" xml:space="preserve">
+    <value>done</value>
+  </data>
+  <data name="False" xml:space="preserve">
+    <value>false</value>
+  </data>
   <data name="Finished" xml:space="preserve">
     <value>Finished</value>
   </data>
+  <data name="No" xml:space="preserve">
+    <value>no</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
+  </data>
+  <data name="Saved" xml:space="preserve">
+    <value>Saved</value>
   </data>
   <data name="Send" xml:space="preserve">
     <value>Send</value>
@@ -140,5 +152,11 @@
   </data>
   <data name="ServerReceivedData" xml:space="preserve">
     <value>The server received the data</value>
+  </data>
+  <data name="True" xml:space="preserve">
+    <value>true</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>yes</value>
   </data>
 </root>

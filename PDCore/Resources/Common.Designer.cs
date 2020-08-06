@@ -88,6 +88,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to done.
+        /// </summary>
+        public static string Done {
+            get {
+                return ResourceManager.GetString("Done", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to false.
+        /// </summary>
+        public static string False {
+            get {
+                return ResourceManager.GetString("False", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Finished.
         /// </summary>
         public static string Finished {
@@ -97,11 +115,29 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to no.
+        /// </summary>
+        public static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         public static string Save {
             get {
                 return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saved.
+        /// </summary>
+        public static string Saved {
+            get {
+                return ResourceManager.GetString("Saved", resourceCulture);
             }
         }
         
@@ -129,6 +165,24 @@ namespace Resources {
         public static string ServerReceivedData {
             get {
                 return ResourceManager.GetString("ServerReceivedData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to true.
+        /// </summary>
+        public static string True {
+            get {
+                return ResourceManager.GetString("True", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to yes.
+        /// </summary>
+        public static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
     }
