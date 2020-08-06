@@ -18,14 +18,36 @@ namespace PDWebCore.Helpers.MultiLanguage
             new Language("Polski", "pl"),
         };
 
-        public static bool IsLanguageAvailable(string lang)
-        {
-            return AvailableLanguages.Exists(a => a.LanguageCultureName.Equals(lang));
-        }
+        public static bool IsLanguageAvailable(string lang) => AvailableLanguages.Exists(a => a.LanguageCultureName.Equals(lang));
 
-        public static string GetDefaultLanguage()
+        public static string GetDefaultLanguage() => AvailableLanguages[0].LanguageCultureName;
+
+        private static string GetLanguage(HttpRequest httpRequest)
         {
-            return AvailableLanguages[0].LanguageCultureName;
+            HttpCookie languageCookie = httpRequest.Cookies["culture"];
+
+            string language;
+
+            if (languageCookie != null)
+            {
+                language = languageCookie.Value;
+            }
+            else
+            {
+                var userLanguages = httpRequest.UserLanguages;
+                var userLanguage = userLanguages != null ? userLanguages[0] : string.Empty;
+
+                if (!string.IsNullOrEmpty(userLanguage))
+                {
+                    language = userLanguage;
+                }
+                else
+                {
+                    language = GetDefaultLanguage();
+                }
+            }
+
+            return language;
         }
 
         public static void SetLanguage(string language)
@@ -58,34 +80,6 @@ namespace PDWebCore.Helpers.MultiLanguage
             string language = GetLanguage(httpRequest);
 
             SetLanguage(language);
-        }
-
-        private static string GetLanguage(HttpRequest httpRequest)
-        {
-            HttpCookie languageCookie = httpRequest.Cookies["culture"];
-
-            string language;
-
-            if (languageCookie != null)
-            {
-                language = languageCookie.Value;
-            }
-            else
-            {
-                var userLanguages = httpRequest.UserLanguages;
-                var userLanguage = userLanguages != null ? userLanguages[0] : string.Empty;
-
-                if (!string.IsNullOrEmpty(userLanguage))
-                {
-                    language = userLanguage;
-                }
-                else
-                {
-                    language = GetDefaultLanguage();
-                }
-            }
-
-            return language;
         }
     }
 }
