@@ -104,7 +104,22 @@
     <Compile Include="Clients\Soap\SoapWebServiceTwoCertificatesClient.cs" />
     <Compile Include="Commands\CommandManager.cs" />
     <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Commands\Shop\AddToCartCommand.cs" />
+    <Compile Include="Commands\Shop\ChangeQuantityCommand.cs" />
+    <Compile Include="Lazy\Ghosts\GhostCustomer.cs" />
+    <Compile Include="Lazy\Interfaces\IValueHolder.cs" />
+    <Compile Include="Lazy\Proxies\CustomerProxy.cs" />
+    <Compile Include="Models\Shop\Customer.cs" />
+    <Compile Include="Models\Shop\Product.cs" />
+    <Compile Include="MVVM\ViewModels\Shop\ShoppingCartViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\ViewModelBase.cs" />
+    <Compile Include="Repositories\Repo\Shop\Interfaces\IProductRepository.cs" />
+    <Compile Include="Repositories\Repo\Shop\Interfaces\IShoppingCartRepository.cs" />
+    <Compile Include="Repositories\Repo\Shop\ProductsRepository.cs" />
+    <Compile Include="Commands\Shop\RemoveAllFromCartCommand.cs" />
+    <Compile Include="Commands\Shop\RemoveFromCartCommand.cs" />
     <Compile Include="Commands\WPF\RelayCommand.cs" />
+    <Compile Include="Commands\WPF\RelayCommand2.cs" />
     <Compile Include="Enums\CertificateType.cs" />
     <Compile Include="Enums\DateComparison.cs" />
     <Compile Include="Enums\HorizontalTextAlignment.cs" />
@@ -133,8 +148,18 @@
     <Compile Include="Factories\IFac\IFactory.cs" />
     <Compile Include="Factories\IFac\ILogMessageFactory.cs" />
     <Compile Include="Handlers\Handler.cs" />
-    <Compile Include="Handlers\IHandler.cs" />
-    <Compile Include="Handlers\IReceiver.cs" />
+    <Compile Include="Handlers\Handler2.cs" />
+    <Compile Include="Handlers\Interfaces\IHandler.cs" />
+    <Compile Include="Handlers\Interfaces\IReceiver.cs" />
+    <Compile Include="Handlers\Payment\PaymentHandler.cs" />
+    <Compile Include="Handlers\Payment\PaymentHandler2.cs" />
+    <Compile Include="Handlers\Payment\Receivers\CreditCardHandler.cs" />
+    <Compile Include="Handlers\Payment\Receivers\InvoiceHandler.cs" />
+    <Compile Include="Handlers\Payment\Receivers\PaypalHandler.cs" />
+    <Compile Include="Handlers\UserValidation\AgeValidationHandler.cs" />
+    <Compile Include="Handlers\UserValidation\CitizenshipRegionValidationHandler.cs" />
+    <Compile Include="Handlers\UserValidation\NameValidationHandler.cs" />
+    <Compile Include="Handlers\UserValidation\SocialSecurityNumberValidatorHandler.cs" />
     <Compile Include="Helpers\Calculation\ObjectStatistics.cs" />
     <Compile Include="Helpers\Calculation\PreciseDateTime.cs" />
     <Compile Include="Helpers\Calculation\StockQuoteAnalysis\Interfaces\IStockQuoteParser.cs" />
@@ -200,15 +225,30 @@
     <Compile Include="Interfaces\IPeriod.cs" />
     <Compile Include="Lazy\ValueHolder.cs" />
     <Compile Include="Models\MailMessageModel.cs" />
+    <Compile Include="Models\Shop\Enums\PaymentProvider.cs" />
+    <Compile Include="Models\Shop\Enums\ShippingStatus.cs" />
+    <Compile Include="Models\Shop\Exceptions\InsufficientPaymentException.cs" />
+    <Compile Include="Models\Shop\Exceptions\UserValidationException.cs" />
+    <Compile Include="Models\Shop\Item.cs" />
+    <Compile Include="Models\Shop\Order.cs" />
+    <Compile Include="Models\Shop\Payment.cs" />
+    <Compile Include="Models\Shop\User.cs" />
     <Compile Include="Models\SmtpSettingsModel.cs" />
     <Compile Include="MVVM\ViewModelBase.cs" />
+    <Compile Include="Processors\Payment\CreditCardPaymentProcessor.cs" />
+    <Compile Include="Processors\Payment\Interfaces\IPaymentProcessor.cs" />
+    <Compile Include="Processors\Payment\InvoicePaymentProcessor.cs" />
+    <Compile Include="Processors\Payment\PaypalPaymentProcessor.cs" />
+    <Compile Include="Processors\UserProcessor.cs" />
     <Compile Include="Repositories\IRepo\ISqlRepositoryEntityFrameworkAsync.cs" />
     <Compile Include="Repositories\IRepo\ISqlRepositoryEntityFrameworkConnected.cs" />
     <Compile Include="Repositories\IRepo\ISqlRepositoryEntityFrameworkDisconnected.cs" />
     <Compile Include="Repositories\Repo\InMemoryRepository.cs" />
+    <Compile Include="MVVM\ViewModels\Shop\ProductViewModel.cs" />
+    <Compile Include="Repositories\Repo\Shop\ShoppingCartRepository.cs" />
     <Compile Include="Services\IServ\IMailService.cs" />
     <Compile Include="Helpers\MimeTypeMap.cs" />
-    <Compile Include="Helpers\NamedObject.cs" />
+    <Compile Include="Models\NamedObject.cs" />
     <Compile Include="Helpers\Calculation\Digit.cs" />
     <Compile Include="Helpers\DataStructures\Buffer\Buffer.cs" />
     <Compile Include="Helpers\DataStructures\Buffer\BufferExtensions.cs" />
@@ -378,6 +418,7 @@
     <Compile Include="Services\IServ\ISleepService.cs" />
     <Compile Include="Services\IServ\ITemporaryStorageService.cs" />
     <Compile Include="Services\Serv\MailServiceAsync.cs" />
+    <Compile Include="Services\Serv\ProfilePictureService.cs" />
     <Compile Include="Services\Serv\TemporaryStorageService.cs" />
     <Compile Include="Services\Serv\Time\AA.cs" />
     <Compile Include="Services\Serv\Time\SomeClass.cs" />
@@ -409,6 +450,7 @@
     <Compile Include="Services\Service.cs" />
     <Compile Include="Utils\WinFormsUtils.cs" />
     <Compile Include="Utils\XMLUtils.cs" />
+    <Compile Include="Validators\SocialSecurityNumberValidator.cs" />
     <Compile Include="Writers\Utf8StringWriter.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -449,6 +491,9 @@
     </PackageReference>
     <PackageReference Include="Security.Cryptography">
       <Version>1.7.2</Version>
+    </PackageReference>
+    <PackageReference Include="System.ValueTuple">
+      <Version>4.5.0</Version>
     </PackageReference>
     <PackageReference Include="Unity">
       <Version>5.11.7</Version>

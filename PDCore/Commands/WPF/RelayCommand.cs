@@ -12,7 +12,11 @@ namespace PDCore.Commands.WPF
 
         public object Parameter { get; set; }
 
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler CanExecuteChanged
+        {
+            add { System.Windows.Input.CommandManager.RequerySuggested += value; }
+            remove { System.Windows.Input.CommandManager.RequerySuggested -= value; }
+        }
 
         public RelayCommand(Action<object> execute, object parameter = null)
         {
@@ -37,7 +41,7 @@ namespace PDCore.Commands.WPF
 
         public void FireCanExecuteChanged()
         {
-            CanExecuteChanged?.Invoke(this, new EventArgs());
+            System.Windows.Input.CommandManager.InvalidateRequerySuggested();
         }
     }
 }
