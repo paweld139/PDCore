@@ -126,6 +126,9 @@
   <data name="Delete" xml:space="preserve">
     <value>Usuń</value>
   </data>
+  <data name="Details" xml:space="preserve">
+    <value>Szczegóły</value>
+  </data>
   <data name="Done" xml:space="preserve">
     <value>zrobione</value>
   </data>
@@ -134,6 +137,21 @@
   </data>
   <data name="Finished" xml:space="preserve">
     <value>Gotowe</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>Imię</value>
+  </data>
+  <data name="Friends" xml:space="preserve">
+    <value>Znajomi</value>
+  </data>
+  <data name="FullName" xml:space="preserve">
+    <value>Imię i nazwisko</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Nazwisko</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nazwa</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>nie</value>
