@@ -918,3 +918,26 @@ function objectsToRows(array) {
 function argumentsToArray() {
     return Array.from(arguments);
 }
+
+Number.prototype.getHalf = function () {
+    return this.valueOf() / 2;
+};
+
+Number.prototype.toLocaleCurrencyString = function (currency) {
+    // Create our number formatter.
+    let currencyFormatter = new Intl.NumberFormat(undefined, {
+        style: 'currency',
+        currency: currency
+    });
+
+    return currencyFormatter.format(this);
+}
+
+ko.utils.stringStartsWith = function (string, startsWith) {
+    string = string || "";
+
+    if (startsWith.length > string.length)
+        return false;
+
+    return string.substring(0, startsWith.length) === startsWith;
+};
