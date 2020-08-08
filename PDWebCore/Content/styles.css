@@ -1,5 +1,5 @@
-﻿.page body {padding : 10px; }
-.page body, .page input, .page select {
+﻿/*//body {padding : 10px; }
+body,*/ .page input, .page select {
 	font: 14px 'Segoe UI', 'SansationRegular', Arial, sans-serif;
 }
 .page {    
