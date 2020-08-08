@@ -2144,10 +2144,12 @@
     <Content Include="Content\fontawesome\webfonts\fa-brands-400.svg" />
     <Content Include="Content\fontawesome\webfonts\fa-regular-400.svg" />
     <Content Include="Content\fontawesome\webfonts\fa-solid-900.svg" />
+    <Content Include="Content\fonts.css" />
     <Content Include="Content\jquery.enhsplitter.css" />
     <Content Include="Content\loadingsaving.css" />
     <Content Include="Content\Main.css" />
     <Content Include="Content\site.css" />
+    <Content Include="Content\styles.css" />
     <Content Include="Content\tooltip-theme-arrows.min.css" />
     <Content Include="Content\tooltip.css" />
     <Content Include="Content\webmail.css" />
