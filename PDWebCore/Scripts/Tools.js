@@ -944,12 +944,12 @@ ko.utils.stringStartsWith = function (string, startsWith) {
 
 /**
  * Konwersja łańcucha znaków z ceną na liczbę zmiennoprzecinkową
- * */
-function currencyStringToFloat() {
+ * @param {any} value String z ceną
+ */
+function currencyStringToFloat(value) {
     value = parseFloat(value.replace(/[^.\d]/g, "")); // Wyszukuje w ciągu znaków wszystkie wystąpienia inne od cyfry i kropki i zamienia jest na pusty string
     // Następnie następuje konwersa do float - liczby zmiennoprzecinkowej
     value = isNaN(value) ? 0 : value; // Jeśli zwrócona wartość nie jest liczbą, to zostaje przypisane 0, w przeciwnym razie zwrócona wartość
 
     return value; // Następuje zwrócenie obliczonej wartości
 }
-
