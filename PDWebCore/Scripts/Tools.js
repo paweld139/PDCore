@@ -925,9 +925,9 @@ Number.prototype.getHalf = function () {
 
 Number.prototype.toLocaleCurrencyString = function (currency) {
     // Create our number formatter.
-    let currencyFormatter = new Intl.NumberFormat(undefined, {
+    let currencyFormatter = new Intl.NumberFormat(undefined, { //niezdefiniowana kultura, czyli aktualna
         style: 'currency',
-        currency: currency
+        currency: currency //waluta jest obowiązkowa, bo w jednej kulturze może być wiele walut, np. w zależności od regionu
     });
 
     return currencyFormatter.format(this);
@@ -941,3 +941,15 @@ ko.utils.stringStartsWith = function (string, startsWith) {
 
     return string.substring(0, startsWith.length) === startsWith;
 };
+
+/**
+ * Konwersja łańcucha znaków z ceną na liczbę zmiennoprzecinkową
+ * */
+function currencyStringToFloat() {
+    value = parseFloat(value.replace(/[^.\d]/g, "")); // Wyszukuje w ciągu znaków wszystkie wystąpienia inne od cyfry i kropki i zamienia jest na pusty string
+    // Następnie następuje konwersa do float - liczby zmiennoprzecinkowej
+    value = isNaN(value) ? 0 : value; // Jeśli zwrócona wartość nie jest liczbą, to zostaje przypisane 0, w przeciwnym razie zwrócona wartość
+
+    return value; // Następuje zwrócenie obliczonej wartości
+}
+
