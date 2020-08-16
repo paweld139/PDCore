@@ -593,6 +593,19 @@ ko.bindingHandlers.jqButton = {
     }
 };
 
+ko.bindingHandlers.jqButtonWithOptions = {
+    init: function (element) {
+        $(element).button(); // Turns the element into a jQuery UI button
+    },
+    update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+        var value = valueAccessor(),
+            options = ko.utils.extend(value.options || {}, ko.bindingHandlers.jqDialog.defaultOptions);
+        // Here we just update the "disabled" state, but you could update other properties too
+        $(element).button("option", "disabled", value.enable === false);
+        //$(element).button("option", "label", value.enable ? "Finished" : "Um, Not Gunna Happen");
+    }
+};
+
 ko.bindingHandlers.fadeVisible = {
     init: function (element, valueAccessor) {
         // Start visible/invisible according to initial value
@@ -608,15 +621,45 @@ ko.bindingHandlers.fadeVisible = {
 
 ko.bindingHandlers.fadeVisibleWithDuration = {
     init: function (element, valueAccessor) {
+        // Start visible/invisible according to initial value
         var shouldDisplay = valueAccessor();
         $(element).toggle(shouldDisplay);
     },
     update: function (element, valueAccessor, allBindingsAccessor) {
+        // On update, fade in/out
         var shouldDisplay = valueAccessor(),
             allBindings = allBindingsAccessor(),
-            duration = allBindings.fadeDuration || 500;
+            duration = allBindings.fadeDuration || 500; // 500ms is default duration unless otherwise specified
 
         shouldDisplay ? $(element).fadeIn(duration) : $(element).fadeOut(duration);
+    }
+};
+
+ko.bindingHandlers.slideVisible = {
+    init: function (element, valueAccessor) {
+        // Start visible/invisible according to initial value
+        //var shouldDisplay = valueAccessor();
+        $(element).toggle(valueAccessor());
+    },
+    update: function (element, valueAccessor, allBindingsAccessor) {
+        var
+            // First get the latest data that we're bound to
+            value = valueAccessor(),
+            // Now get the other bindings in the same data-bind attr
+            allBindings = allBindingsAccessor(),
+
+            // Next, whether or not the supplied model property is observable, get its current value
+            valueUnwrapped = ko.utils.unwrapObservable(value),
+
+            // 400ms is default duration unless otherwise specified
+            duration = allBindings.slideDuration || 400;
+
+        // Now manipulate the DOM element
+        if (valueUnwrapped == true) {
+            $(element).slideDown(duration); // Make the element visible
+        } else {
+            $(element).slideUp(duration); // Make the element invisible
+        }
     }
 };
 
