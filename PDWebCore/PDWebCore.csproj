@@ -2176,6 +2176,9 @@
     <Content Include="Scripts\jquery.enhsplitter.js" />
     <Content Include="Scripts\jquery.panel.js" />
     <Content Include="Scripts\knockout-sortable.js" />
+    <Content Include="Scripts\knockout.changetracker.js" />
+    <Content Include="Scripts\koExternalTemplateEngine_all.js" />
+    <Content Include="Scripts\koExternalTemplateEngine_all.min.js" />
     <Content Include="Scripts\LocalStorage.js" />
     <Content Include="Scripts\MainViewModel.js" />
     <Content Include="Scripts\Objects.js" />

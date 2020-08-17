@@ -764,8 +764,12 @@ function HasType(o, type) {
     return (typeof o === type);
 }
 
-function IsCallback(o) {
+function IsFunction(o) {
     return HasType(o, "function");
+}
+
+function IsCallback(o) {
+    return IsFunction(o);
 }
 
 var sortType = {
@@ -1004,9 +1008,107 @@ ko.utils.stringStartsWith = function (string, startsWith) {
  * @param {any} value String z ceną
  */
 function currencyStringToFloat(value) {
-    value = parseFloat(value.replace(/[^.\d]/g, "")); // Wyszukuje w ciągu znaków wszystkie wystąpienia inne od cyfry i kropki i zamienia jest na pusty string
+    value = parseFloat(value.replace(/[^.\d]/g, "")); // Wyszukuje w ciągu znaków wszystkie wystąpienia inne od kropki i cyfry i zamienia jest na pusty string
     // Następnie następuje konwersa do float - liczby zmiennoprzecinkowej
     value = isNaN(value) ? 0 : value; // Jeśli zwrócona wartość nie jest liczbą, to zostaje przypisane 0, w przeciwnym razie zwrócona wartość
 
     return value; // Następuje zwrócenie obliczonej wartości
 }
+
+Array.prototype.objectInArray = function (searchFor, property) {
+    var retVal = false;
+
+    $.each(this, function (_index, item) {
+        if (Object.prototype.hasOwnProperty.call(item, property)) {
+            if (ko.unwrap(item[property]) === searchFor) {
+                retVal = item[property];
+            }
+        }
+    });
+
+    return retVal;
+};
+
+ko.utils.unwrapFunction = function (func) {
+    if (IsFunction(o)) {
+        return func;
+    }
+    else {
+        return ko.utils.unwrapFunction(func());
+    }
+};
+
+//replaces single and double 'smart' quotes users commonly paste in from word into textareas and textboxes with normal text equivalents
+//USAGE:
+//data-bind="replaceWordChars:true
+//also works with valueUpdate:'keyup' if you want"
+
+ko.bindingHandlers.replaceWordChars = {
+    update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+        var bindingValue = ko.utils.unwrapFunction(valueAccessor);
+
+        if (bindingValue) {
+            //update DOM - not sure why I should need to do this, but just updating viewModel doesn't always update DOM correctly for me
+            $(element).val(removeMSWordChars(allBindingsAccessor().value()));
+            allBindingsAccessor().value($(element).val()); //update viewModel
+        }
+    }
+}
+
+String.prototype.removeCharAt = function (i) {
+    var tmp = this.split(''); // convert to an array
+    tmp.splice(i - 1, 1); // remove 1 element from the array (adjusting for non-zero-indexed counts)
+    return tmp.join(''); // reconstruct the string
+}
+
+ko.bindingHandlers.icon = {
+    update: function (element, valueAccessor) {
+        var icon = ko.unwrap(valueAccessor());
+        $(element).html(icons[icon]);
+    }
+}
+
+ko.bindingHandlers.jqDialog = {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+        var model = ko.utils.unwrapObservable(valueAccessor()),
+            options = ko.utils.extend(model.options || {}, ko.bindingHandlers.jqDialog.defaultOptions);
+
+        //setup our buttons
+        options.buttons = {
+            "Accept": model.accept.bind(viewModel, viewModel),
+            "Cancel": model.cancel.bind(viewModel, viewModel)
+        };
+
+        //initialize the dialog
+        $(element).dialog(options);
+
+        //handle disposal
+        ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+            $(element).dialog("destroy");
+        });
+    },
+    update: function (element, valueAccessor) {
+        var value = ko.utils.unwrapObservable(valueAccessor());
+        $(element).dialog(ko.utils.unwrapObservable(value.open) ? "open" : "close");
+
+        if (value.title) {
+            var title = value.title();
+            if (title) {
+                $(element).dialog("option", "title", title);
+            }
+        }
+        //handle positioning
+        if (value.position) {
+            var target = value.position();
+            if (target) {
+                var pos = $(target).position();
+                $(element).dialog("option", "position", [pos.left + $(target).width(), pos.top + $(target).height()]);
+            }
+        }
+    },
+    defaultOptions: {
+        autoOpen: false,
+        resizable: false,
+        modal: true
+    }
+};
