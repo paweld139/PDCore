@@ -591,6 +591,7 @@
     <Content Include="ckeditor\styles.js" />
     <Content Include="Content\all.css" />
     <Content Include="Content\bootstrap-select.css" />
+    <Content Include="Content\calculator.css" />
     <Content Include="Content\coderunner.css" />
     <Content Include="Content\custombindings.css" />
     <Content Include="Content\fontawesome\css\all.css" />
@@ -2171,6 +2172,7 @@
     <Content Include="Images\orderedList9.png" />
     <Content Include="Images\stars.png" />
     <Content Include="Scripts\bootstrap-select.js" />
+    <Content Include="Scripts\calculator.js" />
     <Content Include="Scripts\cookies.js" />
     <Content Include="Scripts\datepicker-pl.js" />
     <Content Include="Scripts\drop.min.js" />
