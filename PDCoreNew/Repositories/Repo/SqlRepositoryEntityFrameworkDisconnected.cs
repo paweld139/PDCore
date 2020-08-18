@@ -99,7 +99,10 @@ namespace PDCoreNew.Repositories.Repo
         {
             var entry = FindByKeyValues(keyValues);
 
-            Delete(entry);
+            if (entry == null)
+                return; // not found; assume already deleted.
+
+            Delete(entity: entry);
         }
 
 

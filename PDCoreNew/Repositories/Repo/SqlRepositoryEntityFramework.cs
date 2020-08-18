@@ -134,6 +134,16 @@ namespace PDCoreNew.Repositories.Repo
 
         public override void Add(T newEntity)
         {
+            //DbEntityEntry dbEntityEntry = DbContext.Entry(entity);
+            //if (dbEntityEntry.State != EntityState.Detached)
+            //{
+            //    dbEntityEntry.State = EntityState.Added;
+            //}
+            //else
+            //{
+            //    DbSet.Add(entity);
+            //}
+
             set.Add(newEntity);
         }
 
@@ -144,12 +154,30 @@ namespace PDCoreNew.Repositories.Repo
 
         public override void Update(T entity)
         {
+            //DbEntityEntry dbEntityEntry = DbContext.Entry(entity);
+            //if (dbEntityEntry.State == EntityState.Detached)
+            //{
+            //    DbSet.Attach(entity);
+            //}
+            //dbEntityEntry.State = EntityState.Modified;
+
             ctx.Entry(entity).State = EntityState.Modified;
         }
 
 
         public override void Delete(T entity)
         {
+            //DbEntityEntry dbEntityEntry = DbContext.Entry(entity);
+            //if (dbEntityEntry.State != EntityState.Deleted)
+            //{
+            //    dbEntityEntry.State = EntityState.Deleted;
+            //}
+            //else
+            //{
+            //    DbSet.Attach(entity);
+            //    DbSet.Remove(entity);
+            //}
+
             set.Remove(entity);
         }
 
@@ -161,6 +189,7 @@ namespace PDCoreNew.Repositories.Repo
 
         public override T FindById(int id)
         {
+            //return DbSet.FirstOrDefault(PredicateBuilder.GetByIdPredicate<T>(id));
             return FindByKeyValues(id);
         }
 

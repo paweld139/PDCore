@@ -2148,6 +2148,7 @@
     <Content Include="Content\jquery.enhsplitter.css" />
     <Content Include="Content\loadingsaving.css" />
     <Content Include="Content\Main.css" />
+    <Content Include="Content\news.css" />
     <Content Include="Content\site.css" />
     <Content Include="Content\styles.css" />
     <Content Include="Content\tooltip-theme-arrows.min.css" />

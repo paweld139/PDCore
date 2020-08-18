@@ -97,7 +97,7 @@ namespace PDCore.Repositories.Repo
 
         protected SqlRepository(IDbContext db, ILogger logger)
         {
-            this.db = db;
+            this.db = db ?? throw new ArgumentNullException(nameof(db), $"{nameof(IDbContext)} cannot be null");
             this.logger = logger;
 
             if (IsLoggingEnabledByDefault)
