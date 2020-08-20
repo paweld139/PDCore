@@ -26,5 +26,7 @@ namespace PDCoreNew.Context.IContext
         DbEntityEntry Entry(object entity);
 
         DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
+
+        DbContextConfiguration Configuration { get; }
     }
 }

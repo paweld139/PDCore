@@ -60,6 +60,7 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="Factories\Fac\UserDataFactory.cs" />
     <Compile Include="Factories\IFac\IUserDataFactory.cs" />
+    <Compile Include="Filters\ValidationActionFilterAttribute.cs" />
     <Compile Include="Handlers\LogExceptionHandler.cs" />
     <Compile Include="Filters\LogExceptionFilterAttribute.cs" />
     <Compile Include="Helpers\ExceptionHandling\HttpApplicationErrorHandler.cs" />

@@ -59,6 +59,9 @@
     <Compile Include="Extensions\ContextExtensions.cs" />
     <Compile Include="Factories\Fac\Factory.cs" />
     <Compile Include="Factories\Fac\DataLoaderFactory.cs" />
+    <Compile Include="Factories\Fac\Repository\IRepositoryProvider.cs" />
+    <Compile Include="Factories\Fac\Repository\RepositoryFactories.cs" />
+    <Compile Include="Factories\Fac\Repository\RepositoryProvider.cs" />
     <Compile Include="Helpers\AsyncHelpers.cs" />
     <Compile Include="Helpers\Container.cs" />
     <Compile Include="Helpers\ExceptionHandling\ActionWrapper.cs" />
@@ -96,6 +99,7 @@
     <Compile Include="Repositories\Repo\SqlRepositoryEntityFramework.cs" />
     <Compile Include="Services\Serv\LogService.cs" />
     <Compile Include="Services\Serv\MailServiceAsyncTask.cs" />
+    <Compile Include="UnitOfWork\UnitOfWork.cs" />
     <Compile Include="Utils\IOUtils.cs" />
     <Compile Include="Utils\WebUtils.cs" />
   </ItemGroup>
