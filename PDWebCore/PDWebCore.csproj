@@ -67,6 +67,7 @@
     <Compile Include="Helpers\MultiLanguage\Language.cs" />
     <Compile Include="Helpers\MultiLanguage\LanguageHelper.cs" />
     <Compile Include="Helpers\MultiLanguage\MultiLanguageController.cs" />
+    <Compile Include="Helpers\WebOptimization\BundleTransform\LessTransform.cs" />
     <Compile Include="Models\JsonResultModel.cs" />
     <Compile Include="Models\UserDataModel.cs" />
     <Compile Include="MVVM\ViewModelBaseWeb.cs" />
@@ -156,6 +157,9 @@
     <None Include="fonts\glyphicons-halflings-regular.woff2" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="dotless">
+      <Version>1.6.7</Version>
+    </PackageReference>
     <PackageReference Include="EntityFramework">
       <Version>6.4.4</Version>
     </PackageReference>
