@@ -1114,11 +1114,11 @@ ko.bindingHandlers.jqDialog = {
 };
 
 Array.prototype.randomIndex = function () {
-    return Math.floor(Math.random() * complements.length);
+    return Math.floor(Math.random() * this.length);
 }
 
 Array.prototype.randomElement = function () {
     const randomIndex = this.randomIndex();
 
-    return complements[randomIndex];
+    return this[randomIndex];
 };

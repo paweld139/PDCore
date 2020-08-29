@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 using System.Data;
 using Moq;
 using PDCore.Services.IServ;
+using PDCore.Extensions;
 
 namespace PDCore.Tests
 {
@@ -120,6 +121,24 @@ namespace PDCore.Tests
             Assert.IsNotNull(dataTable);
 
             Assert.IsFalse(sqlConnection.State == ConnectionState.Closed);
+        }
+
+        [TestMethod]
+        public void CanGetDefaultSchema()
+        {
+            string[] connectionStrings =
+            {
+                "Data Source=LAPTOP-JHQ9SF1E\\SQLEXPRESSS;Initial Catalog=MainTest;User ID=sa;Password=hasloos",
+                "Data Source=LAPTOP-JHQ9SF1E\\SQLEXPRESSS;Initial Catalog=MedicSylwia;User ID=sa;Password=hasloos"
+            };
+
+            var sqlConnections = connectionStrings.Select(s => SqlUtils.GetDbConnection(s, false)).Cast<SqlConnection>();
+
+            var schemas = sqlConnections.Select(SqlUtils.GetDefaultSchema);
+
+            var expected = new[] { "dbo", "dbo" };
+
+            Assert.IsTrue(expected.SequenceEqual(schemas));
         }
 
         #endregion

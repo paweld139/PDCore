@@ -363,5 +363,14 @@ namespace PDCore.Utils
                 return GetTables(dbConnection);
             }
         }
+
+        public static string GetDefaultSchema(SqlConnection sqlConnection)
+        {
+            const string defaultSchemaQuery = "select SCHEMA_NAME() as DefaultSchema";
+
+            DataTable result = GetDataTable(defaultSchemaQuery, sqlConnection);
+
+            return result.GetValue();
+        }
     }
 }

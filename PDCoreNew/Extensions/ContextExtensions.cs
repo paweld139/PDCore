@@ -3,14 +3,15 @@ using PDCore.Interfaces;
 using PDCore.Utils;
 using PDCoreNew.Context.IContext;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Core.EntityClient;
+using System.Data.Entity.Core.Metadata.Edm;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PDCoreNew.Extensions
@@ -155,6 +156,29 @@ namespace PDCoreNew.Extensions
                     + "the Save button again. Otherwise click the Back to List hyperlink.");
 
                 entity.RowVersion = databaseValues.RowVersion;
+            }
+        }
+
+        public static IEnumerable<string> GetSchemaDetails<TEntity>(this DbContext context)
+        {
+            //retrieve object model
+            ObjectContext objContext = context.GetObjectContext();
+
+            //retrieve name types
+            var nameTypes = objContext.MetadataWorkspace.GetItems<EntityType>(DataSpace.OSpace);
+
+            //set a connection String 
+            var connectionString = objContext.Connection.ConnectionString;
+            var connection = new EntityConnection(connectionString);
+            var workspace = connection.GetMetadataWorkspace();
+
+            var entitySets = workspace.GetItems<EntityContainer>(DataSpace.SSpace).First().BaseEntitySets;
+
+            for (int i = 0; i < nameTypes.Count; i++)
+            {
+                Type type = Type.GetType(nameTypes[i].FullName);
+
+                yield return entitySets[type.Name].MetadataProperties["Schema"].Value.ToString();
             }
         }
     }
