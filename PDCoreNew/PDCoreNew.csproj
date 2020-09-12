@@ -63,6 +63,7 @@
     <Compile Include="Factories\Fac\Repository\RepositoryFactories.cs" />
     <Compile Include="Factories\Fac\Repository\RepositoryProvider.cs" />
     <Compile Include="Helpers\AsyncHelpers.cs" />
+    <Compile Include="Helpers\AutofacServiceLocator.cs" />
     <Compile Include="Helpers\Container.cs" />
     <Compile Include="Helpers\ExceptionHandling\ActionWrapper.cs" />
     <Compile Include="Helpers\SaveChangesWrapper.cs" />
