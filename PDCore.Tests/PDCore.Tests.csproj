@@ -70,6 +70,7 @@
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Thread" />
+    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountBuilderTests.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="CircularBufferTests.cs" />
     <Compile Include="Data\Model.cs" />
     <Compile Include="Data\Service.cs" />
+    <Compile Include="HelpersTests.cs" />
     <Compile Include="IoCTests.cs" />
     <Compile Include="ExtensionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -104,6 +106,10 @@
     <ProjectReference Include="..\PDCore\PDCore.csproj">
       <Project>{5ac8cb92-d1b0-4f43-a444-e8d5e747db4d}</Project>
       <Name>PDCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PDWebCore\PDWebCore.csproj">
+      <Project>{62A21E22-54E7-40F9-9EFC-472EFA7BF66D}</Project>
+      <Name>PDWebCore</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

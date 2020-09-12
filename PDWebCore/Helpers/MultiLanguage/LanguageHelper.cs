@@ -56,10 +56,12 @@ namespace PDWebCore.Helpers.MultiLanguage
             {
                 var cultureInfo = new CultureInfo(language);
 
-                if (!IsLanguageAvailable(cultureInfo.TwoLetterISOLanguageName))
-                    language = GetDefaultLanguage();
+                string languageISO = cultureInfo.TwoLetterISOLanguageName; //Możliwe, że sostał przekazany specyficzny
 
-                Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(language);
+                if (!IsLanguageAvailable(languageISO))
+                    languageISO = GetDefaultLanguage();
+
+                Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(languageISO);
                 Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(cultureInfo.Name);
 
                 HttpCookie langCookie = new HttpCookie("culture", language)
