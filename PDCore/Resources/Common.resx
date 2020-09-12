@@ -120,6 +120,9 @@
   <data name="Add" xml:space="preserve">
     <value>Add</value>
   </data>
+  <data name="Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
   <data name="Completed" xml:space="preserve">
     <value>Completed</value>
   </data>
@@ -131,6 +134,12 @@
   </data>
   <data name="Done" xml:space="preserve">
     <value>done</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="ErrorOccuredDetailsWeb" xml:space="preserve">
+    <value>An error occurred while executing the request. Error details:</value>
   </data>
   <data name="False" xml:space="preserve">
     <value>false</value>

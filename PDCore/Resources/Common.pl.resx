@@ -120,6 +120,9 @@
   <data name="Add" xml:space="preserve">
     <value>Dodaj</value>
   </data>
+  <data name="Back" xml:space="preserve">
+    <value>Powrót</value>
+  </data>
   <data name="Completed" xml:space="preserve">
     <value>Zakończ</value>
   </data>
@@ -131,6 +134,12 @@
   </data>
   <data name="Done" xml:space="preserve">
     <value>zrobione</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Błąd</value>
+  </data>
+  <data name="ErrorOccuredDetailsWeb" xml:space="preserve">
+    <value>Wystąpił błąd podczas wykonywania żądania. Szczegóły błędu:</value>
   </data>
   <data name="False" xml:space="preserve">
     <value>fałsz</value>
