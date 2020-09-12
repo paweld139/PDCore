@@ -120,14 +120,26 @@
   <data name="Add" xml:space="preserve">
     <value>Dodaj</value>
   </data>
+  <data name="Archived" xml:space="preserve">
+    <value>Archiwalny</value>
+  </data>
   <data name="Back" xml:space="preserve">
     <value>Powrót</value>
+  </data>
+  <data name="Budget" xml:space="preserve">
+    <value>Budżet</value>
   </data>
   <data name="Completed" xml:space="preserve">
     <value>Zakończ</value>
   </data>
+  <data name="Contractor" xml:space="preserve">
+    <value>Kontrahent</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>Usuń</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Opis</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>Szczegóły</value>
@@ -135,11 +147,17 @@
   <data name="Done" xml:space="preserve">
     <value>zrobione</value>
   </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
   <data name="Error" xml:space="preserve">
     <value>Błąd</value>
   </data>
   <data name="ErrorOccuredDetailsWeb" xml:space="preserve">
     <value>Wystąpił błąd podczas wykonywania żądania. Szczegóły błędu:</value>
+  </data>
+  <data name="ExecutionDate" xml:space="preserve">
+    <value>Data wykonania</value>
   </data>
   <data name="False" xml:space="preserve">
     <value>fałsz</value>
@@ -156,14 +174,35 @@
   <data name="FullName" xml:space="preserve">
     <value>Imię i nazwisko</value>
   </data>
+  <data name="Id" xml:space="preserve">
+    <value>Identyfikator</value>
+  </data>
   <data name="LastName" xml:space="preserve">
     <value>Nazwisko</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Nazwa</value>
   </data>
+  <data name="NIP" xml:space="preserve">
+    <value>NIP</value>
+  </data>
   <data name="No" xml:space="preserve">
     <value>nie</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Numer</value>
+  </data>
+  <data name="Operator" xml:space="preserve">
+    <value>Wykonujący</value>
+  </data>
+  <data name="Priority" xml:space="preserve">
+    <value>Priorytet</value>
+  </data>
+  <data name="ReceiptDate" xml:space="preserve">
+    <value>Data odbioru</value>
+  </data>
+  <data name="Representative" xml:space="preserve">
+    <value>Przedstawiciel</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Zapisz</value>
@@ -180,8 +219,20 @@
   <data name="ServerReceivedData" xml:space="preserve">
     <value>Serwer otrzymał dane</value>
   </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Subject" xml:space="preserve">
+    <value>Temat</value>
+  </data>
   <data name="True" xml:space="preserve">
     <value>prawda</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Typ</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Wartość</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>tak</value>
