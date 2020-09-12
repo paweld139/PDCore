@@ -295,5 +295,14 @@ namespace PDCore.Utils
         public static IEnumerable<Type> GetImmediateInterfaces<T>() => typeof(T).GetImmediateInterfaces();
 
         public static bool ImplementsInterface<TInput, TInterface>() => typeof(TInput).ImplementsInterface<TInterface>();
+
+        public static object CreateCollection(Type collectionType, Type itemType)
+        {
+            var closedType = CreateCollectionType(collectionType, itemType); // Nie unbound type
+
+            return Activator.CreateInstance(closedType);
+        }
+
+        public static Type CreateCollectionType(Type collectionType, Type itemType) => collectionType.MakeGenericType(itemType);
     }
 }
