@@ -37,13 +37,12 @@ namespace PDCoreNew.Factories.Fac.Repository
         private readonly RepositoryFactories _repositoryFactories;
         private readonly ILogger logger;
 
-        public IEntityFrameworkDbContext DbContext { get; private set; }
+        public IEntityFrameworkDbContext DbContext { get; set; }
 
-        public RepositoryProvider(RepositoryFactories repositoryFactories, IEntityFrameworkDbContext dbContext, ILogger logger)
+        public RepositoryProvider(RepositoryFactories repositoryFactories, ILogger logger)
         {
             _repositoryFactories = repositoryFactories;
 
-            DbContext = dbContext;
             this.logger = logger;
 
             Repositories = new Dictionary<Type, object>();
@@ -72,6 +71,16 @@ namespace PDCoreNew.Factories.Fac.Repository
         public ISqlRepositoryEntityFramework<T> GetRepositoryForEntityType<T>() where T : class, IModificationHistory
         {
             return GetRepository<ISqlRepositoryEntityFramework<T>>(_repositoryFactories.GetRepositoryFactoryForEntityType<T>());
+        }
+
+        public ISqlRepositoryEntityFrameworkConnected<T> GetRepositoryForEntityTypeConnected<T>() where T : class, IModificationHistory, new()
+        {
+            return GetRepository<ISqlRepositoryEntityFrameworkConnected<T>>(_repositoryFactories.GetRepositoryFactoryForEntityTypeConnected<T>());
+        }
+
+        public ISqlRepositoryEntityFrameworkDisconnected<T> GetRepositoryForEntityTypeDisconnected<T>() where T : class, IModificationHistory
+        {
+            return GetRepository<ISqlRepositoryEntityFrameworkDisconnected<T>>(_repositoryFactories.GetRepositoryFactoryForEntityTypeDisconnected<T>());
         }
 
         /// <summary>
@@ -116,7 +125,7 @@ namespace PDCoreNew.Factories.Fac.Repository
         /// <returns></returns>
         protected virtual T MakeRepository<T>(Func<IEntityFrameworkDbContext, ILogger, object> factory, IEntityFrameworkDbContext dbContext, ILogger logger)
         {
-            var f = factory ?? _repositoryFactories.GetRepositoryFactory<T>();
+            var f = factory ?? _repositoryFactories.GetRepositoryFactory<T>() ?? _repositoryFactories.GetDefaultRepositoryFactory<T>();
 
             if (f == null)
             {

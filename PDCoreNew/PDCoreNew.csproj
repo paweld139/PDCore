@@ -101,6 +101,7 @@
     <Compile Include="Services\Serv\LogService.cs" />
     <Compile Include="Services\Serv\MailServiceAsyncTask.cs" />
     <Compile Include="UnitOfWork\UnitOfWork.cs" />
+    <Compile Include="UnitOfWork\UnitOfWork2.cs" />
     <Compile Include="Utils\IOUtils.cs" />
     <Compile Include="Utils\WebUtils.cs" />
   </ItemGroup>

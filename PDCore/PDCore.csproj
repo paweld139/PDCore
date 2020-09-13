@@ -112,6 +112,7 @@
     <Compile Include="Lazy\Proxies\CustomerProxy.cs" />
     <Compile Include="Models\Shop\Customer.cs" />
     <Compile Include="Models\Shop\Product.cs" />
+    <Compile Include="Models\TagGroup.cs" />
     <Compile Include="MVVM\ViewModels\Shop\ShoppingCartViewModel.cs" />
     <Compile Include="MVVM\ViewModels\ViewModelBase.cs" />
     <Compile Include="Repositories\Repo\Shop\Interfaces\IProductRepository.cs" />

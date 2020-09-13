@@ -29,18 +29,20 @@ namespace PDCoreNew.UnitOfWork
     /// The repositories rely on their parent UoW to provide the interface to the
     /// data layer (which is the EF DbContext).
     /// </remarks>
-    public abstract class UnitOfWork<TContext> : IUnitOfWork where TContext : IEntityFrameworkDbContext
+    public abstract class UnitOfWork : IUnitOfWork //<TContext> : IUnitOfWork where TContext : IEntityFrameworkDbContext
     {
         protected IRepositoryProvider RepositoryProvider { get; set; }
 
         private readonly IEntityFrameworkDbContext dbContext;
 
-        public UnitOfWork(IRepositoryProvider repositoryProvider)
+        public UnitOfWork(IRepositoryProvider repositoryProvider, IEntityFrameworkDbContext dbContext)
         {
             //CreateDbContext();
 
             RepositoryProvider = repositoryProvider;
-            dbContext = repositoryProvider.DbContext;
+            repositoryProvider.DbContext = dbContext;
+
+            PrepareDbContext();
         }
 
         // Repositories
@@ -52,6 +54,11 @@ namespace PDCoreNew.UnitOfWork
         {
             //System.Diagnostics.Debug.WriteLine("Committed");
             dbContext.SaveChanges();
+        }
+
+        private void PrepareDbContext()
+        {
+            dbContext.Configuration.ProxyCreationEnabled = false;
         }
 
         //protected void CreateDbContext()
@@ -76,6 +83,16 @@ namespace PDCoreNew.UnitOfWork
         protected ISqlRepositoryEntityFramework<T> GetStandardRepo<T>() where T : class, IModificationHistory
         {
             return RepositoryProvider.GetRepositoryForEntityType<T>();
+        }
+
+        protected ISqlRepositoryEntityFrameworkConnected<T> GetStandardRepoConnected<T>() where T : class, IModificationHistory, new()
+        {
+            return RepositoryProvider.GetRepositoryForEntityTypeConnected<T>();
+        }
+
+        protected ISqlRepositoryEntityFrameworkDisconnected<T> GetStandardRepoDisconnected<T>() where T : class, IModificationHistory
+        {
+            return RepositoryProvider.GetRepositoryForEntityTypeDisconnected<T>();
         }
 
         protected T GetRepo<T>() where T : class

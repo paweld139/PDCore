@@ -102,6 +102,16 @@ namespace PDCoreNew.Factories.Fac.Repository
             return GetRepositoryFactory<T>() ?? GetDefaultEntityRepositoryFactory<T>();
         }
 
+        public Func<IEntityFrameworkDbContext, ILogger, object> GetRepositoryFactoryForEntityTypeConnected<T>() where T : class, IModificationHistory, new()
+        {
+            return GetRepositoryFactory<T>() ?? GetDefaultEntityRepositoryFactoryConnected<T>();
+        }
+
+        public Func<IEntityFrameworkDbContext, ILogger, object> GetRepositoryFactoryForEntityTypeDisconnected<T>() where T : class, IModificationHistory
+        {
+            return GetRepositoryFactory<T>() ?? GetDefaultEntityRepositoryFactoryDisconnected<T>();
+        }
+
         /// <summary>
         /// Default factory for a <see cref="ISqlRepositoryEntityFramework{T}"/> where T is an entity.
         /// </summary>
@@ -109,6 +119,21 @@ namespace PDCoreNew.Factories.Fac.Repository
         protected virtual Func<IEntityFrameworkDbContext, ILogger, object> GetDefaultEntityRepositoryFactory<T>() where T : class, IModificationHistory
         {
             return (dbContext, logger) => new SqlRepositoryEntityFramework<T>(dbContext, logger);
+        }
+
+        protected virtual Func<IEntityFrameworkDbContext, ILogger, object> GetDefaultEntityRepositoryFactoryConnected<T>() where T : class, IModificationHistory, new()
+        {
+            return (dbContext, logger) => new SqlRepositoryEntityFrameworkConnected<T>(dbContext, logger);
+        }
+
+        protected virtual Func<IEntityFrameworkDbContext, ILogger, object> GetDefaultEntityRepositoryFactoryDisconnected<T>() where T : class, IModificationHistory
+        {
+            return (dbContext, logger) => new SqlRepositoryEntityFrameworkDisconnected<T>(dbContext, logger);
+        }
+
+        public virtual Func<IEntityFrameworkDbContext, ILogger, object> GetDefaultRepositoryFactory<T>()
+        {
+            return (dbContext, logger) => Activator.CreateInstance(typeof(T), dbContext, logger);
         }
     }
 }

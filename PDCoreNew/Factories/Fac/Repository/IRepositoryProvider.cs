@@ -27,6 +27,8 @@ namespace PDCoreNew.Factories.Fac.Repository
         /// Root entity type of the <see cref="ISqlRepositoryEntityFramework{T}"/>.
         /// </typeparam>
         ISqlRepositoryEntityFramework<T> GetRepositoryForEntityType<T>() where T : class, IModificationHistory;
+        ISqlRepositoryEntityFrameworkConnected<T> GetRepositoryForEntityTypeConnected<T>() where T : class, IModificationHistory, new();
+        ISqlRepositoryEntityFrameworkDisconnected<T> GetRepositoryForEntityTypeDisconnected<T>() where T : class, IModificationHistory;
 
         /// <summary>
         /// Get a repository of type T.
@@ -56,6 +58,6 @@ namespace PDCoreNew.Factories.Fac.Repository
         /// </remarks>
         void SetRepository<T>(T repository);
 
-        IEntityFrameworkDbContext DbContext { get; }
+        IEntityFrameworkDbContext DbContext { get; set; }
     }
 }

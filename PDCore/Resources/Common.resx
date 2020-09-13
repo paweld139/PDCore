@@ -135,6 +135,9 @@
   <data name="Contractor" xml:space="preserve">
     <value>Contractor</value>
   </data>
+  <data name="CreateDate" xml:space="preserve">
+    <value>Create date</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
   </data>
@@ -149,6 +152,12 @@
   </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
+  </data>
+  <data name="Employee" xml:space="preserve">
+    <value>Employee</value>
+  </data>
+  <data name="Employer" xml:space="preserve">
+    <value>Employer</value>
   </data>
   <data name="Error" xml:space="preserve">
     <value>Error</value>
@@ -230,6 +239,9 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>Type</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>User</value>
   </data>
   <data name="Value" xml:space="preserve">
     <value>Value</value>

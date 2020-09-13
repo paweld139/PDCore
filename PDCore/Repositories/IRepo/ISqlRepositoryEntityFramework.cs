@@ -44,6 +44,8 @@ namespace PDCore.Repositories.IRepo
 
         int GetCount(Expression<Func<T, bool>> predicate);
 
+        bool Exists(int id);
+
 
         void Attach(T obj);
 

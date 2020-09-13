@@ -1,12 +1,16 @@
-﻿using PDWebCore.Models;
+﻿using Microsoft.Ajax.Utilities;
+using PDWebCore.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Web.Http;
+using System.Web.Http.Results;
 using System.Web.Mvc;
 
 namespace System.ComponentModel.DataAnnotations
@@ -171,5 +175,9 @@ namespace PDWebCore
 
             return MvcHtmlString.Create(anchor.ToString());
         }
+
+        public static StatusCodeResult Forbid(this ApiController controller) => new StatusCodeResult(HttpStatusCode.Forbidden, controller);
+
+        public static StatusCodeResult NoContent(this ApiController controller) => new StatusCodeResult(HttpStatusCode.NoContent, controller);
     }
 }

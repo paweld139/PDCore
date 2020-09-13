@@ -435,5 +435,12 @@ namespace PDCoreNew.Repositories.Repo
         {
             return Find(predicate).ToList();
         }
+
+        public virtual bool Exists(int id)
+        {
+            var predicate = RepositoryUtils.GetByIdPredicate<T>(id);
+
+            return FindAll().Any(predicate);
+        }
     }
 }
