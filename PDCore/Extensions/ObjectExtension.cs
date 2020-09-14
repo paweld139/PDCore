@@ -242,7 +242,7 @@ namespace PDCore.Extensions
             return value.ToString().ToNumberString(precision);
         }
 
-        public static bool ValueIn<TInput>(this TInput input, params TInput[] values) where TInput : struct, IEquatable<TInput>
+        public static bool ValueIn<TInput>(this TInput input, params TInput[] values) where TInput : IEquatable<TInput>
         {
             return values.Any(v => v.Equals(input));
         }

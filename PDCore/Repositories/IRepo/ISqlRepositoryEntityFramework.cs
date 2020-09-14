@@ -29,6 +29,12 @@ namespace PDCore.Repositories.IRepo
 
         IQueryable<TOutput> FindBy<TOutput>(Expression<Func<T, bool>> predicate, Expression<Func<T, TOutput>> columns);
 
+        IQueryable<TOutput> FindAll<TOutput>();
+
+        IQueryable<TOutput> Find<TOutput>(Expression<Func<T, bool>> predicate);
+
+        Expression<Func<T, bool>> GetByIdPredicate(int id);
+
 
         T FindByKeyValues(params object[] keyValues);
 

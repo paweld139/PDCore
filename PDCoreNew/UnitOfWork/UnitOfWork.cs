@@ -31,16 +31,17 @@ namespace PDCoreNew.UnitOfWork
     /// </remarks>
     public abstract class UnitOfWork : IUnitOfWork //<TContext> : IUnitOfWork where TContext : IEntityFrameworkDbContext
     {
-        protected IRepositoryProvider RepositoryProvider { get; set; }
+        private IRepositoryProvider RepositoryProvider { get; set; }
 
         private readonly IEntityFrameworkDbContext dbContext;
 
-        public UnitOfWork(IRepositoryProvider repositoryProvider, IEntityFrameworkDbContext dbContext)
+        protected UnitOfWork(IRepositoryProvider repositoryProvider, IEntityFrameworkDbContext dbContext)
         {
             //CreateDbContext();
 
             RepositoryProvider = repositoryProvider;
             repositoryProvider.DbContext = dbContext;
+            this.dbContext = dbContext;
 
             PrepareDbContext();
         }
@@ -59,6 +60,8 @@ namespace PDCoreNew.UnitOfWork
         private void PrepareDbContext()
         {
             dbContext.Configuration.ProxyCreationEnabled = false;
+
+            //dbContext.Configuration.LazyLoadingEnabled = false;
         }
 
         //protected void CreateDbContext()

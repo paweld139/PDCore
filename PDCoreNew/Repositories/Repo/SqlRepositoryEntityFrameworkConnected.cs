@@ -1,4 +1,5 @@
-﻿using PDCore.Extensions;
+﻿using AutoMapper;
+using PDCore.Extensions;
 using PDCore.Interfaces;
 using PDCore.Repositories.IRepo;
 using PDCoreNew.Context.IContext;
@@ -12,7 +13,7 @@ namespace PDCoreNew.Repositories.Repo
     public class SqlRepositoryEntityFrameworkConnected<T> :
         SqlRepositoryEntityFrameworkAsync<T>, ISqlRepositoryEntityFrameworkConnected<T> where T : class, IModificationHistory, new()
     {
-        public SqlRepositoryEntityFrameworkConnected(IEntityFrameworkDbContext ctx, ILogger logger) : base(ctx, logger)
+        public SqlRepositoryEntityFrameworkConnected(IEntityFrameworkDbContext ctx, ILogger logger, IMapper mapper) : base(ctx, logger, mapper)
         {
         }
 

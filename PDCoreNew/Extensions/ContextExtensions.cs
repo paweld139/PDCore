@@ -139,11 +139,14 @@ namespace PDCoreNew.Extensions
 
                 foreach (var property in clientEntry.PropertyNames)
                 {
+                    if (property.ValueIn(nameof(databaseValues.RowVersion), nameof(databaseValues.DateModified)))
+                        continue;
+
                     var databaseValue = databaseEntry[property];
 
                     var clientValue = clientEntry[property];
 
-                    if (clientValue != databaseValue && !clientValue.Equals(databaseValue))
+                    if (clientValue != databaseValue && !(clientValue?.Equals(databaseValue) ?? false))
                     {
                         writeError(property, "Current value: " + databaseValue);
                     }
@@ -152,8 +155,8 @@ namespace PDCoreNew.Extensions
                 writeError(string.Empty, "The record you attempted to edit "
                     + "was modified by another user after you got the original value. The "
                     + "edit operation was canceled and the current values in the database "
-                    + "have been displayed. If you still want to edit this record, click "
-                    + "the Save button again. Otherwise click the Back to List hyperlink.");
+                    + "have been displayed. If you still want to edit this record, "
+                    + "save again.");
 
                 entity.RowVersion = databaseValues.RowVersion;
             }

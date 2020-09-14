@@ -1,4 +1,5 @@
-﻿using PDCore.Interfaces;
+﻿using AutoMapper;
+using PDCore.Interfaces;
 using PDCore.Repositories.Repo;
 using PDCoreNew.Models;
 using PDCoreNew.Repositories.Repo;
@@ -19,7 +20,7 @@ namespace PDWebCore.Repositories.Repo
     public sealed class FileRepository : SqlRepositoryEntityFrameworkAsync<FileModel>
     {
         public readonly IMainWebDbContext _db;
-        public FileRepository(IMainWebDbContext db, ILogger logger) : base(db, logger)
+        public FileRepository(IMainWebDbContext db, ILogger logger, IMapper mapper) : base(db, logger, mapper)
         {
             _db = db;
         }

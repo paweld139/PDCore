@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PDCore.Repositories.IRepo;
+using AutoMapper;
 
 namespace PDCoreNew.Factories.Fac.Repository
 {
@@ -36,15 +37,16 @@ namespace PDCoreNew.Factories.Fac.Repository
         /// </remarks>
         private readonly RepositoryFactories _repositoryFactories;
         private readonly ILogger logger;
+        private readonly IMapper mapper;
 
         public IEntityFrameworkDbContext DbContext { get; set; }
 
-        public RepositoryProvider(RepositoryFactories repositoryFactories, ILogger logger)
+        public RepositoryProvider(RepositoryFactories repositoryFactories, ILogger logger, IMapper mapper)
         {
             _repositoryFactories = repositoryFactories;
 
             this.logger = logger;
-
+            this.mapper = mapper;
             Repositories = new Dictionary<Type, object>();
         }
 
@@ -99,7 +101,7 @@ namespace PDCoreNew.Factories.Fac.Repository
         /// Looks for the requested repository in its cache, returning if found.
         /// If not found, tries to make one using <see cref="MakeRepository{T}"/>.
         /// </remarks>
-        public virtual T GetRepository<T>(Func<IEntityFrameworkDbContext, ILogger, object> factory = null) where T : class
+        public virtual T GetRepository<T>(Func<IEntityFrameworkDbContext, ILogger, IMapper, object> factory = null) where T : class
         {
             // Look for T dictionary cache under typeof(T).
             Repositories.TryGetValue(typeof(T), out object repoObj);
@@ -110,7 +112,7 @@ namespace PDCoreNew.Factories.Fac.Repository
             }
 
             // Not found or null; make one, add to dictionary cache, and return it.
-            return MakeRepository<T>(factory, DbContext, logger);
+            return MakeRepository<T>(factory, DbContext, logger, mapper);
         }
 
         /// <summary>Make a repository of type T.</summary>
@@ -123,7 +125,7 @@ namespace PDCoreNew.Factories.Fac.Repository
         /// If null, gets factory from <see cref="_repositoryFactories"/>.
         /// </param>
         /// <returns></returns>
-        protected virtual T MakeRepository<T>(Func<IEntityFrameworkDbContext, ILogger, object> factory, IEntityFrameworkDbContext dbContext, ILogger logger)
+        protected virtual T MakeRepository<T>(Func<IEntityFrameworkDbContext, ILogger, IMapper, object> factory, IEntityFrameworkDbContext dbContext, ILogger logger, IMapper mapper)
         {
             var f = factory ?? _repositoryFactories.GetRepositoryFactory<T>() ?? _repositoryFactories.GetDefaultRepositoryFactory<T>();
 
@@ -132,7 +134,7 @@ namespace PDCoreNew.Factories.Fac.Repository
                 throw new NotImplementedException("No factory for repository type, " + typeof(T).FullName);
             }
 
-            var repo = (T)f(dbContext, logger);
+            var repo = (T)f(dbContext, logger, mapper);
 
             Repositories[typeof(T)] = repo;
 

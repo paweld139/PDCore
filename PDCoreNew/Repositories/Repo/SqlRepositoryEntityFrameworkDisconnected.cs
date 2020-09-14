@@ -1,4 +1,5 @@
-﻿using PDCore.Interfaces;
+﻿using AutoMapper;
+using PDCore.Interfaces;
 using PDCore.Repositories.IRepo;
 using PDCoreNew.Context.IContext;
 using PDCoreNew.Extensions;
@@ -13,7 +14,7 @@ namespace PDCoreNew.Repositories.Repo
     public class SqlRepositoryEntityFrameworkDisconnected<T> :
         SqlRepositoryEntityFrameworkAsync<T>, ISqlRepositoryEntityFrameworkDisconnected<T> where T : class, IModificationHistory
     {
-        public SqlRepositoryEntityFrameworkDisconnected(IEntityFrameworkDbContext ctx, ILogger logger) : base(ctx, logger)
+        public SqlRepositoryEntityFrameworkDisconnected(IEntityFrameworkDbContext ctx, ILogger logger, IMapper mapper) : base(ctx, logger, mapper)
         {
         }
 

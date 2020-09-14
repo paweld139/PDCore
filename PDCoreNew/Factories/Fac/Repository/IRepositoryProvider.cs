@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using PDCoreNew.Context.IContext;
 using PDCore.Repositories.IRepo;
 using PDCore.Interfaces;
+using AutoMapper;
 
 namespace PDCoreNew.Factories.Fac.Repository
 {
@@ -45,7 +46,7 @@ namespace PDCoreNew.Factories.Fac.Repository
         /// If not found, tries to make one with the factory, fallingback to 
         /// a default factory if the factory parameter is null.
         /// </remarks>
-        T GetRepository<T>(Func<IEntityFrameworkDbContext, ILogger, object> factory = null) where T : class;
+        T GetRepository<T>(Func<IEntityFrameworkDbContext, ILogger, IMapper, object> factory = null) where T : class;
 
 
         /// <summary>

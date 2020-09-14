@@ -1,4 +1,5 @@
-﻿using PDCore.Extensions;
+﻿using AutoMapper;
+using PDCore.Extensions;
 using PDCore.Helpers.Wrappers;
 using PDCore.Interfaces;
 using PDCore.Repositories.IRepo;
@@ -20,13 +21,15 @@ namespace PDCoreNew.Repositories.Repo
     public class SqlRepositoryEntityFramework<T> : SqlRepository<T>, ISqlRepositoryEntityFramework<T> where T : class, IModificationHistory
     {
         protected readonly IEntityFrameworkDbContext ctx;
+        private readonly IMapper mapper;
         protected readonly DbSet<T> set;
 
         protected override string ConnectionString => ctx.Database.Connection.ConnectionString;
 
-        public SqlRepositoryEntityFramework(IEntityFrameworkDbContext ctx, ILogger logger) : base(ctx, logger)
+        public SqlRepositoryEntityFramework(IEntityFrameworkDbContext ctx, ILogger logger, IMapper mapper) : base(ctx, logger)
         {
             this.ctx = ctx;
+            this.mapper = mapper;
             set = this.ctx.Set<T>();
         }
 
@@ -397,8 +400,7 @@ namespace PDCoreNew.Repositories.Repo
                         + "was modified by another user after you got the original values. "
                         + "The delete operation was canceled and the current values in the "
                         + "database have been displayed. If you still want to delete this "
-                        + "record, click the Delete button again. Otherwise "
-                        + "click the Back to List hyperlink.");
+                        + "record, delete again.");
 
                     if (sync)
                         entry.Reload();
@@ -442,5 +444,17 @@ namespace PDCoreNew.Repositories.Repo
 
             return FindAll().Any(predicate);
         }
+
+        public virtual IQueryable<TOutput> FindAll<TOutput>()
+        {
+            return mapper.ProjectTo<TOutput>(FindAll());
+        }
+
+        public virtual IQueryable<TOutput> Find<TOutput>(Expression<Func<T, bool>> predicate)
+        {
+            return mapper.ProjectTo<TOutput>(Find(predicate));
+        }
+
+        public Expression<Func<T, bool>> GetByIdPredicate(int id) => RepositoryUtils.GetByIdPredicate<T>(id);
     }
 }

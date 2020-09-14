@@ -1,5 +1,7 @@
-﻿using PDCore.Interfaces;
+﻿using AutoMapper;
+using PDCore.Interfaces;
 using PDCore.Repositories.IRepo;
+using PDCore.Utils;
 using PDCoreNew.Context.IContext;
 using PDCoreNew.Extensions;
 using System;
@@ -7,6 +9,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -14,7 +17,7 @@ namespace PDCoreNew.Repositories.Repo
 {
     public class SqlRepositoryEntityFrameworkAsync<T> : SqlRepositoryEntityFramework<T>, ISqlRepositoryEntityFrameworkAsync<T> where T : class, IModificationHistory
     {
-        public SqlRepositoryEntityFrameworkAsync(IEntityFrameworkDbContext ctx, ILogger logger) : base(ctx, logger)
+        public SqlRepositoryEntityFrameworkAsync(IEntityFrameworkDbContext ctx, ILogger logger, IMapper mapper) : base(ctx, logger, mapper)
         {
         }
 
@@ -104,6 +107,16 @@ namespace PDCoreNew.Repositories.Repo
         public virtual Task<List<T>> GetAsync(Expression<Func<T, bool>> predicate)
         {
             return Find(predicate).ToListAsync();
+        }
+
+        public Task<List<TOutput>> GetAsync<TOutput>(Expression<Func<T, bool>> predicate)
+        {
+            return Find<TOutput>(predicate).ToListAsync();
+        }
+
+        public Task<TOutput> FindByIdAsync<TOutput>(int id)
+        {
+            return Find<TOutput>(GetByIdPredicate(id)).SingleOrDefaultAsync();
         }
     }
 }

@@ -4,6 +4,7 @@ using PDCoreNew.Repositories.Repo;
 using PDCore.Repositories.IRepo;
 using System;
 using System.Collections.Generic;
+using AutoMapper;
 
 namespace PDCoreNew.Factories.Fac.Repository
 {
@@ -32,12 +33,12 @@ namespace PDCoreNew.Factories.Fac.Repository
         /// that takes a <see cref="IEntityFrameworkDbContext"/> and <see cref="ILogger"/> arguments and returns
         /// a repository object. Caller must know how to cast it.
         /// </remarks>
-        private readonly IDictionary<Type, Func<IEntityFrameworkDbContext, ILogger, object>> _repositoryFactories;
+        private readonly IDictionary<Type, Func<IEntityFrameworkDbContext, ILogger, IMapper, object>> _repositoryFactories;
 
         /// <summary>
         /// Constructor that initializes with runtime Code Camper repository factories
         /// </summary>
-        protected RepositoryFactories()
+        public RepositoryFactories()
         {
             _repositoryFactories = GetFactories();
         }
@@ -51,7 +52,7 @@ namespace PDCoreNew.Factories.Fac.Repository
         /// <remarks>
         /// This ctor is primarily useful for testing this class
         /// </remarks>
-        protected RepositoryFactories(IDictionary<Type, Func<IEntityFrameworkDbContext, ILogger, object>> factories)
+        public RepositoryFactories(IDictionary<Type, Func<IEntityFrameworkDbContext, ILogger, IMapper, object>> factories)
         {
             _repositoryFactories = factories;
         }
@@ -63,9 +64,9 @@ namespace PDCoreNew.Factories.Fac.Repository
         /// <remarks>
         /// MODIFY THIS METHOD TO ADD CUSTOM FACTORY FUNCTIONS
         /// </remarks>
-        protected virtual IDictionary<Type, Func<IEntityFrameworkDbContext, ILogger, object>> GetFactories()
+        protected virtual IDictionary<Type, Func<IEntityFrameworkDbContext, ILogger, IMapper, object>> GetFactories()
         {
-            return new Dictionary<Type, Func<IEntityFrameworkDbContext, ILogger, object>>();
+            return new Dictionary<Type, Func<IEntityFrameworkDbContext, ILogger, IMapper, object>>();
         }
 
         /// <summary>
@@ -77,9 +78,9 @@ namespace PDCoreNew.Factories.Fac.Repository
         /// The type parameter, T, is typically the repository type 
         /// but could be any type (e.g., an entity type)
         /// </remarks>
-        public Func<IEntityFrameworkDbContext, ILogger, object> GetRepositoryFactory<T>()
+        public Func<IEntityFrameworkDbContext, ILogger, IMapper, object> GetRepositoryFactory<T>()
         {
-            _repositoryFactories.TryGetValue(typeof(T), out Func<IEntityFrameworkDbContext, ILogger, object> factory);
+            _repositoryFactories.TryGetValue(typeof(T), out Func<IEntityFrameworkDbContext, ILogger, IMapper, object> factory);
 
             return factory;
         }
@@ -97,17 +98,17 @@ namespace PDCoreNew.Factories.Fac.Repository
         /// You can substitute an alternative factory for the default one by adding
         /// a repository factory for type "T" to <see cref="_repositoryFactories"/>.
         /// </remarks>
-        public Func<IEntityFrameworkDbContext, ILogger, object> GetRepositoryFactoryForEntityType<T>() where T : class, IModificationHistory
+        public Func<IEntityFrameworkDbContext, ILogger, IMapper, object> GetRepositoryFactoryForEntityType<T>() where T : class, IModificationHistory
         {
             return GetRepositoryFactory<T>() ?? GetDefaultEntityRepositoryFactory<T>();
         }
 
-        public Func<IEntityFrameworkDbContext, ILogger, object> GetRepositoryFactoryForEntityTypeConnected<T>() where T : class, IModificationHistory, new()
+        public Func<IEntityFrameworkDbContext, ILogger, IMapper, object> GetRepositoryFactoryForEntityTypeConnected<T>() where T : class, IModificationHistory, new()
         {
             return GetRepositoryFactory<T>() ?? GetDefaultEntityRepositoryFactoryConnected<T>();
         }
 
-        public Func<IEntityFrameworkDbContext, ILogger, object> GetRepositoryFactoryForEntityTypeDisconnected<T>() where T : class, IModificationHistory
+        public Func<IEntityFrameworkDbContext, ILogger, IMapper, object> GetRepositoryFactoryForEntityTypeDisconnected<T>() where T : class, IModificationHistory
         {
             return GetRepositoryFactory<T>() ?? GetDefaultEntityRepositoryFactoryDisconnected<T>();
         }
@@ -116,24 +117,24 @@ namespace PDCoreNew.Factories.Fac.Repository
         /// Default factory for a <see cref="ISqlRepositoryEntityFramework{T}"/> where T is an entity.
         /// </summary>
         /// <typeparam name="T">Type of the repository's root entity</typeparam>
-        protected virtual Func<IEntityFrameworkDbContext, ILogger, object> GetDefaultEntityRepositoryFactory<T>() where T : class, IModificationHistory
+        protected virtual Func<IEntityFrameworkDbContext, ILogger, IMapper, object> GetDefaultEntityRepositoryFactory<T>() where T : class, IModificationHistory
         {
-            return (dbContext, logger) => new SqlRepositoryEntityFramework<T>(dbContext, logger);
+            return (dbContext, logger, mapper) => new SqlRepositoryEntityFramework<T>(dbContext, logger, mapper);
         }
 
-        protected virtual Func<IEntityFrameworkDbContext, ILogger, object> GetDefaultEntityRepositoryFactoryConnected<T>() where T : class, IModificationHistory, new()
+        protected virtual Func<IEntityFrameworkDbContext, ILogger, IMapper, object> GetDefaultEntityRepositoryFactoryConnected<T>() where T : class, IModificationHistory, new()
         {
-            return (dbContext, logger) => new SqlRepositoryEntityFrameworkConnected<T>(dbContext, logger);
+            return (dbContext, logger, mapper) => new SqlRepositoryEntityFrameworkConnected<T>(dbContext, logger, mapper);
         }
 
-        protected virtual Func<IEntityFrameworkDbContext, ILogger, object> GetDefaultEntityRepositoryFactoryDisconnected<T>() where T : class, IModificationHistory
+        protected virtual Func<IEntityFrameworkDbContext, ILogger, IMapper, object> GetDefaultEntityRepositoryFactoryDisconnected<T>() where T : class, IModificationHistory
         {
-            return (dbContext, logger) => new SqlRepositoryEntityFrameworkDisconnected<T>(dbContext, logger);
+            return (dbContext, logger, mapper) => new SqlRepositoryEntityFrameworkDisconnected<T>(dbContext, logger, mapper);
         }
 
-        public virtual Func<IEntityFrameworkDbContext, ILogger, object> GetDefaultRepositoryFactory<T>()
+        public virtual Func<IEntityFrameworkDbContext, ILogger, IMapper, object> GetDefaultRepositoryFactory<T>()
         {
-            return (dbContext, logger) => Activator.CreateInstance(typeof(T), dbContext, logger);
+            return (dbContext, logger, mapper) => Activator.CreateInstance(typeof(T), dbContext, logger, mapper);
         }
     }
 }

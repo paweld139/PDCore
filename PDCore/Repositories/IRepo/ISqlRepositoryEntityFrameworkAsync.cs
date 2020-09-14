@@ -28,6 +28,10 @@ namespace PDCore.Repositories.IRepo
 
         Task<int> GetCountAsync(Expression<Func<T, bool>> predicate = null);
 
+        Task<List<TOutput>> GetAsync<TOutput>(Expression<Func<T, bool>> predicate);
+
+        Task<TOutput> FindByIdAsync<TOutput>(int id);
+
 
         Task<int> CommitAsync();
 

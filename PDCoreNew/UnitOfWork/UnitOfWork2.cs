@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace PDCoreNew.UnitOfWork
 {
-    public class UnitOfWork2 : IUnitOfWork
+    public abstract class UnitOfWork2 : IUnitOfWork
     {
         private readonly IEntityFrameworkDbContext context;
 
-        public UnitOfWork2(IEntityFrameworkDbContext context)
+        protected UnitOfWork2(IEntityFrameworkDbContext context)
         {
             this.context = context;
 
@@ -32,7 +32,7 @@ namespace PDCoreNew.UnitOfWork
             context.SaveChanges();
         }
 
-        protected void PrepareDbContext()
+        private void PrepareDbContext()
         {
             // Do NOT enable proxied entities, else serialization fails
             context.Configuration.ProxyCreationEnabled = false;
