@@ -1,19 +1,11 @@
-﻿using FTCore.CoreLibrary.SQLLibrary;
-using Org.BouncyCastle.Asn1.X509.Qualified;
-using PDCore.Helpers.Calculation;
+﻿using PDCore.Helpers.Calculation;
 using PDCore.Interfaces;
 using PDCore.Utils;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Windows;
-using System.Windows.Forms;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace PDCore.Extensions
 {
@@ -75,24 +67,39 @@ namespace PDCore.Extensions
             }
         }
 
-        /// <summary>
-        /// Tworzy listę typu klucz-wartość dla zadanego obiektu IEnumerable
-        /// </summary>
-        /// <typeparam name="TSource">Typ źródłowego modułu wyliczającego. Nie trzeba go podawać, bo jest wnioskowany z typu przekazywanego parametru</typeparam>
-        /// <typeparam name="TKey">Typ klucza obiektu klucz-wartość</typeparam>
-        /// <typeparam name="TValue">Typ wartości obiektu klucz-wartość</typeparam>
-        /// <param name="source">Źródłowy moduł wyliczający</param>
-        /// <param name="keySelector">Metoda, która jako parametr przyjmuje element kolekcji i zwraca obiekt typu klucza</param>
-        /// <param name="valueSelector">Metoda, która jako parametr przyjmuje element kolekcji i zwraca obiekt typu wartości</param>
-        /// <returns></returns>
-        public static IQueryable<KeyValuePair<TKey, TValue>> GetKVP<TSource, TKey, TValue>(this IQueryable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> valueSelector)
-        {
-            return source.Select(e => new KeyValuePair<TKey, TValue>(keySelector(e), valueSelector(e)));
-        }
+        ///// <summary>
+        ///// Tworzy listę typu klucz-wartość dla zadanego obiektu IEnumerable
+        ///// </summary>
+        ///// <typeparam name="TSource">Typ źródłowego modułu wyliczającego. Nie trzeba go podawać, bo jest wnioskowany z typu przekazywanego parametru</typeparam>
+        ///// <typeparam name="TKey">Typ klucza obiektu klucz-wartość</typeparam>
+        ///// <typeparam name="TValue">Typ wartości obiektu klucz-wartość</typeparam>
+        ///// <param name="source">Źródłowy moduł wyliczający</param>
+        ///// <param name="keySelector">Metoda, która jako parametr przyjmuje element kolekcji i zwraca obiekt typu klucza</param>
+        ///// <param name="valueSelector">Metoda, która jako parametr przyjmuje element kolekcji i zwraca obiekt typu wartości</param>
+        ///// <returns></returns>
+        //public static IQueryable<KeyValuePair<TKey, TValue>> GetKVP<TSource, TKey, TValue>(this IQueryable<TSource> source, Expression<Func<TSource, TKey>> keySelector, Expression<Func<TSource, TValue>> valueSelector)
+        //{
+        //    var keyPropertyName = ReflectionUtils.GetNameOf(keySelector);
+        //    var valuePropertyName = ReflectionUtils.GetNameOf(valueSelector);
+
+        //    var itemParam = Expression.Parameter(typeof(TSource), "item");
+
+        //    var itemKeyExpression = Expression.Property(itemParam, keyPropertyName);
+        //    var itemValueExpression = Expression.Property(itemParam, valuePropertyName);
+
+        //    var constructor = typeof(KeyValuePair<TKey, TValue>).GetConstructor(types: new[] { typeof(TKey), typeof(TValue) });
+
+        //    var newExpression = Expression.New(constructor, itemKeyExpression, itemValueExpression);
+
+        //    var lambda = Expression.Lambda<Func<TSource, KeyValuePair<TKey, TValue>>>(newExpression, itemParam);
+
+
+        //    return source.Select(lambda);
+        //}
 
         public static IEnumerable<KeyValuePair<TKey, TValue>> GetKVP<TSource, TKey, TValue>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> valueSelector)
         {
-            return source.AsQueryable().GetKVP(keySelector, valueSelector);
+            return source.Select(e => new KeyValuePair<TKey, TValue>(keySelector(e), valueSelector(e)));
         }
 
         public static IEnumerable<KeyValuePair<TKey, TValue>> GetKVP<TSource, TKey, TValue>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<int, TValue> valueSelector)
@@ -107,14 +114,9 @@ namespace PDCore.Extensions
             }
         }
 
-        public static List<KeyValuePair<TKey, TValue>> GetKVPList<TSource, TKey, TValue>(this IQueryable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> valueSelector)
-        {
-            return source.GetKVP(keySelector, valueSelector).ToList();
-        }
-
         public static List<KeyValuePair<TKey, TValue>> GetKVPList<TSource, TKey, TValue>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> valueSelector)
         {
-            return source.AsQueryable().GetKVPList(keySelector, valueSelector);
+            return source.GetKVP(keySelector, valueSelector).ToList();
         }
 
         public static TResult[] ToArray<TResult>(this IEnumerable<object> source)
@@ -267,24 +269,26 @@ namespace PDCore.Extensions
             return source.Select(i => converter(i)); //Mapowanie
         }
 
-        public static IEnumerable<T> FindByDate<T>(this IEnumerable<T> source, string dateF, string dateT, Func<T, DateTime> dateSelector) where T : class
+        public static IEnumerable<T> FindByDate<T>(this IEnumerable<T> source, string dateF, string dateT, Expression<Func<T, DateTime>> dateSelector) where T : class
         {
             return source.AsQueryable().FindByDate(dateF, dateT, dateSelector);
         }
 
-        public static IEnumerable<T> FindByDate<T>(this IEnumerable<T> source, DateTime? dateF, DateTime? dateT, Func<T, DateTime> dateSelector) where T : class
+        public static IEnumerable<T> FindByDate<T>(this IEnumerable<T> source, DateTime? dateF, DateTime? dateT, Expression<Func<T, DateTime>> dateSelector) where T : class
         {
             return source.AsQueryable().FindByDate(dateF, dateT, dateSelector);
         }
 
-        public static IQueryable<T> FindByDate<T>(this IQueryable<T> source, string dateF, string dateT, Func<T, DateTime> dateSelector) where T : class
+        public static IQueryable<T> FindByDate<T>(this IQueryable<T> source, string dateF, string dateT, Expression<Func<T, DateTime>> dateSelector) where T : class
         {
-            SqlUtils.FindByDate(dateF, dateT, dateSelector, ref source);
+            string datePropertyName = ReflectionUtils.GetNameOf(dateSelector);
+
+            SqlUtils.FindByDate(dateF, dateT, datePropertyName, ref source);
 
             return source;
         }
 
-        public static IQueryable<T> FindByDate<T>(this IQueryable<T> source, DateTime? dateF, DateTime? dateT, Func<T, DateTime> dateSelector) where T : class
+        public static IQueryable<T> FindByDate<T>(this IQueryable<T> source, DateTime? dateF, DateTime? dateT, Expression<Func<T, DateTime>> dateSelector) where T : class
         {
             return source.FindByDate(dateF?.ToString(), dateT?.ToString(), dateSelector);
         }
@@ -352,14 +356,36 @@ namespace PDCore.Extensions
             }
         }
 
-        public static IQueryable<T> Filter<T>(this IQueryable<T> input, string substring, Converter<T, string> converter = null)
+        public static Expression<Func<string, bool>> StringContains(string subString)
         {
-            return input.Where(e => e.ConvertOrCastTo(converter).Contains(substring, StringComparison.OrdinalIgnoreCase));
+            MethodInfo contains = typeof(string).GetMethod("Contains");
+            ParameterExpression param = Expression.Parameter(typeof(string), "s");
+            var call = Expression.Call(param, contains, Expression.Constant(subString, typeof(string)));
+            return Expression.Lambda<Func<string, bool>>(call, param);
         }
 
-        public static IEnumerable<T> Filter<T>(this IEnumerable<T> input, string substring, Converter<T, string> converter = null)
+        public static IQueryable<T> Filter<T>(this IQueryable<T> input, string substring, Expression<Func<T, string>> propertySelector)
         {
-            return input.AsQueryable().Filter(substring, converter);
+            var methodInfo = typeof(string).GetMethod("Contains");
+
+            string propertyName = ReflectionUtils.GetNameOf(propertySelector);
+
+            var itemParam = Expression.Parameter(typeof(T), "item");
+            var itemPropertyExpr = Expression.Property(itemParam, propertyName);
+            var substringConstant = Expression.Constant(substring);
+            //var methodConstant = Expression.Constant(StringComparison.OrdinalIgnoreCase);
+
+            var body = Expression.Call(itemPropertyExpr, methodInfo, substringConstant);
+
+            var lambda = Expression.Lambda<Func<T, bool>>(body, itemParam);
+
+
+            return input.Where(lambda);
+        }
+
+        public static IEnumerable<T> Filter<T>(this IEnumerable<T> input, string substring, Expression<Func<T, string>> propertySelector)
+        {
+            return input.AsQueryable().Filter(substring, propertySelector);
         }
 
         public static IEnumerable<string> EmptyIfNull(this IEnumerable<object> values)

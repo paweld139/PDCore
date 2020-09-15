@@ -47,14 +47,23 @@ namespace PDCoreNew.Extensions
         {
             DateTime dateTime = DateTime.UtcNow;
 
+            IModificationHistory entity;
+            EntityState entityState;
+
             foreach (var history in dbContext.ChangeTracker.Entries()
                             .Where(e => e.Entity is IModificationHistory && (e.State == EntityState.Added || e.State == EntityState.Modified))
-                            .Select(e => e.Entity as IModificationHistory))
+                            .Select(e => new { Entity = e.Entity as IModificationHistory, e.State }))
             {
-                history.DateModified = dateTime;
+                entity = history.Entity;
+                entityState = history.State;
 
-                if (history.IsNew())
-                    history.DateCreated = dateTime;
+                if (entityState == EntityState.Modified)
+                    dbContext.Entry(entity).Property(e => e.DateCreated).IsModified = false;
+
+                if (entity.IsNew() && entityState == EntityState.Added)
+                    entity.DateCreated = dateTime;
+
+                entity.DateModified = dateTime;
             }
         }
 
@@ -139,7 +148,7 @@ namespace PDCoreNew.Extensions
 
                 foreach (var property in clientEntry.PropertyNames)
                 {
-                    if (property.ValueIn(nameof(databaseValues.RowVersion), nameof(databaseValues.DateModified)))
+                    if (property.ValueIn(nameof(databaseValues.RowVersion), nameof(databaseValues.DateModified), nameof(databaseValues.DateCreated)))
                         continue;
 
                     var databaseValue = databaseEntry[property];

@@ -15,13 +15,14 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using System.Windows.Navigation;
 
 namespace PDCoreNew.Repositories.Repo
 {
     public class SqlRepositoryEntityFramework<T> : SqlRepository<T>, ISqlRepositoryEntityFramework<T> where T : class, IModificationHistory
     {
         protected readonly IEntityFrameworkDbContext ctx;
-        private readonly IMapper mapper;
+        protected readonly IMapper mapper;
         protected readonly DbSet<T> set;
 
         protected override string ConnectionString => ctx.Database.Connection.ConnectionString;
@@ -46,22 +47,22 @@ namespace PDCoreNew.Repositories.Repo
             return set;
         }
 
-        public virtual IQueryable<KeyValuePair<TKey, TValue>> FindKeyValuePairs<TKey, TValue>(Func<T, TKey> keySelector, Func<T, TValue> valueSelector, bool sortByValue = true) where TValue : IComparable<TValue>
-        {
-            var query = FindAll().GetKVP(keySelector, valueSelector);
+        //public virtual IQueryable<KeyValuePair<TKey, TValue>> FindKeyValuePairs<TKey, TValue>(Expression<Func<T, TKey>> keySelector, Expression<Func<T, TValue>> valueSelector, bool sortByValue = true) where TValue : IComparable<TValue>
+        //{
+        //    var query = FindAll().GetKVP(keySelector, valueSelector);
 
-            if (sortByValue)
-                query = query.OrderBy(e => e.Value);
+        //    if (sortByValue)
+        //        query = query.OrderBy(e => e.Value);
 
-            return query;
-        }
+        //    return query;
+        //}
 
-        public virtual IQueryable<T> FindByFilter(Converter<T, string> converter, string substring)
+        public virtual IQueryable<T> FindByFilter(Expression<Func<T, string>> propertySelector, string substring)
         {
             var query = FindAll();
 
             if (!string.IsNullOrWhiteSpace(substring))
-                query = query.Filter(substring, converter);
+                query = query.Filter(substring, propertySelector);
 
             return query;
         }
@@ -72,28 +73,28 @@ namespace PDCoreNew.Repositories.Repo
 
             if (page > 0 && pageSize > 0)
             {
-                query = query.GetPage(page, pageSize);
+                query = query.OrderByDescending(e => e.DateCreated).GetPage(page, pageSize);
             }
 
             return query;
         }
 
-        public virtual IQueryable<T> FindByDateCreated(IQueryable<T> source, string dateF, string dateT)
+        public virtual IQueryable<T> FindByDateCreated(string dateF, string dateT)
         {
             return FindAll().FindByDateCreated(dateF, dateT);
         }
 
-        public virtual IQueryable<T> FindByDateCreated(IQueryable<T> source, DateTime? dateF, DateTime? dateT)
+        public virtual IQueryable<T> FindByDateCreated(DateTime? dateF, DateTime? dateT)
         {
             return FindAll().FindByDateCreated(dateF, dateT);
         }
 
-        public virtual IQueryable<T> FindByDateModified(IQueryable<T> source, string dateF, string dateT)
+        public virtual IQueryable<T> FindByDateModified(string dateF, string dateT)
         {
             return FindAll().FindByDateModified(dateF, dateT);
         }
 
-        public virtual IQueryable<T> FindByDateModified(IQueryable<T> source, DateTime? dateF, DateTime? dateT)
+        public virtual IQueryable<T> FindByDateModified(DateTime? dateF, DateTime? dateT)
         {
             return FindAll().FindByDateModified(dateF, dateT);
         }
@@ -106,12 +107,19 @@ namespace PDCoreNew.Repositories.Repo
 
         public virtual IEnumerable<KeyValuePair<TKey, TValue>> GetKeyValuePairs<TKey, TValue>(Func<T, TKey> keySelector, Func<T, TValue> valueSelector, bool sortByValue = true) where TValue : IComparable<TValue>
         {
-            return FindKeyValuePairs(keySelector, valueSelector, sortByValue).ToList();
+            var query = GetAll().GetKVP(keySelector, valueSelector);
+
+            if(sortByValue)
+            {
+                query = query.OrderBy(e => e.Value);
+            }
+
+            return query;
         }
 
-        public virtual IEnumerable<T> GetByFilter(Converter<T, string> converter, string substring)
+        public virtual IEnumerable<T> GetByFilter(Expression<Func<T, string>> propertySelector, string substring)
         {
-            return FindByFilter(converter, substring).ToList();
+            return FindByFilter(propertySelector, substring).ToList();
         }
 
         public virtual IEnumerable<T> GetPage(int page, int pageSize)

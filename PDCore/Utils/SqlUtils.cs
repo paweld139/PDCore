@@ -11,8 +11,10 @@ using System.Data.Odbc;
 using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Windows.Media.Effects;
 
 namespace PDCore.Utils
 {
@@ -72,7 +74,7 @@ namespace PDCore.Utils
             return query;
         }
 
-        public static void FindByDate<T>(string dateF, string dateT, Func<T, DateTime> dateSelector, ref IQueryable<T> result) where T : class
+        public static void FindByDate<T>(string dateF, string dateT, string datePropertyName, ref IQueryable<T> result) where T : class
         {
             if (result == null)
             {
@@ -87,30 +89,46 @@ namespace PDCore.Utils
 
                 if (dateTo != DateTime.MinValue)
                 {
-                    dateTo = dateTo.AddDays(1).AddSeconds(-1);
+                    dateTo = dateTo.AddDays(1).AddTicks(-1);
                 }
+
+                var itemParam = Expression.Parameter(typeof(T), "item");
+                var itemPropertyExpr = Expression.Property(itemParam, datePropertyName);
+                var dateFromConstant = Expression.Constant(dateFrom);
+                var dateToConstant = Expression.Constant(dateTo);
+
+                BinaryExpression binaryExpression = null;
 
                 if (StringUtils.AreNotNullOrWhiteSpace(dateF, dateT))
                 {
                     if (dateTo > dateFrom)
                     {
-                        result = result.Where(x => dateSelector(x) >= dateFrom && dateSelector(x) <= dateTo);
+                        binaryExpression = Expression.MakeBinary(ExpressionType.And,
+                                           Expression.MakeBinary(ExpressionType.GreaterThanOrEqual, itemPropertyExpr, dateFromConstant),
+                                           Expression.MakeBinary(ExpressionType.LessThanOrEqual, itemPropertyExpr, dateToConstant));            
                     }
                 }
                 else if (string.IsNullOrWhiteSpace(dateF))
                 {
-                    result = result.Where(x => dateSelector(x) <= dateTo);
+                    binaryExpression = Expression.MakeBinary(ExpressionType.LessThanOrEqual, itemPropertyExpr, dateToConstant);
                 }
                 else
                 {
-                    result = result.Where(x => dateSelector(x) >= dateFrom);
+                    binaryExpression = Expression.MakeBinary(ExpressionType.GreaterThanOrEqual, itemPropertyExpr, dateFromConstant);
+                }
+
+                if (binaryExpression != null)
+                {
+                    var lambda = Expression.Lambda(binaryExpression, itemParam) as Expression<Func<T, bool>>;
+
+                    result = result.Where(lambda);
                 }
             }
         }
 
-        public static void FindByDate<T>(DateTime? dateF, DateTime? dateT, Func<T, DateTime> dateSelector, ref IQueryable<T> result) where T : class
+        public static void FindByDate<T>(DateTime? dateF, DateTime? dateT, string datePropertyName, ref IQueryable<T> result) where T : class
         {
-            FindByDate(dateF?.ToString(), dateT?.ToString(), dateSelector, ref result);
+            FindByDate(dateF?.ToString(), dateT?.ToString(), datePropertyName, ref result);
         }
 
         public static DataSet GetDataSet(string query, DbConnection dbConnection)

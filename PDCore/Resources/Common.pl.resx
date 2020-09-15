@@ -138,6 +138,9 @@
   <data name="CreateDate" xml:space="preserve">
     <value>Data utworzenia</value>
   </data>
+  <data name="DateModified" xml:space="preserve">
+    <value>Data modyfikacji</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>Usuń</value>
   </data>

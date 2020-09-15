@@ -22,7 +22,7 @@ namespace PDCore.Repositories.IRepo
 
         Task<List<KeyValuePair<TKey, TValue>>> GetKeyValuePairsAsync<TKey, TValue>(Func<T, TKey> keySelector, Func<T, TValue> valueSelector, bool sortByValue = true) where TValue : IComparable<TValue>;
 
-        Task<List<T>> GetByFilterAsync(Converter<T, string> converter, string substring);
+        Task<List<T>> GetByFilterAsync(Expression<Func<T, string>> propertySelector, string substring);
 
         Task<List<T>> GetPageAsync(int page, int pageSize);
 

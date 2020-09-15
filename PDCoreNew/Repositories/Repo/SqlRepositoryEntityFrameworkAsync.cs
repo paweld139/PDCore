@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using PDCore.Extensions;
 using PDCore.Interfaces;
 using PDCore.Repositories.IRepo;
 using PDCore.Utils;
@@ -48,14 +49,21 @@ namespace PDCoreNew.Repositories.Repo
             return FindAll().ToListAsync();
         }
 
-        public virtual Task<List<KeyValuePair<TKey, TValue>>> GetKeyValuePairsAsync<TKey, TValue>(Func<T, TKey> keySelector, Func<T, TValue> valueSelector, bool sortByValue = true) where TValue : IComparable<TValue>
+        public virtual async Task<List<KeyValuePair<TKey, TValue>>> GetKeyValuePairsAsync<TKey, TValue>(Func<T, TKey> keySelector, Func<T, TValue> valueSelector, bool sortByValue = true) where TValue : IComparable<TValue>
         {
-            return FindKeyValuePairs(keySelector, valueSelector, sortByValue).ToListAsync();
+            var query = (await GetAllAsync()).AsEnumerable().GetKVP(keySelector, valueSelector);
+
+            if (sortByValue)
+            {
+                query = query.OrderBy(e => e.Value);
+            }
+
+            return query.ToList();
         }
 
-        public virtual Task<List<T>> GetByFilterAsync(Converter<T, string> converter, string substring)
+        public virtual Task<List<T>> GetByFilterAsync(Expression<Func<T, string>> propertySelector, string substring)
         {
-            return FindByFilter(converter, substring).ToListAsync();
+            return FindByFilter(propertySelector, substring).ToListAsync();
         }
 
         public virtual Task<List<T>> GetPageAsync(int page, int pageSize)

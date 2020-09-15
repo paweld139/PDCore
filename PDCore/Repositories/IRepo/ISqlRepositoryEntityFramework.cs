@@ -11,19 +11,19 @@ namespace PDCore.Repositories.IRepo
     {
         IQueryable<T> FindAll(bool asNoTracking);
 
-        IQueryable<KeyValuePair<TKey, TValue>> FindKeyValuePairs<TKey, TValue>(Func<T, TKey> keySelector, Func<T, TValue> valueSelector, bool sortByValue = true) where TValue : IComparable<TValue>;
+        //IQueryable<KeyValuePair<TKey, TValue>> FindKeyValuePairs<TKey, TValue>(Expression<Func<T, TKey>> keySelector, Expression<Func<T, TValue>> valueSelector, bool sortByValue = true) where TValue : IComparable<TValue>;
 
-        IQueryable<T> FindByFilter(Converter<T, string> converter, string substring);
+        IQueryable<T> FindByFilter(Expression<Func<T, string>> propertySelector, string substring);
 
         IQueryable<T> FindPage(int page, int pageSize);
 
-        IQueryable<T> FindByDateCreated(IQueryable<T> source, string dateF, string dateT);
+        IQueryable<T> FindByDateCreated(string dateF, string dateT);
 
-        IQueryable<T> FindByDateCreated(IQueryable<T> source, DateTime? dateF, DateTime? dateT);
+        IQueryable<T> FindByDateCreated(DateTime? dateF, DateTime? dateT);
 
-        IQueryable<T> FindByDateModified(IQueryable<T> source, string dateF, string dateT);
+        IQueryable<T> FindByDateModified(string dateF, string dateT);
 
-        IQueryable<T> FindByDateModified(IQueryable<T> source, DateTime? dateF, DateTime? dateT);
+        IQueryable<T> FindByDateModified(DateTime? dateF, DateTime? dateT);
 
         IQueryable<T> Find(Expression<Func<T, bool>> predicate);
 
@@ -44,7 +44,7 @@ namespace PDCore.Repositories.IRepo
 
         IEnumerable<KeyValuePair<TKey, TValue>> GetKeyValuePairs<TKey, TValue>(Func<T, TKey> keySelector, Func<T, TValue> valueSelector, bool sortByValue = true) where TValue : IComparable<TValue>;
 
-        IEnumerable<T> GetByFilter(Converter<T, string> converter, string substring);
+        IEnumerable<T> GetByFilter(Expression<Func<T, string>> propertySelector, string substring);
 
         IEnumerable<T> GetPage(int page, int pageSize);
 

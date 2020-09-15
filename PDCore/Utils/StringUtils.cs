@@ -157,5 +157,10 @@ namespace PDCore.Utils
 
             return source.Select(s => s.Order());
         }
+
+        public static string GetFullName(string firstName, string lastName)
+        {
+            return !ObjectUtils.AreNull(firstName, lastName) ? $"{firstName} {lastName}".Trim() : null;
+        }
     }
 }

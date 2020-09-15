@@ -106,6 +106,7 @@
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\Shop\AddToCartCommand.cs" />
     <Compile Include="Commands\Shop\ChangeQuantityCommand.cs" />
+    <Compile Include="Converters\UtcDateTimeConverter.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
     <Compile Include="Lazy\Ghosts\GhostCustomer.cs" />
     <Compile Include="Lazy\Interfaces\IValueHolder.cs" />
