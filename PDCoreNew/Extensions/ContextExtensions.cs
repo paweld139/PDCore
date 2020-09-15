@@ -1,6 +1,7 @@
 ﻿using PDCore.Extensions;
 using PDCore.Interfaces;
 using PDCore.Utils;
+using PDCoreNew.Attributes;
 using PDCoreNew.Context.IContext;
 using System;
 using System.Collections;
@@ -60,7 +61,7 @@ namespace PDCoreNew.Extensions
                 if (entityState == EntityState.Modified)
                     dbContext.Entry(entity).Property(e => e.DateCreated).IsModified = false;
 
-                if (entity.IsNew() && entityState == EntityState.Added)
+                if (entityState == EntityState.Added)
                     entity.DateCreated = dateTime;
 
                 entity.DateModified = dateTime;
@@ -128,6 +129,11 @@ namespace PDCoreNew.Extensions
         {
             modelBuilder.Types<IModificationHistory>().
                Configure(c => c.Ignore(e => e.IsDirty));
+        }
+
+        public static void ConfigureForDateTimeKind(this DbContext context, DateTimeKind? defaultKind = null)
+        {
+            context.GetObjectContext().ObjectMaterialized += (sender, e) => DateTimeKindAttribute.Apply(e.Entity, defaultKind);
         }
 
         public static void HandleExceptionOnEdit<T>(this DbUpdateConcurrencyException exception, T entity, Action<string, string> writeError) where T : class, IModificationHistory

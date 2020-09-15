@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
+using System.Net.Http;
 using System.Web;
 using System.Web.Configuration;
+using System.Web.Http.Controllers;
 using System.Web.Mvc;
 using System.Web.Optimization;
 
@@ -9,6 +12,9 @@ namespace PDWebCore
 {
     public static class Utils
     {
+        public const string TimezoneOffsetHeaderName = "x-timezone-offset";
+        public const string TimezoneOffsetCookieName = "timezoneOffset";
+
         public static string GetIPAddress()
         {
             HttpContext context = HttpContext.Current;
@@ -81,6 +87,34 @@ namespace PDWebCore
         public static IHtmlString RenderDefer(params string[] paths)
         {
             return Scripts.RenderFormat(@"<script src='{0}' defer></script>", paths);
+        }
+
+        public static string GetHeaderValue(HttpActionContext actionContext, string headerName)
+        {
+            string result = null;
+
+            var headers = actionContext.Request.Headers;
+
+            if (headers.Contains(headerName))
+            {
+                result = headers.GetValues(headerName)?.FirstOrDefault();
+            }
+
+            return result;
+        }
+
+        public static string GetCookieValue(HttpActionContext actionContext, string cookieName)
+        {
+            string result = null;
+
+            var cookie = actionContext.Request.Headers.GetCookies(cookieName).FirstOrDefault();
+
+            if (cookie != null)
+            {
+                result = cookie[cookieName].Value;
+            }
+
+            return result;
         }
     }
 }

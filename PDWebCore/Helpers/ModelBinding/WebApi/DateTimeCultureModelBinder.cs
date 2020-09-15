@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.ModelBinding;
 
-namespace PDWebCore.Attributes
+namespace PDWebCore.Helpers.ModelBinding.WebApi
 {
-    public class DateTimeModelBinder : IModelBinder
+    public class DateTimeCultureModelBinder : IModelBinder
     {
         public bool BindModel(HttpActionContext actionContext, ModelBindingContext bindingContext)
         {
@@ -46,21 +41,6 @@ namespace PDWebCore.Attributes
         public static bool CanBindType(Type modelType)
         {
             return modelType == typeof(DateTime) || modelType == typeof(DateTime?);
-        }
-    }
-
-    public class DateTimeModelBinderProvider : ModelBinderProvider
-    {
-        readonly DateTimeModelBinder binder = new DateTimeModelBinder();
-
-        public override IModelBinder GetBinder(HttpConfiguration configuration, Type modelType)
-        {
-            if (DateTimeModelBinder.CanBindType(modelType))
-            {
-                return binder;
-            }
-
-            return null;
         }
     }
 }

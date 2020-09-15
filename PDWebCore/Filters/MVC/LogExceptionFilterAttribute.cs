@@ -1,15 +1,8 @@
-﻿using PDWebCore.Context.IContext;
-using PDWebCore.Services.Serv;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
-using System.Threading.Tasks;
+﻿using PDCore.Enums;
 using PDWebCore.Helpers.ExceptionHandling;
-using PDCore.Enums;
+using System.Web.Mvc;
 
-namespace PDWebCore.Filters
+namespace PDWebCore.Filters.MVC
 {
     public class LogExceptionFilterAttribute : HandleErrorAttribute
     {

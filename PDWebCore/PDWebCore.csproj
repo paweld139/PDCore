@@ -52,19 +52,24 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\DateTimeModelBinder.cs" />
-    <Compile Include="Attributes\FromJson.cs" />
-    <Compile Include="Attributes\UtcDateTimeModelBinder.cs" />
+    <Compile Include="Attributes\MVC\FromJson.cs" />
     <Compile Include="Context\IContext\IHasUserDataDbSet.cs" />
     <Compile Include="Context\IContext\IMainWebDbContext.cs" />
     <Compile Include="Context\MainWebDbContext.cs" />
+    <Compile Include="Converters\DateTimeOffsetConverter.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Factories\Fac\UserDataFactory.cs" />
     <Compile Include="Factories\IFac\IUserDataFactory.cs" />
-    <Compile Include="Filters\ValidationActionFilterAttribute.cs" />
+    <Compile Include="Filters\WebApi\ValidationActionFilterAttribute.cs" />
     <Compile Include="Handlers\LogExceptionHandler.cs" />
-    <Compile Include="Filters\LogExceptionFilterAttribute.cs" />
+    <Compile Include="Filters\MVC\LogExceptionFilterAttribute.cs" />
+    <Compile Include="Handlers\Loggers\TraceExceptionLogger.cs" />
     <Compile Include="Helpers\ExceptionHandling\HttpApplicationErrorHandler.cs" />
+    <Compile Include="Helpers\ModelBinding\MVC\DateTimeFormatModelBinder.cs" />
+    <Compile Include="Attributes\MVC\UtcDateTimeAttribute.cs" />
+    <Compile Include="Helpers\ModelBinding\WebApi\DateTimeCultureModelBinder.cs" />
+    <Compile Include="Helpers\ModelBinding\WebApi\Providers\DateTimeCultureModelBinderProvider.cs" />
+    <Compile Include="Helpers\ModelBinding\WebApi\UtcDateTimeModelBinder.cs" />
     <Compile Include="Helpers\MultiLanguage\Language.cs" />
     <Compile Include="Helpers\MultiLanguage\LanguageHelper.cs" />
     <Compile Include="Helpers\MultiLanguage\MultiLanguageController.cs" />

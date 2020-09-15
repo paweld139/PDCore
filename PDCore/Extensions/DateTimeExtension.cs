@@ -87,9 +87,24 @@ namespace PDCore.Extensions
             return dateTime.GetWordly("en-GB");
         }
 
+        public static string GetWordlyUS(this DateTime dateTime)
+        {
+            return dateTime.GetWordly("en-US");
+        }
+
         public static string GetWordlyDE(this DateTime dateTime)
         {
             return dateTime.GetWordly("de-DE");
+        }
+
+        public static string GetWordlyFR(this DateTime dateTime)
+        {
+            return dateTime.GetWordly("fr-FR");
+        }
+
+        public static string GetWordlyJA(this DateTime dateTime)
+        {
+            return dateTime.GetWordly("ja-JA");
         }
 
         public static string GetTime(this DateTime dt, bool withSeconds = true)

@@ -1,22 +1,9 @@
-﻿using Newtonsoft.Json;
-using PDCore.Enums;
-using PDWebCore.Context.IContext;
+﻿using PDCore.Enums;
 using PDWebCore.Helpers.ExceptionHandling;
-using PDWebCore.Models;
-using PDWebCore.Services.Serv;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
-using System.Web.Http;
 using System.Web.Http.ExceptionHandling;
-using System.Web.Http.Filters;
 using System.Web.Http.Results;
 
 namespace PDWebCore.Handlers
@@ -86,18 +73,5 @@ namespace PDWebCore.Handlers
         //        return Task.FromResult(response);
         //    }
         //}
-    }
-
-    /// <summary>
-    /// Dostęp do wszystkich wyjątków
-    /// </summary>
-    public class TraceExceptionLogger : ExceptionLogger
-    {
-        public override Task LogAsync(ExceptionLoggerContext context, CancellationToken cancellationToken)
-        {
-            Trace.TraceError(context.ExceptionContext.Exception.ToString());
-
-            return Task.CompletedTask;
-        }
     }
 }

@@ -15,11 +15,17 @@ namespace PDCore.Repositories.IRepo
 
         IQueryable<T> FindByFilter(Expression<Func<T, string>> propertySelector, string substring);
 
+        IQueryable<TOutput> FindByFilter<TOutput>(Expression<Func<T, string>> propertySelector, string substring);
+
         IQueryable<T> FindPage(int page, int pageSize);
+
+        IQueryable<TOutput> FindPage<TOutput>(int page, int pageSize);
 
         IQueryable<T> FindByDateCreated(string dateF, string dateT);
 
         IQueryable<T> FindByDateCreated(DateTime? dateF, DateTime? dateT);
+
+        IQueryable<TOutput> FindByDateCreated<TOutput>(DateTime? dateF, DateTime? dateT);
 
         IQueryable<T> FindByDateModified(string dateF, string dateT);
 
@@ -39,6 +45,8 @@ namespace PDCore.Repositories.IRepo
         T FindByKeyValues(params object[] keyValues);
 
         IEnumerable<T> GetAll(bool asNoTracking);
+
+        IEnumerable<TOutput> GetAll<TOutput>();
 
         IEnumerable<T> Get(Expression<Func<T, bool>> predicate);
 

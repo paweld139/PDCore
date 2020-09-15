@@ -3,7 +3,7 @@ using PDCoreNew.Services.Serv;
 using System;
 using System.Web.Mvc;
 
-namespace PDWebCore.Attributes
+namespace PDWebCore.Attributes.MVC
 {
     public class FromJsonAttribute : CustomModelBinderAttribute
     {

@@ -67,6 +67,11 @@ namespace PDCoreNew.Repositories.Repo
             return query;
         }
 
+        public virtual IQueryable<TOutput> FindByFilter<TOutput>(Expression<Func<T, string>> propertySelector, string substring)
+        {
+            return mapper.ProjectTo<TOutput>(FindByFilter(propertySelector, substring));
+        }
+
         public virtual IQueryable<T> FindPage(int page, int pageSize)
         {
             var query = FindAll();
@@ -79,6 +84,11 @@ namespace PDCoreNew.Repositories.Repo
             return query;
         }
 
+        public virtual IQueryable<TOutput> FindPage<TOutput>(int page, int pageSize)
+        {
+            return mapper.ProjectTo<TOutput>(FindPage(page, pageSize));
+        }
+
         public virtual IQueryable<T> FindByDateCreated(string dateF, string dateT)
         {
             return FindAll().FindByDateCreated(dateF, dateT);
@@ -87,6 +97,11 @@ namespace PDCoreNew.Repositories.Repo
         public virtual IQueryable<T> FindByDateCreated(DateTime? dateF, DateTime? dateT)
         {
             return FindAll().FindByDateCreated(dateF, dateT);
+        }
+
+        public virtual IQueryable<TOutput> FindByDateCreated<TOutput>(DateTime? dateF, DateTime? dateT)
+        {
+            return mapper.ProjectTo<TOutput>(FindByDateCreated(dateF, dateT));
         }
 
         public virtual IQueryable<T> FindByDateModified(string dateF, string dateT)
@@ -212,6 +227,11 @@ namespace PDCoreNew.Repositories.Repo
         public override IEnumerable<T> GetAll()
         {
             return FindAll().ToList();
+        }
+
+        public virtual IEnumerable<TOutput> GetAll<TOutput>()
+        {
+            return FindAll<TOutput>().ToList();
         }
 
         public override string GetQuery()

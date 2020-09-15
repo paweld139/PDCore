@@ -224,5 +224,7 @@ namespace PDCore.Extensions
         public static bool IsLower(this string input) => input.ToLower() == input;
 
         public static bool IsUpper(this string input) => input.ToUpper() == input;
+
+        public static int? ParseAsNullableInteger(this string input) => int.TryParse(input, out int i) ? (int?)i : null;
     }
 }

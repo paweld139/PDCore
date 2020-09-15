@@ -2,12 +2,10 @@
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
-namespace PDWebCore.Filters
+namespace PDWebCore.Filters.WebApi
 {
     public class ValidationActionFilterAttribute : ActionFilterAttribute
     {
@@ -17,6 +15,10 @@ namespace PDWebCore.Filters
 
             if (!modelState.IsValid)
             {
+                //InvalidModelStateResult result = new InvalidModelStateResult(modelState, (ApiController)context.ControllerContext.Controller);
+
+                //context.Response = context.Request.CreateResponse(HttpStatusCode.BadRequest, result);
+
                 var errors = new JObject();
 
                 foreach (var key in modelState.Keys)

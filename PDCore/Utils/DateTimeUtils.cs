@@ -222,5 +222,42 @@ namespace PDCore.Utils
 
             return new DateTime(year, month, day);
         }
+
+        public static DateTime? FromUTCDate(DateTime? dt, int timezoneOffset)
+        {
+            //  Convert a DateTime (which might be null) from UTC timezone
+            //  into the user's timezone. 
+            if (dt == null)
+                return null;
+
+            DateTime newDate = dt.Value - new TimeSpan(timezoneOffset / 60, timezoneOffset % 60, 0);
+
+            return newDate;
+        }
+
+        public static DateTime ApplyOffset(DateTime input, int timezoneOffsetMinutes)
+        {
+            //TimeSpan timezoneOffset = TimeSpan.FromMinutes(timezoneOffsetMinutes);
+
+            //DateTimeOffset dateTimeOffset = new DateTimeOffset(dateTime).ToOffset(timezoneOffset);
+
+            //return dateTimeOffset.DateTime;
+
+            return input.AddMinutes(-timezoneOffsetMinutes);
+        }
+
+        public static DateTime DeleteOffset(DateTime input, int timezoneOffsetMinutes)
+        {
+            return input.AddMinutes(timezoneOffsetMinutes);
+        }
+
+        public static DateTime ApplyOffsetByTimezone(DateTime input, string timeZoneName)
+        {
+            var timeZone = TimeZoneInfo.FindSystemTimeZoneById(timeZoneName);
+
+            var local = TimeZoneInfo.Local;
+
+            return input.Add(timeZone.BaseUtcOffset - local.BaseUtcOffset);
+        }
     }
 }
