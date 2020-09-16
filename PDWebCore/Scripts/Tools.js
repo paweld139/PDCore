@@ -1230,3 +1230,49 @@ function getTimezoneName2() {
 function getTimezoneName() {
     return Intl.DateTimeFormat().resolvedOptions().timeZone;
 }
+
+function setTimezoneCookie() {
+
+    var timezone_cookie = "timezoneOffset";
+
+    // if the timezone cookie does not exist create one.
+    if (!getCookie(timezone_cookie)) {
+
+        // check if the browser supports cookie
+        var test_cookie = 'test cookie';
+        setCookie(test_cookie, true);
+
+        // browser supports cookie
+        if (getCookie(test_cookie)) {
+
+            // delete the test cookie
+            setCookie(test_cookie, null);
+
+            // create a new cookie 
+            setCookie(timezone_cookie, new Date().getTimezoneOffset());
+
+            // re-load the page
+            location.reload();
+        }
+    }
+    // if the current timezone and the one stored in cookie are different
+    // then store the new timezone in the cookie and refresh the page.
+    else {
+
+        var storedOffset = parseInt(getCookie(timezone_cookie));
+        var currentOffset = new Date().getTimezoneOffset();
+
+        // user may have changed the timezone
+        if (storedOffset !== currentOffset) {
+            setCookie(timezone_cookie, new Date().getTimezoneOffset());
+            location.reload();
+        }
+    }
+}
+
+function setAnchorForRetrievingTimezone(elementId) {
+    var el = document.getElementById(elementId);
+    //Wed Feb 04 2015 18:37:55 GMT-1000 (Hawaiian Standard Time)                    
+    var href = el.href + "?JsTime=" + new Date().toString();
+    el.href = href;
+}

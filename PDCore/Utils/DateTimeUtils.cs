@@ -235,6 +235,18 @@ namespace PDCore.Utils
             return newDate;
         }
 
+        public static DateTime? ToUTCDate(DateTime? dt, int timezoneOffset)
+        {
+            //  Convert a DateTime (which might be null) from the user's timezone
+            //  into UTC timezone. 
+            if (dt == null)
+                return null;
+
+            DateTime newDate = dt.Value + new TimeSpan(timezoneOffset / 60, timezoneOffset % 60, 0);
+
+            return newDate;
+        }
+
         public static DateTime ApplyOffset(DateTime input, int timezoneOffsetMinutes)
         {
             //TimeSpan timezoneOffset = TimeSpan.FromMinutes(timezoneOffsetMinutes);
@@ -258,6 +270,81 @@ namespace PDCore.Utils
             var local = TimeZoneInfo.Local;
 
             return input.Add(timeZone.BaseUtcOffset - local.BaseUtcOffset);
+        }
+
+        /// <summary>
+        /// Returns a UTC time in the user's specified timezone.
+        /// </summary>
+        /// <param name="utcTime">The utc time to convert</param>
+        /// <param name="timeZoneName">Name of the timezone (Eastern Standard Time)</param>
+        /// <returns>New local time</returns>
+        public static DateTime GetUserTime(TimeZoneInfo timeZone, DateTime? utcTime = null)
+        {
+            if (utcTime == null)
+                utcTime = DateTime.UtcNow;
+
+            return TimeZoneInfo.ConvertTimeFromUtc(utcTime.Value, timeZone);
+        }
+
+        /// <summary>
+        /// Converts local server time to the user's timezone and
+        /// returns the UTC date.
+        /// 
+        /// Use this to convert user captured date inputs and convert
+        /// them to UTC.  
+        /// 
+        /// User input (their local time) comes in as local server time 
+        /// -> convert to user's timezone from server time
+        /// -> convert to UTC
+        /// </summary>
+        /// <param name="localServerTime"></param>
+        /// <returns></returns>
+        public static DateTime GetUtcUserTime(DateTime? localServerTime, TimeZoneInfo timeZone)
+        {
+            if (localServerTime == null)
+                localServerTime = DateTime.Now;
+
+            return TimeZoneInfo.ConvertTime(localServerTime.Value, timeZone).ToUniversalTime();
+        }
+
+        public static Tuple<DateTime, DateTime> GetDateRange(DateTime date, int days, TimeZoneInfo timeZone)
+        {
+            var userDate = GetUserTime(timeZone, date);
+
+            // force date boundary to be matched to users time
+            var start = userDate.Date.AddDays(days * -1).ToUniversalTime();
+            var end = userDate.Date.AddDays(1).AddSeconds(-1).ToUniversalTime();
+
+            return Tuple.Create(start, end);
+        }
+
+        public static string DateMath(DateTime start, TimeZoneInfo timeZone)
+        {
+            var offset = timeZone.GetUtcOffset(start).TotalHours;
+            var offsetLocal = TimeZoneInfo.Local.GetUtcOffset(start).TotalHours;
+            var startTime = start.AddHours(offsetLocal - offset);
+
+            // this is the time you write to the db
+            var timeToSave = startTime.ToUniversalTime();
+
+            return TimeZoneInfo.Local.ToString() + "<hr/>" +
+                   "Captured time: " + start + " -> UTC:  " + start.ToUniversalTime() + "  <hr/>   " +
+                   "Adjusted time: " + startTime + " -> UTC: " + timeToSave;
+        }
+
+        /// <summary>
+        /// Converts a local machine time to the user's timezone time
+        /// by applying the difference between the two timezones.
+        /// </summary>
+        /// <param name="localTime">local machine time</param>
+        /// <param name="tzi">Timezone to adjust for</param>
+        /// <returns></returns>
+        public static DateTime AdjustTimeZoneOffset(DateTime localTime, TimeZoneInfo tzi = null)
+        {  
+            var offset = tzi.GetUtcOffset(localTime).TotalHours;
+            var offset2 = TimeZoneInfo.Local.GetUtcOffset(localTime).TotalHours;
+
+            return localTime.AddHours(offset2 - offset);
         }
     }
 }

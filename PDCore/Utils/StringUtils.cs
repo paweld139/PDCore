@@ -162,5 +162,14 @@ namespace PDCore.Utils
         {
             return !ObjectUtils.AreNull(firstName, lastName) ? $"{firstName} {lastName}".Trim() : null;
         }
+
+        public static string ExtractString(string input, string from, string to)
+        {
+            var start = input.IndexOf(from) + from.Length;
+            var end = input.IndexOf(to);
+            var length = end - start;
+
+            return input.Substring(start, length);
+        }
     }
 }

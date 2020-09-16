@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using PDCore.Utils;
+using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Net.Http;
@@ -113,6 +115,33 @@ namespace PDWebCore
             {
                 result = cookie[cookieName].Value;
             }
+
+            return result;
+        }
+
+        public static SelectListItem[] GetSelectList()
+        {
+            var tzs = TimeZoneInfo.GetSystemTimeZones();
+
+            return tzs.Select(tz => new SelectListItem()
+            {
+                Text = tz.DisplayName,
+                Value = tz.Id
+            }).ToArray();
+        }
+
+        public static string GetUsersTimezone(string defaultTimezone)
+        {
+            // try to pick up user's timezone
+            var jsTime = HttpContext.Current.Request.QueryString["JsTime"];
+
+            string result;
+
+            if (!string.IsNullOrEmpty(jsTime))
+                //Wed Feb 04 2015 18:37:55 GMT-1000 (Hawaiian Standard Time) 
+                result = StringUtils.ExtractString(jsTime, "(", ")");
+            else
+                result = defaultTimezone; //App.DefaultTimeZone;
 
             return result;
         }

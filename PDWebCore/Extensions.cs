@@ -179,5 +179,22 @@ namespace PDWebCore
         public static StatusCodeResult Forbid(this ApiController controller) => new StatusCodeResult(HttpStatusCode.Forbidden, controller);
 
         public static StatusCodeResult NoContent(this ApiController controller) => new StatusCodeResult(HttpStatusCode.NoContent, controller);
+
+        public static string ToClientTime(this DateTime dt)
+        {
+            // read the value from session
+            var timeOffSet = HttpContext.Current.Session[Utils.TimezoneOffsetCookieName];
+
+            if (timeOffSet != null)
+            {
+                var offset = int.Parse(timeOffSet.ToString());
+                dt = dt.AddMinutes(-1 * offset);
+
+                return dt.ToString();
+            }
+
+            // if there is no offset in session return the datetime in server timezone
+            return dt.ToLocalTime().ToString();
+        }
     }
 }

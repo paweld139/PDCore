@@ -124,5 +124,30 @@ namespace PDCore.Extensions
         public static DateTimeOffset GetEndDate(this IPeriod period) => period.StartDate.Add(period.Duration);
 
         public static TimeSpan GetTimeSince(this IPeriod period) => DateTimeOffset.UtcNow.ToOffset(period.StartDate.Offset) - period.StartDate;
+
+        /// <summary>
+        /// Returns TimeZone adjusted time for a given from a Utc or local time.
+        /// Date is first converted to UTC then adjusted.
+        /// </summary>
+        /// <param name="time"></param>
+        /// <param name="timeZoneId"></param>
+        /// <returns></returns>
+        public static DateTime ToTimeZoneTime(this DateTime time, string timeZoneId = "Pacific Standard Time")
+        {
+            TimeZoneInfo tzi = TimeZoneInfo.FindSystemTimeZoneById(timeZoneId);
+            return time.ToTimeZoneTime(tzi);
+        }
+
+        /// <summary>
+        /// Returns TimeZone adjusted time for a given from a Utc or local time.
+        /// Date is first converted to UTC then adjusted.
+        /// </summary>
+        /// <param name="time"></param>
+        /// <param name="timeZoneId"></param>
+        /// <returns></returns>
+        public static DateTime ToTimeZoneTime(this DateTime time, TimeZoneInfo tzi)
+        {
+            return TimeZoneInfo.ConvertTimeFromUtc(time, tzi);
+        }
     }
 }
