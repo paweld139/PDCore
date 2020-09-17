@@ -188,7 +188,7 @@ namespace PDCoreNew.Repositories.Repo
             //dbEntityEntry.State = EntityState.Modified;
 
             ctx.Entry(entity).State = EntityState.Modified;
-            ctx.Entry(entity).Property(e => e.RowVersion).IsModified = false;
+            //ctx.Entry(entity).Property(e => e.RowVersion).IsModified = false;
         }
 
 
