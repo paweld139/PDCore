@@ -266,15 +266,13 @@ namespace PDCore.Utils
 
         public static string GetNameOf(Expression expression)
         {
-            if (expression.NodeType == ExpressionType.MemberAccess)
+            if (expression.NodeType == ExpressionType.Convert)
             {
-                if (!(expression is MemberExpression memberExpression))
-                    return null;
-
-                return memberExpression.Member.Name;
+                if (expression is UnaryExpression unaryExpression)
+                    expression = unaryExpression.Operand;
             }
 
-            return null;
+            return (expression as MemberExpression)?.Member.Name;
         }
 
         public static bool CheckIsOnePropertyTrue(object o)
@@ -304,5 +302,15 @@ namespace PDCore.Utils
         }
 
         public static Type CreateCollectionType(Type collectionType, Type itemType) => collectionType.MakeGenericType(itemType);
+
+        public static MethodCallExpression ConvertToType(ParameterExpression sourceParameter,
+            PropertyInfo sourceProperty,
+            TypeCode typeCode)
+        {
+            var sourceExpressionProperty = Expression.Property(sourceParameter, sourceProperty);
+            var changeTypeMethod = typeof(Convert).GetMethod("ChangeType", new Type[] { typeof(object), typeof(TypeCode) });
+            var callExpressionReturningObject = Expression.Call(changeTypeMethod, sourceExpressionProperty, Expression.Constant(typeCode));
+            return callExpressionReturningObject;
+        }
     }
 }

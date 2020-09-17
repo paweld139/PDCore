@@ -192,6 +192,9 @@
   <data name="LastName" xml:space="preserve">
     <value>Last name</value>
   </data>
+  <data name="LicenseKey" xml:space="preserve">
+    <value>License key</value>
+  </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>

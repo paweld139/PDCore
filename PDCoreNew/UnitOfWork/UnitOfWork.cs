@@ -62,6 +62,8 @@ namespace PDCoreNew.UnitOfWork
             dbContext.Configuration.ProxyCreationEnabled = false;
 
             //dbContext.Configuration.LazyLoadingEnabled = false;
+
+            //dbContext.Configuration.ValidateOnSaveEnabled = false;
         }
 
         //protected void CreateDbContext()

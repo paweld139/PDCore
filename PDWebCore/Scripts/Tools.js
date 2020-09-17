@@ -931,6 +931,10 @@ function fromISODateToLocaleString(input) {
     return parseISOString(input).toLocaleString();
 }
 
+function fromMJDateToLocaleDateString(input) {
+    return parseMicrosoftJSONDate(input).toLocaleDateString()
+}
+
 function dateConverter(collectionOrObject, datePropertyName, dateSelector, dateSelectorOwner) {
     if (!isIterable(collectionOrObject)) {
         let date = collectionOrObject[datePropertyName];
@@ -1275,4 +1279,36 @@ function setAnchorForRetrievingTimezone(elementId) {
     //Wed Feb 04 2015 18:37:55 GMT-1000 (Hawaiian Standard Time)                    
     var href = el.href + "?JsTime=" + new Date().toString();
     el.href = href;
+}
+
+function parseMicrosoftJSONDate(jsonDate) {
+    return new Date(parseInt(jsonDate.substr(6)));
+}
+
+function parseMicrosoftJSONDate2(s) {
+    return new Date(parseFloat(/Date\(([^)]+)\)/.exec(s)[1]));
+}
+
+ko.bindingHandlers.fromMJDate = {
+    init: function (element, valueAccessor) {
+        element.innerHTML = fromMJDateToLocaleDateString(valueAccessor);
+    }
+};
+
+ko.bindingHandlers.fromISODate = {
+    init: function (element, valueAccessor) {
+        element.innerHTML = fromISODateToLocaleDateString(valueAccessor());
+    }
+};
+
+ko.bindingHandlers.fromISODateTime = {
+    init: function (element, valueAccessor) {
+        element.innerHTML = fromISODateToLocaleString(valueAccessor());
+    }
+};
+
+Object.prototype.flatten = function () {
+    return Object.keys(this).reduce(function (r, k) {
+        return r.concat(k, object[k]);
+    }, []);
 }

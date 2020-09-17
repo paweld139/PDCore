@@ -1,4 +1,5 @@
-﻿using PDCore.Extensions;
+﻿using PDCore.Attributes;
+using PDCore.Extensions;
 using PDCore.Interfaces;
 using PDCore.Utils;
 using PDCoreNew.Attributes;
@@ -13,6 +14,8 @@ using System.Data.Entity.Core.Metadata.Edm;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace PDCoreNew.Extensions
@@ -120,6 +123,11 @@ namespace PDCoreNew.Extensions
             return dbContext.Set<T>().Local.First(predicate);
         }
 
+        public static T FirstOrDefautLocal<T>(this IEntityFrameworkDbContext dbContext, Func<T, bool> predicate) where T : class
+        {
+            return dbContext.Set<T>().Local.FirstOrDefault(predicate);
+        }
+
         public static bool ExistsLocal<T>(this IEntityFrameworkDbContext dbContext, T entity) where T : class
         {
             return dbContext.Set<T>().Local.Contains(entity);
@@ -152,9 +160,11 @@ namespace PDCoreNew.Extensions
             {
                 var databaseValues = (T)databaseEntry.ToObject();
 
+                string error;
+
                 foreach (var property in clientEntry.PropertyNames)
                 {
-                    if (property.ValueIn(nameof(databaseValues.RowVersion), nameof(databaseValues.DateModified), nameof(databaseValues.DateCreated)))
+                    if (property.ValueIn(nameof(databaseValues.DateModified), nameof(databaseValues.DateCreated)))
                         continue;
 
                     var databaseValue = databaseEntry[property];
@@ -163,7 +173,18 @@ namespace PDCoreNew.Extensions
 
                     if (clientValue != databaseValue && !(clientValue?.Equals(databaseValue) ?? false))
                     {
-                        writeError(property, "Current value: " + databaseValue);
+                        error = "Current value: ";
+
+                        if (property == nameof(databaseValues.RowVersion))
+                        {
+                            error += Convert.ToBase64String(databaseValues.RowVersion);
+                        }
+                        else
+                        {
+                            error += databaseValue;
+                        }
+
+                        writeError(property, error);
                     }
                 }
 
@@ -198,6 +219,77 @@ namespace PDCoreNew.Extensions
 
                 yield return entitySets[type.Name].MetadataProperties["Schema"].Value.ToString();
             }
+        }
+
+        public static void Update<TEntity, TKey>(this DbContext context, IDTO<TKey> dto)
+            where TEntity : class, IEntity<TKey> where TKey : IEquatable<TKey>
+        {
+            TEntity entity = context.Set<TEntity>().Local.FirstOrDefault(e => e.Id.Equals(dto.Id));
+
+            if (entity == null)
+            {
+                entity = context.Set<TEntity>().Create();
+                entity.Id = dto.Id;
+                context.Set<TEntity>().Attach(entity);
+            }
+
+            context.Entry(entity).CurrentValues.SetValues(dto);
+
+            var attribute = dto.GetAttribute<EnsureUpdatedAttribute>();
+
+            if (attribute != null)
+            {
+                foreach (var property in attribute.Properties)
+                    context.Entry(entity).Property(property).IsModified = true;
+            }
+        }
+
+        public static void EditEntity<TEntity>(this DbContext context,
+            TEntity entity,
+            TypeOfEditEntityProperty typeOfEditEntityProperty,
+            params string[] properties) where TEntity : class
+        {
+            var find = context.Set<TEntity>().Find(entity.GetType().GetProperty("Id").GetValue(entity, null));
+
+            if (find == null)
+                throw new Exception("id not found in database");
+
+            if (typeOfEditEntityProperty == TypeOfEditEntityProperty.Ignore)
+            {
+                foreach (var item in entity.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty))
+                {
+                    if (!item.CanRead || !item.CanWrite)
+                        continue;
+                    if (properties.Contains(item.Name))
+                        continue;
+
+                    item.SetValue(find, item.GetValue(entity, null), null);
+                }
+            }
+            else if (typeOfEditEntityProperty == TypeOfEditEntityProperty.Take)
+            {
+                foreach (var item in entity.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty))
+                {
+                    if (!item.CanRead || !item.CanWrite)
+                        continue;
+                    if (!properties.Contains(item.Name))
+                        continue;
+
+                    item.SetValue(find, item.GetValue(entity, null), null);
+                }
+            }
+            else
+            {
+                foreach (var item in entity.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty))
+                {
+                    if (!item.CanRead || !item.CanWrite)
+                        continue;
+
+                    item.SetValue(find, item.GetValue(entity, null), null);
+                }
+            }
+
+            context.SaveChanges();
         }
     }
 }

@@ -124,7 +124,7 @@ namespace PDCoreNew.Repositories.Repo
         {
             var query = GetAll().GetKVP(keySelector, valueSelector);
 
-            if(sortByValue)
+            if (sortByValue)
             {
                 query = query.OrderBy(e => e.Value);
             }
@@ -188,6 +188,7 @@ namespace PDCoreNew.Repositories.Repo
             //dbEntityEntry.State = EntityState.Modified;
 
             ctx.Entry(entity).State = EntityState.Modified;
+            ctx.Entry(entity).Property(e => e.RowVersion).IsModified = false;
         }
 
 
@@ -260,6 +261,21 @@ namespace PDCoreNew.Repositories.Repo
         public override int Commit()
         {
             return ctx.SaveChangesWithModificationHistory(); //Zwraca ilość wierszy wziętych po uwagę
+        }
+
+        public virtual int CommitWithoutValidation()
+        {
+            bool validate = ctx.Configuration.ValidateOnSaveEnabled;
+
+            if (validate)
+                ctx.Configuration.ValidateOnSaveEnabled = false;
+
+            int result = Commit();
+
+            if (validate)
+                ctx.Configuration.ValidateOnSaveEnabled = validate;
+
+            return result;
         }
 
         protected virtual async Task<int> DoCommitAsClientWins(bool sync, Func<Task<int>> commitAsync)
@@ -478,11 +494,88 @@ namespace PDCoreNew.Repositories.Repo
             return mapper.ProjectTo<TOutput>(FindAll());
         }
 
+        public virtual IQueryable<TOutput> FindAll<TOutput>(bool asNoTracking)
+        {
+            return mapper.ProjectTo<TOutput>(FindAll(asNoTracking));
+        }
+
         public virtual IQueryable<TOutput> Find<TOutput>(Expression<Func<T, bool>> predicate)
         {
             return mapper.ProjectTo<TOutput>(Find(predicate));
         }
 
         public Expression<Func<T, bool>> GetByIdPredicate(int id) => RepositoryUtils.GetByIdPredicate<T>(id);
+
+        public virtual bool UpdateWithIncludeOrExcludeProperties(T item, bool include, IEnumerable<string> propertyNames)
+        {
+            if (include)
+            {
+                Attach(item);
+            }
+            else
+            {
+                Update(item);
+            }
+
+            var entry = ctx.Entry(item);
+
+            foreach (var propertyName in propertyNames)
+            {
+                // If we can't find the property, this line wil throw an exception, 
+                //which is good as we want to know about it
+                entry.Property(propertyName).IsModified = include;
+            }
+
+            return true;
+        }
+
+        public virtual bool UpdateWithIncludeOrExcludeProperties(T item, bool include, params string[] propertyNames)
+        {
+            return UpdateWithIncludeOrExcludeProperties(item, include, propertyNames.AsEnumerable());
+        }
+
+        public virtual bool UpdateWithIncludeOrExcludeProperties(T item, bool include, IEnumerable<Expression<Func<T, object>>> properties)
+        {
+            var changedPropertyNames = properties.ToArray(ReflectionUtils.GetNameOf);
+
+            return UpdateWithIncludeOrExcludeProperties(item, include, changedPropertyNames);
+        }
+
+        public virtual bool UpdateWithIncludeOrExcludeProperties(T item, bool include, params Expression<Func<T, object>>[] properties)
+        {
+            return UpdateWithIncludeOrExcludeProperties(item, include, properties.AsEnumerable());
+        }
+
+        public virtual bool UpdateWithIncludeOrExcludeProperties(IHasRowVersion source, T destination, bool include, ICollection<string> propertyNames)
+        {
+            var destinationEntry = ctx.Entry(destination);
+
+            destinationEntry.Property(e => e.RowVersion).OriginalValue = source.RowVersion;
+
+            var sourceProperties = source.GetProperties();
+
+            foreach (var property in sourceProperties)
+            {
+                string propertyName = property.Name;
+
+                bool contains = propertyNames.Contains(propertyName);
+
+                if ((contains && include) || (!contains && !include))
+                {
+                    var sourceValue = property.GetPropertyValue(source);
+
+                    destination.SetPropertyValue(propertyName, sourceValue);
+                }
+            }
+
+            return true;
+        }
+
+        public virtual bool UpdateWithIncludeOrExcludeProperties(IHasRowVersion source, T destination, bool include, params Expression<Func<T, object>>[] properties)
+        {
+            var propertyNames = properties.ConvertArray(ReflectionUtils.GetNameOf);
+
+            return UpdateWithIncludeOrExcludeProperties(source, destination, include, propertyNames);
+        }
     }
 }

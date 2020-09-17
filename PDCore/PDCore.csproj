@@ -93,6 +93,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\EnsureUpdatedAttribute.cs" />
     <Compile Include="Builders\Account\Account.cs" />
     <Compile Include="Builders\Account\AccountBuilder.cs" />
     <Compile Include="Builders\Account\Address.cs" />
@@ -107,10 +108,13 @@
     <Compile Include="Commands\Shop\AddToCartCommand.cs" />
     <Compile Include="Commands\Shop\ChangeQuantityCommand.cs" />
     <Compile Include="Converters\UtcDateTimeConverter.cs" />
+    <Compile Include="Interfaces\IDTO.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
+    <Compile Include="Interfaces\TypeOfEditEntityProperty.cs" />
     <Compile Include="Lazy\Ghosts\GhostCustomer.cs" />
     <Compile Include="Lazy\Interfaces\IValueHolder.cs" />
     <Compile Include="Lazy\Proxies\CustomerProxy.cs" />
+    <Compile Include="Models\RowInfo.cs" />
     <Compile Include="Models\Shop\Customer.cs" />
     <Compile Include="Models\Shop\Product.cs" />
     <Compile Include="Models\TagGroup.cs" />

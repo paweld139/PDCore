@@ -3,6 +3,7 @@ using PDCore.Helpers;
 using PDCore.Helpers.Soap.ExceptionHandling;
 using PDCore.Helpers.Wrappers.DisposableWrapper;
 using PDCore.Interfaces;
+using PDCore.Models;
 using PDCore.Utils;
 using System;
 using System.Collections.Generic;
@@ -263,5 +264,7 @@ namespace PDCore.Extensions
         }
 
         public static bool IsNew(this IModificationHistory history) => history.DateCreated == DateTime.MinValue;
+
+        public static RowInfo GetRowInfo(this IModificationHistory modificationHistory) => new RowInfo(modificationHistory);
     }
 }

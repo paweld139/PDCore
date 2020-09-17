@@ -1,5 +1,7 @@
 ﻿using PDCore.Extensions;
 using PDCore.Helpers.Wrappers.DisposableWrapper;
+using PDCore.Interfaces;
+using PDCore.Repositories.IRepo;
 using PDCore.Utils;
 using PDCoreNew.Context.IContext;
 using PDCoreNew.Helpers;
@@ -26,9 +28,9 @@ namespace PDCoreNew.Extensions
             return string.Join(Environment.NewLine, e.EntityValidationErrors.SelectMany(x => x.ValidationErrors).Select(x => x.ErrorMessage));
         }
 
-        public static IDisposableWrapper<IEFRepo<TModel>> WrapRepo<TModel>(this IEFRepo<TModel> repo) where TModel : class
+        public static IDisposableWrapper<ISqlRepositoryEntityFramework<TModel>> WrapRepo<TModel>(this ISqlRepositoryEntityFramework<TModel> repo, bool withoutValidation = false) where TModel : class, IModificationHistory
         {
-            return new SaveChangesWrapper<TModel>(repo);
+            return new SaveChangesWrapper<TModel>(repo, withoutValidation);
         }
 
         public static void RemoveRegistrations(this IUnityContainer container, string name, Type registeredType, Type lifetimeManager)

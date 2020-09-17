@@ -4,8 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
+using System.Security.Claims;
+using System.Security.Principal;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -195,6 +199,18 @@ namespace PDWebCore
 
             // if there is no offset in session return the datetime in server timezone
             return dt.ToLocalTime().ToString();
+        }
+
+        public static List<string> GetRoles(this IIdentity identity)
+        {
+            return ((ClaimsIdentity)identity).Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToList();
+        }
+
+        public static string GetContrahentId(this IIdentity identity)
+        {
+            var claim = ((ClaimsIdentity)identity).FindFirst("ContrahentId");
+
+            return (claim != null) ? claim.Value : string.Empty;
         }
     }
 }

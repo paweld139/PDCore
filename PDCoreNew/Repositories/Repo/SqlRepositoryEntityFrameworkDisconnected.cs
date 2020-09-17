@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using PDCore.Interfaces;
+using PDCore.Models;
 using PDCore.Repositories.IRepo;
 using PDCoreNew.Context.IContext;
 using PDCoreNew.Extensions;
@@ -7,7 +8,9 @@ using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace PDCoreNew.Repositories.Repo
 {
@@ -39,6 +42,15 @@ namespace PDCoreNew.Repositories.Repo
             return CommitAsync();
         }
 
+        public async virtual Task SaveNewAsync<TInput>(TInput input)
+        {
+            var entity = mapper.Map<T>(input);
+
+            await SaveNewAsync(entity);
+
+            mapper.Map(entity, input);
+        }
+
         public virtual void SaveUpdated(T entity)
         {
             Update(entity);
@@ -53,18 +65,30 @@ namespace PDCoreNew.Repositories.Repo
             return CommitAsync();
         }
 
-        private async Task<bool> DoSaveUpdatedWithOptimisticConcurrency(T entity, Action<string, string> writeError, bool sync)
+        private async Task<bool> DoSaveUpdatedWithOptimisticConcurrency(T entity, Action<string, string> writeError, bool sync, bool update, bool? include, params Expression<Func<T, object>>[] properties)
         {
-            Update(entity);
+            if (update)
+            {
+                if (include == null)
+                {
+                    Update(entity);
+                }
+                else
+                {
+                    UpdateWithIncludeOrExcludeProperties(entity, include.Value, properties);
+                }
+            }
 
-            int rowsAffected = 0;
+            bool result = false;
 
             try
             {
                 if (sync)
-                    rowsAffected = Commit();
+                    Commit();
                 else
-                    rowsAffected = await CommitAsync();
+                    await CommitAsync();
+
+                result = true;
             }
             catch (DbUpdateConcurrencyException ex)
             {
@@ -77,17 +101,17 @@ namespace PDCoreNew.Repositories.Repo
                 writeError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
 
-            return rowsAffected > 0;
+            return result;
         }
 
-        public virtual bool SaveUpdatedWithOptimisticConcurrency(T entity, Action<string, string> writeError)
+        public virtual bool SaveUpdatedWithOptimisticConcurrency(T entity, Action<string, string> writeError, bool update, bool? include = null, params Expression<Func<T, object>>[] properties)
         {
-            return DoSaveUpdatedWithOptimisticConcurrency(entity, writeError, true).Result;
+            return DoSaveUpdatedWithOptimisticConcurrency(entity, writeError, true, update, include, properties).Result;
         }
 
-        public virtual Task<bool> SaveUpdatedWithOptimisticConcurrencyAsync(T entity, Action<string, string> writeError)
+        public virtual Task<bool> SaveUpdatedWithOptimisticConcurrencyAsync(T entity, Action<string, string> writeError, bool update, bool? include = null, params Expression<Func<T, object>>[] properties)
         {
-            return DoSaveUpdatedWithOptimisticConcurrency(entity, writeError, false);
+            return DoSaveUpdatedWithOptimisticConcurrency(entity, writeError, false, update, include, properties);
         }
 
 
@@ -119,6 +143,15 @@ namespace PDCoreNew.Repositories.Repo
             Delete(keyValues);
 
             return CommitAsync();
+        }
+
+        public virtual void Update(T entity, IHasRowVersion dto)
+        {
+            var entry = ctx.Entry(entity);
+
+            entry.Property(e => e.RowVersion).OriginalValue = dto.RowVersion;
+
+            entry.CurrentValues.SetValues(dto);
         }
     }
 }

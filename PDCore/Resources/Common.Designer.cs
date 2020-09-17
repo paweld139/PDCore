@@ -286,6 +286,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to License key.
+        /// </summary>
+        public static string LicenseKey {
+            get {
+                return ResourceManager.GetString("LicenseKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string Name {

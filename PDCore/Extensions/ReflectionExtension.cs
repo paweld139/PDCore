@@ -203,20 +203,26 @@ namespace PDCore.Extensions
         public static void SetPropertyValue<T>(this T obj, string name, object value)
         {
             PropertyInfo pInfo = obj.GetType().GetProperty(name);
+
             if (pInfo != null)
             {
                 pInfo.SetValue(obj, value, null);
             }
         }
 
-        public static IEnumerable<string> GetProperties<T>(this T obj)
+        public static IEnumerable<string> GetPropertyNames<T>(this T obj)
         {
-            return obj.GetType().GetProperties().Select(p => p.Name);
+            return obj.GetProperties().Select(p => p.Name);
+        }
+
+        public static PropertyInfo[] GetProperties<T>(this T obj)
+        {
+            return obj.GetType().GetProperties();
         }
 
         public static Dictionary<string, object> GetDictionaryFromType<T>(this T obj)
         {
-            IEnumerable<string> properties = obj.GetProperties();
+            IEnumerable<string> properties = obj.GetPropertyNames();
 
             var dict = new Dictionary<string, object>();
 
@@ -251,6 +257,48 @@ namespace PDCore.Extensions
             }
 
             return list;
+        }
+
+        public static T GetAttribute<T>(this object source, bool inherit = true) where T : Attribute
+        {
+            return source.GetType().GetCustomAttributes(typeof(T), inherit).FirstOrDefault() as T;
+        }
+
+        public static TValue GetAttributeValue<TAttribute, TValue>(this Type type, Func<TAttribute, TValue> valueSelector) where TAttribute : Attribute
+        {
+            if (type.GetAttribute<TAttribute>() is TAttribute att)
+            {
+                return valueSelector(att);
+            }
+
+            return default;
+        }
+
+        public static PropertyInfo GetPropertyInfo<TSource, TProperty>(this TSource source, Expression<Func<TSource, TProperty>> propertyLambda)
+        {
+            _ = source;
+
+            Type type = typeof(TSource);
+
+            if (!(propertyLambda.Body is MemberExpression member))
+                throw new ArgumentException(string.Format(
+                    "Expression '{0}' refers to a method, not a property.",
+                    propertyLambda.ToString()));
+
+            PropertyInfo propInfo = member.Member as PropertyInfo;
+            if (propInfo == null)
+                throw new ArgumentException(string.Format(
+                    "Expression '{0}' refers to a field, not a property.",
+                    propertyLambda.ToString()));
+
+            if (type != propInfo.ReflectedType &&
+                !type.IsSubclassOf(propInfo.ReflectedType))
+                throw new ArgumentException(string.Format(
+                    "Expression '{0}' refers to a property that is not from type {1}.",
+                    propertyLambda.ToString(),
+                    type));
+
+            return propInfo;
         }
     }
 }

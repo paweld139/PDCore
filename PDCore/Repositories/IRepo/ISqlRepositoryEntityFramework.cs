@@ -72,5 +72,19 @@ namespace PDCore.Repositories.IRepo
         int CommitWithOptimisticConcurrency();
 
         bool DeleteAndCommitWithOptimisticConcurrency(T entity, Action<string, string> writeError);
+
+        bool UpdateWithIncludeOrExcludeProperties(T item, bool include, params string[] propertyNames);
+
+        bool UpdateWithIncludeOrExcludeProperties(T item, bool include, params Expression<Func<T, object>>[] properties);
+
+        bool UpdateWithIncludeOrExcludeProperties(T item, bool include, IEnumerable<string> propertyNames);
+
+        int CommitWithoutValidation();
+
+        bool UpdateWithIncludeOrExcludeProperties(IHasRowVersion source, T destination, bool include, ICollection<string> propertyNames);
+
+        bool UpdateWithIncludeOrExcludeProperties(IHasRowVersion source, T destination, bool include, params Expression<Func<T, object>>[] properties);
+
+        IQueryable<TOutput> FindAll<TOutput>(bool asNoTracking);
     }
 }

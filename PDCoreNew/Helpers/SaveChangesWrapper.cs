@@ -1,23 +1,29 @@
-﻿using PDCore.Helpers;
-using PDCore.Helpers.Wrappers.DisposableWrapper;
+﻿using PDCore.Helpers.Wrappers.DisposableWrapper;
+using PDCore.Interfaces;
 using PDCore.Repositories.IRepo;
-using PDCoreNew.Repositories.IRepo;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PDCoreNew.Helpers
 {
-    public class SaveChangesWrapper<TModel> : DisposableWrapper<IEFRepo<TModel>> where TModel : class
+    public class SaveChangesWrapper<TModel> : DisposableWrapper<ISqlRepositoryEntityFramework<TModel>> where TModel : class, IModificationHistory
     {
-        public SaveChangesWrapper(IEFRepo<TModel> repo) : base(repo) { }
+        private readonly bool withoutValidation;
+
+        public SaveChangesWrapper(ISqlRepositoryEntityFramework<TModel> repo, bool withoutValidation) : base(repo) 
+        {
+            this.withoutValidation = withoutValidation;
+        }
 
         protected override void OnDispose()
         {
-            // lots of code per state of BaseObject
-            BaseObject.SaveChanges();
+            if (!withoutValidation)
+            {
+                // lots of code per state of BaseObject
+                BaseObject.CommitWithoutValidation();
+            }
+            else
+            {
+                BaseObject.Commit();
+            }
         }
     }
 }
