@@ -129,8 +129,14 @@
   <data name="Budget" xml:space="preserve">
     <value>Budżet</value>
   </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Komentarz</value>
+  </data>
   <data name="Completed" xml:space="preserve">
     <value>Zakończ</value>
+  </data>
+  <data name="Content" xml:space="preserve">
+    <value>Zawartość</value>
   </data>
   <data name="Contractor" xml:space="preserve">
     <value>Kontrahent</value>
@@ -239,6 +245,9 @@
   </data>
   <data name="Subject" xml:space="preserve">
     <value>Temat</value>
+  </data>
+  <data name="Task" xml:space="preserve">
+    <value>Zadanie</value>
   </data>
   <data name="True" xml:space="preserve">
     <value>prawda</value>

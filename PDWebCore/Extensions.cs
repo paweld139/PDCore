@@ -212,5 +212,12 @@ namespace PDWebCore
 
             return (claim != null) ? claim.Value : string.Empty;
         }
+
+        public static string GetEmployeeId(this IIdentity identity)
+        {
+            var claim = ((ClaimsIdentity)identity).FindFirst("EmployeeId");
+
+            return (claim != null) ? claim.Value : string.Empty;
+        }
     }
 }
