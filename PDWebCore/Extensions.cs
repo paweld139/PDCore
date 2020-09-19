@@ -200,24 +200,5 @@ namespace PDWebCore
             // if there is no offset in session return the datetime in server timezone
             return dt.ToLocalTime().ToString();
         }
-
-        public static List<string> GetRoles(this IIdentity identity)
-        {
-            return ((ClaimsIdentity)identity).Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToList();
-        }
-
-        public static string GetContrahentId(this IIdentity identity)
-        {
-            var claim = ((ClaimsIdentity)identity).FindFirst("ContrahentId");
-
-            return (claim != null) ? claim.Value : string.Empty;
-        }
-
-        public static string GetEmployeeId(this IIdentity identity)
-        {
-            var claim = ((ClaimsIdentity)identity).FindFirst("EmployeeId");
-
-            return (claim != null) ? claim.Value : string.Empty;
-        }
     }
 }

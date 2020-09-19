@@ -108,7 +108,10 @@
     <Compile Include="Commands\Shop\AddToCartCommand.cs" />
     <Compile Include="Commands\Shop\ChangeQuantityCommand.cs" />
     <Compile Include="Converters\UtcDateTimeConverter.cs" />
+    <Compile Include="Enums\SavingOperation.cs" />
+    <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Interfaces\IDTO.cs" />
+    <Compile Include="Interfaces\IDataAccessStrategy.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
     <Compile Include="Interfaces\TypeOfEditEntityProperty.cs" />
     <Compile Include="Lazy\Ghosts\GhostCustomer.cs" />
@@ -451,6 +454,7 @@
     <Compile Include="Services\Serv\Time\SomeClass.cs" />
     <Compile Include="Services\Serv\Time\TimeService.cs" />
     <Compile Include="Services\Serv\Time\TimeServiceStub.cs" />
+    <Compile Include="Strategies\DataAccessStrategy.cs" />
     <Compile Include="Utils\ConsoleUtils.cs" />
     <Compile Include="Utils\CSVUtils.cs" />
     <Compile Include="Utils\DateTimeUtils.cs" />

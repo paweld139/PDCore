@@ -7,6 +7,7 @@ using PDCoreNew.Context.IContext;
 using PDCoreNew.Helpers;
 using PDCoreNew.Repositories.IRepo;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.Entity;
@@ -15,6 +16,8 @@ using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
+using System.Security.Principal;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Unity;
@@ -110,6 +113,25 @@ namespace PDCoreNew.Extensions
         public static Task<TResult> WithRetry<TResult>(this Func<Task<TResult>> task)
         {
             return task.WithRetry<TResult, Exception>();
+        }
+
+        public static List<string> GetRoles(this IIdentity identity)
+        {
+            return ((ClaimsIdentity)identity).Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToList();
+        }
+
+        public static string GetContrahentId(this IIdentity identity)
+        {
+            var claim = ((ClaimsIdentity)identity).FindFirst("ContrahentId");
+
+            return (claim != null) ? claim.Value : string.Empty;
+        }
+
+        public static string GetEmployeeId(this IIdentity identity)
+        {
+            var claim = ((ClaimsIdentity)identity).FindFirst("EmployeeId");
+
+            return (claim != null) ? claim.Value : string.Empty;
         }
     }
 }

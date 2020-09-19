@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Configuration;
 using System.Diagnostics;
 using System.Drawing;
@@ -266,5 +267,14 @@ namespace PDCore.Extensions
         public static bool IsNew(this IModificationHistory history) => history.DateCreated == DateTime.MinValue;
 
         public static RowInfo GetRowInfo(this IModificationHistory modificationHistory) => new RowInfo(modificationHistory);
+
+        public static string GetDisplayName(this Enum enumValue)
+        {
+            return enumValue.GetType()?
+                            .GetMember(enumValue.ToString())?
+                            .First()?
+                            .GetAttribute<DisplayAttribute>()?
+                            .Name;
+        }
     }
 }

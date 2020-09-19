@@ -1,6 +1,8 @@
 ﻿using PDCore.Interfaces;
 using System;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Principal;
 using System.Threading.Tasks;
 
 namespace PDCore.Repositories.IRepo
@@ -13,14 +15,16 @@ namespace PDCore.Repositories.IRepo
 
         Task SaveNewAsync<TInput>(TInput input);
 
+        Task<bool> SaveNewAsync<TInput>(TInput input, IDataAccessStrategy<T> savingStrategy, IPrincipal principal, params object[] args);
+
 
         void SaveUpdated(T entity);
 
-        bool SaveUpdatedWithOptimisticConcurrency(T entity, Action<string, string> writeError, bool update, bool? include = null, params Expression<Func<T, object>>[] properties);
+        bool SaveUpdatedWithOptimisticConcurrency(T entity, Action<string, string> writeError, bool update = true, bool? include = null, params Expression<Func<T, object>>[] properties);
 
         Task SaveUpdatedAsync(T entity);
 
-        Task<bool> SaveUpdatedWithOptimisticConcurrencyAsync(T entity, Action<string, string> writeError, bool update, bool? include = null, params Expression<Func<T, object>>[] properties);
+        Task<bool> SaveUpdatedWithOptimisticConcurrencyAsync(T entity, Action<string, string> writeError, bool update = true, bool? include = null, params Expression<Func<T, object>>[] properties);
 
 
         void Delete(params object[] keyValues);
@@ -31,5 +35,9 @@ namespace PDCore.Repositories.IRepo
         Task DeleteAndCommitAsync(params object[] keyValues);
 
         void Update(T entity, IHasRowVersion dto);
+
+        Task<bool> SaveUpdatedWithOptimisticConcurrencyAsync(T entity, IDataAccessStrategy<T> savingStrategy, IPrincipal principal, Action<string, string> writeError);
+
+        Task<TOutput> SaveUpdatedWithOptimisticConcurrencyAsync<TOutput>(IHasRowVersion source, T destination, IDataAccessStrategy<T> savingStrategy, IPrincipal principal, Action<string, string> writeError);
     }
 }

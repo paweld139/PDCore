@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using PDCore.Extensions;
 using PDCore.Interfaces;
 using PDCore.Models;
 using PDCore.Repositories.IRepo;
+using PDCore.Utils;
 using PDCoreNew.Context.IContext;
 using PDCoreNew.Extensions;
 using System;
@@ -9,6 +11,7 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
@@ -104,12 +107,12 @@ namespace PDCoreNew.Repositories.Repo
             return result;
         }
 
-        public virtual bool SaveUpdatedWithOptimisticConcurrency(T entity, Action<string, string> writeError, bool update, bool? include = null, params Expression<Func<T, object>>[] properties)
+        public virtual bool SaveUpdatedWithOptimisticConcurrency(T entity, Action<string, string> writeError, bool update = true, bool? include = null, params Expression<Func<T, object>>[] properties)
         {
             return DoSaveUpdatedWithOptimisticConcurrency(entity, writeError, true, update, include, properties).Result;
         }
 
-        public virtual Task<bool> SaveUpdatedWithOptimisticConcurrencyAsync(T entity, Action<string, string> writeError, bool update, bool? include = null, params Expression<Func<T, object>>[] properties)
+        public virtual Task<bool> SaveUpdatedWithOptimisticConcurrencyAsync(T entity, Action<string, string> writeError, bool update = true, bool? include = null, params Expression<Func<T, object>>[] properties)
         {
             return DoSaveUpdatedWithOptimisticConcurrency(entity, writeError, false, update, include, properties);
         }
@@ -152,6 +155,107 @@ namespace PDCoreNew.Repositories.Repo
             entry.Property(e => e.RowVersion).OriginalValue = dto.RowVersion;
 
             entry.CurrentValues.SetValues(dto);
+        }
+
+        public virtual Task<bool> SaveUpdatedWithOptimisticConcurrencyAsync(T entity, IDataAccessStrategy<T> savingStrategy, IPrincipal principal, Action<string, string> writeError)
+        {
+            savingStrategy.ThrowIfNull(nameof(savingStrategy));
+
+            Task<bool> result;
+
+            if (savingStrategy.CanUpdate(entity))
+            {
+                if (savingStrategy.CanUpdateAllProperties(entity))
+                {
+                    Update(entity);
+                }
+                else
+                {
+                    var properties = savingStrategy.GetPropertiesForUpdate(entity);
+
+                    UpdateWithIncludeOrExcludeProperties(entity, true, properties);
+                }
+
+                result = SaveUpdatedWithOptimisticConcurrencyAsync(entity, writeError, false);
+            }
+            else
+            {
+                writeError("", Resources.ErrorMessages.AccessDenied);
+
+                result = Task.FromResult(false);
+            }
+
+            return result;
+        }
+
+        public virtual async Task<TOutput> SaveUpdatedWithOptimisticConcurrencyAsync<TOutput>(IHasRowVersion source, T destination, IDataAccessStrategy<T> savingStrategy, IPrincipal principal, Action<string, string> writeError)
+        {
+            savingStrategy.ThrowIfNull(nameof(savingStrategy));
+
+            TOutput result = default;
+
+            if (savingStrategy.CanUpdate(destination))
+            {
+                if (savingStrategy.CanUpdateAllProperties(destination))
+                {
+                    mapper.Map(source, destination);
+                }
+                else
+                {
+                    var properties = savingStrategy.GetPropertiesForUpdate(destination);
+
+                    UpdateWithIncludeOrExcludeProperties(source, destination, true, properties);
+                }
+
+                bool success = await SaveUpdatedWithOptimisticConcurrencyAsync(destination, writeError, false);
+
+                if (success)
+                    result = mapper.Map<TOutput>(destination);
+            }
+            else
+            {
+                writeError("", Resources.ErrorMessages.AccessDenied);
+            }
+
+            return result;
+        }
+
+        public async Task<bool> SaveNewAsync<TInput>(TInput input, IDataAccessStrategy<T> savingStrategy, IPrincipal principal, params object[] args)
+        {
+            savingStrategy.ThrowIfNull(nameof(savingStrategy));
+
+            bool result = false;
+
+            if (savingStrategy.CanAdd(input, args))
+            {
+                savingStrategy.PrepareForAdd(input, args);
+
+                await SaveNewAsync(input);
+
+                result = true;
+            }
+
+            return result;
+        }
+
+        public virtual Task<bool> DeleteAndCommitWithOptimisticConcurrencyAsync(T entity, IDataAccessStrategy<T> savingStrategy, IPrincipal principal, Action<string, string> writeError)
+        {
+            savingStrategy.ThrowIfNull(nameof(savingStrategy));
+
+            Task<bool> result;
+
+            if (!savingStrategy.CanDelete(entity))
+            {
+                writeError("", Resources.ErrorMessages.AccessDenied);
+
+                result = Task.FromResult(false);
+            }
+            else
+            {
+                result = DeleteAndCommitWithOptimisticConcurrencyAsync(entity, writeError);
+            }
+
+            return result;
         }
     }
 }

@@ -75,6 +75,7 @@
     <Compile Include="Helpers\MultiLanguage\MultiLanguageController.cs" />
     <Compile Include="Helpers\MultiLanguage\MultiLanguageControllerActivator.cs" />
     <Compile Include="Helpers\WebOptimization\BundleTransform\LessTransform.cs" />
+    <Compile Include="Models\HttpContextPrinciple.cs" />
     <Compile Include="Models\JsonResultModel.cs" />
     <Compile Include="Models\UserDataModel.cs" />
     <Compile Include="MVVM\ViewModelBaseWeb.cs" />

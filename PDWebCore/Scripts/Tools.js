@@ -1307,8 +1307,8 @@ ko.bindingHandlers.fromISODateTime = {
     }
 };
 
-Object.prototype.flatten = function () {
-    return Object.keys(this).reduce(function (r, k) {
+function flatten(o) {
+    return Object.keys(o).reduce(function (r, k) {
         return r.concat(k, object[k]);
     }, []);
 }

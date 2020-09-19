@@ -129,6 +129,12 @@
   <data name="Budget" xml:space="preserve">
     <value>Budżet</value>
   </data>
+  <data name="Canceled" xml:space="preserve">
+    <value>Anulowane</value>
+  </data>
+  <data name="Clarify" xml:space="preserve">
+    <value>Do wyjaśnienia</value>
+  </data>
   <data name="Comment" xml:space="preserve">
     <value>Komentarz</value>
   </data>
@@ -168,6 +174,9 @@
   <data name="Employer" xml:space="preserve">
     <value>Pracodawca</value>
   </data>
+  <data name="Ended" xml:space="preserve">
+    <value>Zakończone</value>
+  </data>
   <data name="Error" xml:space="preserve">
     <value>Błąd</value>
   </data>
@@ -204,6 +213,9 @@
   <data name="Name" xml:space="preserve">
     <value>Nazwa</value>
   </data>
+  <data name="New" xml:space="preserve">
+    <value>Przyjęte</value>
+  </data>
   <data name="NIP" xml:space="preserve">
     <value>NIP</value>
   </data>
@@ -219,8 +231,14 @@
   <data name="Priority" xml:space="preserve">
     <value>Priorytet</value>
   </data>
+  <data name="Receipt" xml:space="preserve">
+    <value>Do odbioru</value>
+  </data>
   <data name="ReceiptDate" xml:space="preserve">
     <value>Data odbioru</value>
+  </data>
+  <data name="Rejected" xml:space="preserve">
+    <value>Odrzucone</value>
   </data>
   <data name="Representative" xml:space="preserve">
     <value>Przedstawiciel</value>

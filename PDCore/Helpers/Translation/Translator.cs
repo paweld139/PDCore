@@ -10,9 +10,9 @@ namespace PDCore.Helpers.Translation
 {
     public abstract class Translator
     {
-        protected abstract Dictionary<string, string> Sentences { get; }
+        protected abstract Dictionary<string, Func<string>> Sentences { get; }
 
-        protected abstract Dictionary<string, string> Words { get; }
+        protected abstract Dictionary<string, Func<string>> Words { get; }
 
 
         public bool CanTranslateSentence(string sentence)
@@ -72,7 +72,7 @@ namespace PDCore.Helpers.Translation
 
             if (result)
             {
-                word = Words[word];
+                word = Words[word]();
             }
 
             return result;
@@ -108,7 +108,7 @@ namespace PDCore.Helpers.Translation
 
             if (result)
             {
-                sentence = Sentences[sentence];
+                sentence = Sentences[sentence]();
             }
             else
             {
@@ -132,6 +132,13 @@ namespace PDCore.Helpers.Translation
             }
 
             return result;
+        }
+
+        public string TranslateSentence(string sentence, bool force = false)
+        {
+            TranslateSentence(ref sentence, force);
+
+            return sentence;
         }
 
         public bool TranslateSentences(IList<string> sentences)
