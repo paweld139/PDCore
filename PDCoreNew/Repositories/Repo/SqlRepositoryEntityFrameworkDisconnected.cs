@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CommonServiceLocator;
 using PDCore.Extensions;
 using PDCore.Interfaces;
 using PDCore.Models;
@@ -20,16 +21,32 @@ namespace PDCoreNew.Repositories.Repo
     public class SqlRepositoryEntityFrameworkDisconnected<T> :
         SqlRepositoryEntityFrameworkAsync<T>, ISqlRepositoryEntityFrameworkDisconnected<T> where T : class, IModificationHistory
     {
-        public SqlRepositoryEntityFrameworkDisconnected(IEntityFrameworkDbContext ctx, ILogger logger, IMapper mapper) : base(ctx, logger, mapper)
+        private readonly IDataAccessStrategy<T> dataAccessStrategy;
+
+        public SqlRepositoryEntityFrameworkDisconnected(IEntityFrameworkDbContext ctx,
+            ILogger logger,
+            IMapper mapper) : base(ctx, logger, mapper)
         {
+            dataAccessStrategy = ServiceLocator.Current.GetInstance<IDataAccessStrategy<T>>();
         }
 
+        public SqlRepositoryEntityFrameworkDisconnected(IEntityFrameworkDbContext ctx,
+            ILogger logger,
+            IMapper mapper,
+            IDataAccessStrategy<T> dataAccessStrategy) : base(ctx, logger, mapper)
+        {
+            this.dataAccessStrategy = dataAccessStrategy;
+        }
+
+        public override IQueryable<T> FindAll(bool asNoTracking)
+        {
+            return dataAccessStrategy?.PrepareQuery(base.FindAll(asNoTracking)) ?? base.FindAll(asNoTracking);
+        }
 
         public override IQueryable<T> FindAll()
         {
             return FindAll(true);
         }
-
 
         public virtual void SaveNew(T entity)
         {
@@ -157,8 +174,10 @@ namespace PDCoreNew.Repositories.Repo
             entry.CurrentValues.SetValues(dto);
         }
 
-        public virtual Task<bool> SaveUpdatedWithOptimisticConcurrencyAsync(T entity, IDataAccessStrategy<T> savingStrategy, IPrincipal principal, Action<string, string> writeError)
+        public virtual Task<bool> SaveUpdatedWithOptimisticConcurrencyAsync(T entity, IPrincipal principal, Action<string, string> writeError, IDataAccessStrategy<T> savingStrategy = default)
         {
+            savingStrategy = savingStrategy ?? dataAccessStrategy;
+
             savingStrategy.ThrowIfNull(nameof(savingStrategy));
 
             Task<bool> result;
@@ -188,8 +207,38 @@ namespace PDCoreNew.Repositories.Repo
             return result;
         }
 
-        public virtual async Task<TOutput> SaveUpdatedWithOptimisticConcurrencyAsync<TOutput>(IHasRowVersion source, T destination, IDataAccessStrategy<T> savingStrategy, IPrincipal principal, Action<string, string> writeError)
+        public virtual async Task<TOutput> SaveUpdatedWithOptimisticConcurrencyAsync<TOutput>(IHasRowVersion input, IPrincipal principal, Action<string, string> writeError, IDataAccessStrategy<T> savingStrategy = default)
         {
+            TOutput result = default;
+
+            var entity = mapper.Map<T>(input);
+
+            bool success = await SaveUpdatedWithOptimisticConcurrencyAsync(entity, principal, writeError, savingStrategy);
+
+            if (success)
+                result = mapper.Map<TOutput>(entity);
+
+            return result;
+        }
+
+        public virtual async Task<bool> SaveUpdatedWithOptimisticConcurrencyAsync(IHasRowVersion input, IPrincipal principal, Action<string, string> writeError, IDataAccessStrategy<T> savingStrategy = default)
+        {
+            bool result = false;
+
+            var entity = mapper.Map<T>(input);
+
+            result = await SaveUpdatedWithOptimisticConcurrencyAsync(entity, principal, writeError, savingStrategy);
+
+            if (result)
+                mapper.Map(entity, input);
+
+            return result;
+        }
+
+        public virtual async Task<TOutput> SaveUpdatedWithOptimisticConcurrencyAsync<TOutput>(IHasRowVersion source, T destination, IPrincipal principal, Action<string, string> writeError, IDataAccessStrategy<T> savingStrategy = default)
+        {
+            savingStrategy = savingStrategy ?? dataAccessStrategy;
+
             savingStrategy.ThrowIfNull(nameof(savingStrategy));
 
             TOutput result = default;
@@ -220,15 +269,19 @@ namespace PDCoreNew.Repositories.Repo
             return result;
         }
 
-        public async Task<bool> SaveNewAsync<TInput>(TInput input, IDataAccessStrategy<T> savingStrategy, IPrincipal principal, params object[] args)
+        public async Task<bool> SaveNewAsync<TInput>(TInput input, IPrincipal principal, IDataAccessStrategy<T> savingStrategy = default, params object[] args)
         {
+            savingStrategy = savingStrategy ?? dataAccessStrategy;
+
             savingStrategy.ThrowIfNull(nameof(savingStrategy));
 
             bool result = false;
 
-            if (savingStrategy.CanAdd(input, args))
+            args = args.Concat(input);
+
+            if (savingStrategy.CanAdd(args))
             {
-                savingStrategy.PrepareForAdd(input, args);
+                savingStrategy.PrepareForAdd(args);
 
                 await SaveNewAsync(input);
 
@@ -238,8 +291,10 @@ namespace PDCoreNew.Repositories.Repo
             return result;
         }
 
-        public virtual Task<bool> DeleteAndCommitWithOptimisticConcurrencyAsync(T entity, IDataAccessStrategy<T> savingStrategy, IPrincipal principal, Action<string, string> writeError)
+        public virtual Task<bool> DeleteAndCommitWithOptimisticConcurrencyAsync(T entity, IPrincipal principal, Action<string, string> writeError, IDataAccessStrategy<T> savingStrategy = default)
         {
+            savingStrategy = savingStrategy ?? dataAccessStrategy;
+
             savingStrategy.ThrowIfNull(nameof(savingStrategy));
 
             Task<bool> result;

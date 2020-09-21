@@ -43,7 +43,12 @@ namespace PDCoreNew.Helpers
 
         public TService GetInstance<TService>()
         {
-            return container.Resolve<TService>();
+            TService result = default;
+
+            if (container.IsRegistered<TService>())
+                result = container.Resolve<TService>();
+
+            return result;
         }
 
         public TService GetInstance<TService>(string key)

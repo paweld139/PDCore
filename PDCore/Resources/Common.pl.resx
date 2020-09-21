@@ -264,6 +264,12 @@
   <data name="Subject" xml:space="preserve">
     <value>Temat</value>
   </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Tag</value>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Tagi</value>
+  </data>
   <data name="Task" xml:space="preserve">
     <value>Zadanie</value>
   </data>

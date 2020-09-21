@@ -15,7 +15,7 @@ namespace PDCore.Repositories.IRepo
 
         Task SaveNewAsync<TInput>(TInput input);
 
-        Task<bool> SaveNewAsync<TInput>(TInput input, IDataAccessStrategy<T> savingStrategy, IPrincipal principal, params object[] args);
+        Task<bool> SaveNewAsync<TInput>(TInput input, IPrincipal principal, IDataAccessStrategy<T> savingStrategy = default, params object[] args);
 
 
         void SaveUpdated(T entity);
@@ -34,10 +34,21 @@ namespace PDCore.Repositories.IRepo
 
         Task DeleteAndCommitAsync(params object[] keyValues);
 
+
         void Update(T entity, IHasRowVersion dto);
 
-        Task<bool> SaveUpdatedWithOptimisticConcurrencyAsync(T entity, IDataAccessStrategy<T> savingStrategy, IPrincipal principal, Action<string, string> writeError);
 
-        Task<TOutput> SaveUpdatedWithOptimisticConcurrencyAsync<TOutput>(IHasRowVersion source, T destination, IDataAccessStrategy<T> savingStrategy, IPrincipal principal, Action<string, string> writeError);
+        Task<bool> DeleteAndCommitWithOptimisticConcurrencyAsync(T entity, IPrincipal principal, Action<string, string> writeError, IDataAccessStrategy<T> savingStrategy = default);
+
+
+        Task<bool> SaveUpdatedWithOptimisticConcurrencyAsync(T entity, IPrincipal principal, Action<string, string> writeError, IDataAccessStrategy<T> savingStrategy = default);
+
+
+        Task<bool> SaveUpdatedWithOptimisticConcurrencyAsync(IHasRowVersion input, IPrincipal principal, Action<string, string> writeError, IDataAccessStrategy<T> savingStrategy = default);
+
+        Task<TOutput> SaveUpdatedWithOptimisticConcurrencyAsync<TOutput>(IHasRowVersion input, IPrincipal principal, Action<string, string> writeError, IDataAccessStrategy<T> savingStrategy = default);
+
+
+        Task<TOutput> SaveUpdatedWithOptimisticConcurrencyAsync<TOutput>(IHasRowVersion source, T destination, IPrincipal principal, Action<string, string> writeError, IDataAccessStrategy<T> savingStrategy = default);
     }
 }

@@ -5,6 +5,7 @@ using PDCore.Repositories.IRepo;
 using System;
 using System.Collections.Generic;
 using AutoMapper;
+using CommonServiceLocator;
 
 namespace PDCoreNew.Factories.Fac.Repository
 {

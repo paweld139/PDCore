@@ -409,5 +409,53 @@ namespace PDCore.Extensions
         {
             return source.SelectMany(s => s.GetSentences());
         }
+
+        public static T[] Concat<T>(this T[] x, T[] y)
+        {
+            if (x == null)
+                throw new ArgumentNullException("x");
+
+            if (y == null)
+                throw new ArgumentNullException("y");
+
+            int oldLen = x.Length;
+
+            Array.Resize(ref x, x.Length + y.Length);
+            Array.Copy(y, 0, x, oldLen, y.Length);
+
+            return x;
+        }
+
+        public static T[] Concat<T>(this T[] x, T y)
+        {
+            if (x == null)
+                throw new ArgumentNullException("x");
+
+            if (y == null)
+                throw new ArgumentNullException("y");
+
+            int index = x.Push(y);
+
+            if (index == -1)
+            {
+                Array.Resize(ref x, x.Length + 1);
+
+                x = x.Concat(y);
+            }
+
+            return x;
+        }
+
+        public static int Push<T>(this T[] source, T value)
+        {
+            var index = Array.IndexOf(source, default);
+
+            if (index != -1)
+            {
+                source[index] = value;
+            }
+
+            return index;
+        }
     }
 }

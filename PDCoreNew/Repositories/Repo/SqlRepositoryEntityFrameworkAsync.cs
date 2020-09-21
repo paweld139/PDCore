@@ -24,7 +24,7 @@ namespace PDCoreNew.Repositories.Repo
 
         public virtual Task<T> FindByIdAsync(int id)
         {
-            return set.FindAsync(id);
+            return FindAll().SingleOrDefaultAsync(GetByIdPredicate(id));
         }
 
         public virtual Task<List<T>> GetByQueryAsync(string query)

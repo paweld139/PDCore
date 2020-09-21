@@ -16,7 +16,7 @@ namespace PDCore.Strategies
 
         public abstract bool CanDelete(TEntity entity);
 
-        public abstract IQueryable<TEntity> PrepareQuery(IQueryable<TEntity> entities);
+        public virtual IQueryable<TEntity> PrepareQuery(IQueryable<TEntity> entities) => entities;
 
         protected virtual bool NoRestrictions() => false;
     }
