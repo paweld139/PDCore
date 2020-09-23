@@ -88,6 +88,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error has occurred.
+        /// </summary>
+        public static string ErrorOccured {
+            get {
+                return ResourceManager.GetString("ErrorOccured", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while processing your request.
+        /// </summary>
+        public static string ErrorOccuredOnRequest {
+            get {
+                return ResourceManager.GetString("ErrorOccuredOnRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The license key provided is invalid.
         /// </summary>
         public static string LicenseKeyInvalid {

@@ -134,11 +134,25 @@ namespace PDCore.Helpers.Translation
             return result;
         }
 
+        public string TranslateWord(string word, bool force = false)
+        {
+            TranslateWord(ref word, force);
+
+            return word;
+        }
+
         public string TranslateSentence(string sentence, bool force = false)
         {
             TranslateSentence(ref sentence, force);
 
             return sentence;
+        }
+
+        public string TranslateText(string text)
+        {
+            TranslateText(ref text);
+
+            return text;
         }
 
         public bool TranslateSentences(IList<string> sentences)

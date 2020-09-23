@@ -138,8 +138,14 @@
   <data name="ChangePasswordForm" xml:space="preserve">
     <value>Change Password Form</value>
   </data>
+  <data name="CheckEmailToResetPassword" xml:space="preserve">
+    <value>Please check your e-mail to reset your password</value>
+  </data>
   <data name="Clarify" xml:space="preserve">
     <value>Clarify</value>
+  </data>
+  <data name="ClickToLogIn" xml:space="preserve">
+    <value>Click here to Log in</value>
   </data>
   <data name="Comment" xml:space="preserve">
     <value>Comment</value>
@@ -149,6 +155,18 @@
   </data>
   <data name="Completed" xml:space="preserve">
     <value>Completed</value>
+  </data>
+  <data name="ConfirmAccount" xml:space="preserve">
+    <value>Confirm your account</value>
+  </data>
+  <data name="ConfirmAccountInstruction" xml:space="preserve">
+    <value>Please confirm your account by clicking</value>
+  </data>
+  <data name="ConfirmEmail" xml:space="preserve">
+    <value>Confirmation of e-mail address</value>
+  </data>
+  <data name="ConfirmEmailFailed" xml:space="preserve">
+    <value>The confirmation of the e-mail address was unsuccessful</value>
   </data>
   <data name="ConfirmNewPassword" xml:space="preserve">
     <value>Confirm new password</value>
@@ -192,6 +210,12 @@
   <data name="Email" xml:space="preserve">
     <value>Email</value>
   </data>
+  <data name="EmailConfirmed" xml:space="preserve">
+    <value>Thank you for confirming your email</value>
+  </data>
+  <data name="EmailLink" xml:space="preserve">
+    <value>Email Link</value>
+  </data>
   <data name="Employee" xml:space="preserve">
     <value>Employee</value>
   </data>
@@ -200,6 +224,9 @@
   </data>
   <data name="Ended" xml:space="preserve">
     <value>Ended</value>
+  </data>
+  <data name="EnterEmail" xml:space="preserve">
+    <value>Enter your email</value>
   </data>
   <data name="Error" xml:space="preserve">
     <value>Error</value>
@@ -219,6 +246,12 @@
   <data name="FirstName" xml:space="preserve">
     <value>First name</value>
   </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Forgot your password?</value>
+  </data>
+  <data name="ForgotPasswordConfirmation" xml:space="preserve">
+    <value>Forgot Password Confirmation</value>
+  </data>
   <data name="Friends" xml:space="preserve">
     <value>Friends</value>
   </data>
@@ -230,6 +263,9 @@
   </data>
   <data name="Hello" xml:space="preserve">
     <value>Hello</value>
+  </data>
+  <data name="Here" xml:space="preserve">
+    <value>here</value>
   </data>
   <data name="High" xml:space="preserve">
     <value>High</value>
@@ -245,6 +281,15 @@
   </data>
   <data name="Internal" xml:space="preserve">
     <value>Internal</value>
+  </data>
+  <data name="InvalidLoginAttempt" xml:space="preserve">
+    <value>Invalid login attempt</value>
+  </data>
+  <data name="InvalidLoginData" xml:space="preserve">
+    <value>Invalid username or password</value>
+  </data>
+  <data name="InvalidToken" xml:space="preserve">
+    <value>Invalid token.</value>
   </data>
   <data name="LastName" xml:space="preserve">
     <value>Last name</value>
@@ -263,6 +308,9 @@
   </data>
   <data name="Low" xml:space="preserve">
     <value>Low</value>
+  </data>
+  <data name="MailUnconfirmed" xml:space="preserve">
+    <value>You must have a confirmed email to log on</value>
   </data>
   <data name="ManageAccount" xml:space="preserve">
     <value>Manage</value>
@@ -297,6 +345,15 @@
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
+  <data name="PasswordChanged" xml:space="preserve">
+    <value>Your password has been changed</value>
+  </data>
+  <data name="PasswordHasBeenReset" xml:space="preserve">
+    <value>Your password has been reset</value>
+  </data>
+  <data name="Please" xml:space="preserve">
+    <value>Please</value>
+  </data>
   <data name="Priority" xml:space="preserve">
     <value>Priority</value>
   </data>
@@ -316,7 +373,7 @@
     <value>Registration</value>
   </data>
   <data name="RegistrationSuccessful" xml:space="preserve">
-    <value>Registration was successful</value>
+    <value>Registration was successful. A confirmation message was sent to the e-mail address provided.</value>
   </data>
   <data name="Rejected" xml:space="preserve">
     <value>Rejected</value>
@@ -326,6 +383,21 @@
   </data>
   <data name="Representative" xml:space="preserve">
     <value>Representative</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="ResetPassword" xml:space="preserve">
+    <value>Reset Password</value>
+  </data>
+  <data name="ResetPasswordConfirmation" xml:space="preserve">
+    <value>Reset password confirmation</value>
+  </data>
+  <data name="ResetPasswordInstruction" xml:space="preserve">
+    <value>Please reset your password by clicking</value>
+  </data>
+  <data name="ResetYourPassword" xml:space="preserve">
+    <value>Reset your password</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>

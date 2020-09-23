@@ -126,6 +126,12 @@
   <data name="EmailInvalid" xml:space="preserve">
     <value>Adres e-mail jest nieprawidłowy</value>
   </data>
+  <data name="ErrorOccured" xml:space="preserve">
+    <value>Wystąpił błąd</value>
+  </data>
+  <data name="ErrorOccuredOnRequest" xml:space="preserve">
+    <value>Wystąpił błąd podczas przetwarzania żądania</value>
+  </data>
   <data name="LicenseKeyInvalid" xml:space="preserve">
     <value>Podany klucz licencyjny jest nieprawidłowy</value>
   </data>

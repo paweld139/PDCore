@@ -138,8 +138,14 @@
   <data name="ChangePasswordForm" xml:space="preserve">
     <value>Formularz zmiany hasła</value>
   </data>
+  <data name="CheckEmailToResetPassword" xml:space="preserve">
+    <value>Sprawdź skrzynkę mailową, aby zresetować hasło</value>
+  </data>
   <data name="Clarify" xml:space="preserve">
     <value>Do wyjaśnienia</value>
+  </data>
+  <data name="ClickToLogIn" xml:space="preserve">
+    <value>Kliknij tutaj aby się zalogować</value>
   </data>
   <data name="Comment" xml:space="preserve">
     <value>Komentarz</value>
@@ -149,6 +155,18 @@
   </data>
   <data name="Completed" xml:space="preserve">
     <value>Zakończ</value>
+  </data>
+  <data name="ConfirmAccount" xml:space="preserve">
+    <value>Potwierdź swoje konto</value>
+  </data>
+  <data name="ConfirmAccountInstruction" xml:space="preserve">
+    <value>Potwierdź swoje konto klikając</value>
+  </data>
+  <data name="ConfirmEmail" xml:space="preserve">
+    <value>Potwierdzenie adresu e-mail</value>
+  </data>
+  <data name="ConfirmEmailFailed" xml:space="preserve">
+    <value>Potwierdzenie adresu e-mail zakończyło się niepowodzeniem</value>
   </data>
   <data name="ConfirmNewPassword" xml:space="preserve">
     <value>Potwierdzenie nowego hasła</value>
@@ -192,6 +210,12 @@
   <data name="Email" xml:space="preserve">
     <value>Email</value>
   </data>
+  <data name="EmailConfirmed" xml:space="preserve">
+    <value>Adres e-mail został pomyślnie potwierdzony</value>
+  </data>
+  <data name="EmailLink" xml:space="preserve">
+    <value>Wyślij link</value>
+  </data>
   <data name="Employee" xml:space="preserve">
     <value>Pracownik</value>
   </data>
@@ -200,6 +224,9 @@
   </data>
   <data name="Ended" xml:space="preserve">
     <value>Zakończone</value>
+  </data>
+  <data name="EnterEmail" xml:space="preserve">
+    <value>Wprowadź swój email</value>
   </data>
   <data name="Error" xml:space="preserve">
     <value>Błąd</value>
@@ -219,6 +246,12 @@
   <data name="FirstName" xml:space="preserve">
     <value>Imię</value>
   </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Nie pamiętasz hasła?</value>
+  </data>
+  <data name="ForgotPasswordConfirmation" xml:space="preserve">
+    <value>Link do resetu hasła został wysłany</value>
+  </data>
   <data name="Friends" xml:space="preserve">
     <value>Znajomi</value>
   </data>
@@ -230,6 +263,9 @@
   </data>
   <data name="Hello" xml:space="preserve">
     <value>Witaj</value>
+  </data>
+  <data name="Here" xml:space="preserve">
+    <value>tutaj</value>
   </data>
   <data name="High" xml:space="preserve">
     <value>Wysoki</value>
@@ -245,6 +281,15 @@
   </data>
   <data name="Internal" xml:space="preserve">
     <value>Wewnętrzne</value>
+  </data>
+  <data name="InvalidLoginAttempt" xml:space="preserve">
+    <value>Próba logowania zakończyła się niepowodzeniem</value>
+  </data>
+  <data name="InvalidLoginData" xml:space="preserve">
+    <value>Nieprawidłowa nazwa użytkownika lub hasło</value>
+  </data>
+  <data name="InvalidToken" xml:space="preserve">
+    <value>Nieprawidłowy token.</value>
   </data>
   <data name="LastName" xml:space="preserve">
     <value>Nazwisko</value>
@@ -263,6 +308,9 @@
   </data>
   <data name="Low" xml:space="preserve">
     <value>Niski</value>
+  </data>
+  <data name="MailUnconfirmed" xml:space="preserve">
+    <value>Aby się zalogować, musisz mieć potwierdzony adres e-mail</value>
   </data>
   <data name="ManageAccount" xml:space="preserve">
     <value>Zarządzaj kontem</value>
@@ -297,6 +345,15 @@
   <data name="Password" xml:space="preserve">
     <value>Hasło</value>
   </data>
+  <data name="PasswordChanged" xml:space="preserve">
+    <value>Twoje hasło zostało zmienione</value>
+  </data>
+  <data name="PasswordHasBeenReset" xml:space="preserve">
+    <value>Twoje hasło zostało zresetowane</value>
+  </data>
+  <data name="Please" xml:space="preserve">
+    <value>Proszę</value>
+  </data>
   <data name="Priority" xml:space="preserve">
     <value>Priorytet</value>
   </data>
@@ -316,7 +373,7 @@
     <value>Rejestracja</value>
   </data>
   <data name="RegistrationSuccessful" xml:space="preserve">
-    <value>Rejestracja przebiegła pomyślnie</value>
+    <value>Rejestracja przebiegła pomyślnie. Na podany adres e-mail została wysłana wiadomość z potwierdzeniem.</value>
   </data>
   <data name="Rejected" xml:space="preserve">
     <value>Odrzucone</value>
@@ -326,6 +383,21 @@
   </data>
   <data name="Representative" xml:space="preserve">
     <value>Przedstawiciel</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Zresetuj</value>
+  </data>
+  <data name="ResetPassword" xml:space="preserve">
+    <value>Reset hasła</value>
+  </data>
+  <data name="ResetPasswordConfirmation" xml:space="preserve">
+    <value>Potwierdzenie zresetowania hasła</value>
+  </data>
+  <data name="ResetPasswordInstruction" xml:space="preserve">
+    <value>Zresetuj swoje hasło klikając</value>
+  </data>
+  <data name="ResetYourPassword" xml:space="preserve">
+    <value>Zresetuj swoje hasło</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Zapisz</value>
