@@ -55,27 +55,93 @@ namespace PDWebCore
             return mimeType;
         }
 
-        public static void ToggleWebEncrypt(string sectionName = "connectionStrings")
+        public static Configuration GetConfiguration() => WebConfigurationManager.OpenWebConfiguration("~");
+
+
+        public static bool ToggleWebEncrypt(string sectionName = "connectionStrings")
+        {
+            bool result = true;
+
+            bool canEncrypt = WebEncrypt(sectionName);
+
+            if(!canEncrypt)
+            {
+                WebDecrypt(sectionName);
+
+                result = false;
+            }
+
+            return result;
+        }
+
+
+        public static bool WebEncrypt(string sectionName = "connectionStrings")
         {
             // Open the Web.config file.
-            Configuration config = WebConfigurationManager.OpenWebConfiguration("~");
+            Configuration config = GetConfiguration();
 
-            // Get the connectionStrings section.
+            return WebEncrypt(config, sectionName);
+        }
+
+        public static bool WebDecrypt(string sectionName = "connectionStrings")
+        {
+            // Open the Web.config file.
+            Configuration config = GetConfiguration();
+
+            return WebDecrypt(config, sectionName);
+        }
+
+
+        public static bool WebEncrypt(Configuration config, string sectionName = "connectionStrings")
+        {
             ConfigurationSection section = config.GetSection(sectionName);
 
-            // Toggle encryption.
-            if (section.SectionInformation.IsProtected)
-            {
-                section.SectionInformation.UnprotectSection();
-            }
-            else
+            return WebEncrypt(config, section);
+        }
+
+        public static bool WebDecrypt(Configuration config, string sectionName = "connectionStrings")
+        {
+            ConfigurationSection section = config.GetSection(sectionName);
+
+            return WebDecrypt(config, section);
+        }
+
+
+        public static bool WebEncrypt(Configuration config, ConfigurationSection section)
+        {
+            bool result = false;
+
+            if (!section.SectionInformation.IsProtected)
             {
                 section.SectionInformation.ProtectSection("DataProtectionConfigurationProvider");
+
+                // Save changes to the Web.config file.
+                config.Save();
+
+                result = true;
             }
 
-            // Save changes to the Web.config file.
-            config.Save();
+            return result;
         }
+
+        public static bool WebDecrypt(Configuration config, ConfigurationSection section)
+        {
+            bool result = false;
+
+            if (section.SectionInformation.IsProtected)
+            {
+
+                section.SectionInformation.UnprotectSection();
+
+                // Save changes to the Web.config file.
+                config.Save();
+
+                result = true;
+            }
+
+            return result;
+        }
+
 
         /// <summary>
         /// Render scripts as deferred
