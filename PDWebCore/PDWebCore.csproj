@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\MVC\FromJson.cs" />
+    <Compile Include="Mock\ContextUtil.cs" />
     <Compile Include="Context\IContext\IHasUserDataDbSet.cs" />
     <Compile Include="Context\IContext\IMainWebDbContext.cs" />
     <Compile Include="Context\MainWebDbContext.cs" />
@@ -182,6 +183,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.AspNet.WebApi.WebHost">
       <Version>5.2.7</Version>
+    </PackageReference>
+    <PackageReference Include="Moq">
+      <Version>4.14.5</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.3</Version>

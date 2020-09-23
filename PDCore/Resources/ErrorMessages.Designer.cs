@@ -70,6 +70,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The {1} and {0} do not match.
+        /// </summary>
+        public static string Compare {
+            get {
+                return ResourceManager.GetString("Compare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to E-mail address is invalid.
         /// </summary>
         public static string EmailInvalid {
@@ -88,7 +97,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} must be less than {1} characters.
+        ///   Looks up a localized string similar to {0} cannot be longer than {1} characters.
         /// </summary>
         public static string MaxLength {
             get {
@@ -97,7 +106,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} must be greater than {1} characters.
+        ///   Looks up a localized string similar to {0} must be at least {1} characters long.
         /// </summary>
         public static string MinLength {
             get {
@@ -115,7 +124,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} must be {1} characters.
+        ///   Looks up a localized string similar to {0} must be {1} characters long.
         /// </summary>
         public static string StringLength_Equal {
             get {
@@ -124,7 +133,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} must be greater than {2} characters.
+        ///   Looks up a localized string similar to {0} must be at least {2} characters long.
         /// </summary>
         public static string StringLength_Greater {
             get {
@@ -133,7 +142,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} must be greater than {2} characters and less than {1} characters.
+        ///   Looks up a localized string similar to {0} must be at least {2} and cannot be longer than {1} characters long.
         /// </summary>
         public static string StringLength_GreaterAndLess {
             get {
@@ -142,7 +151,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} must be less than {1} characters.
+        ///   Looks up a localized string similar to {0} cannot be longer than {1} characters.
         /// </summary>
         public static string StringLength_Less {
             get {

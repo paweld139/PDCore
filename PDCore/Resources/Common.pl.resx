@@ -132,14 +132,29 @@
   <data name="Canceled" xml:space="preserve">
     <value>Anulowane</value>
   </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Zmień hasło</value>
+  </data>
+  <data name="ChangePasswordForm" xml:space="preserve">
+    <value>Formularz zmiany hasła</value>
+  </data>
   <data name="Clarify" xml:space="preserve">
     <value>Do wyjaśnienia</value>
   </data>
   <data name="Comment" xml:space="preserve">
     <value>Komentarz</value>
   </data>
+  <data name="Commercial" xml:space="preserve">
+    <value>Handlowe</value>
+  </data>
   <data name="Completed" xml:space="preserve">
     <value>Zakończ</value>
+  </data>
+  <data name="ConfirmNewPassword" xml:space="preserve">
+    <value>Potwierdzenie nowego hasła</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Potwierdzenie hasła</value>
   </data>
   <data name="Content" xml:space="preserve">
     <value>Zawartość</value>
@@ -147,8 +162,17 @@
   <data name="Contractor" xml:space="preserve">
     <value>Kontrahent</value>
   </data>
+  <data name="Create" xml:space="preserve">
+    <value>Utwórz</value>
+  </data>
+  <data name="CreateAccount" xml:space="preserve">
+    <value>Utwórz nowe konto</value>
+  </data>
   <data name="CreateDate" xml:space="preserve">
     <value>Data utworzenia</value>
+  </data>
+  <data name="CurrentPassword" xml:space="preserve">
+    <value>Obecne hasło</value>
   </data>
   <data name="DateModified" xml:space="preserve">
     <value>Data modyfikacji</value>
@@ -198,11 +222,29 @@
   <data name="Friends" xml:space="preserve">
     <value>Znajomi</value>
   </data>
+  <data name="FromValuation" xml:space="preserve">
+    <value>Z wyceny</value>
+  </data>
   <data name="FullName" xml:space="preserve">
     <value>Imię i nazwisko</value>
   </data>
+  <data name="Hello" xml:space="preserve">
+    <value>Witaj</value>
+  </data>
+  <data name="High" xml:space="preserve">
+    <value>Wysoki</value>
+  </data>
+  <data name="Hometown" xml:space="preserve">
+    <value>Miasto rodzinne</value>
+  </data>
   <data name="Id" xml:space="preserve">
     <value>Identyfikator</value>
+  </data>
+  <data name="Indefinite" xml:space="preserve">
+    <value>Nieokreślony</value>
+  </data>
+  <data name="Internal" xml:space="preserve">
+    <value>Wewnętrzne</value>
   </data>
   <data name="LastName" xml:space="preserve">
     <value>Nazwisko</value>
@@ -210,11 +252,35 @@
   <data name="LicenseKey" xml:space="preserve">
     <value>Klucz licencyjny</value>
   </data>
+  <data name="LoggingIn" xml:space="preserve">
+    <value>Logowanie</value>
+  </data>
+  <data name="LogIn" xml:space="preserve">
+    <value>Zaloguj się</value>
+  </data>
+  <data name="LogOff" xml:space="preserve">
+    <value>Wyloguj się</value>
+  </data>
+  <data name="Low" xml:space="preserve">
+    <value>Niski</value>
+  </data>
+  <data name="ManageAccount" xml:space="preserve">
+    <value>Zarządzaj kontem</value>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Średni</value>
+  </data>
+  <data name="ModifyAccount" xml:space="preserve">
+    <value>Zmień ustawienia konta</value>
+  </data>
   <data name="Name" xml:space="preserve">
     <value>Nazwa</value>
   </data>
   <data name="New" xml:space="preserve">
     <value>Przyjęte</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>Nowe hasło</value>
   </data>
   <data name="NIP" xml:space="preserve">
     <value>NIP</value>
@@ -228,6 +294,9 @@
   <data name="Operator" xml:space="preserve">
     <value>Wykonujący</value>
   </data>
+  <data name="Password" xml:space="preserve">
+    <value>Hasło</value>
+  </data>
   <data name="Priority" xml:space="preserve">
     <value>Priorytet</value>
   </data>
@@ -237,8 +306,23 @@
   <data name="ReceiptDate" xml:space="preserve">
     <value>Data odbioru</value>
   </data>
+  <data name="Register" xml:space="preserve">
+    <value>Zarejestruj się</value>
+  </data>
+  <data name="RegisterAsNew" xml:space="preserve">
+    <value>Zarejestruj się jako nowy użytkownik</value>
+  </data>
+  <data name="Registration" xml:space="preserve">
+    <value>Rejestracja</value>
+  </data>
+  <data name="RegistrationSuccessful" xml:space="preserve">
+    <value>Rejestracja przebiegła pomyślnie</value>
+  </data>
   <data name="Rejected" xml:space="preserve">
     <value>Odrzucone</value>
+  </data>
+  <data name="RememberMe" xml:space="preserve">
+    <value>Pamiętaj mnie</value>
   </data>
   <data name="Representative" xml:space="preserve">
     <value>Przedstawiciel</value>
@@ -257,6 +341,9 @@
   </data>
   <data name="ServerReceivedData" xml:space="preserve">
     <value>Serwer otrzymał dane</value>
+  </data>
+  <data name="Service" xml:space="preserve">
+    <value>Serwis</value>
   </data>
   <data name="Status" xml:space="preserve">
     <value>Status</value>
@@ -278,6 +365,12 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>Typ</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Nieznany</value>
+  </data>
+  <data name="Unselected" xml:space="preserve">
+    <value>Nie wybrano</value>
   </data>
   <data name="User" xml:space="preserve">
     <value>Użytkownik</value>

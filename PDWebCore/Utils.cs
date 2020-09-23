@@ -36,11 +36,11 @@ namespace PDWebCore
             return context.Request.ServerVariables["REMOTE_ADDR"];
         }
 
-        public static SelectList GetSelectList(List<KeyValuePair<int, string>> kvp, bool withCaption = true)
+        public static SelectList GetSelectList(IList<KeyValuePair<int, string>> kvp, bool withCaption = true)
         {
             if (withCaption)
             {
-                kvp.Insert(0, new KeyValuePair<int, string>(-1, "Wybierz..."));
+                kvp.Insert(0, new KeyValuePair<int, string>(-1, Resources.Common.Unselected));
             }
 
             SelectList res = new SelectList(kvp, "Key", "Value");

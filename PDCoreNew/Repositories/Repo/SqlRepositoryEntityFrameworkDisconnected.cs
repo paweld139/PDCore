@@ -279,7 +279,9 @@ namespace PDCoreNew.Repositories.Repo
 
             args = args.Concat(input);
 
-            if (savingStrategy.CanAdd(args))
+            bool canAdd = await savingStrategy.CanAdd(args);
+
+            if (canAdd)
             {
                 savingStrategy.PrepareForAdd(args);
 

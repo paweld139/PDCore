@@ -200,5 +200,10 @@ namespace PDWebCore
             // if there is no offset in session return the datetime in server timezone
             return dt.ToLocalTime().ToString();
         }
+
+        public static SelectList ToSelectList(this IList<KeyValuePair<int, string>> kvp, bool withCaption = true)
+        {
+            return Utils.GetSelectList(kvp, withCaption);
+        }
     }
 }

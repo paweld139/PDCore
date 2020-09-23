@@ -135,6 +135,7 @@ namespace PDCore.Utils
 
             return Guid.NewGuid().ToString("N").Substring(0, length).ToUpper();
         }
+        public static string GetGuid() => Guid.NewGuid().ToString();
 
         public static List<string> GetUniqueCode(int NumberOfResults, int GuidLength)
         {

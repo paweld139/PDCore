@@ -115,9 +115,9 @@ namespace PDCoreNew.Extensions
             return task.WithRetry<TResult, Exception>();
         }
 
-        public static List<string> GetRoles(this IIdentity identity)
+        public static IEnumerable<string> GetRoles(this IIdentity identity)
         {
-            return ((ClaimsIdentity)identity).Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToList();
+            return ((ClaimsIdentity)identity).Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value);
         }
 
         public static string GetContrahentId(this IIdentity identity)

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PDCore.Interfaces
 {
@@ -15,7 +16,7 @@ namespace PDCore.Interfaces
         bool CanDelete(TEntity entity);
 
 
-        bool CanAdd(params object[] args);
+        Task<bool> CanAdd(params object[] args);
 
         void PrepareForAdd(params object[] args);
 

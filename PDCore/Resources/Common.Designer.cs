@@ -106,6 +106,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change your password.
+        /// </summary>
+        public static string ChangePassword {
+            get {
+                return ResourceManager.GetString("ChangePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change Password Form.
+        /// </summary>
+        public static string ChangePasswordForm {
+            get {
+                return ResourceManager.GetString("ChangePasswordForm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clarify.
         /// </summary>
         public static string Clarify {
@@ -124,11 +142,38 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Commercial.
+        /// </summary>
+        public static string Commercial {
+            get {
+                return ResourceManager.GetString("Commercial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Completed.
         /// </summary>
         public static string Completed {
             get {
                 return ResourceManager.GetString("Completed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm new password.
+        /// </summary>
+        public static string ConfirmNewPassword {
+            get {
+                return ResourceManager.GetString("ConfirmNewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm password.
+        /// </summary>
+        public static string ConfirmPassword {
+            get {
+                return ResourceManager.GetString("ConfirmPassword", resourceCulture);
             }
         }
         
@@ -151,11 +196,38 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create.
+        /// </summary>
+        public static string Create {
+            get {
+                return ResourceManager.GetString("Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create a new account.
+        /// </summary>
+        public static string CreateAccount {
+            get {
+                return ResourceManager.GetString("CreateAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create date.
         /// </summary>
         public static string CreateDate {
             get {
                 return ResourceManager.GetString("CreateDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current password.
+        /// </summary>
+        public static string CurrentPassword {
+            get {
+                return ResourceManager.GetString("CurrentPassword", resourceCulture);
             }
         }
         
@@ -304,6 +376,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to From valuation.
+        /// </summary>
+        public static string FromValuation {
+            get {
+                return ResourceManager.GetString("FromValuation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Full name.
         /// </summary>
         public static string FullName {
@@ -313,11 +394,56 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hello.
+        /// </summary>
+        public static string Hello {
+            get {
+                return ResourceManager.GetString("Hello", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to High.
+        /// </summary>
+        public static string High {
+            get {
+                return ResourceManager.GetString("High", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hometown.
+        /// </summary>
+        public static string Hometown {
+            get {
+                return ResourceManager.GetString("Hometown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Id.
         /// </summary>
         public static string Id {
             get {
                 return ResourceManager.GetString("Id", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Indefinite.
+        /// </summary>
+        public static string Indefinite {
+            get {
+                return ResourceManager.GetString("Indefinite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Internal.
+        /// </summary>
+        public static string Internal {
+            get {
+                return ResourceManager.GetString("Internal", resourceCulture);
             }
         }
         
@@ -340,6 +466,69 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Logging in.
+        /// </summary>
+        public static string LoggingIn {
+            get {
+                return ResourceManager.GetString("LoggingIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log in.
+        /// </summary>
+        public static string LogIn {
+            get {
+                return ResourceManager.GetString("LogIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log off.
+        /// </summary>
+        public static string LogOff {
+            get {
+                return ResourceManager.GetString("LogOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Low.
+        /// </summary>
+        public static string Low {
+            get {
+                return ResourceManager.GetString("Low", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage.
+        /// </summary>
+        public static string ManageAccount {
+            get {
+                return ResourceManager.GetString("ManageAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Medium.
+        /// </summary>
+        public static string Medium {
+            get {
+                return ResourceManager.GetString("Medium", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change your account settings.
+        /// </summary>
+        public static string ModifyAccount {
+            get {
+                return ResourceManager.GetString("ModifyAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string Name {
@@ -354,6 +543,15 @@ namespace Resources {
         public static string New {
             get {
                 return ResourceManager.GetString("New", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New password.
+        /// </summary>
+        public static string NewPassword {
+            get {
+                return ResourceManager.GetString("NewPassword", resourceCulture);
             }
         }
         
@@ -394,6 +592,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        public static string Password {
+            get {
+                return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Priority.
         /// </summary>
         public static string Priority {
@@ -421,11 +628,56 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Register.
+        /// </summary>
+        public static string Register {
+            get {
+                return ResourceManager.GetString("Register", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Register as a new user.
+        /// </summary>
+        public static string RegisterAsNew {
+            get {
+                return ResourceManager.GetString("RegisterAsNew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registration.
+        /// </summary>
+        public static string Registration {
+            get {
+                return ResourceManager.GetString("Registration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registration was successful.
+        /// </summary>
+        public static string RegistrationSuccessful {
+            get {
+                return ResourceManager.GetString("RegistrationSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rejected.
         /// </summary>
         public static string Rejected {
             get {
                 return ResourceManager.GetString("Rejected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remember me?.
+        /// </summary>
+        public static string RememberMe {
+            get {
+                return ResourceManager.GetString("RememberMe", resourceCulture);
             }
         }
         
@@ -480,6 +732,15 @@ namespace Resources {
         public static string ServerReceivedData {
             get {
                 return ResourceManager.GetString("ServerReceivedData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Service.
+        /// </summary>
+        public static string Service {
+            get {
+                return ResourceManager.GetString("Service", resourceCulture);
             }
         }
         
@@ -543,6 +804,24 @@ namespace Resources {
         public static string Type {
             get {
                 return ResourceManager.GetString("Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown.
+        /// </summary>
+        public static string Unknown {
+            get {
+                return ResourceManager.GetString("Unknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unselected.
+        /// </summary>
+        public static string Unselected {
+            get {
+                return ResourceManager.GetString("Unselected", resourceCulture);
             }
         }
         

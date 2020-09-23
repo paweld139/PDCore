@@ -132,14 +132,29 @@
   <data name="Canceled" xml:space="preserve">
     <value>Canceled</value>
   </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Change your password</value>
+  </data>
+  <data name="ChangePasswordForm" xml:space="preserve">
+    <value>Change Password Form</value>
+  </data>
   <data name="Clarify" xml:space="preserve">
     <value>Clarify</value>
   </data>
   <data name="Comment" xml:space="preserve">
     <value>Comment</value>
   </data>
+  <data name="Commercial" xml:space="preserve">
+    <value>Commercial</value>
+  </data>
   <data name="Completed" xml:space="preserve">
     <value>Completed</value>
+  </data>
+  <data name="ConfirmNewPassword" xml:space="preserve">
+    <value>Confirm new password</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Confirm password</value>
   </data>
   <data name="Content" xml:space="preserve">
     <value>Content</value>
@@ -147,8 +162,17 @@
   <data name="Contractor" xml:space="preserve">
     <value>Contractor</value>
   </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="CreateAccount" xml:space="preserve">
+    <value>Create a new account</value>
+  </data>
   <data name="CreateDate" xml:space="preserve">
     <value>Create date</value>
+  </data>
+  <data name="CurrentPassword" xml:space="preserve">
+    <value>Current password</value>
   </data>
   <data name="DateModified" xml:space="preserve">
     <value>Date modified</value>
@@ -198,11 +222,29 @@
   <data name="Friends" xml:space="preserve">
     <value>Friends</value>
   </data>
+  <data name="FromValuation" xml:space="preserve">
+    <value>From valuation</value>
+  </data>
   <data name="FullName" xml:space="preserve">
     <value>Full name</value>
   </data>
+  <data name="Hello" xml:space="preserve">
+    <value>Hello</value>
+  </data>
+  <data name="High" xml:space="preserve">
+    <value>High</value>
+  </data>
+  <data name="Hometown" xml:space="preserve">
+    <value>Hometown</value>
+  </data>
   <data name="Id" xml:space="preserve">
     <value>Id</value>
+  </data>
+  <data name="Indefinite" xml:space="preserve">
+    <value>Indefinite</value>
+  </data>
+  <data name="Internal" xml:space="preserve">
+    <value>Internal</value>
   </data>
   <data name="LastName" xml:space="preserve">
     <value>Last name</value>
@@ -210,11 +252,35 @@
   <data name="LicenseKey" xml:space="preserve">
     <value>License key</value>
   </data>
+  <data name="LoggingIn" xml:space="preserve">
+    <value>Logging in</value>
+  </data>
+  <data name="LogIn" xml:space="preserve">
+    <value>Log in</value>
+  </data>
+  <data name="LogOff" xml:space="preserve">
+    <value>Log off</value>
+  </data>
+  <data name="Low" xml:space="preserve">
+    <value>Low</value>
+  </data>
+  <data name="ManageAccount" xml:space="preserve">
+    <value>Manage</value>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Medium</value>
+  </data>
+  <data name="ModifyAccount" xml:space="preserve">
+    <value>Change your account settings</value>
+  </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
   <data name="New" xml:space="preserve">
     <value>New</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>New password</value>
   </data>
   <data name="NIP" xml:space="preserve">
     <value>NIP</value>
@@ -228,6 +294,9 @@
   <data name="Operator" xml:space="preserve">
     <value>Operator</value>
   </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
   <data name="Priority" xml:space="preserve">
     <value>Priority</value>
   </data>
@@ -237,8 +306,23 @@
   <data name="ReceiptDate" xml:space="preserve">
     <value>Receipt date</value>
   </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="RegisterAsNew" xml:space="preserve">
+    <value>Register as a new user</value>
+  </data>
+  <data name="Registration" xml:space="preserve">
+    <value>Registration</value>
+  </data>
+  <data name="RegistrationSuccessful" xml:space="preserve">
+    <value>Registration was successful</value>
+  </data>
   <data name="Rejected" xml:space="preserve">
     <value>Rejected</value>
+  </data>
+  <data name="RememberMe" xml:space="preserve">
+    <value>Remember me?</value>
   </data>
   <data name="Representative" xml:space="preserve">
     <value>Representative</value>
@@ -257,6 +341,9 @@
   </data>
   <data name="ServerReceivedData" xml:space="preserve">
     <value>The server received the data</value>
+  </data>
+  <data name="Service" xml:space="preserve">
+    <value>Service</value>
   </data>
   <data name="Status" xml:space="preserve">
     <value>Status</value>
@@ -278,6 +365,12 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>Type</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="Unselected" xml:space="preserve">
+    <value>Unselected</value>
   </data>
   <data name="User" xml:space="preserve">
     <value>User</value>
