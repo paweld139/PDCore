@@ -14,7 +14,7 @@ namespace PDWebCore.Helpers.MultiLanguage
     {
         public static readonly List<Language> AvailableLanguages = new List<Language>
         {
-            new Language("English", "en"),
+            new Language("English", "en", "us"),
             new Language("Polski", "pl"),
         };
 

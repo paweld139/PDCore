@@ -132,6 +132,9 @@
   <data name="ErrorOccuredOnRequest" xml:space="preserve">
     <value>Wystąpił błąd podczas przetwarzania żądania</value>
   </data>
+  <data name="InternalServerError" xml:space="preserve">
+    <value>wewnętrzny błąd serwera</value>
+  </data>
   <data name="LicenseKeyInvalid" xml:space="preserve">
     <value>Podany klucz licencyjny jest nieprawidłowy</value>
   </data>
@@ -143,6 +146,9 @@
   </data>
   <data name="Required" xml:space="preserve">
     <value>Pole {0} jest obowiązkowe</value>
+  </data>
+  <data name="ResourceNotFound" xml:space="preserve">
+    <value>zasób nie został odnaleziony</value>
   </data>
   <data name="StringLength_Equal" xml:space="preserve">
     <value>{0} musi mieć {1} znaków</value>

@@ -1,6 +1,4 @@
-﻿/// <reference path="~/Scripts/_references.js"/>
-
-(function ($) {
+﻿(function ($) {
     $.fn.panel = function (options) {
         var settings = $.extend({}, $.fn.panel.defaults, options);
 
@@ -9,7 +7,7 @@
         $(this).attr("class", "panel-" + settings.type);
 
 
-        if (ph.find("span.glyphicon-chevron-up").length) {
+        if (ph.find("span.fa-chevron-up").length) {
             $(this).addClass("panel");
         }
 
@@ -17,19 +15,19 @@
 
         ph.click(function () {
             pb = $(this).next();
-            ps = $(this).find("span.glyphicon:eq(0)");
+            ps = $(this).find("span.fa:eq(0)");
 
             if (pb.is(":visible")) {
                 pb.slideUp('slow');
 
                 $(this).parent().attr('class', 'panel-' + settings.type);
-                ps.attr('class', 'glyphicon glyphicon-chevron-down');
+                ps.attr('class', 'fa fa-chevron-down');
             }
             else {
                 pb.slideDown('slow');
 
                 $(this).parent().attr('class', 'panel panel-' + settings.type);
-                ps.attr('class', 'glyphicon glyphicon-chevron-up');
+                ps.attr('class', 'fa fa-chevron-up');
             }
         });
     }

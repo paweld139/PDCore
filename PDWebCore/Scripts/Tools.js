@@ -4,19 +4,30 @@
     if (typeof addToTitle === "undefined") addToTitle = false;
     if (typeof elementToAdd === "undefined") elementToAdd = null;
     if (typeof (position) === "undefined") position = 'right';
+    if (IsUndefined(text)) text = $(hintButton).text();
 
-    $(hintButton).addClass('helper').append($('<span>').addClass('glyphicon glyphicon-question-sign'));
+    if (!$(hintButton).hasClass("helper")) {
+        $(hintButton).addClass('helper').append($('<span>').addClass('fa fa-question-circle ml-2'));
 
-    if (addToTitle) {
-        $('.title').append(hintButton);
-    }
+        if (addToTitle) {
+            $('.title').append(hintButton);
+        }
 
-    if (elementToAdd != null) {
-        $(elementToAdd).append(hintButton);
+        if (!IsUndefinedOrNull(elementToAdd)) {
+            $(elementToAdd).append(hintButton);
+        }
     }
 
     tooltip.info($(hintButton).get(0), text, position);
 }
+
+function Tag(tag, content) {
+    var element = '<' + tag + '>' + content + '</' + tag + '>';
+    return element;
+}
+
+const br = '<br />'
+
 
 function Round(n, k) {
     var factor = Math.pow(10, k);
@@ -77,6 +88,11 @@ function arrayExist(array, predicate, predicateOwner) {
     return result;
 }
 
+Date.prototype.addSeconds = function (s) {
+    this.setSeconds(this.getSeconds() + s);
+    return this;
+}
+
 Date.prototype.addHours = function (h) {
     this.setTime(this.getTime() + (h * 60 * 60 * 1000));
     return this;
@@ -95,6 +111,12 @@ Date.prototype.toDate = function () {
 Date.prototype.addDays = function (days) {
     var date = new Date(this.valueOf());
     date.setDate(date.getDate() + days);
+    return date;
+}
+
+Date.prototype.addMonths = function (months) {
+    var date = new Date(this.valueOf());
+    date.setMonth(date.getMonth() + months);
     return date;
 }
 
@@ -324,10 +346,10 @@ function IsError(requestT, data) {
  */
 function ActivateFolder(element, withDrop) {
     if (withDrop) {
-        var folders = $(".folder:visible");
+        var folders = $(".folder:visible:not(#" + element + ")");
 
         if (folders.length) {
-            $(".folder:visible").toggle("drop", {}, 250, function () {
+            $(".folder:visible:not(#" + element + ")").toggle("drop", {}, 250, function () {
                 $('#' + element).toggle("drop", { direction: "right" }, 250);
             });
         }
@@ -336,7 +358,7 @@ function ActivateFolder(element, withDrop) {
         }
     }
     else {
-        $(".folder:visible").hide();
+        $(".folder:visible:not(#" + element + ")").hide();
         $('#' + element).show();
     }
 }
@@ -935,23 +957,37 @@ function fromMJDateToLocaleDateString(input) {
     return parseMicrosoftJSONDate(input).toLocaleDateString()
 }
 
-function dateConverter(collectionOrObject, datePropertyName, dateSelector, dateSelectorOwner) {
+function dateConverter(collectionOrObject, datePropertyNameOrNames, dateSelector, dateSelectorOwner) {
+    if (!isIterable(datePropertyNameOrNames)) {
+        datePropertyNameOrNames = [datePropertyNameOrNames];
+    }
+
     if (!isIterable(collectionOrObject)) {
-        let date = collectionOrObject[datePropertyName];
-        collectionOrObject[datePropertyName] = dateSelector.call(dateSelectorOwner, date);
+        for (datePropertyName of datePropertyNameOrNames) {
+            let date = collectionOrObject[datePropertyName];
+
+            if (date) {
+                collectionOrObject[datePropertyName] = dateSelector.call(dateSelectorOwner, date);
+            }
+        }
     }
     else {
         $.each(collectionOrObject, function () {
-            let date = this[datePropertyName];
-            this[datePropertyName] = dateSelector.call(dateSelectorOwner, date);
+            for (datePropertyName of datePropertyNameOrNames) {
+                let date = this[datePropertyName];
+
+                if (date) {
+                    this[datePropertyName] = dateSelector.call(dateSelectorOwner, date);
+                }
+            }
         });
     }
 
     return collectionOrObject;
 }
 
-function fromISODateToLocaleStringConverter(collectionOrObject, dateStringPropertyName = 'date') {
-    return dateConverter(collectionOrObject, dateStringPropertyName, fromISODateToLocaleString);
+function fromISODateToLocaleStringConverter(collectionOrObject, ...datePropertyNameOrNames) {
+    return dateConverter(collectionOrObject, datePropertyNameOrNames, fromISODateToLocaleString);
 }
 
 function exportToCsv(filename, rows) {
@@ -1291,19 +1327,31 @@ function parseMicrosoftJSONDate2(s) {
 
 ko.bindingHandlers.fromMJDate = {
     init: function (element, valueAccessor) {
-        element.innerHTML = fromMJDateToLocaleDateString(valueAccessor);
+        let value = valueAccessor();
+
+        if (!IsUndefinedOrNull(value)) {
+            element.innerHTML = fromMJDateToLocaleDateString(valueAccessor());
+        }
     }
 };
 
 ko.bindingHandlers.fromISODate = {
     init: function (element, valueAccessor) {
-        element.innerHTML = fromISODateToLocaleDateString(valueAccessor());
+        let value = valueAccessor();
+
+        if (!IsUndefinedOrNull(value)) {
+            element.innerHTML = fromISODateToLocaleDateString(valueAccessor());
+        }
     }
 };
 
 ko.bindingHandlers.fromISODateTime = {
     init: function (element, valueAccessor) {
-        element.innerHTML = fromISODateToLocaleString(valueAccessor());
+        let value = valueAccessor();
+
+        if (!IsUndefinedOrNull(value)) {
+            element.innerHTML = fromISODateToLocaleString(valueAccessor());
+        }
     }
 };
 
@@ -1312,3 +1360,21 @@ function flatten(o) {
         return r.concat(k, object[k]);
     }, []);
 }
+
+ko.bindingHandlers.foreachprop = {
+    transformObject: function (obj) {
+        var properties = [];
+        ko.utils.objectForEach(obj, function (key, value) {
+            properties.push({ key: key, value: value });
+        });
+        return properties;
+    },
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+        var properties = ko.pureComputed(function () {
+            var obj = ko.utils.unwrapObservable(valueAccessor());
+            return ko.bindingHandlers.foreachprop.transformObject(obj);
+        });
+        ko.applyBindingsToNode(element, { foreach: properties }, bindingContext);
+        return { controlsDescendantBindings: true };
+    }
+};

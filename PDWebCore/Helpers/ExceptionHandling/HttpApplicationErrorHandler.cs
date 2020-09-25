@@ -46,11 +46,11 @@ namespace PDWebCore.Helpers.ExceptionHandling
                 {
                     case 404:
                         // page not found
-                        msg = "Błąd 404 - zasób nie został odnaleziony.";
+                        msg = $"{Resources.Common.Error} 404 - {Resources.ErrorMessages.ResourceNotFound}.";
                         break;
                     case 500:
                         // server error
-                        msg = "Błąd 500 - wewnętrzny błąd serwera.";
+                        msg = $"{Resources.Common.Error} 500 - {Resources.ErrorMessages.InternalServerError}.";
                         break;
                     default:
                         msg = string.Empty;

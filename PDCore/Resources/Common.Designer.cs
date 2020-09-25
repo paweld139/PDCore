@@ -70,6 +70,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Adding.
+        /// </summary>
+        public static string Adding {
+            get {
+                return ResourceManager.GetString("Adding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Archived.
         /// </summary>
         public static string Archived {
@@ -493,6 +502,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Generate CSV.
+        /// </summary>
+        public static string GenerateCSV {
+            get {
+                return ResourceManager.GetString("GenerateCSV", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hello.
         /// </summary>
         public static string Hello {
@@ -597,6 +615,15 @@ namespace Resources {
         public static string LicenseKey {
             get {
                 return ResourceManager.GetString("LicenseKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to List.
+        /// </summary>
+        public static string List {
+            get {
+                return ResourceManager.GetString("List", resourceCulture);
             }
         }
         
@@ -727,6 +754,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Number of tasks.
+        /// </summary>
+        public static string NumberOfTasks {
+            get {
+                return ResourceManager.GetString("NumberOfTasks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only unassigned.
+        /// </summary>
+        public static string OnlyNotBinded {
+            get {
+                return ResourceManager.GetString("OnlyNotBinded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Operator.
         /// </summary>
         public static string Operator {
@@ -795,6 +840,15 @@ namespace Resources {
         public static string ReceiptDate {
             get {
                 return ResourceManager.GetString("ReceiptDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh.
+        /// </summary>
+        public static string Refresh {
+            get {
+                return ResourceManager.GetString("Refresh", resourceCulture);
             }
         }
         
@@ -961,6 +1015,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Click on a column to sort the data.
+        /// </summary>
+        public static string SortingInstruction {
+            get {
+                return ResourceManager.GetString("SortingInstruction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Status.
         /// </summary>
         public static string Status {
@@ -1002,6 +1065,15 @@ namespace Resources {
         public static string Task {
             get {
                 return ResourceManager.GetString("Task", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only today.
+        /// </summary>
+        public static string TodayOnly {
+            get {
+                return ResourceManager.GetString("TodayOnly", resourceCulture);
             }
         }
         

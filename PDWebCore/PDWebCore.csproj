@@ -2193,6 +2193,7 @@
     <Content Include="Scripts\datepicker-pl.js" />
     <Content Include="Scripts\drop.min.js" />
     <Content Include="Scripts\jquery.enhsplitter.js" />
+    <Content Include="Scripts\jquery.card.js" />
     <Content Include="Scripts\jquery.panel.js" />
     <Content Include="Scripts\knockout-sortable.js" />
     <Content Include="Scripts\knockout.changetracker.js" />

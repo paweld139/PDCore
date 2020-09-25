@@ -120,6 +120,9 @@
   <data name="Add" xml:space="preserve">
     <value>Dodaj</value>
   </data>
+  <data name="Adding" xml:space="preserve">
+    <value>Dodawanie</value>
+  </data>
   <data name="Archived" xml:space="preserve">
     <value>Archiwalny</value>
   </data>
@@ -261,6 +264,9 @@
   <data name="FullName" xml:space="preserve">
     <value>Imię i nazwisko</value>
   </data>
+  <data name="GenerateCSV" xml:space="preserve">
+    <value>Generuj CSV</value>
+  </data>
   <data name="Hello" xml:space="preserve">
     <value>Witaj</value>
   </data>
@@ -296,6 +302,9 @@
   </data>
   <data name="LicenseKey" xml:space="preserve">
     <value>Klucz licencyjny</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>Lista</value>
   </data>
   <data name="LoggingIn" xml:space="preserve">
     <value>Logowanie</value>
@@ -339,6 +348,12 @@
   <data name="Number" xml:space="preserve">
     <value>Numer</value>
   </data>
+  <data name="NumberOfTasks" xml:space="preserve">
+    <value>Ilość zadań</value>
+  </data>
+  <data name="OnlyNotBinded" xml:space="preserve">
+    <value>Tylko nieprzypisane</value>
+  </data>
   <data name="Operator" xml:space="preserve">
     <value>Wykonujący</value>
   </data>
@@ -362,6 +377,9 @@
   </data>
   <data name="ReceiptDate" xml:space="preserve">
     <value>Data odbioru</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Odśwież</value>
   </data>
   <data name="Register" xml:space="preserve">
     <value>Zarejestruj się</value>
@@ -417,6 +435,9 @@
   <data name="Service" xml:space="preserve">
     <value>Serwis</value>
   </data>
+  <data name="SortingInstruction" xml:space="preserve">
+    <value>Naciśnij na kolumnę, by posortować dane</value>
+  </data>
   <data name="Status" xml:space="preserve">
     <value>Status</value>
   </data>
@@ -431,6 +452,9 @@
   </data>
   <data name="Task" xml:space="preserve">
     <value>Zadanie</value>
+  </data>
+  <data name="TodayOnly" xml:space="preserve">
+    <value>Tylko dzisiaj</value>
   </data>
   <data name="True" xml:space="preserve">
     <value>prawda</value>

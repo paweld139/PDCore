@@ -20,3 +20,17 @@ function getCookie(cname) {
     }
     return "";
 }
+
+function checkCookie() {
+    var cookie = getCookie("cookies_accepted");
+
+    if (cookie === "") {
+        cookies.style.display = "";
+
+        acceptCookies.onclick = function () {
+            setCookie("cookies_accepted", "true", 365);
+
+            document.body.removeChild(cookies);
+        }
+    }
+}
