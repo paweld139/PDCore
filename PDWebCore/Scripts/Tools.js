@@ -1443,7 +1443,7 @@ $.fn.serializeObject = function () {
             }
             o[this.name].push(this.value || '');
         } else {
-            o[this.name] = this.value || '';
+            o[this.name] = this.value === '' ? null : (this.value || '');
         }
     });
     return o;

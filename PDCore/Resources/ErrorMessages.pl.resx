@@ -135,6 +135,9 @@
   <data name="InternalServerError" xml:space="preserve">
     <value>wewnętrzny błąd serwera</value>
   </data>
+  <data name="IsAlreadyTaken" xml:space="preserve">
+    <value>jest już zajęty</value>
+  </data>
   <data name="LicenseKeyInvalid" xml:space="preserve">
     <value>Podany klucz licencyjny jest nieprawidłowy</value>
   </data>
@@ -143,6 +146,18 @@
   </data>
   <data name="MinLength" xml:space="preserve">
     <value>{0} musi mieć co najmniej {1} znaków</value>
+  </data>
+  <data name="PasswordDigitRequired" xml:space="preserve">
+    <value>Hasła muszą mieć co najmniej jedną cyfrę ('0'-'9').</value>
+  </data>
+  <data name="PasswordLowercaseRequired" xml:space="preserve">
+    <value>Hasła muszą mieć co najmniej jedną małą literę ('a'-'z').</value>
+  </data>
+  <data name="PasswordSymbolRequred" xml:space="preserve">
+    <value>Hasła muszą mieć co najmniej jeden znak niebędący literą lub cyfrą.</value>
+  </data>
+  <data name="PasswordUppercaseRequired" xml:space="preserve">
+    <value>Hasła muszą mieć co najmniej jedną wielką literę ('A'-'Z').</value>
   </data>
   <data name="Required" xml:space="preserve">
     <value>Pole {0} jest obowiązkowe</value>

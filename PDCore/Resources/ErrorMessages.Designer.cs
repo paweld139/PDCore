@@ -115,6 +115,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to is already taken.
+        /// </summary>
+        public static string IsAlreadyTaken {
+            get {
+                return ResourceManager.GetString("IsAlreadyTaken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The license key provided is invalid.
         /// </summary>
         public static string LicenseKeyInvalid {
@@ -138,6 +147,42 @@ namespace Resources {
         public static string MinLength {
             get {
                 return ResourceManager.GetString("MinLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Passwords must have at least one digit (&apos;0&apos;-&apos;9&apos;)..
+        /// </summary>
+        public static string PasswordDigitRequired {
+            get {
+                return ResourceManager.GetString("PasswordDigitRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Passwords must have at least one lowercase (&apos;a&apos;-&apos;z&apos;)..
+        /// </summary>
+        public static string PasswordLowercaseRequired {
+            get {
+                return ResourceManager.GetString("PasswordLowercaseRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Passwords must have at least one non letter or digit character..
+        /// </summary>
+        public static string PasswordSymbolRequred {
+            get {
+                return ResourceManager.GetString("PasswordSymbolRequred", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Passwords must have at least one uppercase (&apos;A&apos;-&apos;Z&apos;)..
+        /// </summary>
+        public static string PasswordUppercaseRequired {
+            get {
+                return ResourceManager.GetString("PasswordUppercaseRequired", resourceCulture);
             }
         }
         

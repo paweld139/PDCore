@@ -61,6 +61,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to  is .
+        /// </summary>
+        public static string _is {
+            get {
+                return ResourceManager.GetString("is", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add.
         /// </summary>
         public static string Add {
@@ -75,6 +84,15 @@ namespace Resources {
         public static string Adding {
             get {
                 return ResourceManager.GetString("Adding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to already.
+        /// </summary>
+        public static string already {
+            get {
+                return ResourceManager.GetString("already", resourceCulture);
             }
         }
         
@@ -1065,6 +1083,15 @@ namespace Resources {
         public static string Tags {
             get {
                 return ResourceManager.GetString("Tags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to taken.
+        /// </summary>
+        public static string taken {
+            get {
+                return ResourceManager.GetString("taken", resourceCulture);
             }
         }
         

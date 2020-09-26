@@ -135,6 +135,9 @@
   <data name="InternalServerError" xml:space="preserve">
     <value>internal server error</value>
   </data>
+  <data name="IsAlreadyTaken" xml:space="preserve">
+    <value>is already taken</value>
+  </data>
   <data name="LicenseKeyInvalid" xml:space="preserve">
     <value>The license key provided is invalid</value>
   </data>
@@ -143,6 +146,18 @@
   </data>
   <data name="MinLength" xml:space="preserve">
     <value>{0} must be at least {1} characters long</value>
+  </data>
+  <data name="PasswordDigitRequired" xml:space="preserve">
+    <value>Passwords must have at least one digit ('0'-'9').</value>
+  </data>
+  <data name="PasswordLowercaseRequired" xml:space="preserve">
+    <value>Passwords must have at least one lowercase ('a'-'z').</value>
+  </data>
+  <data name="PasswordSymbolRequred" xml:space="preserve">
+    <value>Passwords must have at least one non letter or digit character.</value>
+  </data>
+  <data name="PasswordUppercaseRequired" xml:space="preserve">
+    <value>Passwords must have at least one uppercase ('A'-'Z').</value>
   </data>
   <data name="Required" xml:space="preserve">
     <value>{0} is required</value>

@@ -123,6 +123,9 @@
   <data name="Adding" xml:space="preserve">
     <value>Adding</value>
   </data>
+  <data name="already" xml:space="preserve">
+    <value>already</value>
+  </data>
   <data name="Archived" xml:space="preserve">
     <value>Archived</value>
   </data>
@@ -300,6 +303,9 @@
   <data name="InvalidToken" xml:space="preserve">
     <value>Invalid token.</value>
   </data>
+  <data name="is" xml:space="preserve">
+    <value> is </value>
+  </data>
   <data name="LastName" xml:space="preserve">
     <value>Last name</value>
   </data>
@@ -452,6 +458,9 @@
   </data>
   <data name="Tags" xml:space="preserve">
     <value>Tags</value>
+  </data>
+  <data name="taken" xml:space="preserve">
+    <value>taken</value>
   </data>
   <data name="Task" xml:space="preserve">
     <value>Task</value>
