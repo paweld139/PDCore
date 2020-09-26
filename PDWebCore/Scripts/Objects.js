@@ -46,6 +46,18 @@ function TextEditor(instance, obj) {
     };
 }
 
+function InitializeTextEditor(elementId, language) {
+    const self = this;
+
+    const instance = CKEDITOR.replace(elementId, { language: language });
+
+    self.updateElement = function () {
+        instance.updateElement();
+    }
+
+    instance.on('blur', function () { self.updateElement(); });
+}
+
 function OnLoad(onLoad) {
     let self = this;
 
@@ -150,3 +162,25 @@ class Point {
         return Math.sqrt(dx * dx + dy * dy);
     }
 }
+
+var UserModel = function () {
+    var self = this;
+    self.isLoggedIn = ko.observable("");
+    self.userId = ko.observable("");
+    self.roles = ko.observableArray([]);
+    self.employeeId = ko.observable("");
+    self.contrahentId = ko.observable("");
+
+
+    // function to check if role passed is in array
+    self.hasRole = function (roleName) {
+
+        for (i = 0; 1 < self.roles.length; i++) {
+            if (self.roles[i] == roleName)
+                return true
+        }
+        return false;
+    }
+};
+
+var UserData = new UserModel();

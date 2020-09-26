@@ -276,5 +276,7 @@ namespace PDCore.Extensions
                             .GetAttribute<DisplayAttribute>()?
                             .Name;
         }
+
+        public static string ToLowerString(this bool input) => input.ToString().ToLowerInvariant();
     }
 }

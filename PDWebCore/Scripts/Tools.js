@@ -389,9 +389,14 @@ var requestType = {
 //    SetHash(formId, hash, eq, condition, "a");
 //}
 
-function SetHash(formId, hash, id, condition) {
+function SetHash(formId, hash, id, condition, before) {
     $("#" + formId + " #" + id).click(function (event) {
         event.preventDefault();
+
+        if (before) {
+            before();
+        }
+
         if ($("#" + formId).valid()) {
             if (!condition || condition()) {
                 GoToFolder(hash);
@@ -471,6 +476,7 @@ function SendRequest(requestT, url, params, condition, onComplete, onSuccess, on
             data: params,
             url: url,
             contentType: "application/json; charset=utf-8",
+            dataType: 'json',
             headers: app ?
                 {
                     'Authorization': 'Bearer ' + app.dataModel.getAccessToken(),
@@ -489,14 +495,14 @@ function SendRequest(requestT, url, params, condition, onComplete, onSuccess, on
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                alert(xhr.status + ' - ' + thrownError + ' ' + xhr.responseJSON.message);
-
                 if (app && xhr.status === 401) {
                     app.reauthorize();
                 }
-
-                if (onError) {
-                    onError(data);
+                else if (onError) {
+                    onError(xhr.responseJSON);
+                }
+                else {
+                    alert(xhr.status + ' - ' + thrownError + ' ' + xhr.responseJSON.message);
                 }
             },
             complete: function (data) {
@@ -609,15 +615,19 @@ ko.bindingHandlers.flash = {
     init: function (element) {
         $(element).hide();
     },
-    update: function (element, valueAccessor) {
+    update: function (element, valueAccessor, allBindingsAccessor) {
         var value = ko.utils.unwrapObservable(valueAccessor());
+
+        var allBindings = allBindingsAccessor(),
+            duration = allBindings.flashDuration || 3000;
+
         if (value) {
             $(element).stop().hide().text(value).fadeIn(function () {
                 clearTimeout($(element).data("timeout"));
                 $(element).data("timeout", setTimeout(function () {
                     $(element).fadeOut();
                     valueAccessor()(null);
-                }, 3000));
+                }, duration));
             });
         }
     },
@@ -1008,7 +1018,7 @@ function exportToCsv(filename, rows) {
         return finalVal + '\n';
     };
 
-    var csvFile = '';
+    var csvFile = '\uFEFF';
     for (var i = 0; i < rows.length; i++) {
         csvFile += processRow(rows[i]);
     }
@@ -1376,5 +1386,219 @@ ko.bindingHandlers.foreachprop = {
         });
         ko.applyBindingsToNode(element, { foreach: properties }, bindingContext);
         return { controlsDescendantBindings: true };
+    }
+};
+
+ko.bindingHandlers.randomOrder = {
+    init: function (elem, valueAccessor) {
+        // Build an array of child elements
+        var child = ko.virtualElements.firstChild(elem),
+            childElems = [];
+        while (child) {
+            childElems.push(child);
+            child = ko.virtualElements.nextSibling(child);
+        }
+
+        // Remove them all, then put them back in a random order
+        ko.virtualElements.emptyNode(elem);
+        while (childElems.length) {
+            var randomIndex = Math.floor(Math.random() * childElems.length),
+                chosenChild = childElems.splice(randomIndex, 1);
+            ko.virtualElements.prepend(elem, chosenChild[0]);
+        }
+    }
+};
+
+ko.extenders.defaultIfNull = function (target, defaultValue) {
+    var result = ko.computed({
+        read: target,
+        write: function (newValue) {
+            if (!newValue) {
+                target(defaultValue);
+            } else {
+                target(newValue);
+            }
+        }
+    });
+
+    result(target());
+
+    return result;
+};
+
+ko.extenders.withDefault = function (target, defaultValue) {
+    target.subscribe(function (input) {
+        if (!input) target(defaultValue)
+    });
+    return target
+};
+
+$.fn.serializeObject = function () {
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function () {
+        if (o[this.name]) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};
+
+function DisplayErrors(errors) {
+    for (var i = 0; i < errors.length; i++) {
+        $("<label for='" + errors[i].Key + "' class='error'></label>")
+            .html(errors[i].Value[0]).appendTo($("input#" + errors[i].Key).parent());
+    }
+}
+
+function getValidationSummary() {
+    var el = $(".validation-summary-errors");
+    if (el.length == 0) {
+        $(".title-separator").after("<div><ul class='validation-summary-errors ui-state-error'></ul></div>");
+        el = $(".validation-summary-errors");
+    }
+    return el;
+}
+
+function getResponseValidationObject(response) {
+    if (response && response.Tag && response.Tag == "ValidationError")
+        return response;
+    return null;
+}
+
+function CheckValidationErrorResponse(response, form, summaryElement) {
+    var data = getResponseValidationObject(response);
+    if (!data) return;
+
+    var list = summaryElement || getValidationSummary();
+    list.html('');
+    $.each(data.State, function (i, item) {
+        list.append("<li>" + item.Errors.join("</li><li>") + "</li>");
+        if (form && item.Name.length > 0)
+            $(form).find("*[name='" + item.Name + "']").addClass("ui-state-error");
+    });
+}
+
+function makeUL(array) {
+    if (!isIterable(array)) {
+        return array;
+    }
+
+    if (array.length === 1) {
+        return array[0];
+    }
+
+    // Create the list element:
+    var list = document.createElement('ul');
+
+    for (var i = 0; i < array.length; i++) {
+        // Create the list item:
+        var item = document.createElement('li');
+
+        // Set its contents:
+        item.appendChild(document.createTextNode(array[i]));
+
+        // Add it to the list:
+        list.appendChild(item);
+    }
+
+    // Finally, return the constructed list:
+    return list;
+}
+
+function DisplayModelStateErrors(response, errorTarget) {
+    for (key in response) {
+        let errors = makeUL(response[key]);
+
+        if (key.includes('model.')) {
+            $("span[data-valmsg-for='" + key.split('model.')[1] + "']").html(errors);
+        }
+        else {
+            if (errorTarget) {
+                errorTarget(errors)
+            }
+            else {
+                $(".model-state-errors").html(errors);
+            }
+        }
+    }
+}
+
+function objectifyForm(formArray) {
+    //serialize data function
+    var returnArray = {};
+    for (var i = 0; i < formArray.length; i++) {
+        returnArray[formArray[i]['name']] = formArray[i]['value'];
+    }
+    return returnArray;
+}
+
+function scrollTop() {
+    window.scrollTo(0, 0);
+}
+
+(function () {
+    if (typeof Object.defineProperty === 'function') {
+        try { Object.defineProperty(Array.prototype, 'sortBy', { value: sb }); } catch (e) { }
+    }
+    if (!Array.prototype.sortBy) Array.prototype.sortBy = sb;
+
+    function sb(f) {
+        for (var i = this.length; i;) {
+            var o = this[--i];
+            this[i] = [].concat(f.call(o, o, i), o);
+        }
+        this.sort(function (a, b) {
+            for (var i = 0, len = a.length; i < len; ++i) {
+                if (a[i] != b[i]) return a[i] < b[i] ? -1 : 1;
+            }
+            return 0;
+        });
+        for (var i = this.length; i;) {
+            this[--i] = this[i][this[i].length - 1];
+        }
+        return this;
+    }
+})();
+
+ko.bindingHandlers.selectPicker = {
+    after: ['options'],   /* KO 3.0 feature to ensure binding execution order */
+    init: function (element, valueAccessor, allBindingsAccessor) {
+        var $element = $(element);
+        $element.addClass('selectpicker').selectpicker();
+
+        var doRefresh = function () {
+            $element.selectpicker('refresh');
+        }, subscriptions = [];
+
+        // KO 3 requires subscriptions instead of relying on this binding's update
+        // function firing when any other binding on the element is updated.
+
+        // Add them to a subscription array so we can remove them when KO
+        // tears down the element.  Otherwise you will have a resource leak.
+        var addSubscription = function (bindingKey) {
+            var targetObs = allBindingsAccessor.get(bindingKey);
+
+            if (targetObs && ko.isObservable(targetObs)) {
+                subscriptions.push(targetObs.subscribe(doRefresh));
+            }
+        };
+
+        addSubscription('options');
+        addSubscription('value');           // Single
+        addSubscription('selectedOptions'); // Multiple
+
+        ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+            while (subscriptions.length) {
+                subscriptions.pop().dispose();
+            }
+        });
+    },
+    update: function (element, valueAccessor, allBindingsAccessor) {
     }
 };
