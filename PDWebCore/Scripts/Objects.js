@@ -46,10 +46,10 @@ function TextEditor(instance, obj) {
     };
 }
 
-function InitializeTextEditor(elementId, language, observable) {
+function InitializeTextEditor(elementId, observable) {
     const self = this;
 
-    const instance = CKEDITOR.replace(elementId, { language: language });
+    const instance = CKEDITOR.replace(elementId, { language: 'en' });
 
     function getContent() { //Private member
         if (instance !== null) {
@@ -105,40 +105,40 @@ function OnLoad(onLoad) {
     };
 }
 
-class KeyValuePair {
-    constructor(key, value) {
-        this.key = key;
-        this.value = value;
-    }
+//class KeyValuePair {
+//    constructor(key, value) {
+//        this.key = key;
+//        this.value = value;
+//    }
 
-    set(key, value) {
-        this.key = key;
-        this.value = value;
-    }
+//    //set(key, value) {
+//    //    this.key = key;
+//    //    this.value = value;
+//    //}
 
-    *[Symbol.iterator]() {
-        for (let key in this) {
-            yield [key, this[key]] // yield [key, value] pair
-        }
-    }
-}
+//    *[Symbol.iterator]() {
+//        for (let key in this) {
+//            yield [key, this[key]] // yield [key, value] pair
+//        }
+//    }
+//}
 
-class Storage {
-    constructor(pKey, pValue) {
-        this.key = pKey;
-        this.value = pValue;
-        this.map = new Map([[pKey, pValue]]);
-    }
+//class Storage {
+//    constructor(pKey, pValue) {
+//        this.key = pKey;
+//        this.value = pValue;
+//        this.map = new Map([[pKey, pValue]]);
+//    }
 
-    set(pKey, pValue) {
-        this.map.set(pKey, pValue);
-    }
+//    //set(pKey, pValue) {
+//    //    this.map.set(pKey, pValue);
+//    //}
 
-    get(pKey) {
-        var result = this.map.get(pKey);
-        return result;
-    }
-}
+//    get(pKey) {
+//        var result = this.map.get(pKey);
+//        return result;
+//    }
+//}
 
 var ObjectInfo = {
     Initialise: function (a) {
