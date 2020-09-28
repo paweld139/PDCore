@@ -46,16 +46,42 @@ function TextEditor(instance, obj) {
     };
 }
 
-function InitializeTextEditor(elementId, language) {
+function InitializeTextEditor(elementId, language, observable) {
     const self = this;
 
     const instance = CKEDITOR.replace(elementId, { language: language });
 
-    self.updateElement = function () {
-        instance.updateElement();
+    function getContent() { //Private member
+        if (instance !== null) {
+            return instance.getData();
+        }
+
+        return null;
+    };
+
+    self.updateElement = function (sneaky) { //Public member. Gdy bezpośrednio to zawsze głośno.
+        if (observable) {
+            let content = getContent();
+
+            if (!sneaky) {
+                observable(content); //Aktualizuję observable, która aktualizuje przy okazji pole
+            }
+            else {
+                observable.sneakyUpdate(content);
+            }
+        }
+        else {
+            instance.updateElement();
+        }
     }
 
-    instance.on('blur', function () { self.updateElement(); });
+    self.clear = function () {
+        instance.setData("");
+    }
+
+    instance.on('blur', function () {
+        self.updateElement();
+    });
 }
 
 function OnLoad(onLoad) {

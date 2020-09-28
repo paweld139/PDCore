@@ -312,7 +312,7 @@ function createDialog(dialogFormFields, validateTipsId, openButtonId, submitFunc
 //}
 
 function HandleConfirm(data) {
-    if (data.IsConfirm) {
+    if (data && data.IsConfirm) {
         return confirm(data.Message);
     }
 
@@ -320,7 +320,7 @@ function HandleConfirm(data) {
 }
 
 function HandleError(data) {
-    if (data.IsError) {
+    if (data && data.IsError) {
 
         alert("Błędy:\n" + data.Message);
 
@@ -378,7 +378,8 @@ var requestType = {
     POST: 'POST',
     GET: 'GET',
     PUT: 'PUT',
-    DELETE: 'DELETE'
+    DELETE: 'DELETE',
+    PATCH: 'PATCH'
 };
 
 //function SetHashButton(formId, hash, eq, condition) {
@@ -389,8 +390,8 @@ var requestType = {
 //    SetHash(formId, hash, eq, condition, "a");
 //}
 
-function SetHash(formId, hash, id, condition, before) {
-    $("#" + formId + " #" + id).click(function (event) {
+function SetHash(formId, hash, element, condition, before) {
+    $("#" + formId + " " + element).click(function (event) {
         event.preventDefault();
 
         if (before) {
@@ -471,15 +472,24 @@ function SendRequest(requestT, url, params, condition, onComplete, onSuccess, on
 
         //        console.log(ko.toJSON(params));
 
+        //if (requestType === requestType.POST || requestType == requestType.PUT) {
+        //    $token = $("input[name='__RequestVerificationToken']").val();
+        //}
+        //else {
+        //    $token = '';
+        //}
+
         $.ajax({
             method: requestT,
             data: params,
             url: url,
             contentType: "application/json; charset=utf-8",
+            //contentType: 'application/x-www-form-urlencoded; charset=utf-8',
             dataType: 'json',
             headers: app ?
                 {
-                    'Authorization': 'Bearer ' + app.dataModel.getAccessToken(),
+                    'Authorization': 'Bearer ' + app.dataModel.getAccessToken()
+                    //'__RequestVerificationToken': $token
                 } : undefined,
             success: function (data) {
                 if (onSuccess && !errorHandler(data) && HandleConfirm(data)) {
@@ -502,7 +512,7 @@ function SendRequest(requestT, url, params, condition, onComplete, onSuccess, on
                     onError(xhr.responseJSON);
                 }
                 else {
-                    alert(xhr.status + ' - ' + thrownError + ' ' + xhr.responseJSON.message);
+                    alert(xhr.status + ' - ' + thrownError + ' ' + (xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : (xhr.responseJSON || xhr.statusText)));
                 }
             },
             complete: function (data) {
@@ -1601,4 +1611,58 @@ ko.bindingHandlers.selectPicker = {
     },
     update: function (element, valueAccessor, allBindingsAccessor) {
     }
+};
+
+function generateId(prefix) {
+    return prefix + Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+};
+
+function removeItemOnce(arr, value) {
+    var index = arr.indexOf(value);
+    if (index > -1) {
+        arr.splice(index, 1);
+    }
+    return arr;
+}
+
+function removeItemAll(arr, value) {
+    var i = 0;
+    while (i < arr.length) {
+        if (arr[i] === value) {
+            arr.splice(i, 1);
+        } else {
+            ++i;
+        }
+    }
+    return arr;
+}
+
+ko.bindingHandlers.validate = {
+    init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+
+        var valueBinding = allBindings().value;
+        var value = valueAccessor();
+
+        if (value) {
+            valueBinding.extend(value);
+        }
+    }
+};
+
+ko.observable.fn.withPausing = function () {
+    this.notifySubscribers = function () {
+        if (!this.pauseNotifications) {
+            ko.subscribable.fn.notifySubscribers.apply(this, arguments);
+        }
+    };
+
+    this.sneakyUpdate = function (newValue) {
+        this.pauseNotifications = true;
+        this(newValue);
+        this.pauseNotifications = false;
+    };
+
+    return this;
 };

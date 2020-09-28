@@ -117,19 +117,19 @@ namespace PDCoreNew.Extensions
 
         public static IEnumerable<string> GetRoles(this IIdentity identity)
         {
-            return ((ClaimsIdentity)identity).Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value);
+            return ((ClaimsIdentity)identity)?.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value);
         }
 
         public static string GetContrahentId(this IIdentity identity)
         {
-            var claim = ((ClaimsIdentity)identity).FindFirst("ContrahentId");
+            var claim = ((ClaimsIdentity)identity)?.FindFirst("ContrahentId");
 
             return (claim != null) ? claim.Value : string.Empty;
         }
 
         public static string GetEmployeeId(this IIdentity identity)
         {
-            var claim = ((ClaimsIdentity)identity).FindFirst("EmployeeId");
+            var claim = ((ClaimsIdentity)identity)?.FindFirst("EmployeeId");
 
             return (claim != null) ? claim.Value : string.Empty;
         }

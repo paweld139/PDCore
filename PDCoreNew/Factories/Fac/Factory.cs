@@ -1,4 +1,5 @@
-﻿using PDCore.Factories.IFac;
+﻿using PDCore.Extensions;
+using PDCore.Factories.IFac;
 using PDCore.Utils;
 using PDCoreNew.Helpers;
 using System;
@@ -54,5 +55,10 @@ namespace PDCoreNew.Factories.Fac
         protected abstract string ElementsPostfix { get; }
 
         public TElement ExecuteCreation(TEnum type) => elements[type];
+
+        public IEnumerable<TElement> GetElements()
+        {
+            return elements.GetValues();
+        }
     }
 }

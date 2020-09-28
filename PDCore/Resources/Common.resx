@@ -120,6 +120,9 @@
   <data name="Add" xml:space="preserve">
     <value>Add</value>
   </data>
+  <data name="AddComment" xml:space="preserve">
+    <value>Add comment</value>
+  </data>
   <data name="Adding" xml:space="preserve">
     <value>Adding</value>
   </data>
@@ -155,6 +158,9 @@
   </data>
   <data name="Comment" xml:space="preserve">
     <value>Comment</value>
+  </data>
+  <data name="CommentsList" xml:space="preserve">
+    <value>Comment list</value>
   </data>
   <data name="Commercial" xml:space="preserve">
     <value>Commercial</value>

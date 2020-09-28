@@ -79,6 +79,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add comment.
+        /// </summary>
+        public static string AddComment {
+            get {
+                return ResourceManager.GetString("AddComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Adding.
         /// </summary>
         public static string Adding {
@@ -183,6 +192,15 @@ namespace Resources {
         public static string Comment {
             get {
                 return ResourceManager.GetString("Comment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comment list.
+        /// </summary>
+        public static string CommentsList {
+            get {
+                return ResourceManager.GetString("CommentsList", resourceCulture);
             }
         }
         

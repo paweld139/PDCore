@@ -53,6 +53,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\MVC\FromJson.cs" />
+    <Compile Include="Attributes\MVC\ValidateJsonAntiForgeryTokenAttribute.cs" />
+    <Compile Include="Attributes\WebAPi\ValidateAntiForgeryTokenAttribute.cs" />
     <Compile Include="Mock\ContextUtil.cs" />
     <Compile Include="Context\IContext\IHasUserDataDbSet.cs" />
     <Compile Include="Context\IContext\IMainWebDbContext.cs" />
