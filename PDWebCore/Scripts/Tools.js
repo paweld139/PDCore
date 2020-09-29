@@ -1055,8 +1055,8 @@ function* objectsToRowsGenerator(array) {
     if (!array.isEmpty()) {
         yield Object.keys(array.first());
 
-        for (let element of array) {
-            yield Object.values(element);
+        for (let i = 0; i < array.length; i++) {
+            yield Object.values(array[i]);
         }
     }
 }

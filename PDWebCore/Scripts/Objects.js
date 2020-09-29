@@ -49,7 +49,7 @@ function TextEditor(instance, obj) {
 function InitializeTextEditor(elementId, observable) {
     const self = this;
 
-    const instance = CKEDITOR.replace(elementId, { language: 'en' });
+    const instance = CKEDITOR.replace(elementId);
 
     function getContent() { //Private member
         if (instance !== null) {

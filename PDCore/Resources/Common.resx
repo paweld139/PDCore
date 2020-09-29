@@ -255,6 +255,9 @@
   <data name="False" xml:space="preserve">
     <value>false</value>
   </data>
+  <data name="Filters" xml:space="preserve">
+    <value>Filters</value>
+  </data>
   <data name="Finished" xml:space="preserve">
     <value>Finished</value>
   </data>
