@@ -20,6 +20,8 @@ namespace PDCore.Interfaces
 
         void PrepareForAdd(params object[] args);
 
+        Task AfterAdd(params object[] args);
+
 
         IQueryable<TEntity> PrepareQuery(IQueryable<TEntity> entities);
     }

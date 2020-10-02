@@ -136,7 +136,7 @@ namespace PDCore.Helpers.Soap.Credentials
         /// <summary>
         /// Pole zawierające obiekt klasy odpowiadającej za utworzenie listy uwierzytelniającej klienta z osobnyn certyfikatem TLS i WSS
         /// </summary>
-        TwoCertificatesClientCredentials credentials;
+        readonly TwoCertificatesClientCredentials credentials;
 
         /// <summary>
         /// Konstruktor służący do utworzenia instancji tej klasy na podstawie obiektu klasy odpowiadającej za utworzenie listy uwierzytelniającej klienta z osobnyn certyfikatem TLS i WSS.
@@ -157,7 +157,7 @@ namespace PDCore.Helpers.Soap.Credentials
         /// <returns>Dostawca tokenu bezpieczeństwa</returns>
         public override SecurityTokenProvider CreateSecurityTokenProvider(SecurityTokenRequirement requirement)
         {
-            SecurityTokenProvider result = null;
+            SecurityTokenProvider result;
 
             //Jeżeli wymagany jest token służący do zabezpieczenia warstwy transportu i jest to token powstały z certyfikatu X509
             if (requirement.Properties.ContainsKey(ServiceModelSecurityTokenRequirement.TransportSchemeProperty) && requirement.TokenType == SecurityTokenTypes.X509Certificate)
@@ -254,7 +254,7 @@ namespace PDCore.Helpers.Soap.Credentials
             TwoCertificatesClientCredentials creds = new TwoCertificatesClientCredentials(base.CreateBehavior() as ClientCredentials);
 
             //Przypisanie do zmiennej informacji o właściwościach tego elemetu
-            PropertyInformationCollection properties = ElementInformation.Properties;
+            _ = ElementInformation.Properties;
 
             //Dla utworzonego obiektu listy uwierzytelniającej klienta z osobnym certyfikatem TLS zostaje ustawiony certyfikat na podstawie danych certyfikatu z właściwości tego elementu
             creds.SetTransportCertificate(TransportCertificate.StoreLocation,

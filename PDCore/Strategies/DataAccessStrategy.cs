@@ -10,6 +10,7 @@ namespace PDCore.Strategies
     {
         public abstract Task<bool> CanAdd(params object[] args);
         public abstract void PrepareForAdd(params object[] args);
+        public abstract Task AfterAdd(params object[] args);
 
         public abstract bool CanUpdate(TEntity entity);
         public abstract bool CanUpdateAllProperties(TEntity entity);

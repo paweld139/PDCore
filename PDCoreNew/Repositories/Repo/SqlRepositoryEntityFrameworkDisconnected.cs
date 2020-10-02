@@ -59,7 +59,7 @@ namespace PDCoreNew.Repositories.Repo
         {
             Add(entity);
 
-            return CommitAsync();
+            return CommitAsClientWinsAsync();
         }
 
         public async virtual Task SaveNewAsync<TInput>(TInput input)
@@ -285,7 +285,7 @@ namespace PDCoreNew.Repositories.Repo
             {
                 savingStrategy.PrepareForAdd(args);
 
-                await SaveNewAsync(input);
+                await SaveNewAsync(input); //I tak EF nie obsługuje operacji równoległych
 
                 result = true;
             }
