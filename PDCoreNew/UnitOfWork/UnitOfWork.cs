@@ -8,6 +8,7 @@ using PDCoreNew.Models;
 using PDCoreNew.Factories.Fac.Repository;
 using PDCoreNew.Context.IContext;
 using PDCore.Repositories.IRepo;
+using PDCoreNew.Extensions;
 
 namespace PDCoreNew.UnitOfWork
 {
@@ -54,7 +55,12 @@ namespace PDCoreNew.UnitOfWork
         public void Commit()
         {
             //System.Diagnostics.Debug.WriteLine("Committed");
-            dbContext.SaveChanges();
+            dbContext.SaveChangesWithModificationHistory();
+        }
+
+        public Task CommitAsync()
+        {
+            return dbContext.SaveChangesWithModificationHistoryAsync();
         }
 
         private void PrepareDbContext()

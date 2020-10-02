@@ -32,6 +32,12 @@ namespace PDCoreNew.UnitOfWork
             context.SaveChanges();
         }
 
+        public Task CommitAsync()
+        {
+            //System.Diagnostics.Debug.WriteLine("Committed");
+            return context.SaveChangesAsync();
+        }
+
         private void PrepareDbContext()
         {
             // Do NOT enable proxied entities, else serialization fails

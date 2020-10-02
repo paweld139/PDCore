@@ -1,6 +1,6 @@
 ﻿namespace PDCoreNew.Context.IContext
 {
-    public interface IMainDbContext : IEntityFrameworkDbContext, IHasLogDbSet, IHasFileDbSet
+    public interface IMainDbContext : IEntityFrameworkDbContext, IHasLogDbSet/*, IHasFileDbSet*/
     {
 
     }

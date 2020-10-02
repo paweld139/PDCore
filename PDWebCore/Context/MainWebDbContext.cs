@@ -24,7 +24,7 @@ namespace PDWebCore.Context
 
         public DbSet<LogModel> ErrorLog { get; set; }
 
-        public DbSet<FileModel> File { get; set; }
+        //public DbSet<FileModel> File { get; set; }
 
         public DbSet<UserDataModel> UserData { get; set; }
 

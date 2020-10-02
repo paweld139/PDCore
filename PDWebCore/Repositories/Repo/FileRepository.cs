@@ -1,23 +1,21 @@
 ﻿using AutoMapper;
 using PDCore.Interfaces;
-using PDCore.Repositories.Repo;
 using PDCoreNew.Models;
+using PDCoreNew.Repositories.IRepo;
 using PDCoreNew.Repositories.Repo;
 using PDWebCore.Context.IContext;
-using PDWebCore.Models;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web.Hosting;
 
 namespace PDWebCore.Repositories.Repo
 {
-    public sealed class FileRepository : SqlRepositoryEntityFrameworkAsync<FileModel>
+    public sealed class FileRepository : SqlRepositoryEntityFrameworkAsync<FileModel>, IFileRepository
     {
         public readonly IMainWebDbContext _db;
         public FileRepository(IMainWebDbContext db, ILogger logger, IMapper mapper) : base(db, logger, mapper)
@@ -91,7 +89,7 @@ namespace PDWebCore.Repositories.Repo
             await WriteAllBytesAsync(Path.Combine(targetFolder, file.ALLFId.ToString()), file.Data);
         }
 
-        public async Task AdFileFromObjectsList(List<FileModel> File)
+        public async Task AddFileFromObjectsList(IEnumerable<FileModel> File)
         {
             string targetFolder = HostingEnvironment.MapPath("~/Uploads");
 
@@ -99,15 +97,11 @@ namespace PDWebCore.Repositories.Repo
 
             await CommitAsync();
 
-            int index = 0;
-
             var tasks = new List<Task>();
 
             foreach (var item in File)
             {
-                tasks.Add(WriteAllBytesAsync(Path.Combine(targetFolder, item.ALLFId.ToString()), File[index].Data));
-
-                index++;
+                tasks.Add(WriteAllBytesAsync(Path.Combine(targetFolder, item.ALLFId.ToString()), item.Data));
             }
 
             await Task.WhenAll(tasks);

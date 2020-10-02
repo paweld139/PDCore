@@ -2,13 +2,11 @@
 using PDCoreNew.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PDCoreNew.Repositories.IRepo
 {
-    public interface IFileRepository : ISqlRepositoryEntityFramework<FileModel>
+    public interface IFileRepository : ISqlRepositoryEntityFrameworkAsync<FileModel>
     {
         Task AddFile(string name, int objId, ObjType objType, byte[] file);
 
@@ -16,7 +14,7 @@ namespace PDCoreNew.Repositories.IRepo
 
         Task AddFileFromObject(FileModel file);
 
-        Task AdFileFromObjectsList(List<FileModel> File);
+        Task AddFileFromObjectsList(IEnumerable<FileModel> File);
 
         Task AddFile(List<Tuple<string, int, ObjType, byte[]>> File);
 
