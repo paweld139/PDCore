@@ -423,6 +423,9 @@
   <data name="RememberMe" xml:space="preserve">
     <value>Remember me?</value>
   </data>
+  <data name="Reports" xml:space="preserve">
+    <value>Reports</value>
+  </data>
   <data name="Representative" xml:space="preserve">
     <value>Representative</value>
   </data>
