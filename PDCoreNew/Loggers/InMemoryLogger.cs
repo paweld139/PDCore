@@ -1,11 +1,6 @@
 ﻿using PDCore.Factories.IFac;
 using PDCore.Helpers.DataStructures.Buffer;
-using PDCore.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PDCoreNew.Loggers
 {

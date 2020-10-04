@@ -460,7 +460,7 @@ $.ajaxSetup({
     }
 });
 
-function SendRequest(requestT, url, params, condition, onComplete, onSuccess, onError, replaceTargetId, messageTargetId) {
+function SendRequest(requestT, url, params, condition, onComplete, onSuccess, onError, replaceTargetId, messageTargetId, contentType) {
     if (!condition || condition()) {
         SetLoading(true);
 
@@ -483,7 +483,7 @@ function SendRequest(requestT, url, params, condition, onComplete, onSuccess, on
             method: requestT,
             data: params,
             url: url,
-            contentType: "application/json; charset=utf-8",
+            contentType: contentType || "application/json; charset=utf-8",
             //contentType: 'application/x-www-form-urlencoded; charset=utf-8',
             dataType: 'json',
             headers: app ?

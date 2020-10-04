@@ -1,4 +1,7 @@
-﻿using System;
+﻿using PDCore.Extensions;
+using PDCore.Interfaces;
+using PDCoreNew.Helpers.DataLoaders;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Entity;
@@ -6,6 +9,7 @@ using System.IO;
 using System.Linq.Expressions;
 using System.Reactive.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace PDCoreNew.Utils
@@ -34,6 +38,60 @@ namespace PDCoreNew.Utils
             }
 
             return result;
+        }
+
+        public static async Task<string> ReadAllTextAsync(string path)
+        {
+            string result;
+
+            using (StreamReader stream = File.OpenText(path))
+            {
+                result = await stream.ReadToEndAsync();
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// This is the same default buffer size as
+        /// <see cref="StreamReader"/> and <see cref="FileStream"/>.
+        /// </summary>
+        private const int DefaultBufferSize = 4096;
+
+        /// <summary>
+        /// Indicates that
+        /// 1. The file is to be used for asynchronous reading.
+        /// 2. The file is to be accessed sequentially from beginning to end.
+        /// </summary>
+        private const FileOptions DefaultOptions = FileOptions.Asynchronous | FileOptions.SequentialScan;
+
+        public static Task<string[]> ReadAllLinesAsync(string path)
+        {
+            return ReadAllLinesAsync(path, Encoding.UTF8);
+        }
+
+        public static async Task<string[]> ReadAllLinesAsync(string path, Encoding encoding)
+        {
+            var lines = new List<string>();
+
+            // Open the FileStream with the same FileMode, FileAccess
+            // and FileShare as a call to File.OpenText would've done.
+            using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, DefaultBufferSize, DefaultOptions))
+            using (var reader = new StreamReader(stream, encoding))
+            {
+                string line;
+                while ((line = await reader.ReadLineAsync()) != null)
+                {
+                    lines.Add(line);
+                }
+            }
+
+            return lines.ToArray();
+        }
+
+        public static Task RemoveFileAsync(string path)
+        {
+            return Task.Run(() => { File.Delete(path); });
         }
 
         public const string DatabaseConnectionError = "Wystąpił błąd podczas łączenia z bazą {0}. Błąd: {1}";
@@ -76,6 +134,22 @@ namespace PDCoreNew.Utils
                 .Select(x => propertyInfo.GetValue(sender, null))
                 .DistinctUntilChanged()
                 .Cast<TProperty>();
+        }
+
+        public static IDataLoader GetLoaderFor(string source)
+        {
+            IDataLoader loader;
+
+            if (source.IsUrl())
+            {
+                loader = new WebLoader(source);
+            }
+            else
+            {
+                loader = new LocalLoader(source);
+            }
+
+            return loader;
         }
     }
 }

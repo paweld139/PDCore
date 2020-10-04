@@ -1,5 +1,6 @@
 ﻿using PDCore.Extensions;
 using PDCore.Utils;
+using PDCoreNew.Extensions;
 using PDCoreNew.Helpers;
 using System;
 using System.Collections.Generic;
@@ -136,11 +137,36 @@ namespace PDCoreNew.Utils
             }
         }
 
+        public static byte[] DownloadData(string url)
+        {
+            //validate!
+            using (var client = GetWebClient())
+            {
+                //optionally process and return
+                return client.DownloadData(url);
+            }
+        }
+
+        public static async Task<byte[]> DownloadDataAsync(string url)
+        {
+            //validate!
+            using (var client = GetWebClient())
+            {
+                //optionally process and return
+                return await client.DownloadDataTaskAsync(url).ConfigureAwait(false);
+            }
+        }
+
         public static WebClient GetWebClient()
         {
             WebClient webClient = new WebClient();
 
             return webClient;
+        }
+
+        public static TOutput GetResultWithRetryWeb<TInput, TOutput>(Func<TInput, TOutput> input, TInput param)
+        {
+            return input.Partial(param).WithRetryWeb();
         }
     }
 }

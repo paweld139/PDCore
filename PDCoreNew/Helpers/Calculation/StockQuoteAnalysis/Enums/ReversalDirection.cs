@@ -1,4 +1,4 @@
-﻿namespace PDCore.Helpers.Calculation.StockQuoteAnalysis.Enums
+﻿namespace PDCoreNew.Helpers.Calculation.StockQuoteAnalysis.Enums
 {
     public enum ReversalDirection
     {

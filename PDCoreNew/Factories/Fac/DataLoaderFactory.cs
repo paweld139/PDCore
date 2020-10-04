@@ -1,4 +1,4 @@
-﻿using PDCore.Helpers.DataLoaders;
+﻿using PDCoreNew.Helpers.DataLoaders;
 using PDCore.Interfaces;
 using PDCoreNew.Helpers;
 using System;
@@ -11,7 +11,7 @@ namespace PDCoreNew.Factories.Fac
 {
     public class DataLoaderFactory : Factory<PDCore.Enums.Loaders, IDataLoader>
     {
-        protected override string ElementsNamespace => typeof(FileLoader).Namespace;
+        protected override string ElementsNamespace => typeof(LocalLoader).Namespace;
 
         protected override string ElementsPostfix => "Loader";
 

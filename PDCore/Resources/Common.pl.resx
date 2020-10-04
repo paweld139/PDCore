@@ -132,6 +132,9 @@
   <data name="Archived" xml:space="preserve">
     <value>Archiwalny</value>
   </data>
+  <data name="AttachmentList" xml:space="preserve">
+    <value>Lista załączników</value>
+  </data>
   <data name="Back" xml:space="preserve">
     <value>Powrót</value>
   </data>
@@ -221,6 +224,9 @@
   </data>
   <data name="Done" xml:space="preserve">
     <value>zrobione</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>Pobierz</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>

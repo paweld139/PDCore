@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PDCore.Helpers.Calculation.StockQuoteAnalysis.Models
+namespace PDCoreNew.Helpers.Calculation.StockQuoteAnalysis.Models
 {
     public class StockQuote
     {

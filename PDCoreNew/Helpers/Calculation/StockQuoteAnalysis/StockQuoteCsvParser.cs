@@ -1,11 +1,11 @@
-﻿using PDCore.Helpers.Calculation.StockQuoteAnalysis.Interfaces;
-using PDCore.Helpers.Calculation.StockQuoteAnalysis.Models;
-using PDCore.Interfaces;
+﻿using PDCore.Interfaces;
+using PDCoreNew.Helpers.Calculation.StockQuoteAnalysis.Interfaces;
+using PDCoreNew.Helpers.Calculation.StockQuoteAnalysis.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PDCore.Helpers.Calculation.StockQuoteAnalysis
+namespace PDCoreNew.Helpers.Calculation.StockQuoteAnalysis
 {
     public class StockQuoteCsvParser : IStockQuoteParser
     {
@@ -18,7 +18,7 @@ namespace PDCore.Helpers.Calculation.StockQuoteAnalysis
 
         public IList<StockQuote> ParseQuotes()
         {
-            var csvData = _loader.LoadData().Split('\n');
+            var csvData = _loader.LoadString().Split('\n');
 
             return
                     (from line in csvData.Skip(1)

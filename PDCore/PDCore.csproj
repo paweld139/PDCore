@@ -172,14 +172,6 @@
     <Compile Include="Handlers\UserValidation\SocialSecurityNumberValidatorHandler.cs" />
     <Compile Include="Helpers\Calculation\ObjectStatistics.cs" />
     <Compile Include="Helpers\Calculation\PreciseDateTime.cs" />
-    <Compile Include="Helpers\Calculation\StockQuoteAnalysis\Interfaces\IStockQuoteParser.cs" />
-    <Compile Include="Helpers\Calculation\StockQuoteAnalysis\Models\Reversal.cs" />
-    <Compile Include="Helpers\Calculation\StockQuoteAnalysis\Enums\ReversalDirection.cs" />
-    <Compile Include="Helpers\Calculation\StockQuoteAnalysis\ReversalLocator.cs" />
-    <Compile Include="Helpers\Calculation\StockQuoteAnalysis\Models\StockQuote.cs" />
-    <Compile Include="Helpers\Calculation\StockQuoteAnalysis\StockQuoteAnalyzer.cs" />
-    <Compile Include="Helpers\Calculation\StockQuoteAnalysis\StockQuoteCsvParser.cs" />
-    <Compile Include="Helpers\Calculation\StockQuoteAnalysis\StockQuoteUtils.cs" />
     <Compile Include="Helpers\Comparers\FileInfoLengthComparer.cs" />
     <Compile Include="Helpers\Comparers\KeyValuePairComparer.cs" />
     <Compile Include="Helpers\Comparers\NamedObjectComparer.cs" />
@@ -189,8 +181,6 @@
     <Compile Include="Helpers\DataStructures\Book\IBook.cs" />
     <Compile Include="Helpers\DataStructures\Book\InMemoryBook.cs" />
     <Compile Include="Helpers\DataStructures\CategoryCollection.cs" />
-    <Compile Include="Helpers\DataLoaders\FileLoader.cs" />
-    <Compile Include="Helpers\DataLoaders\WebLoader.cs" />
     <Compile Include="Helpers\PropertyCache.cs" />
     <Compile Include="Helpers\TCP\ITCPManager.cs" />
     <Compile Include="Helpers\TCP\MessageEventArgs.cs" />

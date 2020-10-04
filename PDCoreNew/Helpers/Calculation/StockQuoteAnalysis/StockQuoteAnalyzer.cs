@@ -1,8 +1,8 @@
-﻿using PDCore.Helpers.Calculation.StockQuoteAnalysis.Interfaces;
-using PDCore.Helpers.Calculation.StockQuoteAnalysis.Models;
+﻿using PDCoreNew.Helpers.Calculation.StockQuoteAnalysis.Interfaces;
+using PDCoreNew.Helpers.Calculation.StockQuoteAnalysis.Models;
 using System.Collections.Generic;
 
-namespace PDCore.Helpers.Calculation.StockQuoteAnalysis
+namespace PDCoreNew.Helpers.Calculation.StockQuoteAnalysis
 {
     public class StockQuoteAnalyzer
     {

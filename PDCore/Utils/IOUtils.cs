@@ -1,8 +1,6 @@
 ﻿using ICSharpCode.SharpZipLib.Zip;
 using Microsoft.Win32;
 using PDCore.Extensions;
-using PDCore.Helpers.DataLoaders;
-using PDCore.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -169,22 +167,6 @@ namespace PDCore.Utils
 
             // Save the current configuration.
             config.Save();
-        }
-
-        public static IDataLoader GetLoaderFor(string source)
-        {
-            IDataLoader loader;
-
-            if (source.IsUrl())
-            {
-                loader = new WebLoader(source);
-            }
-            else
-            {
-                loader = new FileLoader(source);
-            }
-
-            return loader;
         }
 
         public static void SaveFile(string fileName, Stream sourceStream)

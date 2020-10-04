@@ -1,6 +1,6 @@
-﻿using PDCore.Helpers.Calculation.StockQuoteAnalysis.Enums;
+﻿using PDCoreNew.Helpers.Calculation.StockQuoteAnalysis.Enums;
 
-namespace PDCore.Helpers.Calculation.StockQuoteAnalysis.Models
+namespace PDCoreNew.Helpers.Calculation.StockQuoteAnalysis.Models
 {
     public class Reversal
     {
