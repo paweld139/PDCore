@@ -22,7 +22,12 @@ namespace PDCoreNew.Repositories.Repo
         {
         }
 
-        public virtual Task<T> FindByIdAsync(int id)
+        public virtual Task<T> FindByIdAsync(long id, bool asNoTracking)
+        {
+            return FindAll(asNoTracking).SingleOrDefaultAsync(GetByIdPredicate(id));
+        }
+
+        public virtual Task<T> FindByIdAsync(long id)
         {
             return FindAll().SingleOrDefaultAsync(GetByIdPredicate(id));
         }
@@ -122,7 +127,7 @@ namespace PDCoreNew.Repositories.Repo
             return Find<TOutput>(predicate).ToListAsync();
         }
 
-        public Task<TOutput> FindByIdAsync<TOutput>(int id)
+        public Task<TOutput> FindByIdAsync<TOutput>(long id)
         {
             return Find<TOutput>(GetByIdPredicate(id)).SingleOrDefaultAsync();
         }

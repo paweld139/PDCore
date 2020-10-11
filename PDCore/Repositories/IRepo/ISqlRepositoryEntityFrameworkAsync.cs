@@ -8,7 +8,9 @@ namespace PDCore.Repositories.IRepo
 {
     public interface ISqlRepositoryEntityFrameworkAsync<T> : ISqlRepositoryEntityFramework<T> where T : class, IModificationHistory
     {
-        Task<T> FindByIdAsync(int id);
+        Task<T> FindByIdAsync(long id);
+
+        Task<T> FindByIdAsync(long id, bool asNoTracking);
 
         Task<List<T>> GetByQueryAsync(string query);
 
@@ -30,7 +32,7 @@ namespace PDCore.Repositories.IRepo
 
         Task<List<TOutput>> GetAsync<TOutput>(Expression<Func<T, bool>> predicate);
 
-        Task<TOutput> FindByIdAsync<TOutput>(int id);
+        Task<TOutput> FindByIdAsync<TOutput>(long id);
 
 
         Task<int> CommitAsync();

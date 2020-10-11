@@ -504,7 +504,7 @@ namespace PDCoreNew.Repositories.Repo
             return mapper.ProjectTo<TOutput>(Find(predicate));
         }
 
-        public Expression<Func<T, bool>> GetByIdPredicate(int id) => RepositoryUtils.GetByIdPredicate<T>(id);
+        public Expression<Func<T, bool>> GetByIdPredicate(long id) => RepositoryUtils.GetByIdPredicate<T>(id);
 
         public virtual bool UpdateWithIncludeOrExcludeProperties(T item, bool include, IEnumerable<string> propertyNames)
         {

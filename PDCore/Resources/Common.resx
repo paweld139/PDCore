@@ -258,6 +258,9 @@
   <data name="ExecutionDate" xml:space="preserve">
     <value>Execution date</value>
   </data>
+  <data name="ExternalAccessToken" xml:space="preserve">
+    <value>External access token</value>
+  </data>
   <data name="False" xml:space="preserve">
     <value>false</value>
   </data>
@@ -336,6 +339,9 @@
   <data name="LogIn" xml:space="preserve">
     <value>Log in</value>
   </data>
+  <data name="LoginProvider" xml:space="preserve">
+    <value>Login provider</value>
+  </data>
   <data name="LogOff" xml:space="preserve">
     <value>Log off</value>
   </data>
@@ -395,6 +401,9 @@
   </data>
   <data name="Priority" xml:space="preserve">
     <value>Priority</value>
+  </data>
+  <data name="ProviderKey" xml:space="preserve">
+    <value>Provider key</value>
   </data>
   <data name="Receipt" xml:space="preserve">
     <value>Receipt</value>

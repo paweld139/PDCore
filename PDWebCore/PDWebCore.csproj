@@ -52,9 +52,14 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\Authentication\BasicAuthenticationAttribute .cs" />
     <Compile Include="Attributes\MVC\FromJson.cs" />
     <Compile Include="Attributes\MVC\ValidateJsonAntiForgeryTokenAttribute.cs" />
     <Compile Include="Attributes\WebAPi\ValidateAntiForgeryTokenAttribute.cs" />
+    <Compile Include="Filters\WebApi\ModelValidateFilterAttribute.cs" />
+    <Compile Include="Helpers\Authentication\Basic\AddChallengeOnUnauthorizedResult.cs" />
+    <Compile Include="Helpers\Authentication\Basic\AuthenticationFailureResult.cs" />
+    <Compile Include="Helpers\Authentication\Basic\HttpAuthenticationChallengeContextExtensions.cs" />
     <Compile Include="Mock\ContextUtil.cs" />
     <Compile Include="Context\IContext\IHasUserDataDbSet.cs" />
     <Compile Include="Context\IContext\IMainWebDbContext.cs" />

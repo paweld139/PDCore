@@ -493,6 +493,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to External access token.
+        /// </summary>
+        public static string ExternalAccessToken {
+            get {
+                return ResourceManager.GetString("ExternalAccessToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to false.
         /// </summary>
         public static string False {
@@ -718,6 +727,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Login provider.
+        /// </summary>
+        public static string LoginProvider {
+            get {
+                return ResourceManager.GetString("LoginProvider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Log off.
         /// </summary>
         public static string LogOff {
@@ -894,6 +912,15 @@ namespace Resources {
         public static string Priority {
             get {
                 return ResourceManager.GetString("Priority", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Provider key.
+        /// </summary>
+        public static string ProviderKey {
+            get {
+                return ResourceManager.GetString("ProviderKey", resourceCulture);
             }
         }
         

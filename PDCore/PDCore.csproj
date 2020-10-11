@@ -117,6 +117,7 @@
     <Compile Include="Lazy\Ghosts\GhostCustomer.cs" />
     <Compile Include="Lazy\Interfaces\IValueHolder.cs" />
     <Compile Include="Lazy\Proxies\CustomerProxy.cs" />
+    <Compile Include="Models\EntityInfo.cs" />
     <Compile Include="Models\RowInfo.cs" />
     <Compile Include="Models\Shop\Customer.cs" />
     <Compile Include="Models\Shop\Product.cs" />

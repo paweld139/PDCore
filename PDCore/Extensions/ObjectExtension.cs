@@ -268,6 +268,11 @@ namespace PDCore.Extensions
 
         public static RowInfo GetRowInfo(this IModificationHistory modificationHistory) => new RowInfo(modificationHistory);
 
+        public static EntityInfo<TKey> GetEntityInfo<TKey>(this IEntity<TKey> entity) where TKey : IEquatable<TKey>
+        {
+           return new EntityInfo<TKey>(entity);
+        }
+
         public static string GetDisplayName(this Enum enumValue)
         {
             return enumValue.GetType()?

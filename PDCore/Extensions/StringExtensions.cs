@@ -60,6 +60,11 @@ namespace PDCore.Extensions
             return text.Split(delimiters, StringSplitOptions.None);
         }
 
+        public static string[] Split(this string text, char delimiter, int count)
+        {
+            return text.Split(new[] { delimiter }, count);
+        }
+
         /// <summary>
         /// Dodanie spacji przed każdą częścią łańcucha znaków zaczynającą się od dużej litery
         /// </summary>
