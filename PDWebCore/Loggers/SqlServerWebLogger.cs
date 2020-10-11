@@ -22,7 +22,7 @@ namespace PDWebCore.Loggers
 
         protected override LogModel GetLogModel(string message, LogType logType, Exception exception)
         {
-            return new LogModel(message, logType, HttpContext.Current.Request.Url.AbsoluteUri, exception);
+            return new LogModel(message, logType, HttpContext.Current?.Request.Url.AbsoluteUri, exception);
         }
     }
 }

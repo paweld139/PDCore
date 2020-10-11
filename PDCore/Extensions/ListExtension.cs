@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PDCore.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -104,5 +105,7 @@ namespace PDCore.Extensions
                 list[i] = value;
             }
         }
+
+        public static SearchResult<TInput> GetSearchResult<TInput>(this ICollection<TInput> inputs) => new SearchResult<TInput>(inputs);
     }
 }

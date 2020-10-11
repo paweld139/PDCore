@@ -74,12 +74,9 @@ namespace PDCore.Utils
             return query;
         }
 
-        public static void FindByDate<T>(string dateF, string dateT, string datePropertyName, ref IQueryable<T> result) where T : class
+        public static Expression<Func<T, bool>> GetFindByDateExpression<T>(string dateF, string dateT, Expression<Func<T, DateTime>> dateSelector)
         {
-            if (result == null)
-            {
-                return;
-            }
+            Expression<Func<T, bool>> expression = null;
 
             if (!StringUtils.AreNullOrWhiteSpace(dateF, dateT))
             {
@@ -91,6 +88,8 @@ namespace PDCore.Utils
                 {
                     dateTo = dateTo.AddDays(1).AddTicks(-1);
                 }
+
+                string datePropertyName = ReflectionUtils.GetNameOf(dateSelector);
 
                 var itemParam = Expression.Parameter(typeof(T), "item");
                 var itemPropertyExpr = Expression.Property(itemParam, datePropertyName);
@@ -105,7 +104,7 @@ namespace PDCore.Utils
                     {
                         binaryExpression = Expression.MakeBinary(ExpressionType.And,
                                            Expression.MakeBinary(ExpressionType.GreaterThanOrEqual, itemPropertyExpr, dateFromConstant),
-                                           Expression.MakeBinary(ExpressionType.LessThanOrEqual, itemPropertyExpr, dateToConstant));            
+                                           Expression.MakeBinary(ExpressionType.LessThanOrEqual, itemPropertyExpr, dateToConstant));
                     }
                 }
                 else if (string.IsNullOrWhiteSpace(dateF))
@@ -119,16 +118,36 @@ namespace PDCore.Utils
 
                 if (binaryExpression != null)
                 {
-                    var lambda = Expression.Lambda(binaryExpression, itemParam) as Expression<Func<T, bool>>;
-
-                    result = result.Where(lambda);
+                    expression = Expression.Lambda(binaryExpression, itemParam) as Expression<Func<T, bool>>;
                 }
+            }
+
+            return expression;
+        }
+
+        public static Expression<Func<T, bool>> GetFindByDateExpression<T>(DateTime? dateF, DateTime? dateT, Expression<Func<T, DateTime>> dateSelector)
+        {
+            return GetFindByDateExpression(dateF?.ToString(), dateT?.ToString(), dateSelector);
+        }
+
+        public static void FindByDate<T>(string dateF, string dateT, Expression<Func<T, DateTime>> dateSelector, ref IQueryable<T> result) where T : class
+        {
+            if (result == null)
+            {
+                return;
+            }
+
+            var expression = GetFindByDateExpression(dateF, dateT, dateSelector);
+
+            if (expression != null)
+            {
+                result = result.Where(expression);
             }
         }
 
-        public static void FindByDate<T>(DateTime? dateF, DateTime? dateT, string datePropertyName, ref IQueryable<T> result) where T : class
+        public static void FindByDate<T>(DateTime? dateF, DateTime? dateT, Expression<Func<T, DateTime>> dateSelector, ref IQueryable<T> result) where T : class
         {
-            FindByDate(dateF?.ToString(), dateT?.ToString(), datePropertyName, ref result);
+            FindByDate(dateF?.ToString(), dateT?.ToString(), dateSelector, ref result);
         }
 
         public static DataSet GetDataSet(string query, DbConnection dbConnection)

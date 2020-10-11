@@ -281,9 +281,7 @@ namespace PDCore.Extensions
 
         public static IQueryable<T> FindByDate<T>(this IQueryable<T> source, string dateF, string dateT, Expression<Func<T, DateTime>> dateSelector) where T : class
         {
-            string datePropertyName = ReflectionUtils.GetNameOf(dateSelector);
-
-            SqlUtils.FindByDate(dateF, dateT, datePropertyName, ref source);
+            SqlUtils.FindByDate(dateF, dateT, dateSelector, ref source);
 
             return source;
         }
@@ -356,7 +354,7 @@ namespace PDCore.Extensions
             }
         }
 
-        public static Expression<Func<string, bool>> StringContains(string subString)
+        public static Expression<Func<string, bool>> StringContains(this string subString)
         {
             MethodInfo contains = typeof(string).GetMethod("Contains");
             ParameterExpression param = Expression.Parameter(typeof(string), "s");

@@ -107,6 +107,8 @@
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\Shop\AddToCartCommand.cs" />
     <Compile Include="Commands\Shop\ChangeQuantityCommand.cs" />
+    <Compile Include="Converters\FormattedDateTimeConverter.cs" />
+    <Compile Include="Converters\FormattedDecimalConverter.cs" />
     <Compile Include="Converters\UtcDateTimeConverter.cs" />
     <Compile Include="Enums\SavingOperation.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
@@ -118,6 +120,7 @@
     <Compile Include="Lazy\Interfaces\IValueHolder.cs" />
     <Compile Include="Lazy\Proxies\CustomerProxy.cs" />
     <Compile Include="Models\EntityInfo.cs" />
+    <Compile Include="Models\SearchResult.cs" />
     <Compile Include="Models\RowInfo.cs" />
     <Compile Include="Models\Shop\Customer.cs" />
     <Compile Include="Models\Shop\Product.cs" />
