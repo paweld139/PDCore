@@ -512,7 +512,7 @@
       <Version>1.1.3</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.3</Version>
+      <Version>13.0.1</Version>
     </PackageReference>
     <PackageReference Include="Security.Cryptography">
       <Version>1.7.2</Version>
