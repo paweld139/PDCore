@@ -15,7 +15,6 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using System.Windows.Navigation;
 
 namespace PDCoreNew.Repositories.Repo
 {
@@ -484,7 +483,7 @@ namespace PDCoreNew.Repositories.Repo
 
         public virtual bool Exists(int id)
         {
-            var predicate = RepositoryUtils.GetByIdPredicate<T>(id);
+            var predicate = RepositoryUtils.GetByIdPredicate<T, int>(id);
 
             return FindAll().Any(predicate);
         }
@@ -504,7 +503,9 @@ namespace PDCoreNew.Repositories.Repo
             return mapper.ProjectTo<TOutput>(Find(predicate));
         }
 
-        public Expression<Func<T, bool>> GetByIdPredicate(long id) => RepositoryUtils.GetByIdPredicate<T>(id);
+        public Expression<Func<T, bool>> GetByIdPredicate(long id) => RepositoryUtils.GetByIdPredicate<T, long>(id);
+
+        public Expression<Func<T, bool>> GetByIdPredicate(int id) => RepositoryUtils.GetByIdPredicate<T, int>(id);
 
         public virtual bool UpdateWithIncludeOrExcludeProperties(T item, bool include, IEnumerable<string> propertyNames)
         {

@@ -86,5 +86,6 @@ namespace PDCore.Repositories.IRepo
         bool UpdateWithIncludeOrExcludeProperties(IHasRowVersion source, T destination, bool include, params Expression<Func<T, object>>[] properties);
 
         IQueryable<TOutput> FindAll<TOutput>(bool asNoTracking);
+        Expression<Func<T, bool>> GetByIdPredicate(int id);
     }
 }

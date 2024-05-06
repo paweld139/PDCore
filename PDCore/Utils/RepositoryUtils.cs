@@ -1,5 +1,4 @@
-﻿using PDCore.Helpers;
-using PDCore.Interfaces;
+﻿using PDCore.Interfaces;
 using PDCore.Models;
 using PDCore.Repositories.IRepo;
 using System;
@@ -68,7 +67,7 @@ namespace PDCore.Utils
         /// "f => f.Id == 42" and can be used to get the Foo with Id==42 by writing
         /// aFooDbSet.FirstOrDefault(predicate)".
         /// </Example>
-        public static Expression<Func<T, bool>> GetByIdPredicate<T>(long id)
+        public static Expression<Func<T, bool>> GetByIdPredicate<T, U>(U id)
         {
             var itemParam = Expression.Parameter(typeof(T), "item"); //Parametr wyrażenia
             var itemPropertyExpr = Expression.Property(itemParam, "Id"); //Wyrażenie pozwalające na wyciągnięcie właściwości

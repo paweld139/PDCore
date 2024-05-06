@@ -2,14 +2,11 @@
 using PDCore.Extensions;
 using PDCore.Interfaces;
 using PDCore.Repositories.IRepo;
-using PDCore.Utils;
 using PDCoreNew.Context.IContext;
 using PDCoreNew.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -27,7 +24,17 @@ namespace PDCoreNew.Repositories.Repo
             return FindAll(asNoTracking).SingleOrDefaultAsync(GetByIdPredicate(id));
         }
 
+        public virtual Task<T> FindByIdAsync(int id, bool asNoTracking)
+        {
+            return FindAll(asNoTracking).SingleOrDefaultAsync(GetByIdPredicate(id));
+        }
+
         public virtual Task<T> FindByIdAsync(long id)
+        {
+            return FindAll().SingleOrDefaultAsync(GetByIdPredicate(id));
+        }
+
+        public virtual Task<T> FindByIdAsync(int id)
         {
             return FindAll().SingleOrDefaultAsync(GetByIdPredicate(id));
         }
@@ -128,6 +135,11 @@ namespace PDCoreNew.Repositories.Repo
         }
 
         public Task<TOutput> FindByIdAsync<TOutput>(long id)
+        {
+            return Find<TOutput>(GetByIdPredicate(id)).SingleOrDefaultAsync();
+        }
+
+        public Task<TOutput> FindByIdAsync<TOutput>(int id)
         {
             return Find<TOutput>(GetByIdPredicate(id)).SingleOrDefaultAsync();
         }
